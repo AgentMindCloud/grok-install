@@ -1,0 +1,63 @@
+yaml
+# grok-install.yaml
+# Make any GitHub repo instantly installable via Grok on X ⚡
+version: "1.0"
+
+metadata:
+  name: "Hermes Telegram Dashboard"
+  description: "Beautiful live terminal + monitoring + cron UI for Hermes AI agents inside Telegram"
+  author: "@mr_r0b0t"
+  version: "0.1.0"
+  tags: ["hermes", "telegram", "dashboard", "ai-agent", "monitoring"]
+  icon_url: ""   # optional - you can add later
+
+project:
+  type: "telegram-mini-app"
+  language: "python"
+  entrypoint: "main.py"
+
+deployment:
+  preferred: ["railway"]
+  supported: ["railway", "vercel", "modal", "docker"]
+  requires_docker: false
+
+environment:
+  variables:
+    TELEGRAM_BOT_TOKEN:
+      description: "Telegram Bot token from @BotFather"
+      required: true
+      secret: true
+    HERMES_API_KEY:
+      description: "Your Hermes instance API key"
+      required: true
+      secret: true
+    ADMIN_TELEGRAM_ID:
+      description: "Your Telegram user ID for admin access"
+      required: true
+      secret: false
+
+crons:
+  - name: "nightly-self-awareness"
+    schedule: "0 3 * * *"
+    description: "Run recursive self-improvement & wiki brain consolidation"
+    command: "python -m tasks.self_improve"
+
+on_install:
+  welcome_message: "🎉 {{name}} is now LIVE! I'm your Hermes Dashboard agent. Type /help for commands or check live CPU/memory stats."
+  suggested_commands:
+    - "/status"
+    - "/monitor"
+    - "/run-cron"
+  open_urls:
+    - url: "{{deployed_url}}"
+      label: "Open Live Dashboard"
+
+grok:
+  enabled: true
+  management_ui: true
+  system_hint: "This is a live monitoring dashboard for Hermes AI agents. Show real-time stats, crons, and one-tap actions when users ask."
+  available_commands:
+    - monitor
+    - pause
+    - restart
+    - upgrade
