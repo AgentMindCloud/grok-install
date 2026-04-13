@@ -1,28 +1,32 @@
-# grok-install v2.1 is LIVE 🚀
+# grok-install v2.1 is now LIVE on X 🚀
 
-One-click AI agent installs on X — now with voice, auto-clone, Musk ecosystem support, and more.
+Turn any AI agent into a one-click install on X using Grok.
 
-### What’s new in v2.1
-- Voice install: “Hey Grok, install Hermes Telegram Dashboard”
-- One-command clone: just post any GitHub link
-- Auto-updates + shareable cards
-- Musk ecosystem field: ["grok", "x", "tesla", "starlink", "xai", "optimus"]
-- Featured in Grok + Grok-Installed badges
+### What’s new in v2.1 (Phase B complete)
+- Voice install: “Hey Grok, install this agent”
+- One-command clone from any GitHub link
+- Auto “Install with Grok” pill + Grok-Installed badges
+- Musk ecosystem support: ["grok", "x", "tesla", "starlink", "xai", "optimus"]
+- Passive visibility: featured in Grok
+- Auto-updates, shareable cards, and cleaner spec
 
-### Try it now (takes < 2 minutes)
-1. Go to any demo:
-   • https://github.com/AgentMindCloud/hermes-telegram-dashboard
-   • https://github.com/AgentMindCloud/twitter-reply-bot
-   • https://github.com/AgentMindCloud/discord-ai-mod
-2. Click the blue **“Install with Grok”** pill in README
-3. Or just reply to this thread with the repo link
+### Live demos (try in < 2 minutes)
+• Hermes Telegram Dashboard → https://github.com/AgentMindCloud/hermes-telegram-dashboard
+• Twitter Reply Bot → https://github.com/AgentMindCloud/twitter-reply-bot
+• Discord AI Mod → https://github.com/AgentMindCloud/discord-ai-mod
 
-Docs & spec: https://agentmindcloud.github.io/grok-install/
+All have full v2.1 `grok-install.yaml` at root.
 
-Builders: add `grok-install.yaml` to your repo root → instant one-click install.
+### How to add to your repo
+1. Add `grok-install.yaml` at repository root
+2. Follow spec: https://agentmindcloud.github.io/grok-install/standard/spec.md
+3. The blue pill appears automatically
 
-Who’s adding grok-install to their agent this week? Drop your repo below 👇
+Full docs → https://agentmindcloud.github.io/grok-install/
 
-#GrokInstall #xAI #BuildInPublic
+Who wants to be one of the first 10 external repos with grok-install?  
+Drop your GitHub link below 👇 and I’ll help you add the file.
 
-Built live with @JanSol0s & Grok
+#GrokInstall #xAI #AIAgents #BuildInPublic
+
+Built live with @JanSol0s (Jani) & Grok – April 2026
