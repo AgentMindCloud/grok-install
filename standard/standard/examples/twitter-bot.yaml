@@ -1,0 +1,17 @@
+version: "1.0"
+name: "Smart Twitter Reply Bot"
+description: "AI agent that replies to mentions intelligently"
+repository: "https://github.com/yourusername/twitter-reply-bot"
+deploy:
+  target: "railway"
+  env:
+    TWITTER_API_KEY: "Ask the user for their Twitter API key"
+    TWITTER_API_SECRET: "Ask the user for their Twitter API secret"
+    OPENAI_API_KEY: "Ask the user for their OpenAI API key"
+prompts:
+  - key: "TWITTER_API_KEY"
+    message: "Paste your Twitter API Key:"
+  - key: "TWITTER_API_SECRET"
+    message: "Paste your Twitter API Secret:"
+  - key: "OPENAI_API_KEY"
+    message: "Paste your OpenAI API key:"
