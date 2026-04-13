@@ -1,46 +1,49 @@
-# grok-install Specification (v2.0)
+# grok-install Specification (v2.1)
 
 ## Overview
-`grok-install.yaml` is an open standard that lets any developer make their AI agent installable in one click through Grok on X.
+`grok-install.yaml` is the open standard that lets any developer make their AI agent installable with **one click** through Grok on X.
+
+Grok handles everything else: guided conversational setup (it asks the user nicely for keys), error recovery, auto-updates, voice install, one-command clone, shareable cards, and special quick-deploy flows for Musk ecosystem projects (Tesla, Starlink, xAI, Optimus).
 
 ## File Location
-Must be placed at the root of your repository: `grok-install.yaml`
+Must be placed at the **root** of your repository: `grok-install.yaml`
 
-## Simple vs Advanced Mode (new in v2.0)
-- `mode: "simple"` (default) → Grok handles everything with maximum hand-holding
-- `mode: "advanced"` → Full control for experienced users
+## Simple vs Advanced Mode
+- `mode: "simple"` (default) — Grok handles everything with maximum hand-holding  
+- `mode: "advanced"` — Full control for experienced users
 
-## New Fields (v2.0)
-- `category`: string (e.g. "telegram", "twitter", "discord")
-- `tags`: array of strings
-- `ecosystem`: "grok" | "x" | "tesla" | "starlink" | null (enables special quick-deploy for official ecosystem repos)
-- `update_strategy`: "semver" | "always"
-- `preferred_deploy`: array (fallback order), e.g. ["railway", "vercel", "fly", "render", "local"]
+## New Fields (v2.1)
+- `category`: string (e.g. "telegram", "twitter", "discord") — helps Grok show your agent in the right marketplace searches  
+- `tags`: array of strings — improves discoverability  
+- `ecosystem`: array (e.g. `["grok", "x", "tesla", "starlink", "xai", "optimus"]`) — enables special quick-deploy and auth flows for official Musk-related projects. Grok will offer the correct login/deployment automatically.  
+- `update_strategy`: "semver" (recommended) or "always"  
+- `preferred_deploy`: array with fallback order, e.g. `["railway", "vercel", "fly", "render", "local"]`
 
 ## Required Fields
-- `version: "2.0"`
+- `version: "2.1"`
 - `name`
 - `description`
 - `repository`
 - `deploy.target`
 
-## Guided Setup (v1.1)
-The `deploy.env` section supports friendly prompts so Grok can ask the user one question at a time.
-
-## Smart Error Handling (v1.2)
-Optional custom error messages:
+## deploy Section
+Tells Grok where and how to deploy your agent.
 
 ```yaml
-error_handlers:
+deploy:
+  target: "railway"
+  env:
+    X_API_KEY: "Ask the user for their X API key"
+    GROK_API_KEY: "Ask the user for their Grok API key"
+    prompts:
+  - key: "X_API_KEY"
+    message: "Please paste your X API key:"
+  - key: "GROK_API_KEY"
+    message: "Please paste your Grok API key:"
+
+    error_handlers:
   missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
-  invalid_key: "That API key doesn't look right. Let's try entering it again."
-  deployment_failed: "Deployment hit a snag. Want me to try again?"
 
-## On Install Hook (v1.3)
-
-You can optionally add a custom post-install message:
-
-```yaml
 on_install:
   welcome: "Welcome! Your agent is now live."
   suggested_commands:
@@ -48,40 +51,17 @@ on_install:
     - "/help"
   share_card: true
 
-This section is optional — Grok has good default messages.
-
-## Examples
-See the /standard/examples/ folder for ready-to-use templates (all updated to v2.0).
-
-Built by X:@JanSol0s (Jani Starck) live with Grok for the X AI community.
-
-## Security & Validation Layer (v2.0)
-
-Before any deployment Grok automatically scans the code and YAML for:
-- Hard-coded secrets
-- Dangerous permissions
-- Unsafe packages
-
-Optional `verified_by_grok: true` badge appears in README if the repo passes.
-
-```yaml
 security:
-  verified_by_grok: true
+  verified_by_grok: true   # Grok will run a quick safety scan
 
-## Ecosystem Auto-Support (v2.0)
+  Passive Growth & Wow Features
 
-If a GitHub repo mentions Grok, X, Tesla or any Musk company, Grok can offer "Quick Deploy" even without a grok-install.yaml file.
-It will auto-generate a basic YAML on the fly.
+Add the Featured in Grok and Grok-Installed badges (see index.html) to your README.
+When anyone posts your GitHub link on X, Grok automatically replies with the blue "Install with Grok" pill.
+Voice install: Users can say “Hey Grok, install [your agent name]”
+One-command clone: Post any GitHub link → Grok can auto-generate basic YAML if missing.
 
-Supported values:
-- grok
-- x
-- tesla
-- spacex
-- starlink
-- neuralink
-- boringcompany
-- xai
-- colossus
-- terafab
-- muskfoundation
+Examples
+See the three demo repos and docs/voice-and-clone-examples.md.
+Built live with @JanSol0s (Jani Starck) and Grok for the X AI community.
+Last updated: April 2026
