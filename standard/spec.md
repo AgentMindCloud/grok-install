@@ -1,22 +1,34 @@
-# grok-install Specification (v1.1 + 1.2)
+# grok-install Specification (v2.0)
 
 ## Overview
-`grok-install.yaml` makes any AI agent installable in one click through Grok on X.
+`grok-install.yaml` is an open standard that lets any developer make their AI agent installable in one click through Grok on X.
 
-Grok now supports **guided conversational setup** and **smart error recovery**.
+## File Location
+Must be placed at the root of your repository: `grok-install.yaml`
+
+## Simple vs Advanced Mode (new in v2.0)
+- `mode: "simple"` (default) → Grok handles everything with maximum hand-holding
+- `mode: "advanced"` → Full control for experienced users
+
+## New Fields (v2.0)
+- `category`: string (e.g. "telegram", "twitter", "discord")
+- `tags`: array of strings
+- `ecosystem`: "grok" | "x" | "tesla" | "starlink" | null (enables special quick-deploy for official ecosystem repos)
+- `update_strategy`: "semver" | "always"
+- `preferred_deploy`: array (fallback order), e.g. ["railway", "vercel", "fly", "render", "local"]
 
 ## Required Fields
-- `version: "1.1"`
+- `version: "2.0"`
 - `name`
 - `description`
 - `repository`
 - `deploy.target`
 
 ## Guided Setup (v1.1)
-The `deploy.env` section now supports friendly prompts so Grok can ask the user one question at a time.
+The `deploy.env` section supports friendly prompts so Grok can ask the user one question at a time.
 
 ## Smart Error Handling (v1.2)
-You can optionally add custom error messages:
+Optional custom error messages:
 
 ```yaml
 error_handlers:
@@ -30,12 +42,15 @@ You can optionally add a custom post-install message:
 
 ```yaml
 on_install:
-  welcome: "Welcome to Hermes Telegram Dashboard! Your agent is now live."
+  welcome: "Welcome! Your agent is now live."
   suggested_commands:
     - "/status"
     - "/help"
   share_card: true
-  This section is optional — Grok has good default messages.
-Examples
-See the /standard/examples/ folder for ready-to-use templates.
-Built live with Grok for the X community.
+
+This section is optional — Grok has good default messages.
+
+## Examples
+See the /standard/examples/ folder for ready-to-use templates (all updated to v2.0).
+
+Built live with Grok for the X AI community.
