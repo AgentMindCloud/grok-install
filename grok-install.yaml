@@ -1,62 +1,38 @@
-# grok-install.yaml
-# Make any GitHub repo instantly installable via Grok on X ⚡
-version: "1.0"
+# grok-install v2.1 – Official Template
+# Copy this file into the root of your repo to make your AI agent one-click installable on X
 
-metadata:
-  name: "Hermes Telegram Dashboard"
-  description: "Beautiful live terminal + monitoring + cron UI for Hermes AI agents inside Telegram"
-  author: "@mr_r0b0t"
-  version: "0.1.0"
-  tags: ["hermes", "telegram", "dashboard", "ai-agent", "monitoring"]
-  icon_url: ""   # optional - add later
+version: "2.1"
+name: "Your Agent Name"
+description: "One clear sentence describing what your agent does"
+repository: "https://github.com/yourusername/your-repo-name"
+category: "telegram"                  # telegram | twitter | discord | web | other
+tags: ["ai", "bot", "automation"]
+ecosystem: ["grok", "x"]              # optional but recommended
 
-project:
-  type: "telegram-mini-app"
-  language: "python"
-  entrypoint: "main.py"
+# Deployment settings
+deploy:
+  target: "railway"
+  preferred_deploy: ["railway", "vercel", "fly", "render", "local"]
 
-deployment:
-  preferred: ["railway"]
-  supported: ["railway", "vercel", "modal", "docker"]
-  requires_docker: false
+# Private guided prompts – secrets stay private with Grok
+prompts:
+  - key: "TELEGRAM_BOT_TOKEN"
+    message: "Please paste your Telegram bot token from @BotFather (this stays private)"
+  - key: "GROK_API_KEY"
+    message: "Please paste your Grok / xAI API key (this stays private)"
+  - key: "X_API_KEY"
+    message: "Please paste your X API key (optional – stays private)"
 
-environment:
-  variables:
-    TELEGRAM_BOT_TOKEN:
-      description: "Telegram Bot token from @BotFather"
-      required: true
-      secret: true
-    HERMES_API_KEY:
-      description: "Your Hermes instance API key"
-      required: true
-      secret: true
-    ADMIN_TELEGRAM_ID:
-      description: "Your Telegram user ID for admin access"
-      required: true
-      secret: false
-
-crons:
-  - name: "nightly-self-awareness"
-    schedule: "0 3 * * *"
-    description: "Run recursive self-improvement & wiki brain consolidation"
-    command: "python -m tasks.self_improve"
+# Optional advanced settings
+safety_checklist:
+  - no_hardcoded_secrets
+  - uses_official_sdks
 
 on_install:
-  welcome_message: "🎉 {{name}} is now LIVE! I'm your Hermes Dashboard agent. Type /help for commands or check live CPU/memory stats."
+  welcome: "🎉 {{name}} is now LIVE! Type /help for commands."
   suggested_commands:
     - "/status"
-    - "/monitor"
-    - "/run-cron"
-  open_urls:
-    - url: "{{deployed_url}}"
-      label: "Open Live Dashboard"
+    - "/help"
 
-grok:
-  enabled: true
-  management_ui: true
-  system_hint: "This is a live monitoring dashboard for Hermes AI agents. Show real-time stats, crons, and one-tap actions when users ask."
-  available_commands:
-    - monitor
-    - pause
-    - restart
-    - upgrade
+# Update & maintenance
+update_strategy: "semver"
