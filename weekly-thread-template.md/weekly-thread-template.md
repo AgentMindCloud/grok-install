@@ -22,14 +22,14 @@ Want your agent listed next week?
 Just add `grok-install.yaml` to your repo root and post the link on X.  
 Grok will detect it automatically and give it a welcome + blue “Install with Grok” pill.
 
-## 👀 Browse All Agents
+## 👀 Browse All Agents (Phase 6 Marketplace live)
 Reply to this thread with:  
 `@grok show me telegram agents`  
 `@grok show me discord agents`  
+`@grok show me grok-install agents`  
 `@grok my agents`
 
 ---
-
 Built live with @JanSol0s (Jani) & Grok.  
 grok-install – The open X-native AI Agent Marketplace.  
 #GrokInstall #OneClickAgents
