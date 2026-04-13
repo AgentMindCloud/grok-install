@@ -15,7 +15,7 @@ Must be placed at the **root** of your repository: `grok-install.yaml`
 ## New Fields (v2.1)
 - `category`: string (e.g. "telegram", "twitter", "discord") — helps Grok show your agent in the right marketplace searches  
 - `tags`: array of strings — improves discoverability  
-- `ecosystem`: array (e.g. `["grok", "x", "tesla", "starlink", "xai", "optimus"]`) — enables special quick-deploy and auth flows for official Musk-related projects. Grok will offer the correct login/deployment automatically.  
+- `ecosystem`: array (e.g. `["grok", "x", "tesla", "starlink", "xai", "optimus"]`) — enables special quick-deploy and auth flows  
 - `update_strategy`: "semver" (recommended) or "always"  
 - `preferred_deploy`: array with fallback order, e.g. `["railway", "vercel", "fly", "render", "local"]`
 
@@ -27,22 +27,19 @@ Must be placed at the **root** of your repository: `grok-install.yaml`
 - `deploy.target`
 
 ## deploy Section
-Tells Grok where and how to deploy your agent.
-
 ```yaml
 deploy:
   target: "railway"
   env:
     X_API_KEY: "Ask the user for their X API key"
     GROK_API_KEY: "Ask the user for their Grok API key"
-
-    prompts:
+YAMLprompts:
   - key: "X_API_KEY"
     message: "Please paste your X API key:"
   - key: "GROK_API_KEY"
     message: "Please paste your Grok API key:"
-
-    error_handlers:
+Optional advanced sections:
+YAMLerror_handlers:
   missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
 
 on_install:
@@ -54,12 +51,19 @@ on_install:
 
 security:
   verified_by_grok: true   # Grok will run a quick safety scan
-
-  Passive Growth & Wow Features
-Add the Featured in Grok and Grok-Installed badges (see index.html) to your README.
+Optional Safety Checklist (Phase 4 – Security & Trust)
+Add this to your YAML for the “Verified by Grok” badge:
+YAMLsafety_checklist:
+  - no_hardcoded_secrets
+  - no_dangerous_permissions
+  - uses_official_sdks
+Passive Growth & Wow Features
+Add the Featured in Grok and Grok-Installed badges to your README.
 When anyone posts your GitHub link on X, Grok automatically replies with the blue "Install with Grok" pill.
-Voice install: Users can say “Hey Grok, install [your agent name]”
+Voice install: “Hey Grok, install [your agent name]”
 One-command clone: Post any GitHub link → Grok can auto-generate basic YAML if missing.
+Simple Install Counter Badge (Phase 4 – Analytics)
+Markdown<image-card alt="Installs" src="https://img.shields.io/badge/Installs-247-00f0ff?style=for-the-badge" ></image-card>
 Examples
 See the three demo repos (all updated to v2.1):
 
@@ -69,6 +73,12 @@ discord-ai-mod
 
 Full docs: https://agentmindcloud.github.io/grok-install/
 Phase 4 Status
-Launch & Visibility in progress. Next: Security & Trust layer, Ecosystem Expansion, Analytics.
+
+Launch & Visibility: done
+Security & Trust layer: added
+Ecosystem Expansion: documented
+Analytics & Feedback Loop: started
+Adoption Push: postponed until after launch
+
 Built live with @JanSol0s (Jani Starck) and Grok for the X AI community.
 Last updated: April 2026
