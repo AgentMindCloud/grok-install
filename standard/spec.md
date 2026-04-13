@@ -1,9 +1,13 @@
 # grok-install Specification (v2.2)
 
-## Overview
-`grok-install.yaml` is the open standard that lets any developer make their AI agent installable with **one click** on X using Grok.
+## Phase 6 Update – Full Marketplace Activation
+This spec now powers the complete X-native Marketplace.  
+All browse commands (`@grok show me telegram agents`), dynamic Featured section, and shareable cards are fully active.
 
-**Version 2.2** (April 2026) adds full support for:
+## Overview
+grok-install.yaml is the open standard that lets any developer make their AI agent installable with one click on X using Grok.
+
+Version 2.2 (April 2026) adds full support for:
 - Passive Growth Engine (auto-welcome, auto-share installs, trending)
 - Advanced Safety & Trust Layer
 - Developer Experience (auto-generate YAML, update all agents)
@@ -62,13 +66,18 @@ auto_generate: true                   # enables @grok generate grok-install.yaml
 shareable_card: true                  # generates beautiful one-tap share card after install
 on_install:
   welcome_message: "Thank you for installing! Here are your first commands..."
-
-  How Passive Growth Works
+How Passive Growth Works
 When a public repo adds this file and someone posts the GitHub link on X:
 
 Grok automatically replies with welcome message + blue “Install with Grok” pill
 Successful installs are auto-shared in public “Recently Installed” feed
 Top agents appear in weekly auto-generated thread
+
+How Marketplace Works (Phase 6)
+
+@grok show me telegram agents → Grok lists verified agents with one-tap install pills
+featured: true → appears in dynamic Featured Agents section inside Grok
+Shareable cards are generated automatically after every successful install
 
 Next Steps for Developers
 
@@ -77,3 +86,5 @@ Commit & push
 Post your repo link on X — Grok will detect it automatically
 
 Built live with @JanSol0s (Jani) & Grok.
+Keep it clean, calm, and precise.
+Last updated: April 2026
