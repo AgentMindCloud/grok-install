@@ -1,36 +1,37 @@
-# grok-install v2.1 is now LIVE on X 🚀
+# grok-install Weekly Update – Week of April 2026
 
-The open standard to make any AI agent installable with **one click** using Grok.
+## 🚀 This Week in grok-install
+- **X new agents** joined the platform (auto-detected via grok-install.yaml)
+- **Y successful installs** this week
+- Total agents live: **Z**
 
-### What’s new in v2.1 (Phase 4)
-- Voice Install — “Hey Grok, install [agent name]”
-- One-command clone — just post any GitHub link
-- Auto “Install with Grok” pill (Grok detects grok-install.yaml automatically)
-- Official Grok-Installed + Featured in Grok badges
-- Musk ecosystem support: `ecosystem: ["grok", "x", "tesla", "starlink", "xai", "optimus"]`
-- Passive visibility — Grok promotes your agent for you
+## 🔥 Trending Agents (auto-ranked by installs)
+1. [Agent Name](repo-link) – X installs this week
+2. [Agent Name](repo-link) – Y installs this week
+3. [Agent Name](repo-link) – Z installs this week
 
-### Try the live demos (under 2 minutes)
-• Hermes Telegram Dashboard → https://github.com/AgentMindCloud/hermes-telegram-dashboard  
-• Twitter Reply Bot → https://github.com/AgentMindCloud/twitter-reply-bot  
-• Discord AI Mod → https://github.com/AgentMindCloud/discord-ai-mod  
+## 🆕 New Repos Welcomed This Week
+- [Repo Name](repo-link) → Grok auto-replied with Install pill
+- [Repo Name](repo-link) → Grok auto-replied with Install pill
 
-All have full v2.1 `grok-install.yaml` + polished badges.
+## 📈 Featured Agents (opt-in via `featured: true`)
+[Beautiful one-tap install cards here]
 
-### Full docs & spec
-→ https://agentmindcloud.github.io/grok-install/  
-→ standard/spec.md (with safety checklist + more deployment targets)
+## 💡 Quick Start
+Want your agent listed next week?  
+Just add `grok-install.yaml` to your repo root and post the link on X.  
+Grok will detect it automatically and give it a welcome + blue “Install with Grok” pill.
 
-### How to make your agent grok-install ready
-1. Add `grok-install.yaml` at the root of your repo  
-2. Copy one of the v2.1 examples  
-3. Commit — Grok does the rest
+## 👀 Browse All Agents
+Reply to this thread with:  
+`@grok show me telegram agents`  
+`@grok show me discord agents`  
+`@grok my agents`
 
-Builders: Drop your GitHub repo link below if you want me to help add the file and badges.
+---
 
-Who wants to be one of the **first 10 external repos** with grok-install v2.1?  
-First 10 get permanent shoutout + early analytics access.
+Built live with @JanSol0s (Jani) & Grok.  
+grok-install – The open X-native AI Agent Marketplace.  
+#GrokInstall #OneClickAgents
 
-#GrokInstall #xAI #AIAgents #BuildInPublic
-
-Built live with @JanSol0s (Jani) & Grok — April 2026
+(Every Sunday Grok will auto-generate and post this exact template with live numbers.)
