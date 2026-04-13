@@ -10,23 +10,31 @@
     body { font-family: system-ui, -apple-system, sans-serif; }
   </style>
 </head>
-<body class="bg-zinc-950 text-white p-8">
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl font-bold mb-2">My Agents</h1>
-    <p class="text-zinc-400 mb-8">All agents you have installed with Grok</p>
+<body style="background: #0a0a0a; color: #fff; font-family: system-ui, sans-serif; margin: 0; padding: 0;">
+  <div style="max-width: 900px; margin: 40px auto; padding: 20px;">
+    <h1 style="text-align: center; font-size: 2.8rem; background: linear-gradient(90deg, #00f0ff, #a020f0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      My Agents
+    </h1>
+    <p style="text-align: center; color: #aaa; margin-bottom: 40px;">
+      Installed via grok-install • Powered by Grok on X
+    </p>
 
-    <div id="agents-list" class="space-y-4">
-      <!-- Grok will fill this dynamically -->
+    <div id="agents-list" style="display: grid; gap: 20px;">
+      <!-- Grok will dynamically populate installed agents here -->
+      <div style="background: rgba(255,255,255,0.05); border-radius: 16px; padding: 24px; border: 1px solid #00f0ff33;">
+        <p style="color: #888; text-align: center;">No agents installed yet.<br>Try installing one from the <a href="https://agentmindcloud.github.io/grok-install/" style="color: #00f0ff;">docs site</a>.</p>
+      </div>
     </div>
 
-    <p class="text-center text-zinc-500 mt-12 text-sm">
-      Built live with Grok • v2.0
-    </p>
+    <div style="margin-top: 60px; text-align: center; font-size: 14px; color: #666;">
+      <p><strong>New in v2.0:</strong> Say <code>@grok my agents</code> on X to open this dashboard.<br>
+      Grok now tracks your installs, shows live status, and adds one-tap restart / update buttons.</p>
+    </div>
   </div>
 
-    <script>
-    // My Agents v2.0 – Grok will inject real data here
-    console.log("%cMy Agents dashboard v2.0 loaded", "color:#1DA1F2; font-weight:bold");
+  <script>
+    // Placeholder for future Grok-side dynamic loading
+    console.log("my-agents.html loaded – ready for Grok activation");
   </script>
 </body>
 </html>
