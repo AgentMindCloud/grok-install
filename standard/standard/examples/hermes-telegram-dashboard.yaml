@@ -19,3 +19,10 @@ error_handlers:
   missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
   invalid_key: "That API key doesn't look right. Let's try entering it again."
   deployment_failed: "Deployment hit a snag. Want me to try again?"
+on_install:
+  welcome: "Welcome to Hermes Telegram Dashboard! Your agent is now live at the URL Grok just gave you."
+  suggested_commands:
+    - "/status"
+    - "/help"
+    - "/dashboard"
+  share_card: true
