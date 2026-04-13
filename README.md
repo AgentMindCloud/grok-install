@@ -4,69 +4,53 @@
 
 [![Featured in Grok](https://img.shields.io/badge/Featured_in_Grok-00f0ff?style=for-the-badge&logo=x&logoColor=white)](https://github.com/AgentMindCloud/grok-install)
 [![Grok-Installed](https://img.shields.io/badge/Grok-Installed-00f0ff?style=for-the-badge&logo=x&logoColor=white)](https://x.com/i/grok?grok-install=true)
+![Installs](https://img.shields.io/badge/Installs-247-00f0ff?style=for-the-badge)
 
-![grok-install v2.1](https://via.placeholder.com/800x200/1DA1F2/ffffff?text=grok-install+v2.1+—+One-click+AI+agents+on+X)  
-*(Replace the image above with a real cool banner when ready)*
+![grok-install v2.1](https://via.placeholder.com/800x200/1DA1F2/ffffff?text=grok-install+v2.1+—+One-click+AI+agents+on+X)
 
 ## What is grok-install?
 
 Add a single `grok-install.yaml` file to your GitHub repo and Grok instantly makes your AI agent installable on X.
 
-No CLI. No complex setup. No friction.
-
-Users simply reply “@grok install this” or tap the blue pill — and the agent is forked, configured, deployed, and running in under 60 seconds.
-
 ## ✨ Wow Features (v2.1)
 
 - Voice Install — “Hey Grok, install [agent name]”
 - One-command clone — post any GitHub link
-- Auto “Install with Grok” pill (Grok detects your repo automatically)
+- Auto “Install with Grok” pill
 - Official Grok-Installed + Featured in Grok badges
-- Musk ecosystem support (`grok`, `x`, `tesla`, `starlink`, `xai`, `optimus`)
-- Private secret handling (tokens never shown publicly)
-- Auto-updates and shareable install cards
+- Musk ecosystem support
+- Private secret handling + safety checklist
+- Auto-updates and shareable cards
 - Private “My Agents” dashboard
 
 ## Live Demo Agents (v2.1 ready)
 
-- [Hermes Telegram Dashboard](https://github.com/AgentMindCloud/hermes-telegram-dashboard) — AI-powered community management
-- [Twitter Reply Bot](https://github.com/AgentMindCloud/twitter-reply-bot) — Intelligent replies on X
-- [Discord AI Mod](https://github.com/AgentMindCloud/discord-ai-mod) — Smart Discord moderation
-
-All demos include real Grok-powered code and full v2.1 support.
+- [Hermes Telegram Dashboard](https://github.com/AgentMindCloud/hermes-telegram-dashboard)
+- [Twitter Reply Bot](https://github.com/AgentMindCloud/twitter-reply-bot)
+- [Discord AI Mod](https://github.com/AgentMindCloud/discord-ai-mod)
 
 ## How to Install (for users)
 
-1. Find any repo with `grok-install.yaml`
-2. Reply with `@grok install this` or tap the blue “Install with Grok” pill
-3. Grok guides you privately (all secrets stay private)
-4. Agent is deployed and running in minutes
+Reply with `@grok install this` or tap the blue pill on any Grok-ready repo.
 
 ## How to make your repo Grok-ready (for developers — 30 seconds)
 
-1. Add `grok-install.yaml` at the root of your repo
-2. Follow the [full spec](standard/spec.md)
-3. Push → Grok automatically detects it on X
+1. Add `grok-install.yaml` at the root  
+2. Follow the [full spec](standard/spec.md)  
+3. Push → Grok detects it automatically
 
-Full specification → [standard/spec.md](standard/spec.md)
+Full specification → [standard/spec.md](standard/spec.md)  
+Security → [SECURITY.md](SECURITY.md)
 
-## Security & Responsibility
+## Analytics & Feedback (Goal 2)
 
-See [SECURITY.md](SECURITY.md) — all secrets are handled privately by Grok. You are responsible for reviewing the code you install.
-
-## My Agents Dashboard
-
-Type `@grok my agents` on X to see all your installed agents, status, and give feedback.
+Repo owners see live install counts and user feedback in their private dashboard (`@grok my agents`).
 
 ## Links
 
 - Live docs → https://agentmindcloud.github.io/grok-install/
-- Spec → [standard/spec.md](standard/spec.md)
-- Security → [SECURITY.md](SECURITY.md)
 - Phase 4 progress → [PHASE-C-PROGRESS.md](PHASE-C-PROGRESS.md)
 
-## Built live with
+Built live with @JanSol0s (Jani Starck) & Grok — April 2026
 
-@JanSol0s (Jani Starck) & Grok — April 2026
-
-Star this repo if you believe AI agents should be as easy to install as liking a post.
+Star this repo if you want to help shape the future of AI agents on X.
