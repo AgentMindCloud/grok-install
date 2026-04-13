@@ -53,7 +53,7 @@ This section is optional — Grok has good default messages.
 ## Examples
 See the /standard/examples/ folder for ready-to-use templates (all updated to v2.0).
 
-Built live with Grok for the X AI community.
+Built by X:@JanSol0s (Jani Starck) live with Grok for the X AI community.
 
 ## Security & Validation Layer (v2.0)
 
@@ -67,3 +67,21 @@ Optional `verified_by_grok: true` badge appears in README if the repo passes.
 ```yaml
 security:
   verified_by_grok: true
+
+## Ecosystem Auto-Support (v2.0)
+
+If a GitHub repo mentions Grok, X, Tesla or any Musk company, Grok can offer "Quick Deploy" even without a grok-install.yaml file.
+It will auto-generate a basic YAML on the fly.
+
+Supported values:
+- grok
+- x
+- tesla
+- spacex
+- starlink
+- neuralink
+- boringcompany
+- xai
+- colossus
+- terafab
+- muskfoundation
