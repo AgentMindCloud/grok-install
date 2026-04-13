@@ -15,7 +15,7 @@ Must be placed at the **root** of your repository: `grok-install.yaml`
 ## New Fields (v2.1)
 - `category`: string (e.g. "telegram", "twitter", "discord") — helps Grok show your agent in the right marketplace searches  
 - `tags`: array of strings — improves discoverability  
-- `ecosystem`: array (e.g. `["grok", "x", "tesla", "starlink", "xai", "optimus"]`) — enables special quick-deploy and auth flows  
+- `ecosystem`: array (e.g. `["grok", "x", "tesla", "starlink", "xai", "optimus"]`) — enables special quick-deploy and auth flows for official Musk-related projects. Grok will offer the correct login/deployment automatically.  
 - `update_strategy`: "semver" (recommended) or "always"  
 - `preferred_deploy`: array with fallback order, e.g. `["railway", "vercel", "fly", "render", "local"]`
 
@@ -27,6 +27,8 @@ Must be placed at the **root** of your repository: `grok-install.yaml`
 - `deploy.target`
 
 ## deploy Section
+Tells Grok where and how to deploy your agent.
+
 ```yaml
 deploy:
   target: "railway"
@@ -38,8 +40,7 @@ YAMLprompts:
     message: "Please paste your X API key:"
   - key: "GROK_API_KEY"
     message: "Please paste your Grok API key:"
-Optional advanced sections:
-YAMLerror_handlers:
+error_handlers:
   missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
 
 on_install:
@@ -57,9 +58,10 @@ YAMLsafety_checklist:
   - no_hardcoded_secrets
   - no_dangerous_permissions
   - uses_official_sdks
+
 Passive Growth & Wow Features
 Add the Featured in Grok and Grok-Installed badges to your README.
-When anyone posts your GitHub link on X, Grok automatically replies with the blue "Install with Grok" pill.
+All secrets are requested privately by Grok.
 Voice install: “Hey Grok, install [your agent name]”
 One-command clone: Post any GitHub link → Grok can auto-generate basic YAML if missing.
 Simple Install Counter Badge (Phase 4 – Analytics)
@@ -75,10 +77,10 @@ Full docs: https://agentmindcloud.github.io/grok-install/
 Phase 4 Status
 
 Launch & Visibility: done
-Security & Trust layer: added
+Security & Trust: done
 Ecosystem Expansion: documented
-Analytics & Feedback Loop: started
-Adoption Push: postponed until after launch
+Analytics & Feedback Loop: in progress
+Adoption Push: postponed
 
 Built live with @JanSol0s (Jani Starck) and Grok for the X AI community.
 Last updated: April 2026
