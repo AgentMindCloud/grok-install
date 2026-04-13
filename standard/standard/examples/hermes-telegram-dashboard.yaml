@@ -1,19 +1,21 @@
 version: "1.1"
 name: "Hermes Telegram Dashboard"
-description: "AI-powered admin dashboard for your Telegram groups, powered by Grok"
+description: "AI-powered admin dashboard for Telegram group management (X-first)"
 repository: "https://github.com/AgentMindCloud/grok-install"
 deploy:
   target: "railway"
   env:
-    TELEGRAM_TOKEN:
-      prompt: "Paste your Telegram Bot Token (get it from @BotFather on Telegram)"
-      example: "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
-    GROK_API_KEY:
-      prompt: "Paste your Grok API Key (from grok.x.ai)"
-      example: "gsk_xxxxxxxxxxxxxxxxxxxxxxxx"
-on_install:
-  welcome_message: "Hi! I'm Hermes, your new Grok-powered Telegram dashboard. I can help moderate groups, summarize chats, and more. What would you like to do first?"
-  suggested_commands:
-    - "Show me the latest messages in my group"
-    - "Summarize today's activity"
-    - "Help me write a welcome message for new members"
+    TELEGRAM_TOKEN: "Ask the user for their Telegram bot token"
+    X_API_KEY: "Ask the user for their X API key"
+    GROK_API_KEY: "Ask the user for their Grok API key"
+prompts:
+  - key: "TELEGRAM_TOKEN"
+    message: "Please paste your Telegram bot token:"
+  - key: "X_API_KEY"
+    message: "Please paste your X API key:"
+  - key: "GROK_API_KEY"
+    message: "Please paste your Grok API key:"
+error_handlers:
+  missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
+  invalid_key: "That API key doesn't look right. Let's try entering it again."
+  deployment_failed: "Deployment hit a snag. Want me to try again?"
