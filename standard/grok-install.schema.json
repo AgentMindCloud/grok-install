@@ -5,7 +5,7 @@
   "properties": {
     "version": {
       "type": "string",
-      "enum": ["1.0"]
+      "enum": ["1.0", "1.1"]
     },
     "name": { "type": "string" },
     "description": { "type": "string" },
@@ -19,20 +19,33 @@
         },
         "env": {
           "type": "object",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "prompt": { "type": "string" },
+                  "example": { "type": "string" }
+                },
+                "required": ["prompt"]
+              }
+            ]
+          }
         }
       },
-      "required": },
-    "prompts": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "key": { "type": "string" },
-          "message": { "type": "string" }
-        },
-        "required": ["key", "message"]
+      "required": ["target"]
+    },
+    "on_install": {
+      "type": "object",
+      "properties": {
+        "welcome_message": { "type": "string" },
+        "suggested_commands": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
       }
     }
   },
-  "required": }
+  "required": ["version", "name", "description", "repository", "deploy"]
+}
