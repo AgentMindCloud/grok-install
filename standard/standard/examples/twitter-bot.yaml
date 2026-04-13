@@ -1,20 +1,21 @@
 version: "1.1"
 name: "Smart Twitter Reply Bot"
-description: "AI agent that intelligently replies to mentions and DMs using Grok on X"
+description: "AI agent that replies to mentions intelligently (X-first)"
 repository: "https://github.com/AgentMindCloud/grok-install"
 deploy:
   target: "railway"
   env:
-    X_API_KEY:
-      prompt: "Paste your X API Key (get it from developer.x.com)"
-      example: "x-abc123def456..."
-    GROK_API_KEY:
-      prompt: "Paste your Grok API Key (from grok.x.ai)"
-      example: "gsk_xxxxxxxxxxxxxxxxxxxxxxxx"
-on_install:
-  welcome_message: "Hi! I'm your new Smart Twitter Reply Bot, powered by Grok. I'll help you reply to mentions, DMs, and build engagement on X. Ready to get started?"
-  suggested_commands:
-    - "Reply to my latest mentions"
-    - "Analyze my last 10 posts for engagement ideas"
-    - "Help me write a viral thread"
-    - "What's trending on X right now?"
+    X_API_KEY: "Ask the user for their X API key"
+    X_API_SECRET: "Ask the user for their X API secret"
+    GROK_API_KEY: "Ask the user for their Grok API key"
+prompts:
+  - key: "X_API_KEY"
+    message: "Please paste your X API key:"
+  - key: "X_API_SECRET"
+    message: "Please paste your X API secret:"
+  - key: "GROK_API_KEY"
+    message: "Please paste your Grok API key:"
+error_handlers:
+  missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
+  invalid_key: "That API key doesn't look right. Let's try entering it again."
+  deployment_failed: "Deployment hit a snag. Want me to try again?"
