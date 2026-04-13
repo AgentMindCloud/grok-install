@@ -1,0 +1,14 @@
+version: "1.0"
+name: "Discord AI Moderator"
+description: "Friendly AI moderator that helps manage your Discord server"
+repository: "https://github.com/yourusername/discord-ai-mod"
+deploy:
+  target: "railway"
+  env:
+    DISCORD_TOKEN: "Ask the user for their Discord bot token"
+    OPENAI_API_KEY: "Ask the user for their OpenAI API key"
+prompts:
+  - key: "DISCORD_TOKEN"
+    message: "Paste your Discord bot token:"
+  - key: "OPENAI_API_KEY"
+    message: "Paste your OpenAI API key:"
