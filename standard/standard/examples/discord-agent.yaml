@@ -1,20 +1,21 @@
 version: "1.1"
 name: "Discord AI Moderator"
-description: "Friendly AI moderator that helps manage your Discord server using Grok"
+description: "Friendly AI moderator that helps manage your Discord server (X-first)"
 repository: "https://github.com/AgentMindCloud/grok-install"
 deploy:
   target: "railway"
   env:
-    DISCORD_TOKEN:
-      prompt: "Paste your Discord Bot Token (get it from the Discord Developer Portal)"
-      example: "MTA1Njc4OTAxMjM0NTY3ODkw.XYZabc..."
-    GROK_API_KEY:
-      prompt: "Paste your Grok API Key (from grok.x.ai)"
-      example: "gsk_xxxxxxxxxxxxxxxxxxxxxxxx"
-on_install:
-  welcome_message: "Hi! I'm your new Grok-powered Discord AI Moderator. I'll help keep your server safe, friendly, and fun. What would you like me to do first?"
-  suggested_commands:
-    - "Show me the latest messages in the server"
-    - "Help moderate the general chat"
-    - "Welcome new members with a fun message"
-    - "Summarize today's activity"
+    DISCORD_TOKEN: "Ask the user for their Discord bot token"
+    X_API_KEY: "Ask the user for their X API key"
+    GROK_API_KEY: "Ask the user for their Grok API key"
+prompts:
+  - key: "DISCORD_TOKEN"
+    message: "Please paste your Discord bot token:"
+  - key: "X_API_KEY"
+    message: "Please paste your X API key:"
+  - key: "GROK_API_KEY"
+    message: "Please paste your Grok API key:"
+error_handlers:
+  missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
+  invalid_key: "That API key doesn't look right. Let's try entering it again."
+  deployment_failed: "Deployment hit a snag. Want me to try again?"
