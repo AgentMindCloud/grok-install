@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "grok-install",
-  "description": "Official schema for grok-install v2.2 – Passive Growth + Safety + Marketplace",
+  "description": "Official schema for grok-install v2.2 – Passive Growth + Safety + Full Marketplace Activation (Phase 6)",
   "type": "object",
   "properties": {
     "version": {
