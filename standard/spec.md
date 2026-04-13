@@ -35,6 +35,7 @@ deploy:
   env:
     X_API_KEY: "Ask the user for their X API key"
     GROK_API_KEY: "Ask the user for their Grok API key"
+
     prompts:
   - key: "X_API_KEY"
     message: "Please paste your X API key:"
@@ -55,13 +56,19 @@ security:
   verified_by_grok: true   # Grok will run a quick safety scan
 
   Passive Growth & Wow Features
-
 Add the Featured in Grok and Grok-Installed badges (see index.html) to your README.
 When anyone posts your GitHub link on X, Grok automatically replies with the blue "Install with Grok" pill.
 Voice install: Users can say “Hey Grok, install [your agent name]”
 One-command clone: Post any GitHub link → Grok can auto-generate basic YAML if missing.
-
 Examples
-See the three demo repos and docs/voice-and-clone-examples.md.
+See the three demo repos (all updated to v2.1):
+
+hermes-telegram-dashboard
+twitter-reply-bot
+discord-ai-mod
+
+Full docs: https://agentmindcloud.github.io/grok-install/
+Phase 4 Status
+Launch & Visibility in progress. Next: Security & Trust layer, Ecosystem Expansion, Analytics.
 Built live with @JanSol0s (Jani Starck) and Grok for the X AI community.
 Last updated: April 2026
