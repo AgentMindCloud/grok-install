@@ -1,9 +1,9 @@
-# grok-install Specification (v1.1)
+# grok-install Specification (v1.1 + 1.2)
 
 ## Overview
-`grok-install.yaml` makes any AI agent installable in **one click** through Grok on X.
+`grok-install.yaml` makes any AI agent installable in one click through Grok on X.
 
-Grok now supports **guided conversational setup** — it will ask users for credentials naturally instead of making them edit files.
+Grok now supports **guided conversational setup** and **smart error recovery**.
 
 ## Required Fields
 - `version: "1.1"`
@@ -12,21 +12,18 @@ Grok now supports **guided conversational setup** — it will ask users for cred
 - `repository`
 - `deploy.target`
 
-## New in v1.1: Guided env setup
-The `deploy.env` section now supports friendly prompts so Grok can guide the user conversationally.
+## Guided Setup (v1.1)
+The `deploy.env` section now supports friendly prompts so Grok can ask the user one question at a time.
 
-### Recommended (X-first) example:
+## Smart Error Handling (v1.2)
+You can optionally add custom error messages:
+
 ```yaml
-version: "1.1"
-name: "Smart Twitter Reply Bot"
-description: "AI agent that replies to mentions intelligently using Grok"
-repository: "https://github.com/yourusername/twitter-reply-bot"
-deploy:
-  target: "railway"
-  env:
-    X_API_KEY:
-      prompt: "Paste your X API Key (get it from developer.x.com)"
-      example: "x-abc123def456..."
-    GROK_API_KEY:
-      prompt: "Paste your Grok API Key (from grok.x.ai)"
-      example: "gsk_..."
+error_handlers:
+  missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
+  invalid_key: "That API key doesn't look right. Let's try entering it again."
+  deployment_failed: "Deployment hit a snag. Want me to try again?"
+  This section is optional — Grok has good default messages.
+Examples
+See the /standard/examples/ folder for ready-to-use templates.
+Built live with Grok for the X community.
