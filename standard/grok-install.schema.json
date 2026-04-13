@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "grok-install",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": ["1.0"]
+    },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "repository": { "type": "string" },
+    "deploy": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "enum": ["railway", "vercel", "fly", "local"]
+        },
+        "env": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": },
+    "prompts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": { "type": "string" },
+          "message": { "type": "string" }
+        },
+        "required": ["key", "message"]
+      }
+    }
+  },
+  "required": }
