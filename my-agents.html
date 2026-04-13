@@ -13,14 +13,13 @@
   </style>
 </head>
 <body class="text-white p-8 max-w-5xl mx-auto">
-
   <h1 class="text-5xl font-bold mb-8 flex items-center gap-3">
     <i class="fa-solid fa-robot text-[#1DA1F2]"></i>
     My Agents
   </h1>
-  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install v2.1</p>
+  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install v2.2</p>
 
-  <!-- Install Counter -->
+  <!-- Install Counter (unchanged) -->
   <div class="glass rounded-3xl p-8 mb-12 flex justify-between items-center">
     <div>
       <p class="text-sm uppercase tracking-widest text-zinc-400">Total Installs Across All Agents</p>
@@ -31,7 +30,27 @@
     </div>
   </div>
 
-  <!-- Agents List -->
+  <!-- NEW Wave 4: Shareable Install Cards -->
+  <div class="glass rounded-3xl p-8 mb-12">
+    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
+      <i class="fa-solid fa-share-nodes"></i>
+      One-tap Shareable Cards
+    </h2>
+    <p class="text-zinc-400 mb-6">After a successful install, Grok generates a beautiful shareable card. Anyone who sees it can install with one tap.</p>
+    <div class="bg-[#0a0a0a] p-6 rounded-2xl border border-[#00f0ff33] flex items-center gap-6">
+      <div class="flex-1">
+        <strong class="text-xl">Hermes Telegram Dashboard</strong>
+        <p class="text-zinc-400">AI-powered community management • Installed by 184 people</p>
+      </div>
+      <button onclick="alert('Shareable card copied to clipboard – ready to post on X!')" 
+              class="px-8 py-4 bg-[#1DA1F2] text-black font-semibold rounded-3xl flex items-center gap-3 hover:bg-[#00f0ff]">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        Share Install Card
+      </button>
+    </div>
+  </div>
+
+  <!-- Agents List (unchanged) -->
   <h2 class="text-2xl font-semibold mb-6">Your Installed Agents</h2>
   <div id="agents-list" class="space-y-6">
     <!-- Populated by Grok in real use -->
@@ -47,14 +66,25 @@
     </div>
   </div>
 
+  <!-- NEW Wave 4: Featured Agents -->
+  <div class="glass rounded-3xl p-8 mt-12">
+    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
+      <i class="fa-solid fa-star"></i>
+      Featured Agents
+    </h2>
+    <p class="text-zinc-400 mb-6">Auto-updating inside Grok based on installs and “featured: true” in YAML.</p>
+    <div class="grid md:grid-cols-2 gap-6 text-sm">
+      <div class="bg-[#0a0a0a] p-5 rounded-2xl">Hermes Telegram Dashboard – 184 installs • Featured</div>
+      <div class="bg-[#0a0a0a] p-5 rounded-2xl">Smart Twitter Reply Bot – Trending this week</div>
+    </div>
+  </div>
+
   <p class="text-xs text-zinc-500 mt-16 text-center">
     This dashboard is private and only visible to you when you type <strong>@grok my agents</strong>.<br>
     Install counters update automatically. Feedback goes directly to the agent builder.
   </p>
-
   <div class="text-center mt-12 text-zinc-400">
-    Built live with @JanSol0s (Jani) & Grok • Phase 4 • Analytics & Feedback Loop
+    Built live with @JanSol0s (Jani) & Grok • Phase 5 • Wave 4 (User Experience + Marketplace)
   </div>
-
 </body>
 </html>
