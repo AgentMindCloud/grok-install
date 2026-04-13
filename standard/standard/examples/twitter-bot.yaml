@@ -19,3 +19,10 @@ error_handlers:
   missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
   invalid_key: "That API key doesn't look right. Let's try entering it again."
   deployment_failed: "Deployment hit a snag. Want me to try again?"
+on_install:
+  welcome: "Welcome to Smart Twitter Reply Bot! Your agent is now live and ready to reply to mentions."
+  suggested_commands:
+    - "/status"
+    - "/tweets"
+    - "/help"
+  share_card: true
