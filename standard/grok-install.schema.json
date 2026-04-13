@@ -45,6 +45,10 @@
           "items": { "type": "string" }
         }
       }
+    },
+    "error_handlers": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
     }
   },
   "required": ["version", "name", "description", "repository", "deploy"]
