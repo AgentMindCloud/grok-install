@@ -7,96 +7,138 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body { font-family: system-ui, -apple-system, sans-serif; }
-    .hero-bg { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); }
+    body { 
+      font-family: system-ui, -apple-system, sans-serif; 
+      background: radial-gradient(circle at 50% 20%, #1a1a2e 0%, #0a0a0a 100%);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+    .hero-glow {
+      background: linear-gradient(135deg, #1DA1F2, #0a84ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .card-hover {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-12px) scale(1.03) rotate(1deg);
+      box-shadow: 0 25px 50px -12px rgb(29 161 242 / 0.4);
+    }
+    .scanline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(transparent, rgba(29, 161, 242, 0.08), transparent);
+      animation: scan 8s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes scan {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(400%); }
+    }
   </style>
 </head>
-<body class="bg-zinc-950 text-white">
+<body class="text-white overflow-x-hidden">
 
   <!-- Hero -->
-  <div class="hero-bg py-20 border-b border-zinc-800">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <h1 class="text-6xl font-bold mb-4">grok-install</h1>
-      <p class="text-2xl text-zinc-300 mb-8">Install any AI agent in one click on X</p>
-      <a href="https://github.com/AgentMindCloud/grok-install" class="inline-flex items-center bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white font-bold text-xl px-10 py-5 rounded-3xl transition-all">
-        <i class="fa-brands fa-x-twitter mr-3"></i>
+  <div class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div class="scanline"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(at_center,#1DA1F2_0%,transparent_70%)] opacity-20"></div>
+    
+    <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+      <div class="inline-flex items-center gap-3 mb-6 glass px-6 py-2 rounded-3xl text-sm">
+        <i class="fa-solid fa-bolt text-[#1DA1F2]"></i>
+        <span class="text-zinc-300">v2.0 • Now with ecosystem auto-support</span>
+      </div>
+      
+      <h1 class="text-7xl font-bold tracking-tighter hero-glow mb-6">grok-install</h1>
+      <p class="text-3xl text-zinc-300 max-w-2xl mx-auto mb-12">
+        The open standard to install any AI agent in one click on X
+      </p>
+      
+      <a href="https://github.com/AgentMindCloud/grok-install" 
+         class="inline-flex items-center gap-4 bg-white text-black font-bold text-2xl px-12 py-6 rounded-3xl hover:scale-105 transition-all duration-300 shadow-2xl">
+        <i class="fa-brands fa-x-twitter text-3xl"></i>
         Install with Grok
       </a>
-      <p class="text-zinc-400 mt-4 text-sm">No CLI. No complicated README. Just add one file.</p>
+      
+      <p class="mt-8 text-zinc-400">No CLI. No long instructions. Just add one file.</p>
     </div>
   </div>
 
-  <div class="max-w-4xl mx-auto px-6 py-16">
+  <!-- What is grok-install -->
+  <div class="max-w-5xl mx-auto px-6 py-24">
+    <h2 class="text-5xl font-semibold mb-8 text-center">The future of agent distribution on X</h2>
+    <div class="glass rounded-3xl p-12 text-center">
+      <p class="text-xl text-zinc-300 leading-relaxed max-w-3xl mx-auto">
+        Add a single <code class="bg-black/50 px-3 py-1 rounded">grok-install.yaml</code> file to your repo.<br>
+        Grok handles everything else — guided setup, error recovery, updates, analytics, and more.
+      </p>
+    </div>
+  </div>
 
-    <!-- What is grok-install? -->
-    <h2 class="text-3xl font-semibold mb-6">What is grok-install?</h2>
-    <p class="text-lg text-zinc-300 leading-relaxed">
-      grok-install is an open standard (v2.0) that lets any developer make their AI agent <strong>instantly installable</strong> by anyone on X.<br>
-      Just add a single <code class="bg-zinc-900 px-2 py-1 rounded">grok-install.yaml</code> file — Grok handles the rest.
-    </p>
-
-    <!-- How to add it -->
-    <h2 class="text-3xl font-semibold mt-16 mb-8">How to add it in &lt;5 minutes</h2>
+  <!-- How it works -->
+  <div class="max-w-5xl mx-auto px-6 py-20">
+    <h2 class="text-4xl font-semibold mb-12 text-center">How to add it in under 5 minutes</h2>
     <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-zinc-900 rounded-3xl p-8">
-        <div class="text-[#1DA1F2] text-5xl font-bold mb-4">01</div>
-        <h3 class="font-semibold text-xl mb-2">Add the file</h3>
-        <p class="text-zinc-400">Create grok-install.yaml at the root of your repo</p>
+      <div class="glass rounded-3xl p-10 card-hover">
+        <div class="text-6xl font-bold text-[#1DA1F2] mb-6">01</div>
+        <h3 class="text-2xl font-semibold mb-4">Add the file</h3>
+        <p class="text-zinc-400">Create grok-install.yaml at the root of your GitHub repo</p>
       </div>
-      <div class="bg-zinc-900 rounded-3xl p-8">
-        <div class="text-[#1DA1F2] text-5xl font-bold mb-4">02</div>
-        <h3 class="font-semibold text-xl mb-2">Copy an example</h3>
-        <p class="text-zinc-400">Use one of the ready-made templates from the /standard/examples folder</p>
+      <div class="glass rounded-3xl p-10 card-hover">
+        <div class="text-6xl font-bold text-[#1DA1F2] mb-6">02</div>
+        <h3 class="text-2xl font-semibold mb-4">Copy an example</h3>
+        <p class="text-zinc-400">Use one of our ready templates (Hermes, Twitter Bot, Discord Mod)</p>
       </div>
-      <div class="bg-zinc-900 rounded-3xl p-8">
-        <div class="text-[#1DA1F2] text-5xl font-bold mb-4">03</div>
-        <h3 class="font-semibold text-xl mb-2">Commit &amp; done</h3>
-        <p class="text-zinc-400">Grok automatically detects it and offers one-click install</p>
+      <div class="glass rounded-3xl p-10 card-hover">
+        <div class="text-6xl font-bold text-[#1DA1F2] mb-6">03</div>
+        <h3 class="text-2xl font-semibold mb-4">Commit &amp; done</h3>
+        <p class="text-zinc-400">Grok detects it instantly and offers one-click install to anyone</p>
       </div>
     </div>
-
-    <!-- Simple vs Advanced -->
-    <h2 class="text-3xl font-semibold mt-16 mb-8">Simple mode vs Advanced mode</h2>
-    <p class="text-zinc-300">Default is <strong>Simple mode</strong> (maximum hand-holding). Switch to <strong>Advanced mode</strong> for full control.</p>
-
-    <!-- Live demos -->
-    <h2 class="text-3xl font-semibold mt-16 mb-8">Live demos</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <a href="https://github.com/AgentMindCloud/hermes-telegram-dashboard" class="block bg-zinc-900 hover:bg-zinc-800 rounded-3xl p-8 transition">
-        <strong>Hermes Telegram Dashboard</strong>
-        <p class="text-zinc-400 text-sm mt-2">Telegram group management</p>
-      </a>
-      <a href="https://github.com/AgentMindCloud/twitter-reply-bot" class="block bg-zinc-900 hover:bg-zinc-800 rounded-3xl p-8 transition">
-        <strong>Smart Twitter Reply Bot</strong>
-        <p class="text-zinc-400 text-sm mt-2">Replies to mentions intelligently</p>
-      </a>
-      <a href="https://github.com/AgentMindCloud/discord-ai-mod" class="block bg-zinc-900 hover:bg-zinc-800 rounded-3xl p-8 transition">
-        <strong>Discord AI Moderator</strong>
-        <p class="text-zinc-400 text-sm mt-2">Helps manage your Discord server</p>
-      </a>
-    </div>
-
-    <!-- Roadmap -->
-    <h2 class="text-3xl font-semibold mt-16 mb-8">Roadmap (v2.0)</h2>
-    <ul class="space-y-4 text-zinc-300">
-      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> Guided setup, error handling, post-install success <strong>(done)</strong></li>
-      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> One-click updates</li>
-      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> “My Agents” dashboard</li>
-      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> More deployment targets + Local Docker</li>
-      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> Public Agent Marketplace</li>
-      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> Analytics + Verified by Grok</li>
-      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> Install analytics + auto README badge for devs <strong>(done)</strong></li>
-      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> Builder motivation &amp; passive growth (auto badges, one-tap share) <strong>(done)</strong></li>
-    </ul>
-
-    <!-- Copy-paste button -->
-    <h2 class="text-3xl font-semibold mt-16 mb-6">Add this button to your own README</h2>
-    <pre class="bg-zinc-900 p-6 rounded-3xl overflow-auto text-sm text-zinc-300"><code>&lt;a href="https://github.com/AgentMindCloud/grok-install" class="inline-flex items-center bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white font-bold px-6 py-3 rounded-3xl"&gt;
-  &lt;i class="fa-brands fa-x-twitter mr-2"&gt;&lt;/i&gt;
-  Install with Grok
-&lt;/a&gt;</code></pre>
-
-    <p class="text-center text-zinc-400 mt-16">Made with ❤️ for the X AI community • X:@JanSol0s (Jani Starck) Github:AgentMindCloud Built live with Grok • v2.0</p>
   </div>
+
+  <!-- Live demos -->
+  <div class="max-w-5xl mx-auto px-6 py-20 bg-black/40">
+    <h2 class="text-4xl font-semibold mb-12 text-center">Live demo agents</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <a href="https://github.com/AgentMindCloud/hermes-telegram-dashboard" class="glass rounded-3xl p-8 card-hover block">
+        <strong class="text-2xl">Hermes Telegram Dashboard</strong>
+        <p class="text-zinc-400 mt-3">AI-powered community management</p>
+      </a>
+      <a href="https://github.com/AgentMindCloud/twitter-reply-bot" class="glass rounded-3xl p-8 card-hover block">
+        <strong class="text-2xl">Smart Twitter Reply Bot</strong>
+        <p class="text-zinc-400 mt-3">Intelligent replies to mentions</p>
+      </a>
+      <a href="https://github.com/AgentMindCloud/discord-ai-mod" class="glass rounded-3xl p-8 card-hover block">
+        <strong class="text-2xl">Discord AI Moderator</strong>
+        <p class="text-zinc-400 mt-3">Friendly server moderation</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Roadmap -->
+  <div class="max-w-5xl mx-auto px-6 py-24">
+    <h2 class="text-4xl font-semibold mb-12 text-center">Roadmap v2.0</h2>
+    <ul class="space-y-6 text-lg">
+      <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> Guided setup, error handling, on_install success <strong class="text-emerald-400">(done)</strong></li>
+      <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> One-click updates &amp; more deployment targets <strong class="text-emerald-400">(done)</strong></li>
+      <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> My Agents dashboard, Marketplace, Security layer <strong class="text-emerald-400">(done)</strong></li>
+      <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> Ecosystem auto-support for Grok, X, Tesla, Starlink, etc.</li>
+    </ul>
+  </div>
+
+  <div class="text-center py-20 border-t border-zinc-800">
+    <p class="text-zinc-400">Made with ❤️ for the X AI community • Built live with Grok • v2.0</p>
+  </div>
+
 </body>
 </html>
