@@ -1,14 +1,20 @@
-version: "1.0"
+version: "1.1"
 name: "Discord AI Moderator"
-description: "Friendly AI moderator that helps manage your Discord server"
-repository: "https://github.com/yourusername/discord-ai-mod"
+description: "Friendly AI moderator that helps manage your Discord server using Grok"
+repository: "https://github.com/AgentMindCloud/grok-install"
 deploy:
   target: "railway"
   env:
-    DISCORD_TOKEN: "Ask the user for their Discord bot token"
-    OPENAI_API_KEY: "Ask the user for their OpenAI API key"
-prompts:
-  - key: "DISCORD_TOKEN"
-    message: "Paste your Discord bot token:"
-  - key: "OPENAI_API_KEY"
-    message: "Paste your OpenAI API key:"
+    DISCORD_TOKEN:
+      prompt: "Paste your Discord Bot Token (get it from the Discord Developer Portal)"
+      example: "MTA1Njc4OTAxMjM0NTY3ODkw.XYZabc..."
+    GROK_API_KEY:
+      prompt: "Paste your Grok API Key (from grok.x.ai)"
+      example: "gsk_xxxxxxxxxxxxxxxxxxxxxxxx"
+on_install:
+  welcome_message: "Hi! I'm your new Grok-powered Discord AI Moderator. I'll help keep your server safe, friendly, and fun. What would you like me to do first?"
+  suggested_commands:
+    - "Show me the latest messages in the server"
+    - "Help moderate the general chat"
+    - "Welcome new members with a fun message"
+    - "Summarize today's activity"
