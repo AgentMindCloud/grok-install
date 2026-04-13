@@ -1,0 +1,14 @@
+version: "1.0"
+name: "Hermes Telegram Dashboard"
+description: "AI-powered admin dashboard for Telegram group management"
+repository: "https://github.com/yourusername/hermes-telegram-dashboard"
+deploy:
+  target: "railway"
+  env:
+    TELEGRAM_TOKEN: "Ask the user for their Telegram bot token"
+    OPENAI_API_KEY: "Ask the user for their OpenAI API key"
+prompts:
+  - key: "TELEGRAM_TOKEN"
+    message: "Please paste your Telegram bot token:"
+  - key: "OPENAI_API_KEY"
+    message: "Please paste your OpenAI API key:"
