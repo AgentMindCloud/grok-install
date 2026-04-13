@@ -3,31 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>grok-install</title>
+  <title>grok-install — One-click AI agents on X</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
-    h1 { color: #1DA1F2; }
-    .button { background: #1DA1F2; color: white; padding: 12px 24px; border-radius: 9999px; text-decoration: none; font-weight: bold; display: inline-block; margin: 20px 0; }
-    pre { background: #f4f4f4; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .hero-bg { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); }
   </style>
 </head>
-<body>
-  <h1>grok-install</h1>
-  <p><strong>Install any AI agent in one click on X.</strong></p>
-  
-  <a href="https://github.com/AgentMindCloud/grok-install" class="button">Install with Grok</a>
-  
-  <h2>How to add it to your repo in 30 seconds</h2>
-  <ol>
-    <li>Add a file called <code>grok-install.yaml</code> at the root of your repo</li>
-    <li>Copy one of the examples from the standard folder</li>
-    <li>Commit it — done!</li>
-  </ol>
+<body class="bg-zinc-950 text-white">
 
-  <p>Live examples:
-    <br>• <a href="https://github.com/AgentMindCloud/hermes-telegram-dashboard">Hermes Telegram Dashboard</a>
-  </p>
+  <!-- Hero -->
+  <div class="hero-bg py-20 border-b border-zinc-800">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-6xl font-bold mb-4">grok-install</h1>
+      <p class="text-2xl text-zinc-300 mb-8">Install any AI agent in one click on X</p>
+      <a href="https://github.com/AgentMindCloud/grok-install" 
+         class="inline-flex items-center bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white font-bold text-xl px-10 py-5 rounded-3xl transition-all">
+        <i class="fa-brands fa-x-twitter mr-3"></i>
+        Install with Grok
+      </a>
+      <p class="text-zinc-400 mt-4 text-sm">No CLI. No complicated README. Just add one file.</p>
+    </div>
+  </div>
 
-  <p>Made with ❤️ for the X AI community</p>
+  <div class="max-w-4xl mx-auto px-6 py-16">
+
+    <!-- What is grok-install? -->
+    <h2 class="text-3xl font-semibold mb-6">What is grok-install?</h2>
+    <p class="text-lg text-zinc-300 leading-relaxed">
+      grok-install is an open standard that lets any developer make their AI agent <strong>instantly installable</strong> by anyone on X.<br>
+      Just add a single <code class="bg-zinc-900 px-2 py-1 rounded">grok-install.yaml</code> file to your repo — and I (Grok) handle everything else.
+    </p>
+
+    <!-- How to add it in &lt;5 mins -->
+    <h2 class="text-3xl font-semibold mt-16 mb-8">How to add it in &lt;5 minutes</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-zinc-900 rounded-3xl p-8">
+        <div class="text-[#1DA1F2] text-5xl font-bold mb-4">01</div>
+        <h3 class="font-semibold text-xl mb-2">Add the file</h3>
+        <p class="text-zinc-400">Create <code>grok-install.yaml</code> at the root of your repo</p>
+      </div>
+      <div class="bg-zinc-900 rounded-3xl p-8">
+        <div class="text-[#1DA1F2] text-5xl font-bold mb-4">02</div>
+        <h3 class="font-semibold text-xl mb-2">Copy an example</h3>
+        <p class="text-zinc-400">Use one of the ready-made templates from the /standard folder</p>
+      </div>
+      <div class="bg-zinc-900 rounded-3xl p-8">
+        <div class="text-[#1DA1F2] text-5xl font-bold mb-4">03</div>
+        <h3 class="font-semibold text-xl mb-2">Commit &amp; done</h3>
+        <p class="text-zinc-400">I automatically detect it and offer one-click install to anyone</p>
+      </div>
+    </div>
+
+    <!-- Live demos -->
+    <h2 class="text-3xl font-semibold mt-16 mb-8">Live demos</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <a href="https://github.com/AgentMindCloud/hermes-telegram-dashboard" class="block bg-zinc-900 hover:bg-zinc-800 rounded-3xl p-8 transition">
+        <strong>Hermes Telegram Dashboard</strong>
+        <p class="text-zinc-400 text-sm mt-2">AI-powered Telegram group management</p>
+      </a>
+      <a href="https://github.com/AgentMindCloud/twitter-reply-bot" class="block bg-zinc-900 hover:bg-zinc-800 rounded-3xl p-8 transition">
+        <strong>Smart Twitter Reply Bot</strong>
+        <p class="text-zinc-400 text-sm mt-2">AI that intelligently replies to mentions</p>
+      </a>
+      <a href="https://github.com/AgentMindCloud/discord-ai-mod" class="block bg-zinc-900 hover:bg-zinc-800 rounded-3xl p-8 transition">
+        <strong>Discord AI Moderator</strong>
+        <p class="text-zinc-400 text-sm mt-2">Friendly AI server moderator</p>
+      </a>
+    </div>
+
+    <!-- Roadmap -->
+    <h2 class="text-3xl font-semibold mt-16 mb-8">Roadmap</h2>
+    <ul class="space-y-4 text-zinc-300">
+      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> Guided env var setup in chat</li>
+      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> One-click updates</li>
+      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> “My Agents” personal dashboard</li>
+      <li class="flex items-start"><span class="text-[#1DA1F2] mr-3">→</span> Public Agent Marketplace</li>
+    </ul>
+
+    <!-- Copy-paste button code -->
+    <h2 class="text-3xl font-semibold mt-16 mb-6">Add this button to your own README</h2>
+    <pre class="bg-zinc-900 p-6 rounded-3xl overflow-auto text-sm text-zinc-300"><code>&lt;a href="https://github.com/AgentMindCloud/grok-install" class="inline-flex items-center bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white font-bold px-6 py-3 rounded-3xl"&gt;
+  &lt;i class="fa-brands fa-x-twitter mr-2"&gt;&lt;/i&gt;
+  Install with Grok
+&lt;/a&gt;</code></pre>
+
+    <p class="text-center text-zinc-400 mt-16">Made with ❤️ for the X AI community • Built live with Grok</p>
+  </div>
 </body>
 </html>
