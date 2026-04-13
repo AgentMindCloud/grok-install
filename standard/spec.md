@@ -1,78 +1,79 @@
-# grok-install Specification (v2.1)
+# grok-install Specification (v2.2)
 
 ## Overview
-`grok-install.yaml` is the open standard that lets any developer make their AI agent installable with **one click** through Grok on X.
+`grok-install.yaml` is the open standard that lets any developer make their AI agent installable with **one click** on X using Grok.
 
-Grok handles everything else: guided conversational setup (it asks the user nicely for keys), error recovery, auto-updates, voice install, one-command clone, shareable cards, and special quick-deploy flows for Musk ecosystem projects (Tesla, Starlink, xAI, Optimus).
+**Version 2.2** (April 2026) adds full support for:
+- Passive Growth Engine (auto-welcome, auto-share installs, trending)
+- Advanced Safety & Trust Layer
+- Developer Experience (auto-generate YAML, update all agents)
+- Marketplace & User Experience (featured agents, shareable cards)
 
 ## File Location
-Must be placed at the **root** of your repository: `grok-install.yaml`
+Must be placed at the root of your public GitHub repository: `grok-install.yaml`
 
-## Simple vs Advanced Mode
-- `mode: "simple"` (default) — Grok handles everything with maximum hand-holding  
-- `mode: "advanced"` — Full control for experienced users
-
-## New Fields (v2.1)
-- `category`: string (e.g. "telegram", "twitter", "discord") — helps Grok show your agent in the right marketplace searches  
-- `tags`: array of strings — improves discoverability  
-- `ecosystem`: array (e.g. `["grok", "x", "tesla", "starlink", "xai", "optimus"]`) — enables special quick-deploy and auth flows  
-- `update_strategy`: "semver" (recommended) or "always"  
-- `preferred_deploy`: array with fallback order, e.g. `["railway", "vercel", "fly", "render", "local"]`
+## Schema
+See `grok-install.schema.json` (v2.2) for full validation rules.
 
 ## Required Fields
-- `version: "2.1"`
+- `version: "2.2"`
 - `name`
 - `description`
 - `repository`
-- `deploy.target`
 
-## deploy Section + Ecosystem Expansion (Goal 3)
+## Core Fields (v2.2)
+
 ```yaml
+version: "2.2"
+name: "My Awesome Agent"
+description: "Short clear description"
+repository: "https://github.com/yourname/my-agent"
+category: "telegram"                  # telegram | discord | twitter | web | general
+tags: ["ai", "dashboard", "community"]
+featured: true                        # enables auto-trending & Featured section
+ecosystem: ["grok", "x", "tesla"]     # optional
+
+# Passive Growth Engine
+promotion:
+  auto_welcome: true                  # Grok auto-replies with Install pill when repo is posted
+  share_installs: true                # auto-share successful installs in public feed
+  weekly_highlight: true              # eligible for weekly thread
+
+# Deployment
+preferred_deploy: ["railway", "render", "fly", "local"]  # fallback order
+mode: "simple"                        # "simple" or "advanced"
+
+# Environment & Prompts (Grok asks privately)
 deploy:
-  target: "railway"
-  preferred_deploy: ["railway", "vercel", "fly", "render", "local"]
-Supported deployment targets (v2.1):
+  env:
+    TELEGRAM_TOKEN: "Ask the user for their Telegram bot token"
+    GROK_API_KEY: "Ask the user for their xAI/Grok API key"
 
-Railway
-Vercel
-Fly.io
-Render
-Local Docker
+# Safety & Trust
+security:
+  verified_by_grok: true              # triggers full automated code scan
+  safety_checklist: true              # shows visible scan results to users
 
-Private Prompts
-YAMLprompts:
-  - key: "GROK_API_KEY"
-    message: "Please paste your Grok / xAI API key (this stays private)"
-Optional advanced sections:
-YAMLerror_handlers:
-  missing_env: "Oops! Looks like you forgot to provide the key. Want me to guide you again?"
+# Developer Experience
+update_strategy: "semver"             # "semver" | "always"
+auto_generate: true                   # enables @grok generate grok-install.yaml command
 
+# Marketplace & User Experience
+shareable_card: true                  # generates beautiful one-tap share card after install
 on_install:
-  welcome: "Welcome! Your agent is now live."
-  suggested_commands:
-    - "/status"
-    - "/help"
-  share_card: true
+  welcome_message: "Thank you for installing! Here are your first commands..."
 
-safety_checklist:
-  - no_hardcoded_secrets
-  - uses_official_sdks
-  - no_dangerous_permissions
-Passive Growth & Wow Features
-Add the Featured in Grok and Grok-Installed badges to your README.
-All secrets are requested privately by Grok.
-Voice install: “Hey Grok, install [your agent name]”
-One-command clone: Post any GitHub link → Grok can auto-generate basic YAML if missing.
-Examples
-See the three demo repos (all updated to v2.1).
-Full docs: https://agentmindcloud.github.io/grok-install/
-Phase 4 Status
+  How Passive Growth Works
+When a public repo adds this file and someone posts the GitHub link on X:
 
-Launch & Visibility: done
-Security & Trust: done
-Ecosystem Expansion: done
-Analytics & Feedback Loop: done
-Adoption Push: postponed
+Grok automatically replies with welcome message + blue “Install with Grok” pill
+Successful installs are auto-shared in public “Recently Installed” feed
+Top agents appear in weekly auto-generated thread
 
-Built live with @JanSol0s (Jani Starck) and Grok for the X AI community.
-Last updated: April 2026
+Next Steps for Developers
+
+Add this file to your repo root
+Commit & push
+Post your repo link on X — Grok will detect it automatically
+
+Built live with @JanSol0s (Jani) & Grok.
