@@ -54,3 +54,16 @@ This section is optional — Grok has good default messages.
 See the /standard/examples/ folder for ready-to-use templates (all updated to v2.0).
 
 Built live with Grok for the X AI community.
+
+## Security & Validation Layer (v2.0)
+
+Before any deployment Grok automatically scans the code and YAML for:
+- Hard-coded secrets
+- Dangerous permissions
+- Unsafe packages
+
+Optional `verified_by_grok: true` badge appears in README if the repo passes.
+
+```yaml
+security:
+  verified_by_grok: true
