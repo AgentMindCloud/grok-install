@@ -18,23 +18,24 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 ### 2. Advanced Automation & Triggers ✓ COMPLETED
 ### 3. Enhanced Private Dashboard ✓ UI IMPROVED
 ### 4. Improve Command Documentation ✓ COMPLETED
-### 5. Safety & Control Layer for Multi-Agent (next priority)
+### 5. Safety & Control Layer for Multi-Agent ✓ JUST COMPLETED
 - Automatic permission checks when linking agents
 - User approval flow for cross-agent actions
-- “Verified Orchestration” badge
+- “Verified Orchestration” badge added to spec
 
-### 6. Community & Ecosystem Expansion
+### 6. Community & Ecosystem Expansion (next)
 - Community-voted multi-agent templates
 
 ## Current Status
 - Full trigger chain live across all three demo repos
-- Dashboard and command documentation improved
-- Next: Safety & Control Layer (protects users when agents interact)
+- Safety & Control Layer now part of the official spec
+- Command documentation and dashboard UI are complete
 
 ## Next Possible Steps
-- Add safety/permission section to standard/spec.md
-- Update dashboard with approval UI
-- Test orchestration flow
+- Add safety/permission UI to my-agents.html (optional)
+- Add community-voted multi-agent templates
+- Run first live orchestration test
+- Phase 7 wrap-up
 
 Built live with @JanSol0s (Jani) & Grok.  
 Keep it clean, calm, and precise.
