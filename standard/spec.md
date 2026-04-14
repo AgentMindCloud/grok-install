@@ -1,4 +1,4 @@
-grok-install Specification (v2.6)
+grok-install Specification (v2.7)
 
 Overview
 grok-install.yaml is the open standard that lets any developer make their AI agent installable with one click on X using Grok.
@@ -8,16 +8,16 @@ Must be placed at the root of your public GitHub repository:
 `grok-install.yaml`
 
 Version
-Current version: 2.6
+Current version: 2.7
 
-New in v2.6
-- Curated Community Templates gallery with Verified Orchestration badges  
-- Advanced search & filtering inside Grok (@grok show me agents that use Tesla API)  
-- “Verified Orchestration” badge for safely linked agent groups
+New in v2.7
+- Self-hosted orchestrator option (docker-compose + Grok API)
+- Enterprise “Team Workspace” mode for companies
+- Audit log for all cross-agent actions
 
 Recommended Template (copy-paste ready)
 ```yaml
-version: "2.6"
+version: "2.7"
 name: "My Awesome Agent"
 description: "Short clear description"
 repository: "https://github.com/yourname/my-agent"
@@ -26,7 +26,7 @@ tags: ["ai", "dashboard", "community", "tesla"]
 featured: true
 ecosystem: ["grok", "x", "tesla"]
 
-llm:                          # ← RECOMMENDED
+llm:
   provider: "xai"
   model: "grok-4"
   api_key_env: "GROK_API_KEY"
@@ -36,9 +36,20 @@ analytics:
   enabled: true
   public_insights: true
 
-# Advanced Discovery (Phase 8 Goal 2 – NEW)
+# Advanced Discovery (Phase 8)
 discovery:
-  verified_orchestration: true   # shows “Verified Orchestration” badge
+  verified_orchestration: true
+
+# Self-Hosted Orchestration & Enterprise (Phase 8 Goal 4 – NEW)
+self_hosted:
+  enabled: true                    # run your own private orchestrator
+  orchestrator: "docker-compose"   # or "kubernetes"
+  grok_api_key_env: "GROK_API_KEY" # optional – only needed for private instance
+
+enterprise:
+  team_workspace: true             # enables company team mode
+  audit_log: true                  # full audit log for all cross-agent actions
+  members: ["@team-member1", "@team-member2"]
 
 # Multi-Agent Orchestration (Phase 7)
 orchestration:
@@ -54,24 +65,23 @@ orchestration:
     permission_check: true
     approval_required: true
     verified_orchestration: true
-Advanced Discovery (Goal 2)
+Self-Hosted Orchestration & Enterprise Features
 
-Use category, tags, and ecosystem in your YAML for better visibility
-@grok show me agents that use Tesla API now works automatically
-discovery.verified_orchestration: true displays the official “Verified Orchestration” badge
+self_hosted.enabled: true → run a private orchestrator using docker-compose + Grok API
+enterprise.team_workspace: true → company team mode with shared agents and permissions
+enterprise.audit_log: true → automatic audit log for every cross-agent action
 
-How Verified Orchestration Works
-Grok runs a safety scan on the orchestration.safety block.
-If all checks pass, the badge appears on shareable cards and in search results.
+How to use
+Set the fields above and run docker-compose up with the included orchestrator files (coming in next templates).
 Backward Compatibility
-All v2.5 files continue to work unchanged.
-Only agents that set discovery.verified_orchestration: true or use advanced tags gain the new discovery features.
+All v2.6 files continue to work unchanged.
+Only agents that set self_hosted.enabled: true or enterprise.team_workspace: true gain the new features.
 Credits (strongly recommended)
 YAMLcredits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.6"
+  version: "2.7"
   message: "Powered by grok-install open standard"
 Built live with @JanSol0s (Jani) & Grok.
 Keep it clean, calm, and precise.
