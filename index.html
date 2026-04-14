@@ -8,13 +8,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; background: radial-gradient(circle at 50% 20%, #1a1a2e 0%, #0a0a0a 100%); }
-    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-    .hero-glow { background: linear-gradient(135deg, #1DA1F2, #0a84ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-    .card-hover:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 50px -12px rgb(29 161 242 / 0.4); }
+    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 8px 32px rgba(0,0,0,0.4); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+    .glass:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgb(29 161 242 / 0.3); }
+    .hero-glow { background: linear-gradient(135deg, #1DA1F2, #00f0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .card-hover:hover { transform: scale(1.03); }
   </style>
 </head>
 <body class="text-white">
+
   <!-- Hero -->
   <div class="relative min-h-[55vh] flex items-center justify-center overflow-hidden">
     <div class="max-w-5xl mx-auto px-6 text-center">
@@ -111,27 +112,43 @@
     </div>
   </div>
 
-  <!-- Community Templates -->
+  <!-- Community Templates – now premium & hoverable -->
   <div class="max-w-5xl mx-auto px-6 py-16 bg-zinc-950">
     <h2 class="text-4xl font-semibold mb-8 text-center">Community Templates</h2>
     <p class="text-zinc-400 text-center mb-12">Ready-to-use multi-agent orchestration templates voted on by the community.</p>
     <div class="grid md:grid-cols-3 gap-8">
-      <div class="glass rounded-3xl p-8 card-hover">
+      <a href="https://github.com/AgentMindCloud/twitter-reply-bot" class="glass rounded-3xl p-8 card-hover block">
         <h3 class="text-xl font-semibold mb-2">Social Media → Dashboard</h3>
         <p class="text-zinc-400 text-sm mb-6">Twitter Reply Bot automatically updates Hermes Telegram Dashboard on every mention.</p>
         <span class="px-3 py-1 text-xs bg-emerald-400/10 text-emerald-400 rounded-3xl">Most voted • 184 installs</span>
-      </div>
-      <div class="glass rounded-3xl p-8 card-hover">
+      </a>
+      <a href="https://github.com/AgentMindCloud/discord-ai-mod" class="glass rounded-3xl p-8 card-hover block">
         <h3 class="text-xl font-semibold mb-2">Discord Moderator Chain</h3>
         <p class="text-zinc-400 text-sm mb-6">Discord AI Moderator + Hermes Dashboard + Twitter Bot work together on community alerts.</p>
         <span class="px-3 py-1 text-xs bg-blue-400/10 text-blue-400 rounded-3xl">Community pick</span>
-      </div>
-      <div class="glass rounded-3xl p-8 card-hover">
+      </a>
+      <a href="https://github.com/AgentMindCloud/hermes-telegram-dashboard" class="glass rounded-3xl p-8 card-hover block">
         <h3 class="text-xl font-semibold mb-2">Trading Signal Suite</h3>
         <p class="text-zinc-400 text-sm mb-6">CryptoConsole + Nexus Terminal + Dashboard – fully orchestrated trading alerts.</p>
         <span class="px-3 py-1 text-xs bg-purple-400/10 text-purple-400 rounded-3xl">New template</span>
-      </div>
+      </a>
     </div>
+  </div>
+
+  <!-- Premium bottom cards -->
+  <div class="max-w-5xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
+    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
+      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-store"></i> Public Agent Marketplace</h3>
+      <p class="text-zinc-400">Now live in Grok with browse commands and dynamic Featured section.</p>
+    </a>
+    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
+      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-users"></i> Community Hub – Self-Management</h3>
+      <p class="text-zinc-400">Builders and users run the platform together.</p>
+    </a>
+    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
+      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-link"></i> Multi-Agent Orchestration (Phase 7)</h3>
+      <p class="text-zinc-400">Link multiple agents into smart workflows. Grok coordinates them automatically.</p>
+    </a>
   </div>
 
   <!-- Public Agent Marketplace -->
