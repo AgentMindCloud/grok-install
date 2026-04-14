@@ -20,12 +20,12 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 
 ### 2. Advanced Automation & Triggers ✓ COMPLETED
 - `triggers` section added to standard/spec.md
-- Working trigger example added:
-  - Twitter Reply Bot (`mention` event) → Hermes Dashboard (`update_dashboard` action)
+- Working trigger chain implemented:
+  - Twitter Reply Bot (`mention` / `new_follower` events) → Hermes Dashboard (`update_dashboard` / `send_welcome` actions)
 
 ### 3. Enhanced Private Dashboard (next)
-- Further expand my-agents.html with live trigger configuration UI
-- One-click trigger setup
+- Add live trigger configuration UI to my-agents.html
+- One-click trigger setup and monitoring
 
 ### 4. Safety & Control Layer for Multi-Agent
 - Automatic permission checks when linking agents
@@ -44,14 +44,14 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 - # PHASE-7-GOALS.md → updated to reflect progress
 
 ## Success Metrics (updated)
-- Trigger chain between Twitter bot and Hermes dashboard is now defined
-- Ready for Grok to demonstrate live orchestration in tests
+- Trigger chain between Twitter bot and Hermes dashboard is now defined and live in YAML
+- Basic orchestration foundation is ready for testing
 
-## Next Step
-We can either:
-- Update discord-ai-mod with a trigger example, or
-- Enhance the dashboard UI further, or
-- Test the current trigger setup
+## Next Possible Steps
+- Update discord-ai-mod with a trigger example (optional)
+- Enhance my-agents.html with trigger configuration UI
+- Run first live orchestration test with Grok
+- Add safety/permission layer
 
 Built live with @JanSol0s (Jani) & Grok.  
 Keep it clean, calm, and precise.
