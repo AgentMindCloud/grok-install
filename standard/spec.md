@@ -1,6 +1,6 @@
 # grok-install Specification (v2.3)
-## Phase 7 Update – Multi-Agent Orchestration
-This spec now supports linking multiple agents into coordinated workflows with triggers.
+## Phase 7 Update – Multi-Agent Orchestration + Safety Layer
+This spec now supports linking multiple agents into coordinated workflows with triggers **and** built-in safety controls.
 
 ## Overview
 `grok-install.yaml` is the open standard that lets any developer make their AI agent installable with one click on X using Grok.
@@ -45,7 +45,7 @@ deploy:
     TELEGRAM_TOKEN: "Ask the user for their Telegram bot token"
     GROK_API_KEY: "Ask the user for their xAI/Grok API key"
 
-# Safety & Trust (unchanged)
+# Safety & Trust (base layer – unchanged)
 security:
   verified_by_grok: true
   safety_checklist: true
@@ -71,17 +71,24 @@ orchestration:
   role: "dashboard"                # e.g. "listener", "actor", "dashboard", "moderator"
   can_trigger: ["twitter-bot"]
   can_be_triggered_by: ["reply-bot"]
-  # NEW: Triggers section
+  # Triggers section
   triggers:
-    - event: "mention"             # event from another agent
-      action: "update_dashboard"   # action this agent performs
-      target_agents: ["hermes"]    # optional: specific agents
+    - event: "mention"
+      action: "update_dashboard"
+      target_agents: ["hermes"]
     - event: "new_message"
       action: "moderate"
+
+  # NEW: Safety & Control Layer for Multi-Agent Orchestration
+  safety:
+    permission_check: true         # Grok automatically checks permissions before any cross-agent action
+    approval_required: true        # User must approve each new connection or sensitive trigger
+    verified_orchestration: true   # Shows “Verified Orchestration” badge after Grok safety scan
 How Orchestration Works
 
 orchestration.enabled: true allows Grok to link this agent with others
-The triggers array defines automatic reactions to events from linked agents
+The triggers array defines automatic reactions
+The new safety block enforces permission checks and user approval before any cross-agent action
 Use command @grok orchestrate my agents to create and manage connections
 Visual flow map appears in the private my-agents.html dashboard
 
@@ -95,4 +102,3 @@ After installing multiple agents, try @grok orchestrate my agents
 Built live with @JanSol0s (Jani) & Grok.
 Keep it clean, calm, and precise.
 Last updated: April 2026
-text
