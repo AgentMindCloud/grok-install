@@ -10,13 +10,13 @@ repository: "https://github.com/AgentMindCloud/twitter-reply-bot"
 update_strategy: "semver"
 preferred_deploy: ["railway", "vercel", "fly"]
 
-# Passive Growth Engine (Phase 5)
+# Passive Growth Engine
 promotion:
   auto_welcome: true
   share_installs: true
   weekly_highlight: true
 
-# Deployment + Multi-LLM Support (new)
+# Multi-LLM Support
 deploy:
   target: "railway"
   env:
@@ -41,10 +41,6 @@ prompts:
   - key: "X_API_SECRET"
     message: "Please paste your X API secret:"
 
-error_handlers:
-  missing_env: "Looks like a required key is missing. Want me to guide you again?"
-  invalid_key: "That key doesn't look right. Let's try entering it again."
-
 on_install:
   welcome: "✅ Smart Twitter Reply Bot is now live! It will reply to mentions using your chosen LLM (Grok, OpenAI or Claude)."
   suggested_commands:
@@ -56,5 +52,5 @@ on_install:
 security:
   verified_by_grok: true
 
-# Marketplace & User Experience (Phase 6)
+# Marketplace & User Experience
 shareable_card: true
