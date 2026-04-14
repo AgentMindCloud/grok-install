@@ -1,60 +1,55 @@
-version: "2.4"
+version: "2.9"
 name: "Smart Twitter Reply Bot"
-description: "Intelligent auto-replies to mentions using Grok + OpenAI + Claude"
+description: "Intelligent replies to mentions that trigger other agents"
 repository: "https://github.com/AgentMindCloud/twitter-reply-bot"
 category: "twitter"
-tags: ["reply-bot", "automation", "multi-llm", "trigger-source"]
+tags: ["reply-bot", "automation", "social", "orchestration"]
 featured: true
-ecosystem: ["grok", "x"]
+ecosystem: ["grok", "x", "twitter"]
 
-llm:                          # ← NEW optional section (multi-LLM, fully backwards compatible)
-  provider: "xai"             # default = "xai" | "openai" | "anthropic" | "ollama" | "custom"
-  model: "grok-4"             # default model suggestion
-  api_key_env: "GROK_API_KEY" # tells guided install which secret to ask for
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
 
-# Passive Growth Engine
-promotion:
-  auto_welcome: true
-  share_installs: true
-  weekly_highlight: true
-# Deployment
-mode: "simple"
-preferred_deploy: ["railway", "render", "fly", "local"]
+# Analytics & Insights
+analytics:
+  enabled: true
+  public_insights: true
+
+# Advanced Discovery
+discovery:
+  verified_orchestration: true
+
+# Multi-Agent Orchestration (Phase 7 + Phase 8)
+orchestration:
+  enabled: true
+  role: "listener"                    # This bot listens and triggers others
+  can_trigger: ["hermes"]
+  can_be_triggered_by: []
+  triggers:
+    - event: "mention"                # When someone mentions the bot on X
+      action: "forward_to_dashboard"
+      target_agents: ["hermes"]
+  safety:
+    permission_check: true
+    approval_required: true
+    verified_orchestration: true
+
+# Environment variables (Grok asks privately)
 deploy:
   env:
     X_API_KEY: "Ask the user for their X API key"
-# Safety & Trust
-security:
-  verified_by_grok: true
-  safety_checklist: true
-# Developer Experience
-update_strategy: "semver"
-auto_generate: true
-# Marketplace & User Experience
-shareable_card: true
-on_install:
-  welcome_message: "Thank you for installing the Smart Twitter Reply Bot! Your bot is now live and ready to reply."
-# Community Self-Management
-community:
-  onboard: true
-  voting_enabled: true
-  moderation_level: "standard"
-# Multi-Agent Orchestration (Phase 7)
-orchestration:
-  enabled: true
-  role: "reply-bot"
-  can_trigger: ["telegram", "discord"]
-  can_be_triggered_by: []
-  triggers:
-    - event: "mention"
-      action: "generate_reply"
-      target_agents: ["hermes", "discord-mod"]
-    - event: "new_follower"
-      action: "welcome_message"
+    GROK_API_KEY: "Ask the user for their Grok API key"
 
+# Deployment targets
+preferred_deploy: ["railway", "render", "fly", "local"]
+mode: "simple"
+
+# Credits (strongly recommended)
 credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.4"
+  version: "2.9"
   message: "Powered by grok-install open standard"
