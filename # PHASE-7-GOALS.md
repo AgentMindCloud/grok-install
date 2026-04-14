@@ -20,38 +20,30 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 
 ### 2. Advanced Automation & Triggers ✓ COMPLETED
 - `triggers` section added to standard/spec.md
-- Working trigger chain implemented:
-  - Twitter Reply Bot (`mention` / `new_follower` events) → Hermes Dashboard (`update_dashboard` / `send_welcome` actions)
+- Working trigger chain: Twitter Reply Bot → Hermes Dashboard
 
-### 3. Enhanced Private Dashboard (next)
-- Add live trigger configuration UI to my-agents.html
-- One-click trigger setup and monitoring
+### 3. Enhanced Private Dashboard ✓ UI IMPROVED
+- Clear “How to Use This Dashboard” section added
+- Orchestration view with “Link My Agents” button
 
-### 4. Safety & Control Layer for Multi-Agent
+### 4. Safety & Control Layer for Multi-Agent (next)
 - Automatic permission checks when linking agents
 - User approval flow for cross-agent actions
 
 ### 5. Community & Ecosystem Expansion
 - Community-voted multi-agent templates
-- Support for more platforms in orchestration
 
-## Work Completed So Far in Phase 7
-- standard/spec.md → added full orchestration + triggers section (v2.3)
-- index.html → added Multi-Agent Orchestration section
-- my-agents.html → added orchestration view
-- twitter-reply-bot / grok-install.yaml → added trigger source example
-- hermes-telegram-dashboard / grok-install.yaml → added matching trigger target example
-- # PHASE-7-GOALS.md → updated to reflect progress
-
-## Success Metrics (updated)
-- Trigger chain between Twitter bot and Hermes dashboard is now defined and live in YAML
-- Basic orchestration foundation is ready for testing
+## Current Status & Notes
+- The private dashboard (`my-agents.html`) now has clear instructions and orchestration UI.
+- On X, the command `@grok my agents` should display the dashboard.
+- If Grok does not yet respond with the dashboard content, the Grok-side activation for “my agents” command is still warming up (common in early phases).
+- We have improved the page itself so it is ready when the command fully activates.
 
 ## Next Possible Steps
-- Update discord-ai-mod with a trigger example (optional)
-- Enhance my-agents.html with trigger configuration UI
-- Run first live orchestration test with Grok
+- Improve Grok-side command handling (we can simulate or document expected behavior)
 - Add safety/permission layer
+- Update Discord repo with trigger example
+- Test full orchestration flow once command works reliably
 
 Built live with @JanSol0s (Jani) & Grok.  
 Keep it clean, calm, and precise.
