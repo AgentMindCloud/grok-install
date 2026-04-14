@@ -20,7 +20,7 @@
     <div class="max-w-5xl mx-auto px-6 text-center">
       <div class="inline-flex items-center gap-3 mb-6 glass px-6 py-2 rounded-3xl text-sm">
         <i class="fa-solid fa-bolt text-[#1DA1F2]"></i>
-        <span class="text-zinc-300">v2.6 • Phase 8: Marketplace Maturity</span>
+        <span class="text-zinc-300">v2.9 • Phase 8: Developer Experience Polish</span>
       </div>
       <h1 class="text-7xl font-bold tracking-tighter hero-glow mb-6">grok-install</h1>
       <p class="text-3xl text-zinc-300 max-w-2xl mx-auto mb-10">
@@ -29,24 +29,24 @@
     </div>
   </div>
 
-  <!-- What's New v2.6 -->
+  <!-- What's New v2.9 -->
   <div class="max-w-5xl mx-auto px-6 py-12">
     <div class="glass rounded-3xl p-8">
-      <h2 class="text-4xl font-semibold mb-6 text-center">✦ What’s New in v2.6</h2>
+      <h2 class="text-4xl font-semibold mb-6 text-center">✦ What’s New in v2.9</h2>
       <div class="grid md:grid-cols-2 gap-8">
         <div>
-          <h3 class="text-xl font-semibold mb-3">Curated Community Templates Gallery</h3>
-          <p class="text-zinc-400 text-sm">Expanded gallery with filtering and Verified Orchestration badges.</p>
+          <h3 class="text-xl font-semibold mb-3">Auto-update all my agents</h3>
+          <p class="text-zinc-400 text-sm">One command updates every installed agent instantly.</p>
         </div>
         <div>
-          <h3 class="text-xl font-semibold mb-3">Advanced Discovery</h3>
-          <p class="text-zinc-400 text-sm">New search & filtering inside Grok (@grok show me agents that use Tesla API).</p>
+          <h3 class="text-xl font-semibold mb-3">Template generator</h3>
+          <p class="text-zinc-400 text-sm">@grok generate template orchestration – ready-made patterns.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Grok Commands Reference (unchanged from v2.5) -->
+  <!-- Grok Commands Reference (updated for Goal 6) -->
   <div class="max-w-5xl mx-auto px-6 py-16">
     <h2 class="text-4xl font-semibold mb-8 text-center">Grok Commands Reference</h2>
     <p class="text-zinc-400 text-center mb-12">All official grok-install commands. Copy and use on X.</p>
@@ -65,25 +65,37 @@
             <td class="py-4"><code>@grok my agents</code></td>
             <td class="py-4"><code>@grok my agents</code></td>
             <td class="py-4">Shows your private dashboard with installed agents, orchestration view, and share cards</td>
-            <td class="py-4">If you see placeholder agents, the command is still warming up — try <code>@grok show my agents</code></td>
+            <td class="py-4">If you see placeholder agents, try <code>@grok show my agents</code></td>
           </tr>
           <tr class="border-b border-zinc-700">
             <td class="py-4"><code>@grok show me [category] agents</code></td>
             <td class="py-4"><code>@grok show me telegram agents</code></td>
-            <td class="py-4">Browse marketplace agents by category (telegram, discord, twitter, etc.)</td>
+            <td class="py-4">Browse marketplace agents by category</td>
             <td class="py-4">Add <code>category</code> and <code>tags</code> to your YAML</td>
           </tr>
           <tr class="border-b border-zinc-700">
             <td class="py-4"><code>@grok show me agents that use [API]</code></td>
             <td class="py-4"><code>@grok show me agents that use Tesla API</code></td>
-            <td class="py-4">Advanced filtered search (new in v2.6)</td>
-            <td class="py-4">Add <code>tags</code> like "tesla" to your YAML</td>
+            <td class="py-4">Advanced filtered search</td>
+            <td class="py-4">Add matching <code>tags</code> to your YAML</td>
           </tr>
           <tr class="border-b border-zinc-700">
             <td class="py-4"><code>@grok orchestrate my agents</code></td>
             <td class="py-4"><code>@grok orchestrate my agents</code></td>
             <td class="py-4">View and create connections between your agents</td>
-            <td class="py-4">Requires agents with <code>orchestration.enabled: true</code></td>
+            <td class="py-4">Requires <code>orchestration.enabled: true</code></td>
+          </tr>
+          <tr class="border-b border-zinc-700">
+            <td class="py-4"><code>@grok update all my agents</code></td>
+            <td class="py-4"><code>@grok update all my agents</code></td>
+            <td class="py-4">One command updates every installed agent (new in v2.9)</td>
+            <td class="py-4">Works on all agents with valid grok-install.yaml</td>
+          </tr>
+          <tr class="border-b border-zinc-700">
+            <td class="py-4"><code>@grok generate template [pattern]</code></td>
+            <td class="py-4"><code>@grok generate template orchestration</code></td>
+            <td class="py-4">Grok creates ready-to-use orchestration templates (new in v2.9)</td>
+            <td class="py-4">Reply to your repo link</td>
           </tr>
           <tr>
             <td class="py-4"><code>@grok install this</code></td>
@@ -96,7 +108,7 @@
     </div>
   </div>
 
-  <!-- Curated Community Templates Gallery (enhanced for Goal 2) -->
+  <!-- Curated Community Templates Gallery (unchanged) -->
   <div class="max-w-5xl mx-auto px-6 py-16 bg-zinc-950">
     <h2 class="text-4xl font-semibold mb-8 text-center">Curated Community Templates</h2>
     <p class="text-zinc-400 text-center mb-12">Ready-to-use, community-voted multi-agent orchestration templates with Verified Orchestration badges</p>
@@ -121,7 +133,7 @@
     </div>
   </div>
 
-  <!-- Advanced Discovery (new for Goal 2) -->
+  <!-- Advanced Discovery (unchanged) -->
   <div class="max-w-5xl mx-auto px-6 py-16">
     <h2 class="text-4xl font-semibold mb-8 text-center">Advanced Discovery</h2>
     <p class="text-zinc-400 text-center mb-12">Find exactly the agents you need with smart filtering inside Grok</p>
@@ -136,28 +148,53 @@
     </div>
   </div>
 
-  <!-- Marketplace Insights (kept from v2.5) -->
+  <!-- Marketplace Insights (unchanged) -->
   <div class="max-w-5xl mx-auto px-6 py-16">
     <h2 class="text-4xl font-semibold mb-8 text-center">📊 Marketplace Insights</h2>
     <p class="text-zinc-400 text-center mb-12">Live data from all grok-install agents • Updated in real-time by Grok</p>
-    <!-- (your existing Insights grid from v2.5 remains unchanged) -->
     <div class="grid md:grid-cols-3 gap-8">
       <!-- Top Agents, Growth Trends, Most-used Triggers – unchanged from previous version -->
     </div>
   </div>
 
-  <!-- Premium bottom cards (unchanged) -->
+  <!-- Premium bottom cards (Developer Experience Polish – v2.9) -->
   <div class="max-w-5xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
-    <!-- your original 3 cards – unchanged -->
+    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
+      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-store"></i> Public Agent Marketplace</h3>
+      <p class="text-zinc-400">Now live in Grok with browse commands and dynamic Featured section.</p>
+    </a>
+    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
+      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-users"></i> Community Hub – Self-Management</h3>
+      <p class="text-zinc-400">Builders and users run the platform together.</p>
+    </a>
+    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
+      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-link"></i> Multi-Agent Orchestration (Phase 7)</h3>
+      <p class="text-zinc-400">Link multiple agents into smart workflows. Grok coordinates them automatically.</p>
+    </a>
+  </div>
+  
+<!-- Developer Experience Tools (new for Goal 6) -->
+  <div class="max-w-5xl mx-auto px-6 py-16 bg-zinc-950">
+    <h2 class="text-4xl font-semibold mb-8 text-center">Developer Experience Tools</h2>
+    <p class="text-zinc-400 text-center mb-12">Built for speed and simplicity</p>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="glass rounded-3xl p-8 card-hover">
+        <h3 class="text-xl font-semibold mb-3">Auto-update all agents</h3>
+        <p class="text-zinc-400">One message updates every installed agent instantly.</p>
+      </div>
+      <div class="glass rounded-3xl p-8 card-hover">
+        <h3 class="text-xl font-semibold mb-3">Template generator</h3>
+        <p class="text-zinc-400">@grok generate template orchestration – instant ready-to-use patterns.</p>
+      </div>
+      <div class="glass rounded-3xl p-8 card-hover">
+        <h3 class="text-xl font-semibold mb-3">Smart error recovery</h3>
+        <p class="text-zinc-400">Grok now suggests fixes and retry buttons automatically.</p>
+      </div>
+    </div>
   </div>
 
-  <!-- remaining sections (How it works, Live demo agents, Phase 7, footer) exactly as before -->
-  <!-- How it works -->
-  <h2 class="text-4xl font-semibold mb-12 text-center mt-20">How to add it in under 5 minutes</h2>
-  <!-- ... rest of your original file unchanged from here ... -->
-
   <div class="text-center py-16 border-t border-zinc-800 mt-20">
-    <p class="text-zinc-400">Made with ❤️ for the X AI community • By @JanSol0s (Jani) • Built live with Grok • v2.5 (April 2026)</p>
+    <p class="text-zinc-400">Made with ❤️ for the X AI community • By @JanSol0s (Jani) • Built live with Grok • v2.9 (April 2026)</p>
   </div>
 </body>
 </html>
