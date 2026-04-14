@@ -26,22 +26,25 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 - Clear “How to Use” section + fallback message added
 - Dashboard now explains the current placeholder situation from Grok
 
-### 4. Safety & Control Layer for Multi-Agent (next)
+### 4. Improve Command Documentation ✓ JUST COMPLETED
+- Full Grok Commands Reference table added to index.html
+- Clear examples, troubleshooting, and usage instructions for all commands
+
+### 5. Safety & Control Layer for Multi-Agent (next)
 - Automatic permission checks when linking agents
 - User approval flow for cross-agent actions
 
-### 5. Community & Ecosystem Expansion
+### 6. Community & Ecosystem Expansion
 - Community-voted multi-agent templates
 
 ## Current Status
-- Trigger chain between Twitter bot and Hermes is defined
-- Dashboard has clear instructions and fallback explanation
-- GitHub Copilot review is not needed at this stage (we agree to keep history clean)
+- Command documentation is now complete and public on the docs site
+- Trigger chain and dashboard UI are ready
+- Grok-side “my agents” command still shows placeholder (we have documented it)
 
-## Next Possible Steps (pick one)
-- Add trigger example to discord-ai-mod repo
-- Add safety/permission layer to the orchestration section
-- Improve Grok-side command handling documentation
+## Next Possible Steps
+- Add trigger example to discord-ai-mod
+- Add safety/permission layer to orchestration
 - Test the current trigger setup
 
 Built live with @JanSol0s (Jani) & Grok.  
