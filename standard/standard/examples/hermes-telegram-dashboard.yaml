@@ -1,34 +1,63 @@
-version: "2.0"
-mode: "simple"
+version: "2.4"
 name: "Hermes Telegram Dashboard"
-description: "AI-powered admin dashboard for Telegram group management (X-first)"
+description: "AI-powered community management dashboard for Telegram groups"
+repository: "https://github.com/AgentMindCloud/hermes-telegram-dashboard"
 category: "telegram"
-tags: ["dashboard", "community", "moderation"]
-ecosystem: null
-repository: "https://github.com/AgentMindCloud/grok-install"
-update_strategy: "semver"
-preferred_deploy: ["railway", "vercel", "fly"]
+tags: ["community", "dashboard", "moderation", "trigger-target"]
+featured: true
+ecosystem: ["grok", "x", "telegram"]
+
+llm:                          # ← NEW optional section (multi-LLM, fully backwards compatible)
+  provider: "xai"             # default = "xai" | "openai" | "anthropic" | "ollama" | "custom"
+  model: "grok-4"             # default model suggestion
+  api_key_env: "GROK_API_KEY" # tells guided install which secret to ask for
+
+# Passive Growth Engine
+promotion:
+  auto_welcome: true
+  share_installs: true
+  weekly_highlight: true
+# Deployment
+mode: "simple"
+preferred_deploy: ["railway", "render", "fly", "local"]
 deploy:
-  target: "railway"
   env:
     TELEGRAM_TOKEN: "Ask the user for their Telegram bot token"
-    X_API_KEY: "Ask the user for their X API key"
-    GROK_API_KEY: "Ask the user for their Grok API key"
-prompts:
-  - key: "TELEGRAM_TOKEN"
-    message: "Please paste your Telegram bot token:"
-  - key: "X_API_KEY"
-    message: "Please paste your X API key:"
-  - key: "GROK_API_KEY"
-    message: "Please paste your Grok API key:"
-error_handlers:
-  missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
-  invalid_key: "That API key doesn't look right. Let's try entering it again."
-  deployment_failed: "Deployment hit a snag. Want me to try again?"
+    GROK_API_KEY: "Ask the user for their xAI/Grok API key"
+    OPENAI_API_KEY: "Ask the user for their OpenAI API key (optional)"
+    CLAUDE_API_KEY: "Ask the user for their Claude API key (optional)"
+# Safety & Trust
+security:
+  verified_by_grok: true
+  safety_checklist: true
+# Developer Experience
+update_strategy: "semver"
+auto_generate: true
+# Marketplace & User Experience
+shareable_card: true
 on_install:
-  welcome: "Welcome to Hermes Telegram Dashboard! Your agent is now live at the URL Grok just gave you."
-  suggested_commands:
-    - "/status"
-    - "/help"
-    - "/dashboard"
-  share_card: true
+  welcome_message: "Thank you for installing Hermes! Your dashboard is now live."
+# Community Self-Management
+community:
+  onboard: true
+  voting_enabled: true
+  moderation_level: "standard"
+# Multi-Agent Orchestration (Phase 7)
+orchestration:
+  enabled: true
+  role: "dashboard"
+  can_trigger: ["discord"]
+  can_be_triggered_by: ["twitter"]
+  triggers:
+    - event: "mention" # triggered by Twitter Reply Bot
+      action: "update_dashboard"
+      target_agents: ["hermes"]
+    - event: "new_member"
+      action: "send_welcome"
+
+credits:
+  standard: "grok-install"
+  author: "@JanSol0s"
+  url: "https://github.com/AgentMindCloud/grok-install"
+  version: "2.4"
+  message: "Powered by grok-install open standard"
