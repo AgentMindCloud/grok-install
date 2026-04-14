@@ -15,33 +15,26 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 ## Phase 7 Goals (in priority order)
 
 ### 1. Multi-Agent Orchestration ✓ COMPLETED
-- `orchestration` block added to spec
-- Visual flow map added to my-agents.html
-
 ### 2. Advanced Automation & Triggers ✓ COMPLETED
-- `triggers` section added to standard/spec.md
-- Full trigger chain across all three demos:
-  - Twitter Reply Bot → Hermes Dashboard → Discord AI Moderator
-
 ### 3. Enhanced Private Dashboard ✓ UI IMPROVED
-- Clear instructions + fallback message added
-
 ### 4. Improve Command Documentation ✓ COMPLETED
-- Full Grok Commands Reference table added to index.html
-
-### 5. Safety & Control Layer for Multi-Agent (next)
+### 5. Safety & Control Layer for Multi-Agent (next priority)
 - Automatic permission checks when linking agents
 - User approval flow for cross-agent actions
+- “Verified Orchestration” badge
+
+### 6. Community & Ecosystem Expansion
+- Community-voted multi-agent templates
 
 ## Current Status
-- All three demo repos (twitter-reply-bot, hermes-telegram-dashboard, discord-ai-mod) now contain working `orchestration` + `triggers` blocks
-- Command documentation is public and clear
-- Ready for safety layer or live testing
+- Full trigger chain live across all three demo repos
+- Dashboard and command documentation improved
+- Next: Safety & Control Layer (protects users when agents interact)
 
 ## Next Possible Steps
-- Add safety/permission layer to spec
-- Enhance dashboard with live trigger UI
-- Run first live orchestration test
+- Add safety/permission section to standard/spec.md
+- Update dashboard with approval UI
+- Test orchestration flow
 
 Built live with @JanSol0s (Jani) & Grok.  
 Keep it clean, calm, and precise.
