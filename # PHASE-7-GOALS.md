@@ -15,18 +15,17 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 ## Phase 7 Goals (in priority order)
 
 ### 1. Multi-Agent Orchestration ✓ COMPLETED
-- New `orchestration` block added to standard/spec.md
+- `orchestration` block added to spec
 - Visual flow map added to my-agents.html
-- Basic linking and connection map live
 
-### 2. Advanced Automation & Triggers ✓ JUST ADDED
-- New `triggers` section added to standard/spec.md
-- Agents can now define automatic reactions to events from other agents
-- Grok will handle safe event routing
+### 2. Advanced Automation & Triggers ✓ COMPLETED
+- `triggers` section added to standard/spec.md
+- Working trigger example added:
+  - Twitter Reply Bot (`mention` event) → Hermes Dashboard (`update_dashboard` action)
 
 ### 3. Enhanced Private Dashboard (next)
-- Further expand my-agents.html with live trigger configuration
-- One-click trigger setup UI
+- Further expand my-agents.html with live trigger configuration UI
+- One-click trigger setup
 
 ### 4. Safety & Control Layer for Multi-Agent
 - Automatic permission checks when linking agents
@@ -39,16 +38,20 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 ## Work Completed So Far in Phase 7
 - standard/spec.md → added full orchestration + triggers section (v2.3)
 - index.html → added Multi-Agent Orchestration section
-- my-agents.html → added orchestration view with connection map and “Link agents” button
+- my-agents.html → added orchestration view
+- twitter-reply-bot / grok-install.yaml → added trigger source example
+- hermes-telegram-dashboard / grok-install.yaml → added matching trigger target example
 - # PHASE-7-GOALS.md → updated to reflect progress
 
 ## Success Metrics (updated)
-- Orchestration fields and triggers live in spec
-- UI for connections live in dashboard
-- Ready for first demo with real triggers
+- Trigger chain between Twitter bot and Hermes dashboard is now defined
+- Ready for Grok to demonstrate live orchestration in tests
 
 ## Next Step
-We will pick one demo repo and add a working `triggers` example + basic orchestration setup.
+We can either:
+- Update discord-ai-mod with a trigger example, or
+- Enhance the dashboard UI further, or
+- Test the current trigger setup
 
 Built live with @JanSol0s (Jani) & Grok.  
 Keep it clean, calm, and precise.
