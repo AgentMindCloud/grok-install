@@ -1,34 +1,62 @@
-version: "2.0"
-mode: "simple"
+version: "2.4"
 name: "Discord AI Moderator"
-description: "Friendly AI moderator that helps manage your Discord server (X-first)"
+description: "Friendly AI moderator for Discord servers with Grok + multi-LLM support"
+repository: "https://github.com/AgentMindCloud/discord-ai-mod"
 category: "discord"
-tags: ["moderation", "community", "ai-helper"]
-ecosystem: null
-repository: "https://github.com/AgentMindCloud/grok-install"
-update_strategy: "semver"
-preferred_deploy: ["railway", "vercel", "fly"]
+tags: ["moderation", "community", "ai-moderator", "trigger-target"]
+featured: true
+ecosystem: ["grok", "x", "discord"]
+
+llm:                          # ← NEW optional section (multi-LLM, fully backwards compatible)
+  provider: "xai"             # default = "xai" | "openai" | "anthropic" | "ollama" | "custom"
+  model: "grok-4"             # default model suggestion
+  api_key_env: "GROK_API_KEY" # tells guided install which secret to ask for
+
+# Passive Growth Engine
+promotion:
+  auto_welcome: true
+  share_installs: true
+  weekly_highlight: true
+# Deployment
+mode: "simple"
+preferred_deploy: ["railway", "render", "fly", "local"]
 deploy:
-  target: "railway"
   env:
     DISCORD_TOKEN: "Ask the user for their Discord bot token"
-    X_API_KEY: "Ask the user for their X API key"
-    GROK_API_KEY: "Ask the user for their Grok API key"
-prompts:
-  - key: "DISCORD_TOKEN"
-    message: "Please paste your Discord bot token:"
-  - key: "X_API_KEY"
-    message: "Please paste your X API key:"
-  - key: "GROK_API_KEY"
-    message: "Please paste your Grok API key:"
-error_handlers:
-  missing_env: "Oops! Looks like you forgot to provide the X API key. Want me to guide you again?"
-  invalid_key: "That API key doesn't look right. Let's try entering it again."
-  deployment_failed: "Deployment hit a snag. Want me to try again?"
+    GROK_API_KEY: "Ask the user for their xAI/Grok API key"
+    OPENAI_API_KEY: "Ask the user for their OpenAI API key (optional)"
+# Safety & Trust
+security:
+  verified_by_grok: true
+  safety_checklist: true
+# Developer Experience
+update_strategy: "semver"
+auto_generate: true
+# Marketplace & User Experience
+shareable_card: true
 on_install:
-  welcome: "Welcome to Discord AI Moderator! Your agent is now live and ready to help manage your server."
-  suggested_commands:
-    - "/status"
-    - "/moderation"
-    - "/help"
-  share_card: true
+  welcome_message: "Thank you for installing the Discord AI Moderator! Your bot is now live and protecting your server."
+# Community Self-Management
+community:
+  onboard: true
+  voting_enabled: true
+  moderation_level: "standard"
+# Multi-Agent Orchestration (Phase 7)
+orchestration:
+  enabled: true
+  role: "moderator"
+  can_trigger: ["telegram"]
+  can_be_triggered_by: ["twitter", "hermes"]
+  triggers:
+    - event: "new_message" # triggered by other agents
+      action: "moderate_content"
+      target_agents: ["hermes"]
+    - event: "mention"
+      action: "alert_moderator"
+
+credits:
+  standard: "grok-install"
+  author: "@JanSol0s"
+  url: "https://github.com/AgentMindCloud/grok-install"
+  version: "2.4"
+  message: "Powered by grok-install open standard"
