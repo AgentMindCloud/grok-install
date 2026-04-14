@@ -1,10 +1,10 @@
 # grok-install Specification (v2.3)
 ## Phase 7 Update – Multi-Agent Orchestration
-This spec now supports linking multiple agents into coordinated workflows.
+This spec now supports linking multiple agents into coordinated workflows with triggers.
 
 ## Overview
 `grok-install.yaml` is the open standard that lets any developer make their AI agent installable with one click on X using Grok.
-Version 2.3 (April 2026) adds support for multi-agent orchestration while keeping full backward compatibility with v2.2.
+Version 2.3 (April 2026) adds full multi-agent orchestration while keeping full backward compatibility with v2.2.
 
 ## File Location
 Must be placed at the root of your public GitHub repository: `grok-install.yaml`
@@ -24,12 +24,12 @@ version: "2.3"
 name: "My Awesome Agent"
 description: "Short clear description"
 repository: "https://github.com/yourname/my-agent"
-category: "telegram" # telegram | discord | twitter | web | general
+category: "telegram"
 tags: ["ai", "dashboard", "community"]
 featured: true
 ecosystem: ["grok", "x", "tesla"]
 
-# Passive Growth Engine (unchanged from v2.2)
+# Passive Growth Engine (unchanged)
 promotion:
   auto_welcome: true
   share_installs: true
@@ -37,7 +37,7 @@ promotion:
 
 # Deployment (unchanged)
 preferred_deploy: ["railway", "render", "fly", "local"]
-mode: "simple" # "simple" or "advanced"
+mode: "simple"
 
 # Environment & Prompts (Grok asks privately)
 deploy:
@@ -65,21 +65,25 @@ community:
   voting_enabled: true
   moderation_level: "standard"
 
-# NEW: Multi-Agent Orchestration (Phase 7)
+# Multi-Agent Orchestration (Phase 7)
 orchestration:
-  enabled: true                    # set to true to allow this agent to join workflows
+  enabled: true
   role: "dashboard"                # e.g. "listener", "actor", "dashboard", "moderator"
-  can_trigger: ["twitter-bot"]     # list of agent categories this can trigger
+  can_trigger: ["twitter-bot"]
   can_be_triggered_by: ["reply-bot"]
+  # NEW: Triggers section
   triggers:
-    - event: "mention"
-      action: "update_dashboard"
+    - event: "mention"             # event from another agent
+      action: "update_dashboard"   # action this agent performs
+      target_agents: ["hermes"]    # optional: specific agents
+    - event: "new_message"
+      action: "moderate"
 How Orchestration Works
 
 orchestration.enabled: true allows Grok to link this agent with others
-Use command @grok orchestrate my agents to see and create connections
-Grok handles safe handoff and routing between linked agents
-Visual flow appears in the private my-agents.html dashboard
+The triggers array defines automatic reactions to events from linked agents
+Use command @grok orchestrate my agents to create and manage connections
+Visual flow map appears in the private my-agents.html dashboard
 
 Backward Compatibility
 All v2.2 files continue to work unchanged.
@@ -87,8 +91,8 @@ Only agents that set orchestration.enabled: true gain the new capabilities.
 Next Steps for Developers
 Add this file to your repo root
 Commit & push
-Post your repo link on X — Grok will detect it automatically
-Try @grok orchestrate my agents after installing multiple agents
+After installing multiple agents, try @grok orchestrate my agents
 Built live with @JanSol0s (Jani) & Grok.
 Keep it clean, calm, and precise.
 Last updated: April 2026
+text
