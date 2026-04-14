@@ -1,4 +1,4 @@
-grok-install Specification (v2.5)
+grok-install Specification (v2.6)
 
 Overview
 grok-install.yaml is the open standard that lets any developer make their AI agent installable with one click on X using Grok.
@@ -8,71 +8,39 @@ Must be placed at the root of your public GitHub repository:
 `grok-install.yaml`
 
 Version
-Current version: 2.5
+Current version: 2.6
 
-New in v2.5
-- Public Marketplace Insights page (live top agents, growth trends, most-used triggers)  
-- Private per-agent analytics dashboard (installs, usage, retention, trigger success rate)  
-- Auto-generated weekly reports sent via Grok DM to builders
+New in v2.6
+- Curated Community Templates gallery with Verified Orchestration badges  
+- Advanced search & filtering inside Grok (@grok show me agents that use Tesla API)  
+- “Verified Orchestration” badge for safely linked agent groups
 
 Recommended Template (copy-paste ready)
 ```yaml
-version: "2.5"
+version: "2.6"
 name: "My Awesome Agent"
 description: "Short clear description"
 repository: "https://github.com/yourname/my-agent"
 category: "telegram"
-tags: ["ai", "dashboard", "community"]
+tags: ["ai", "dashboard", "community", "tesla"]
 featured: true
 ecosystem: ["grok", "x", "tesla"]
 
-llm:                          # ← RECOMMENDED: Smart LLM section
-  provider: "xai"             # "xai" | "openai" | "anthropic" | "ollama" | "custom"
-  model: "grok-4"             # suggested model for that provider
-  api_key_env: "GROK_API_KEY" # tells Grok exactly which secret to ask for (only one key)
+llm:                          # ← RECOMMENDED
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
 
-# Analytics & Insights (Phase 8 – NEW)
+# Analytics & Insights (Phase 8)
 analytics:
-  enabled: true               # enables private dashboard + weekly reports
-  public_insights: true       # shows this agent in Marketplace Insights
+  enabled: true
+  public_insights: true
 
-# Passive Growth Engine (unchanged)
-promotion:
-  auto_welcome: true
-  share_installs: true
-  weekly_highlight: true
+# Advanced Discovery (Phase 8 Goal 2 – NEW)
+discovery:
+  verified_orchestration: true   # shows “Verified Orchestration” badge
 
-# Deployment (unchanged)
-preferred_deploy: ["railway", "render", "fly", "local"]
-mode: "simple"
-
-# Environment & Prompts (Grok asks privately)
-deploy:
-  env:
-    TELEGRAM_TOKEN: "Ask the user for their Telegram bot token"
-    X_API_KEY: "Ask the user for their X API key (optional)"
-
-# Safety & Trust (unchanged)
-security:
-  verified_by_grok: true
-  safety_checklist: true
-
-# Developer Experience (unchanged)
-update_strategy: "semver"
-auto_generate: true
-
-# Marketplace & User Experience (unchanged)
-shareable_card: true
-on_install:
-  welcome_message: "Thank you for installing! Here are your first commands..."
-
-# Community Self-Management (unchanged)
-community:
-  onboard: true
-  voting_enabled: true
-  moderation_level: "standard"
-
-# Multi-Agent Orchestration (Phase 7 – unchanged)
+# Multi-Agent Orchestration (Phase 7)
 orchestration:
   enabled: true
   role: "dashboard"
@@ -82,28 +50,28 @@ orchestration:
     - event: "mention"
       action: "update_dashboard"
       target_agents: ["hermes"]
-    - event: "new_message"
-      action: "moderate"
   safety:
     permission_check: true
     approval_required: true
     verified_orchestration: true
-How Analytics Works (Phase 8)
+Advanced Discovery (Goal 2)
 
-analytics.enabled: true → gives the builder a private per-agent dashboard (installs, usage, retention, trigger success rate)
-analytics.public_insights: true → includes this agent in the public Marketplace Insights page
-Grok automatically sends weekly reports via DM to every builder
+Use category, tags, and ecosystem in your YAML for better visibility
+@grok show me agents that use Tesla API now works automatically
+discovery.verified_orchestration: true displays the official “Verified Orchestration” badge
 
-Use command @grok my agents to open your private analytics dashboard.
+How Verified Orchestration Works
+Grok runs a safety scan on the orchestration.safety block.
+If all checks pass, the badge appears on shareable cards and in search results.
 Backward Compatibility
-All v2.4 files continue to work unchanged.
-Only agents that set analytics.enabled: true gain the new analytics features.
+All v2.5 files continue to work unchanged.
+Only agents that set discovery.verified_orchestration: true or use advanced tags gain the new discovery features.
 Credits (strongly recommended)
 YAMLcredits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.5"
+  version: "2.6"
   message: "Powered by grok-install open standard"
 Built live with @JanSol0s (Jani) & Grok.
 Keep it clean, calm, and precise.
