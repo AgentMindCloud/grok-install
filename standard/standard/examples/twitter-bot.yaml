@@ -1,56 +1,60 @@
-version: "2.2"
-mode: "simple"
+version: "2.4"
 name: "Smart Twitter Reply Bot"
-description: "AI agent that replies to mentions intelligently (X-first) — supports Grok, OpenAI, or Claude"
-category: "twitter"
-tags: ["bot", "reply", "automation", "multi-llm"]
-featured: true
-ecosystem: ["x", "grok"]
+description: "Intelligent auto-replies to mentions using Grok + OpenAI + Claude"
 repository: "https://github.com/AgentMindCloud/twitter-reply-bot"
-update_strategy: "semver"
-preferred_deploy: ["railway", "vercel", "fly"]
+category: "twitter"
+tags: ["reply-bot", "automation", "multi-llm", "trigger-source"]
+featured: true
+ecosystem: ["grok", "x"]
+
+llm:                          # ← NEW optional section (multi-LLM, fully backwards compatible)
+  provider: "xai"             # default = "xai" | "openai" | "anthropic" | "ollama" | "custom"
+  model: "grok-4"             # default model suggestion
+  api_key_env: "GROK_API_KEY" # tells guided install which secret to ask for
 
 # Passive Growth Engine
 promotion:
   auto_welcome: true
   share_installs: true
   weekly_highlight: true
-
-# Multi-LLM Support
+# Deployment
+mode: "simple"
+preferred_deploy: ["railway", "render", "fly", "local"]
 deploy:
-  target: "railway"
   env:
-    LLM_PROVIDER: "Ask the user to choose: grok | openai | claude"
-    GROK_API_KEY: "Ask the user for their Grok/xAI API key (only if using Grok)"
-    OPENAI_API_KEY: "Ask the user for their OpenAI API key (only if using OpenAI)"
-    ANTHROPIC_API_KEY: "Ask the user for their Anthropic/Claude API key (only if using Claude)"
     X_API_KEY: "Ask the user for their X API key"
-    X_API_SECRET: "Ask the user for their X API secret"
-
-prompts:
-  - key: "LLM_PROVIDER"
-    message: "Which LLM should the bot use? (grok / openai / claude)"
-  - key: "GROK_API_KEY"
-    message: "Please paste your Grok/xAI API key:"
-  - key: "OPENAI_API_KEY"
-    message: "Please paste your OpenAI API key:"
-  - key: "ANTHROPIC_API_KEY"
-    message: "Please paste your Anthropic/Claude API key:"
-  - key: "X_API_KEY"
-    message: "Please paste your X API key:"
-  - key: "X_API_SECRET"
-    message: "Please paste your X API secret:"
-
-on_install:
-  welcome: "✅ Smart Twitter Reply Bot is now live! It will reply to mentions using your chosen LLM (Grok, OpenAI or Claude)."
-  suggested_commands:
-    - "/status"
-    - "/tweets"
-    - "/help"
-  share_card: true
-
+# Safety & Trust
 security:
   verified_by_grok: true
-
+  safety_checklist: true
+# Developer Experience
+update_strategy: "semver"
+auto_generate: true
 # Marketplace & User Experience
 shareable_card: true
+on_install:
+  welcome_message: "Thank you for installing the Smart Twitter Reply Bot! Your bot is now live and ready to reply."
+# Community Self-Management
+community:
+  onboard: true
+  voting_enabled: true
+  moderation_level: "standard"
+# Multi-Agent Orchestration (Phase 7)
+orchestration:
+  enabled: true
+  role: "reply-bot"
+  can_trigger: ["telegram", "discord"]
+  can_be_triggered_by: []
+  triggers:
+    - event: "mention"
+      action: "generate_reply"
+      target_agents: ["hermes", "discord-mod"]
+    - event: "new_follower"
+      action: "welcome_message"
+
+credits:
+  standard: "grok-install"
+  author: "@JanSol0s"
+  url: "https://github.com/AgentMindCloud/grok-install"
+  version: "2.4"
+  message: "Powered by grok-install open standard"
