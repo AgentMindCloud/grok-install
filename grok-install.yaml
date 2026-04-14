@@ -1,33 +1,40 @@
-# grok-install v2.1 – Official Template
+# grok-install.yaml – Official Template (v2.4)
 # Copy this file into the root of your repo to make your AI agent one-click installable on X
 
-version: "2.1"
+version: "2.4"
 name: "Your Agent Name"
 description: "One clear sentence describing what your agent does"
 repository: "https://github.com/yourusername/your-repo-name"
-category: "telegram"                  # telegram | twitter | discord | web | other
+category: "telegram"          # telegram | discord | twitter | web | other
 tags: ["ai", "bot", "automation"]
-ecosystem: ["grok", "x"]              # optional but recommended
+featured: false
+ecosystem: ["grok", "x"]
+
+llm:                          # ← Recommended: Smart multi-LLM section (new in v2.4)
+  provider: "xai"             # xai | openai | anthropic | ollama | custom
+  model: "grok-4"             # default model suggestion
+  api_key_env: "GROK_API_KEY" # Grok will ask privately for only this one key
 
 # Deployment settings
+mode: "simple"
+preferred_deploy: ["railway", "vercel", "fly", "render", "local"]
 deploy:
-  target: "railway"
-  preferred_deploy: ["railway", "vercel", "fly", "render", "local"]
+  env:
+    TELEGRAM_BOT_TOKEN: "Ask the user for their Telegram bot token (stays private)"
+    GROK_API_KEY: "Ask the user for their xAI/Grok API key (stays private)"
+    X_API_KEY: "Ask the user for their X API key (optional – stays private)"
 
-# Private guided prompts – secrets stay private with Grok
-prompts:
-  - key: "TELEGRAM_BOT_TOKEN"
-    message: "Please paste your Telegram bot token from @BotFather (this stays private)"
-  - key: "GROK_API_KEY"
-    message: "Please paste your Grok / xAI API key (this stays private)"
-  - key: "X_API_KEY"
-    message: "Please paste your X API key (optional – stays private)"
+# Safety & Trust
+security:
+  verified_by_grok: true
+  safety_checklist: true
 
-# Optional advanced settings
-safety_checklist:
-  - no_hardcoded_secrets
-  - uses_official_sdks
+# Multi-Agent Orchestration (Phase 7)
+orchestration:
+  enabled: false
+  role: "agent"               # e.g. dashboard, moderator, reply-bot, etc.
 
+# Post-install experience
 on_install:
   welcome: "🎉 {{name}} is now LIVE! Type /help for commands."
   suggested_commands:
@@ -36,3 +43,11 @@ on_install:
 
 # Update & maintenance
 update_strategy: "semver"
+
+# Credits – strongly recommended
+credits:
+  standard: "grok-install"
+  author: "@JanSol0s"
+  url: "https://github.com/AgentMindCloud/grok-install"
+  version: "2.4"
+  message: "Powered by grok-install open standard"
