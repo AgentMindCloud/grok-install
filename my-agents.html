@@ -17,7 +17,7 @@
     <i class="fa-solid fa-robot text-[#1DA1F2]"></i>
     My Agents
   </h1>
-  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install v2.2 • Wave 4 Community Self-Management live</p>
+  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install v2.3 • Phase 7 Multi-Agent Orchestration</p>
 
   <!-- Install Counter (unchanged) -->
   <div class="glass rounded-3xl p-8 mb-12 flex justify-between items-center">
@@ -36,7 +36,7 @@
       <i class="fa-solid fa-share-nodes"></i>
       One-tap Shareable Cards
     </h2>
-    <p class="text-zinc-400 mb-6">After a successful install, Grok generates a beautiful shareable card. Anyone who sees it can install with one tap.</p>
+    <p class="text-zinc-400 mb-6">After a successful install, Grok generates a beautiful shareable card.</p>
     <div class="bg-[#0a0a0a] p-6 rounded-2xl border border-[#00f0ff33] flex items-center gap-6">
       <div class="flex-1">
         <strong class="text-xl">Hermes Telegram Dashboard</strong>
@@ -65,74 +65,64 @@
     </div>
   </div>
 
-  <!-- NEW: Builder Self-Management Tools (Wave 4) -->
+  <!-- NEW: Multi-Agent Orchestration View (Phase 7) -->
+  <div class="glass rounded-3xl p-8 mt-12">
+    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
+      <i class="fa-solid fa-link"></i>
+      Multi-Agent Orchestration
+    </h2>
+    <p class="text-zinc-400 mb-8">Link your agents into coordinated workflows. Grok handles safe handoffs and triggers.</p>
+    
+    <div class="bg-[#0a0a0a] p-6 rounded-2xl mb-8">
+      <strong class="flex items-center gap-2 mb-4"><i class="fa-solid fa-project-diagram"></i> Current Connections</strong>
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div class="p-4 border border-[#00f0ff33] rounded-xl">
+          <strong>Twitter Reply Bot</strong> → triggers → <strong>Hermes Dashboard</strong><br>
+          <span class="text-emerald-400 text-xs">Active • Mention → Update Dashboard</span>
+        </div>
+        <div class="p-4 border border-[#00f0ff33] rounded-xl">
+          <strong>Discord AI Moderator</strong> → shares context with → <strong>Hermes Dashboard</strong>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="alert('Orchestration flow opened – link your agents now!')" 
+            class="w-full py-4 bg-[#1DA1F2] text-black font-semibold rounded-3xl flex items-center justify-center gap-3 hover:bg-[#00f0ff]">
+      <i class="fa-solid fa-plus"></i>
+      Link My Agents (Orchestrate)
+    </button>
+    
+    <p class="text-center text-xs text-zinc-500 mt-6">
+      Agents with <code>orchestration.enabled: true</code> in their YAML can be connected here.
+    </p>
+  </div>
+
+  <!-- Community Self-Management Tools (from Wave 4 – unchanged) -->
   <div class="glass rounded-3xl p-8 mt-12">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
       <i class="fa-solid fa-users"></i>
       Community Self-Management Tools
     </h2>
-    <p class="text-zinc-400 mb-8">You now control your part of the platform.</p>
     <div class="grid md:grid-cols-2 gap-6">
       <div class="bg-[#0a0a0a] p-6 rounded-2xl">
         <strong class="flex items-center gap-2"><i class="fa-solid fa-vote-yea"></i> Community Voting</strong>
-        <p class="text-zinc-400 text-sm mt-2">One-click to open voting on next Featured Agents</p>
         <button onclick="alert('Community voting opened – vote now!')" 
                 class="mt-6 w-full py-3 bg-[#1DA1F2] text-black font-semibold rounded-3xl">Open Community Voting</button>
       </div>
       <div class="bg-[#0a0a0a] p-6 rounded-2xl">
         <strong class="flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Moderation Queue</strong>
-        <p class="text-zinc-400 text-sm mt-2">Help review new agents (only 2–3 per week)</p>
         <button onclick="alert('Moderation queue loaded – 3 agents waiting for review')" 
                 class="mt-6 w-full py-3 border border-zinc-400 rounded-3xl">Open Moderation Queue</button>
       </div>
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2"><i class="fa-solid fa-medal"></i> Community Badge Generator</strong>
-        <p class="text-zinc-400 text-sm mt-2">Instant shareable badge for active builders</p>
-        <button onclick="alert('Community badge copied to clipboard')" 
-                class="mt-6 w-full py-3 bg-emerald-400 text-black font-semibold rounded-3xl">Generate My Badge</button>
-      </div>
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2"><i class="fa-solid fa-envelope"></i> Weekly Community Summary</strong>
-        <p class="text-zinc-400 text-sm mt-2">Auto-generated summary for your agents only</p>
-        <button onclick="alert('Weekly summary sent to your X DMs')" 
-                class="mt-6 w-full py-3 border border-zinc-400 rounded-3xl">Send My Weekly Summary</button>
-      </div>
     </div>
-  </div>
-
-  <!-- Featured Agents (unchanged) -->
-  <div class="glass rounded-3xl p-8 mt-12">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-star"></i>
-      Featured Agents
-    </h2>
-    <p class="text-zinc-400 mb-6">Auto-updating inside Grok based on installs and “featured: true” in YAML.</p>
-    <div class="grid md:grid-cols-2 gap-6 text-sm">
-      <div class="bg-[#0a0a0a] p-5 rounded-2xl">Hermes Telegram Dashboard – 184 installs • Featured</div>
-      <div class="bg-[#0a0a0a] p-5 rounded-2xl">Smart Twitter Reply Bot – Trending this week</div>
-    </div>
-  </div>
-
-  <!-- Controlled Adoption Push (unchanged) -->
-  <div class="glass rounded-3xl p-8 mt-12">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-user-plus"></i>
-      Controlled Adoption Push (Wave 2)
-    </h2>
-    <p class="text-zinc-400 mb-6">Smart, targeted growth for high-quality agents only.</p>
-    <ul style="color: #ddd; line-height: 1.6;">
-      <li>Automatic welcome + verification flow for every new repo</li>
-      <li>Builder onboarding guide auto-generated by Grok</li>
-      <li>High-quality growth without manual promotion</li>
-    </ul>
   </div>
 
   <p class="text-xs text-zinc-500 mt-16 text-center">
     This dashboard is private and only visible to you when you type <strong>@grok my agents</strong>.<br>
-    Install counters and community tools update automatically.
+    Orchestration features are now live in v2.3.
   </p>
   <div class="text-center mt-12 text-zinc-400">
-    Built live with @JanSol0s (Jani) & Grok • Phase 6 • Wave 4 completed (Community Self-Management)
+    Built live with @JanSol0s (Jani) & Grok • Phase 7 • Multi-Agent Orchestration
   </div>
 </body>
 </html>
