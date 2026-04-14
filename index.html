@@ -15,13 +15,12 @@
   </style>
 </head>
 <body class="text-white">
-
   <!-- Hero -->
   <div class="relative min-h-[55vh] flex items-center justify-center overflow-hidden">
     <div class="max-w-5xl mx-auto px-6 text-center">
       <div class="inline-flex items-center gap-3 mb-6 glass px-6 py-2 rounded-3xl text-sm">
         <i class="fa-solid fa-bolt text-[#1DA1F2]"></i>
-        <span class="text-zinc-300">v2.3 • Phase 7 – Multi-Agent Orchestration</span>
+        <span class="text-zinc-300">v2.4 • Multi-LLM + Orchestration</span>
       </div>
       <h1 class="text-7xl font-bold tracking-tighter hero-glow mb-6">grok-install</h1>
       <p class="text-3xl text-zinc-300 max-w-2xl mx-auto mb-10">
@@ -30,7 +29,33 @@
     </div>
   </div>
 
-  <!-- Grok Commands Reference (kept exactly as you had it) -->
+  <!-- What's New v2.4 -->
+  <div class="max-w-5xl mx-auto px-6 py-12">
+    <div class="glass rounded-3xl p-8">
+      <h2 class="text-4xl font-semibold mb-6 text-center">✦ What’s New in v2.4</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-3">Smart LLM Section</h3>
+          <pre class="bg-zinc-950 p-4 rounded-2xl text-sm overflow-auto"><code>llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"</code></pre>
+          <p class="text-zinc-400 text-sm mt-2">Grok now asks privately for only the one key you need.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-3">Credits Block</h3>
+          <pre class="bg-zinc-950 p-4 rounded-2xl text-sm overflow-auto"><code>credits:
+  standard: "grok-install"
+  author: "@JanSol0s"
+  url: "https://github.com/AgentMindCloud/grok-install"
+  version: "2.4"</code></pre>
+          <p class="text-zinc-400 text-sm mt-2">Automatic attribution on every install.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grok Commands Reference -->
   <div class="max-w-5xl mx-auto px-6 py-16">
     <h2 class="text-4xl font-semibold mb-8 text-center">Grok Commands Reference</h2>
     <p class="text-zinc-400 text-center mb-12">All official grok-install commands. Copy and use on X.</p>
@@ -86,7 +111,7 @@
     </div>
   </div>
 
-  <!-- NEW: Community Templates Section (added here) -->
+  <!-- Community Templates -->
   <div class="max-w-5xl mx-auto px-6 py-16 bg-zinc-950">
     <h2 class="text-4xl font-semibold mb-8 text-center">Community Templates</h2>
     <p class="text-zinc-400 text-center mb-12">Ready-to-use multi-agent orchestration templates voted on by the community.</p>
@@ -107,42 +132,37 @@
         <span class="px-3 py-1 text-xs bg-purple-400/10 text-purple-400 rounded-3xl">New template</span>
       </div>
     </div>
-    <p class="text-center text-sm text-zinc-400 mt-12">
-      Want your template featured? Set <code>featured: true</code> and <code>orchestration.enabled: true</code> in your YAML.<br>
-      Community votes decide the next featured templates.
-    </p>
   </div>
 
-  <!-- Public Agent Marketplace (kept) -->
-  <div style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px; border: 1px solid #00f0ff33;">
-    <h3 style="color: #00f0ff;">🛒 Public Agent Marketplace</h3>
-    <p>Now live in Grok with browse commands and dynamic Featured section.</p>
+  <!-- Public Agent Marketplace -->
+  <div class="max-w-5xl mx-auto px-6 py-12">
+    <div style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px; border: 1px solid #00f0ff33;">
+      <h3 style="color: #00f0ff;">🛒 Public Agent Marketplace</h3>
+      <p>Now live in Grok with browse commands and dynamic Featured section.</p>
+    </div>
   </div>
 
-  <!-- Community Hub (kept) -->
-  <div style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px; border: 1px solid #00f0ff33;">
-    <h3 style="color: #00f0ff;">🌐 Community Hub – Self-Management</h3>
-    <p>Builders and users run the platform together.</p>
+  <!-- Community Hub & Orchestration (kept) -->
+  <div class="max-w-5xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-8">
+    <div style="background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px; border: 1px solid #00f0ff33;">
+      <h3 style="color: #00f0ff;">🌐 Community Hub – Self-Management</h3>
+      <p>Builders and users run the platform together.</p>
+    </div>
+    <div style="background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px; border: 1px solid #00f0ff33;">
+      <h3 style="color: #00f0ff;">🤖 Multi-Agent Orchestration (Phase 7)</h3>
+      <p class="text-zinc-300 mb-6">Link multiple agents into smart workflows. Grok coordinates them automatically.</p>
+      <ul style="color: #ddd; line-height: 1.6;">
+        <li><strong>New field:</strong> <code>orchestration: { enabled: true, role: "dashboard", ... }</code></li>
+        <li><strong>Command:</strong> @grok orchestrate my agents</li>
+        <li>Visual flow map in private dashboard</li>
+        <li>Safe cross-agent triggers and handoffs</li>
+      </ul>
+    </div>
   </div>
 
-  <!-- Multi-Agent Orchestration (kept) -->
-  <div style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px; border: 1px solid #00f0ff33;">
-    <h3 style="color: #00f0ff;">🤖 Multi-Agent Orchestration (Phase 7)</h3>
-    <p class="text-zinc-300 mb-6">Link multiple agents into smart workflows. Grok coordinates them automatically.</p>
-    <ul style="color: #ddd; line-height: 1.6;">
-      <li><strong>New field:</strong> <code>orchestration: { enabled: true, role: "dashboard", ... }</code></li>
-      <li><strong>Command:</strong> @grok orchestrate my agents</li>
-      <li>Visual flow map in private dashboard</li>
-      <li>Safe cross-agent triggers and handoffs</li>
-    </ul>
-    <p style="margin-top: 12px; font-size: 14px; color: #aaa;">
-      Add the orchestration block to your <code>grok-install.yaml</code> to enable.
-    </p>
-  </div>
-
-  <!-- How it works, Live demos, Roadmap (kept exactly) -->
+  <!-- How it works -->
   <h2 class="text-4xl font-semibold mb-12 text-center mt-20">How to add it in under 5 minutes</h2>
-  <div class="grid md:grid-cols-3 gap-8 mb-24">
+  <div class="grid md:grid-cols-3 gap-8 mb-24 max-w-5xl mx-auto px-6">
     <div class="glass rounded-3xl p-10 card-hover">
       <div class="text-6xl font-bold text-[#1DA1F2] mb-6">01</div>
       <h3 class="text-2xl font-semibold mb-4">Add the file</h3>
@@ -151,7 +171,7 @@
     <div class="glass rounded-3xl p-10 card-hover">
       <div class="text-6xl font-bold text-[#1DA1F2] mb-6">02</div>
       <h3 class="text-2xl font-semibold mb-4">Copy an example</h3>
-      <p class="text-zinc-400">Use one of the ready v2.3 templates</p>
+      <p class="text-zinc-400">Use one of the ready v2.4 templates</p>
     </div>
     <div class="glass rounded-3xl p-10 card-hover">
       <div class="text-6xl font-bold text-[#1DA1F2] mb-6">03</div>
@@ -160,8 +180,9 @@
     </div>
   </div>
 
-  <h2 class="text-4xl font-semibold mb-12 text-center">Live demo agents (v2.3 ready)</h2>
-  <div class="grid md:grid-cols-3 gap-8 mb-24">
+  <!-- Live demo agents -->
+  <h2 class="text-4xl font-semibold mb-12 text-center">Live demo agents (v2.4 ready)</h2>
+  <div class="grid md:grid-cols-3 gap-8 mb-24 max-w-5xl mx-auto px-6">
     <a href="https://github.com/AgentMindCloud/hermes-telegram-dashboard" class="glass rounded-3xl p-8 card-hover block">
       <strong class="text-2xl">Hermes Telegram Dashboard</strong>
       <p class="text-zinc-400 mt-3">AI-powered community management</p>
@@ -176,17 +197,18 @@
     </a>
   </div>
 
+  <!-- Phase 7 -->
   <h2 class="text-4xl font-semibold mb-12 text-center">Phase 7 – Multi-Agent Orchestration</h2>
   <ul class="space-y-6 text-lg max-w-2xl mx-auto">
     <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> Multi-Agent Orchestration <strong class="text-emerald-400">(done)</strong></li>
     <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> Advanced Automation & Triggers <strong class="text-emerald-400">(done)</strong></li>
     <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> Enhanced Private Dashboard <strong class="text-emerald-400">(done)</strong></li>
     <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> Safety Layer for Orchestration <strong class="text-emerald-400">(done)</strong></li>
-    <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> Community Templates <strong class="text-emerald-400">(just added)</strong></li>
+    <li class="flex items-start gap-4"><span class="text-[#1DA1F2]">→</span> Community Templates <strong class="text-emerald-400">(done)</strong></li>
   </ul>
 
   <div class="text-center py-16 border-t border-zinc-800 mt-20">
-    <p class="text-zinc-400">Made with ❤️ for the X AI community • By @JanSol0s (Jani) • Built live with Grok • v2.3 (April 2026)</p>
+    <p class="text-zinc-400">Made with ❤️ for the X AI community • By @JanSol0s (Jani) • Built live with Grok • v2.4 (April 2026)</p>
   </div>
 </body>
 </html>
