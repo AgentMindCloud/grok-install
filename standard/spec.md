@@ -14,7 +14,6 @@ New in v2.5
 • Private per-agent analytics dashboard (installs, usage, retention, trigger success rate)
 • Auto-generated weekly reports sent via Grok DM to builders
 
-Recommended Template (copy-paste ready)
 version: "2.5"
 name: "My Awesome Agent"
 description: "Short clear description"
@@ -96,6 +95,3 @@ author: "@JanSol0s"
 url: "https://github.com/AgentMindCloud/grok-install"
 version: "2.5"
 message: "Powered by grok-install open standard"
-textBuilt live with @JanSol0s (Jani) & Grok.  
-Keep it clean, calm, and precise.  
-Last updated: April 2026
