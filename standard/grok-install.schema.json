@@ -1,85 +1,102 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "grok-install",
-  "description": "Official schema for grok-install v2.2 – Passive Growth + Safety + Full Marketplace Activation (Phase 6)",
+  "title": "grok-install v2.4",
   "type": "object",
+  "required": ["version", "name", "description"],
   "properties": {
-    "version": {
-      "type": "string",
-      "enum": ["2.2"]
-    },
+    "version": { "type": "string", "enum": ["2.4"] },
     "name": { "type": "string" },
     "description": { "type": "string" },
     "repository": { "type": "string", "format": "uri" },
-    "category": {
-      "type": "string",
-      "enum": ["telegram", "discord", "twitter", "web", "general"]
-    },
-    "tags": {
-      "type": "array",
-      "items": { "type": "string" }
-    },
+    "category": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
     "featured": { "type": "boolean" },
-    "ecosystem": {
-      "type": "array",
-      "items": { "type": "string", "enum": ["grok", "x", "tesla", "starlink", "xai", "optimus"] }
+    "ecosystem": { "type": "array", "items": { "type": "string" } },
+
+    "llm": {
+      "type": "object",
+      "properties": {
+        "provider": { "type": "string", "enum": ["xai", "openai", "anthropic", "ollama", "custom"] },
+        "model": { "type": "string" },
+        "api_key_env": { "type": "string" }
+      }
     },
+
     "promotion": {
       "type": "object",
       "properties": {
         "auto_welcome": { "type": "boolean" },
         "share_installs": { "type": "boolean" },
         "weekly_highlight": { "type": "boolean" }
-      },
-      "default": {
-        "auto_welcome": true,
-        "share_installs": true,
-        "weekly_highlight": true
       }
     },
-    "preferred_deploy": {
-      "type": "array",
-      "items": { "type": "string", "enum": ["railway", "render", "fly", "local"] }
-    },
-    "mode": {
-      "type": "string",
-      "enum": ["simple", "advanced"],
-      "default": "simple"
-    },
+
+    "mode": { "type": "string", "enum": ["simple", "advanced"] },
+    "preferred_deploy": { "type": "array", "items": { "type": "string" } },
+
     "deploy": {
       "type": "object",
       "properties": {
         "env": {
           "type": "object",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "type": "string",
+            "description": "Description shown to the user during private guided install"
+          }
         }
       }
     },
+
     "security": {
       "type": "object",
       "properties": {
         "verified_by_grok": { "type": "boolean" },
         "safety_checklist": { "type": "boolean" }
-      },
-      "default": {
-        "verified_by_grok": true,
-        "safety_checklist": true
       }
     },
-    "update_strategy": {
-      "type": "string",
-      "enum": ["semver", "always"],
-      "default": "semver"
-    },
-    "auto_generate": { "type": "boolean", "default": true },
-    "shareable_card": { "type": "boolean", "default": true },
+
+    "update_strategy": { "type": "string", "enum": ["semver", "always"] },
+    "auto_generate": { "type": "boolean" },
+
+    "shareable_card": { "type": "boolean" },
+
     "on_install": {
       "type": "object",
       "properties": {
         "welcome_message": { "type": "string" }
       }
+    },
+
+    "community": {
+      "type": "object",
+      "properties": {
+        "onboard": { "type": "boolean" },
+        "voting_enabled": { "type": "boolean" },
+        "moderation_level": { "type": "string" }
+      }
+    },
+
+    "orchestration": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "role": { "type": "string" },
+        "can_trigger": { "type": "array", "items": { "type": "string" } },
+        "can_be_triggered_by": { "type": "array", "items": { "type": "string" } },
+        "triggers": { "type": "array", "items": { "type": "object" } },
+        "safety": { "type": "object" }
+      }
+    },
+
+    "credits": {
+      "type": "object",
+      "properties": {
+        "standard": { "type": "string" },
+        "author": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "version": { "type": "string" },
+        "message": { "type": "string" }
+      }
     }
-  },
-  "required": ["version", "name", "description", "repository"],
-  "additionalProperties": false
+  }
 }
