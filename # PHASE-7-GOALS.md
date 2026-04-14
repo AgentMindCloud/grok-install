@@ -23,9 +23,9 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 - Working trigger chain: Twitter Reply Bot → Hermes Dashboard
 
 ### 3. Enhanced Private Dashboard ✓ UI IMPROVED
-- Clear “How to Use This Dashboard” section added
-- Orchestration view with “Link My Agents” button
-- Dashboard is ready and user-friendly
+- Clear “How to Use” section + fallback message added
+- Dashboard now explains the current placeholder situation from Grok
+- Ready for when Grok fully activates the real command
 
 ### 4. Safety & Control Layer for Multi-Agent (next)
 - Automatic permission checks when linking agents
@@ -35,22 +35,15 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 - Community-voted multi-agent templates
 
 ## Current Status & Notes
-- The private dashboard (`my-agents.html`) has been enhanced with detailed usage instructions.
-- On X, the command `@grok my agents` should now display the improved dashboard.
-- If Grok does not yet return the full dashboard content, the Grok-side activation for this command is still warming up.
-- We have improved the page itself so it is ready and beginner-friendly when the command fully activates.
-
-## How to Use the Dashboard (for reference)
-1. Reply to Grok on X with: `@grok my agents`
-2. Look for the new “How to Use This Dashboard” section
-3. Click “Link My Agents (Orchestrate)” to connect agents
-4. Use the trigger chain between Twitter bot and Hermes as example
+- The private dashboard (`my-agents.html`) now includes a clear fallback box explaining why Grok currently shows placeholder agents.
+- On X, `@grok my agents` or `@grok show my agents` still returns a generic list.
+- The HTML improvements make the real dashboard useful and beginner-friendly when the command activates.
 
 ## Next Possible Steps
-- Improve Grok-side command handling (simulate or document expected behavior)
+- Add trigger example to discord-ai-mod (optional)
+- Improve Grok-side command handling (document expected behavior)
 - Add safety/permission layer to orchestration
-- Update Discord repo with trigger example
-- Run first live orchestration test
+- Test full trigger flow once command works
 
 Built live with @JanSol0s (Jani) & Grok.  
 Keep it clean, calm, and precise.
