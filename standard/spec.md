@@ -1,27 +1,23 @@
-# grok-install Specification (v2.3)
-## Phase 7 Update – Multi-Agent Orchestration + Safety Layer + Smart LLM Support
-This spec now supports linking multiple agents into coordinated workflows with triggers and built-in safety controls.  
-It also fixes the common issue of Grok asking for too many API keys.
+# grok-install Specification (v2.4)
 
 ## Overview
-`grok-install.yaml` is the open standard that lets any developer make their AI agent installable with one click on X using Grok.  
-Version 2.3 (April 2026) adds full multi-agent orchestration while keeping full backward compatibility with v2.2.
+`grok-install.yaml` is the open standard that lets any developer make their AI agent installable with one click on X using Grok.
 
 ## File Location
-Must be placed at the root of your public GitHub repository: `grok-install.yaml`
+Must be placed at the root of your public GitHub repository:  
+**`grok-install.yaml`**
 
-## Schema
-See `grok-install.schema.json` (v2.3) for full validation rules.
+## Version
+Current version: **2.4**
 
-## Required Fields
-- `version: "2.3"`
-- `name`
-- `description`
-- `repository`
+## New in v2.4
+- Official `llm:` section for native multi-LLM support (Grok, OpenAI, Claude, etc.)
+- Standardized `credits:` block for automatic attribution
 
-## Core Fields (v2.3)
+## Recommended Template (copy-paste ready)
+
 ```yaml
-version: "2.3"
+version: "2.4"
 name: "My Awesome Agent"
 description: "Short clear description"
 repository: "https://github.com/yourname/my-agent"
@@ -30,11 +26,10 @@ tags: ["ai", "dashboard", "community"]
 featured: true
 ecosystem: ["grok", "x", "tesla"]
 
-# NEW RECOMMENDED: Smart LLM section (fixes multiple API key prompts)
-llm:
-  provider: "grok"          # "grok" | "openai" | "anthropic" | "custom"
-  model: "grok-4"           # suggested model for that provider
-  api_key_env: "GROK_API_KEY"   # tells Grok exactly which secret to ask for
+llm:                          # ← NEW RECOMMENDED: Smart LLM section
+  provider: "xai"             # "xai" | "openai" | "anthropic" | "ollama" | "custom"
+  model: "grok-4"             # suggested model for that provider
+  api_key_env: "GROK_API_KEY" # tells Grok exactly which secret to ask for (only one key)
 
 # Passive Growth Engine (unchanged)
 promotion:
@@ -47,7 +42,6 @@ preferred_deploy: ["railway", "render", "fly", "local"]
 mode: "simple"
 
 # Environment & Prompts (Grok asks privately)
-# The llm: section above makes sure Grok only asks for the one relevant key
 deploy:
   env:
     TELEGRAM_TOKEN: "Ask the user for their Telegram bot token"
@@ -97,17 +91,20 @@ How Orchestration Works
 orchestration.enabled: true allows Grok to link this agent with others
 The triggers array defines automatic reactions
 The new safety block enforces permission checks and user approval
-The llm: section ensures Grok asks only for the correct single API key (no more 5 different Grok/xAI prompts)
+The llm: section ensures Grok asks only for the correct single API key
 
 Use command @grok orchestrate my agents to create and manage connections.
 Visual flow map appears in the private my-agents.html dashboard.
 Backward Compatibility
-All v2.2 files continue to work unchanged.
-Only agents that set orchestration.enabled: true gain the new capabilities.
-Next Steps for Developers
-Add this file to your repo root
-Commit & push
-After installing multiple agents, try @grok orchestrate my agents
+All v2.3 files continue to work unchanged.
+Only agents that set orchestration.enabled: true or use the new llm: section gain the extra capabilities.
+Credits (strongly recommended)
+YAMLcredits:
+  standard: "grok-install"
+  author: "@JanSol0s"
+  url: "https://github.com/AgentMindCloud/grok-install"
+  version: "2.4"
+  message: "Powered by grok-install open standard"
 Built live with @JanSol0s (Jani) & Grok.
 Keep it clean, calm, and precise.
 Last updated: April 2026
