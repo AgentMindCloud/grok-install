@@ -45,17 +45,62 @@
         The open standard to install any AI agent in one click on X using Grok
       </p>
 
-      <!-- Official Install with Grok section (unchanged) -->
-      <div class="install-button-section mb-12">
-        <h3 class="text-2xl font-semibold mb-4 text-[#1DA1F2]">Install with Grok — Official & Polished</h3>
-        <p class="mb-6 text-zinc-300">Copy this button into your project's README.md:</p>
-        <div style="background: #0a0a0a; padding: 16px; border-radius: 12px; border: 1px solid #00f0ff;">
-          <code style="display: block; white-space: pre-wrap; color: #00f0ff; font-size: 14px;">
-[![Featured in Grok](https://img.shields.io/badge/Featured_in_Grok-00f0ff?style=for-the-badge&logo=x&logoColor=white)](https://github.com/AgentMindCloud/grok-install)
-[![Grok-Installed](https://img.shields.io/badge/Grok-Installed-00f0ff?style=for-the-badge&logo=x&logoColor=white)](https://x.com/i/grok?grok-install=true)
-          </code>
-        </div>
-      </div>
+     <!-- NEW: Grok Commands Reference (full improved documentation) -->
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <h2 class="text-4xl font-semibold mb-8 text-center">Grok Commands Reference</h2>
+    <p class="text-zinc-400 text-center mb-12">All official grok-install commands. Copy and use on X.</p>
+
+    <div class="glass rounded-3xl p-8">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-zinc-700">
+            <th class="pb-4 font-semibold">Command</th>
+            <th class="pb-4 font-semibold">Example</th>
+            <th class="pb-4 font-semibold">What it does</th>
+            <th class="pb-4 font-semibold">Troubleshooting</th>
+          </tr>
+        </thead>
+        <tbody class="text-sm text-zinc-300 space-y-6">
+          <tr class="border-b border-zinc-700">
+            <td class="py-4"><code>@grok my agents</code></td>
+            <td class="py-4"><code>@grok my agents</code></td>
+            <td class="py-4">Shows your private dashboard with installed agents, orchestration view, and share cards</td>
+            <td class="py-4">If you see placeholder agents, the command is still warming up — try <code>@grok show my agents</code></td>
+          </tr>
+          <tr class="border-b border-zinc-700">
+            <td class="py-4"><code>@grok show me [category] agents</code></td>
+            <td class="py-4"><code>@grok show me telegram agents</code></td>
+            <td class="py-4">Browse marketplace agents by category (telegram, discord, twitter, etc.)</td>
+            <td class="py-4">Add <code>category</code> to your YAML for better visibility</td>
+          </tr>
+          <tr class="border-b border-zinc-700">
+            <td class="py-4"><code>@grok orchestrate my agents</code></td>
+            <td class="py-4"><code>@grok orchestrate my agents</code></td>
+            <td class="py-4">View and create connections between your agents (Phase 7)</td>
+            <td class="py-4">Requires agents with <code>orchestration.enabled: true</code></td>
+          </tr>
+          <tr class="border-b border-zinc-700">
+            <td class="py-4"><code>@grok install this</code></td>
+            <td class="py-4">Reply to any GitHub link containing grok-install.yaml</td>
+            <td class="py-4">Starts one-click install flow</td>
+            <td class="py-4">Works on public repos with valid YAML</td>
+          </tr>
+          <tr class="border-b border-zinc-700">
+            <td class="py-4"><code>@grok generate grok-install.yaml</code></td>
+            <td class="py-4"><code>@grok generate grok-install.yaml</code></td>
+            <td class="py-4">Grok reads your repo and creates the YAML file</td>
+            <td class="py-4">Reply to your own repo link</td>
+          </tr>
+          <tr>
+            <td class="py-4"><code>Voice install</code></td>
+            <td class="py-4">“Hey Grok, install Hermes Telegram Dashboard”</td>
+            <td class="py-4">Voice-activated installation</td>
+            <td class="py-4">Works when Grok is listening</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
       <!-- Public Agent Marketplace (unchanged) -->
       <div style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px; border: 1px solid #00f0ff33;">
