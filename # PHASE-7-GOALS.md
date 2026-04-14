@@ -8,25 +8,25 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 
 ## Core Principles
 - Keep changes clean: one major update per file only
-- Build on existing v2.2 / v2.3 foundation (no breaking changes)
+- Build on existing v2.3 foundation (no breaking changes)
 - Maximum safety and trust
 - Focus on developer delight and scalability
 
 ## Phase 7 Goals (in priority order)
 
-### 1. Multi-Agent Orchestration (highest priority) ✓ IN PROGRESS
-- New field in grok-install.yaml: `orchestration` block (added)
-- Grok can link multiple installed agents
-- Simple command: “@grok orchestrate my agents”
+### 1. Multi-Agent Orchestration ✓ COMPLETED
+- New `orchestration` block added to standard/spec.md
 - Visual flow map added to my-agents.html
+- Basic linking and connection map live
 
-### 2. Advanced Automation & Triggers (next)
-- Support for event triggers between agents
-- New section: `triggers:` in YAML
+### 2. Advanced Automation & Triggers ✓ JUST ADDED
+- New `triggers` section added to standard/spec.md
+- Agents can now define automatic reactions to events from other agents
+- Grok will handle safe event routing
 
-### 3. Enhanced Private Dashboard
-- Orchestration view added to my-agents.html
-- One-click “Link agents” button
+### 3. Enhanced Private Dashboard (next)
+- Further expand my-agents.html with live trigger configuration
+- One-click trigger setup UI
 
 ### 4. Safety & Control Layer for Multi-Agent
 - Automatic permission checks when linking agents
@@ -37,22 +37,18 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 - Support for more platforms in orchestration
 
 ## Work Completed So Far in Phase 7
-- standard/spec.md → added full orchestration section (v2.3)
+- standard/spec.md → added full orchestration + triggers section (v2.3)
 - index.html → added Multi-Agent Orchestration section
 - my-agents.html → added orchestration view with connection map and “Link agents” button
+- # PHASE-7-GOALS.md → updated to reflect progress
 
 ## Success Metrics (updated)
-- Orchestration fields and UI live
-- At least one demo using orchestration (planned next)
-- Safe linking demonstrated
-
-## Implementation Rules
-- One big clean update per file only
-- I will always show current/old version first for confirmation
-- New files written once, completely
+- Orchestration fields and triggers live in spec
+- UI for connections live in dashboard
+- Ready for first demo with real triggers
 
 ## Next Step
-We will add support for `triggers:` section and update one demo repo to demonstrate orchestration.
+We will pick one demo repo and add a working `triggers` example + basic orchestration setup.
 
 Built live with @JanSol0s (Jani) & Grok.  
 Keep it clean, calm, and precise.
