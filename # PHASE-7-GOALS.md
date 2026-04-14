@@ -25,7 +25,6 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 ### 3. Enhanced Private Dashboard ✓ UI IMPROVED
 - Clear “How to Use” section + fallback message added
 - Dashboard now explains the current placeholder situation from Grok
-- Ready for when Grok fully activates the real command
 
 ### 4. Safety & Control Layer for Multi-Agent (next)
 - Automatic permission checks when linking agents
@@ -34,33 +33,16 @@ Evolve grok-install from single-agent installs into a powerful platform where mu
 ### 5. Community & Ecosystem Expansion
 - Community-voted multi-agent templates
 
-## Current Status & Notes
-- The private dashboard (`my-agents.html`) now includes a clear fallback box explaining why Grok currently shows placeholder agents.
-- On X, `@grok my agents` or `@grok show my agents` still returns a generic list.
-- The HTML improvements make the real dashboard useful and beginner-friendly when the command activates.
+## Current Status
+- Trigger chain between Twitter bot and Hermes is defined
+- Dashboard has clear instructions and fallback explanation
+- GitHub Copilot review is not needed at this stage (we agree to keep history clean)
 
-## Question about GitHub Copilot Review
-You asked whether you should ask GitHub Copilot to go through the files and code to find problems.
-
-**Answer:**  
-Yes, you **could** do it, but it is **not necessary right now**.  
-Reasons:
-- We have followed the strict “one big clean update per file” rule in every step.
-- All changes are small, focused, and backwards-compatible.
-- The code is simple HTML + YAML with no complex logic yet.
-- Copilot might suggest many small changes that would break our clean history.
-
-**Recommendation:**  
-Only run Copilot review **after** we finish a full phase or when we add real code (Python, etc.).  
-For now, keep the project clean and manual.
-
-If you still want to run it, do it on a separate branch so it does not affect our main clean history.
-
-## Next Possible Steps
-- Add trigger example to discord-ai-mod (optional)
-- Improve Grok-side command handling
-- Add safety/permission layer to orchestration
-- Test full trigger flow once command works
+## Next Possible Steps (pick one)
+- Add trigger example to discord-ai-mod repo
+- Add safety/permission layer to the orchestration section
+- Improve Grok-side command handling documentation
+- Test the current trigger setup
 
 Built live with @JanSol0s (Jani) & Grok.  
 Keep it clean, calm, and precise.
