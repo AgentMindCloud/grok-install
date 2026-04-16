@@ -1,7 +1,7 @@
-# grok-install.yaml – Official Template (v2.4)
+# grok-install.yaml – Official Template (v2.10)
 # Copy this file into the root of your repo to make your AI agent one-click installable on X
 
-version: "2.4"
+version: "2.10"
 name: "Your Agent Name"
 description: "One clear sentence describing what your agent does"
 repository: "https://github.com/yourusername/your-repo-name"
@@ -10,29 +10,26 @@ tags: ["ai", "bot", "automation"]
 featured: false
 ecosystem: ["grok", "x"]
 
-llm:                          # ← Recommended: Smart multi-LLM section (new in v2.4)
+# Safety & Verification 2.0 (Phase 9)
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true     # most keys are now optional
+
+llm:                          # Recommended multi-LLM section
   provider: "xai"             # xai | openai | anthropic | ollama | custom
-  model: "grok-4"             # default model suggestion
-  api_key_env: "GROK_API_KEY" # Grok will ask privately for only this one key
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY" # Grok will ask privately only for truly required keys
 
 # Deployment settings
 mode: "simple"
 preferred_deploy: ["railway", "vercel", "fly", "render", "local"]
-deploy:
-  env:
-    TELEGRAM_BOT_TOKEN: "Ask the user for their Telegram bot token (stays private)"
-    GROK_API_KEY: "Ask the user for their xAI/Grok API key (stays private)"
-    X_API_KEY: "Ask the user for their X API key (optional – stays private)"
-
-# Safety & Trust
-security:
-  verified_by_grok: true
-  safety_checklist: true
 
 # Multi-Agent Orchestration (Phase 7)
 orchestration:
   enabled: false
-  role: "agent"               # e.g. dashboard, moderator, reply-bot, etc.
+  role: "agent"
 
 # Post-install experience
 on_install:
@@ -49,5 +46,5 @@ credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.4"
+  version: "2.10"
   message: "Powered by grok-install open standard"
