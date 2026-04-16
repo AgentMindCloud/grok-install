@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   schema:
-    name: Validate grok-install.yaml against schema
+    name: Schema + tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,15 +18,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
 
       - name: Check schema is valid JSON
         run: node -e "JSON.parse(require('fs').readFileSync('standard/grok-install.schema.json','utf8'))"
 
       - name: Validate root template and all examples
         run: npm run validate:all
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Check formatting
+        run: npm run format:check
 
   lint-json:
     name: Lint JSON fixtures

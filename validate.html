@@ -1,187 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Validate grok-install.yaml</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #fff; }
-    textarea { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .status-pill { transition: background 0.2s, color 0.2s; }
-  </style>
-</head>
-<body class="text-white">
-  <main class="max-w-5xl mx-auto px-6 py-12">
-    <nav class="mb-8 text-sm text-zinc-400">
-      <a href="index.html" class="hover:text-[#00f0ff]">← Back to marketplace</a>
-    </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; connect-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <title>Validate grok-install.yaml</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: #0a0a0a;
+        color: #fff;
+      }
+      textarea {
+        font-family:
+          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      .status-pill {
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+    </style>
+  </head>
+  <body class="text-white">
+    <main class="max-w-5xl mx-auto px-6 py-12">
+      <nav class="mb-8 text-sm text-zinc-400">
+        <a href="index.html" class="hover:text-[#00f0ff]"
+          >← Back to marketplace</a
+        >
+      </nav>
 
-    <header class="mb-8">
-      <h1 class="text-5xl font-bold mb-4 flex items-center gap-3">
-        <i class="fa-solid fa-vial-circle-check text-[#00f0ff]"></i>
-        Validate <code class="text-[#00f0ff]">grok-install.yaml</code>
-      </h1>
-      <p class="text-zinc-400 max-w-3xl">
-        Paste your YAML (or drop a file) and get instant feedback against the
-        v2.12 schema. Everything runs in your browser — nothing is uploaded.
-      </p>
-    </header>
+      <header class="mb-8">
+        <h1 class="text-5xl font-bold mb-4 flex items-center gap-3">
+          <i class="fa-solid fa-vial-circle-check text-[#00f0ff]"></i>
+          Validate <code class="text-[#00f0ff]">grok-install.yaml</code>
+        </h1>
+        <p class="text-zinc-400 max-w-3xl">
+          Paste your YAML (or drop a file) and get instant feedback against the
+          v2.12 schema. Everything runs in your browser — nothing is uploaded.
+        </p>
+      </header>
 
-    <section class="grid lg:grid-cols-2 gap-6">
-      <div class="glass rounded-3xl p-6">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold">Your YAML</h2>
-          <div class="flex items-center gap-2">
-            <label for="file-input"
-                   class="cursor-pointer text-sm px-3 py-2 rounded-3xl bg-white/10 hover:bg-white/20">
-              <i class="fa-solid fa-file-arrow-up"></i> Upload
-            </label>
-            <input id="file-input" type="file" accept=".yaml,.yml,text/yaml" class="hidden">
-            <button id="load-example"
-                    class="text-sm px-3 py-2 rounded-3xl bg-white/10 hover:bg-white/20">
-              <i class="fa-solid fa-flask"></i> Example
-            </button>
+      <section class="grid lg:grid-cols-2 gap-6">
+        <div class="glass rounded-3xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold">Your YAML</h2>
+            <div class="flex items-center gap-2">
+              <label
+                for="file-input"
+                class="cursor-pointer text-sm px-3 py-2 rounded-3xl bg-white/10 hover:bg-white/20"
+              >
+                <i class="fa-solid fa-file-arrow-up"></i> Upload
+              </label>
+              <input
+                id="file-input"
+                type="file"
+                accept=".yaml,.yml,text/yaml"
+                class="hidden"
+              />
+              <button
+                id="load-example"
+                class="text-sm px-3 py-2 rounded-3xl bg-white/10 hover:bg-white/20"
+              >
+                <i class="fa-solid fa-flask"></i> Example
+              </button>
+            </div>
           </div>
+          <label for="yaml-input" class="sr-only">grok-install.yaml</label>
+          <textarea
+            id="yaml-input"
+            rows="24"
+            spellcheck="false"
+            class="w-full bg-zinc-950 border border-white/10 rounded-2xl p-4 text-sm focus:border-[#00f0ff] focus:outline-none"
+            placeholder="# Paste your grok-install.yaml here"
+          ></textarea>
         </div>
-        <label for="yaml-input" class="sr-only">grok-install.yaml</label>
-        <textarea id="yaml-input" rows="24" spellcheck="false"
-                  class="w-full bg-zinc-950 border border-white/10 rounded-2xl p-4 text-sm focus:border-[#00f0ff] focus:outline-none"
-                  placeholder="# Paste your grok-install.yaml here"></textarea>
-      </div>
 
-      <div class="glass rounded-3xl p-6">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold">Result</h2>
-          <span id="status-pill"
-                class="status-pill text-sm px-3 py-1 rounded-3xl bg-white/10 text-zinc-400">
-            Waiting for input
-          </span>
+        <div class="glass rounded-3xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold">Result</h2>
+            <span
+              id="status-pill"
+              class="status-pill text-sm px-3 py-1 rounded-3xl bg-white/10 text-zinc-400"
+            >
+              Waiting for input
+            </span>
+          </div>
+          <div
+            id="summary"
+            class="text-sm text-zinc-300 mb-4"
+            aria-live="polite"
+          ></div>
+          <ul id="errors" class="space-y-2 text-sm" aria-live="polite"></ul>
         </div>
-        <div id="summary" class="text-sm text-zinc-300 mb-4" aria-live="polite"></div>
-        <ul id="errors" class="space-y-2 text-sm" aria-live="polite"></ul>
-      </div>
-    </section>
+      </section>
 
-    <section class="mt-12 text-sm text-zinc-500">
-      <p>
-        Schema source:
-        <a class="underline hover:text-[#00f0ff]" href="standard/grok-install.schema.json">
-          standard/grok-install.schema.json
-        </a>
-        • Spec:
-        <a class="underline hover:text-[#00f0ff]" href="standard/spec.md">spec.md</a>
-      </p>
-    </section>
-  </main>
+      <section class="mt-12 text-sm text-zinc-500">
+        <p>
+          Schema source:
+          <a
+            class="underline hover:text-[#00f0ff]"
+            href="standard/grok-install.schema.json"
+          >
+            standard/grok-install.schema.json
+          </a>
+          • Spec:
+          <a class="underline hover:text-[#00f0ff]" href="standard/spec.md"
+            >spec.md</a
+          >
+        </p>
+      </section>
+    </main>
 
-  <script type="module">
-    import Ajv from "https://cdn.jsdelivr.net/npm/ajv@8.17.1/+esm";
-    import addFormats from "https://cdn.jsdelivr.net/npm/ajv-formats@3.0.1/+esm";
-    import yaml from "https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/+esm";
+    <script type="module">
+      import Ajv from "https://cdn.jsdelivr.net/npm/ajv@8.17.1/+esm";
+      import addFormats from "https://cdn.jsdelivr.net/npm/ajv-formats@3.0.1/+esm";
+      import yaml from "https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/+esm";
 
-    const yamlInput = document.getElementById("yaml-input");
-    const statusPill = document.getElementById("status-pill");
-    const summary = document.getElementById("summary");
-    const errorsList = document.getElementById("errors");
-    const fileInput = document.getElementById("file-input");
-    const exampleBtn = document.getElementById("load-example");
+      const yamlInput = document.getElementById("yaml-input");
+      const statusPill = document.getElementById("status-pill");
+      const summary = document.getElementById("summary");
+      const errorsList = document.getElementById("errors");
+      const fileInput = document.getElementById("file-input");
+      const exampleBtn = document.getElementById("load-example");
 
-    let validate;
-    try {
-      const schema = await (await fetch("standard/grok-install.schema.json")).json();
-      const ajv = new Ajv({ allErrors: true, strict: false });
-      addFormats(ajv);
-      validate = ajv.compile(schema);
-    } catch (err) {
-      setStatus("error", "Could not load schema");
-      summary.textContent = err.message;
-      throw err;
-    }
-
-    function setStatus(kind, text) {
-      statusPill.textContent = text;
-      statusPill.className =
-        "status-pill text-sm px-3 py-1 rounded-3xl " +
-        (kind === "ok"
-          ? "bg-emerald-400/20 text-emerald-300"
-          : kind === "error"
-            ? "bg-rose-400/20 text-rose-300"
-            : "bg-white/10 text-zinc-400");
-    }
-
-    function clearErrors() {
-      errorsList.innerHTML = "";
-      summary.textContent = "";
-    }
-
-    function showErrors(errs) {
-      for (const err of errs) {
-        const li = document.createElement("li");
-        li.className = "bg-rose-500/5 border border-rose-500/30 rounded-2xl p-3";
-        const where = err.instancePath || "(root)";
-        li.innerHTML = `<code class="text-rose-300">${where}</code> <span class="text-zinc-300"></span>`;
-        li.querySelector("span").textContent = err.message ?? "invalid";
-        errorsList.appendChild(li);
-      }
-    }
-
-    function run() {
-      clearErrors();
-      const text = yamlInput.value;
-      if (!text.trim()) {
-        setStatus("idle", "Waiting for input");
-        return;
-      }
-      let doc;
+      let validate;
       try {
-        doc = yaml.load(text);
-      } catch (e) {
-        setStatus("error", "YAML parse error");
-        summary.textContent = e.message;
-        return;
+        const schema = await (
+          await fetch("standard/grok-install.schema.json")
+        ).json();
+        const ajv = new Ajv({ allErrors: true, strict: false });
+        addFormats(ajv);
+        validate = ajv.compile(schema);
+      } catch (err) {
+        setStatus("error", "Could not load schema");
+        summary.textContent = err.message;
+        throw err;
       }
-      if (doc == null || typeof doc !== "object") {
-        setStatus("error", "Invalid");
-        summary.textContent = "Top-level document must be a YAML mapping.";
-        return;
+
+      function setStatus(kind, text) {
+        statusPill.textContent = text;
+        statusPill.className =
+          "status-pill text-sm px-3 py-1 rounded-3xl " +
+          (kind === "ok"
+            ? "bg-emerald-400/20 text-emerald-300"
+            : kind === "error"
+              ? "bg-rose-400/20 text-rose-300"
+              : "bg-white/10 text-zinc-400");
       }
-      const ok = validate(doc);
-      if (ok) {
-        setStatus("ok", "Valid");
-        const declared = doc.version ? ` (declares v${doc.version})` : "";
-        summary.textContent = `Valid grok-install document${declared}.`;
-      } else {
-        setStatus("error", `${validate.errors.length} error${validate.errors.length === 1 ? "" : "s"}`);
-        summary.textContent = "Validation failed. Details:";
-        showErrors(validate.errors);
+
+      function clearErrors() {
+        errorsList.innerHTML = "";
+        summary.textContent = "";
       }
-    }
 
-    let t;
-    yamlInput.addEventListener("input", () => {
-      clearTimeout(t);
-      t = setTimeout(run, 200);
-    });
+      function showErrors(errs) {
+        for (const err of errs) {
+          const li = document.createElement("li");
+          li.className =
+            "bg-rose-500/5 border border-rose-500/30 rounded-2xl p-3";
+          const where = err.instancePath || "(root)";
+          li.innerHTML = `<code class="text-rose-300">${where}</code> <span class="text-zinc-300"></span>`;
+          li.querySelector("span").textContent = err.message ?? "invalid";
+          errorsList.appendChild(li);
+        }
+      }
 
-    fileInput.addEventListener("change", async () => {
-      const file = fileInput.files?.[0];
-      if (!file) return;
-      yamlInput.value = await file.text();
-      run();
-    });
+      function run() {
+        clearErrors();
+        const text = yamlInput.value;
+        if (!text.trim()) {
+          setStatus("idle", "Waiting for input");
+          return;
+        }
+        let doc;
+        try {
+          doc = yaml.load(text);
+        } catch (e) {
+          setStatus("error", "YAML parse error");
+          summary.textContent = e.message;
+          return;
+        }
+        if (doc == null || typeof doc !== "object") {
+          setStatus("error", "Invalid");
+          summary.textContent = "Top-level document must be a YAML mapping.";
+          return;
+        }
+        const ok = validate(doc);
+        if (ok) {
+          setStatus("ok", "Valid");
+          const declared = doc.version ? ` (declares v${doc.version})` : "";
+          summary.textContent = `Valid grok-install document${declared}.`;
+        } else {
+          setStatus(
+            "error",
+            `${validate.errors.length} error${validate.errors.length === 1 ? "" : "s"}`,
+          );
+          summary.textContent = "Validation failed. Details:";
+          showErrors(validate.errors);
+        }
+      }
 
-    exampleBtn.addEventListener("click", async () => {
-      try {
-        const res = await fetch("grok-install.yaml");
-        yamlInput.value = await res.text();
+      let t;
+      yamlInput.addEventListener("input", () => {
+        clearTimeout(t);
+        t = setTimeout(run, 200);
+      });
+
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        yamlInput.value = await file.text();
         run();
-      } catch (e) {
-        summary.textContent = `Could not load example: ${e.message}`;
-      }
-    });
-  </script>
-</body>
+      });
+
+      exampleBtn.addEventListener("click", async () => {
+        try {
+          const res = await fetch("grok-install.yaml");
+          yamlInput.value = await res.text();
+          run();
+        } catch (e) {
+          summary.textContent = `Could not load example: ${e.message}`;
+        }
+      });
+    </script>
+  </body>
 </html>

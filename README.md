@@ -59,6 +59,12 @@ Grok acts as the intelligent installer, orchestrator, marketplace, and passive g
 ### Full Specification
 See [standard/spec.md](standard/spec.md) – v2.12 with all blocks and promotion settings.
 
+### For builders
+- **Validate your YAML** in the browser: [validate.html](validate.html) (no upload; runs entirely client-side).
+- **Validate locally**: `npm install && npm run validate -- path/to/grok-install.yaml`
+- **Contribute**: see [CONTRIBUTING.md](CONTRIBUTING.md) for spec changes, UI fixes, and examples.
+- **Report a vulnerability**: see [SECURITY.md](SECURITY.md).
+
 ### Live Demo Agents (all v2.12 ready)
 - [Hermes Telegram Dashboard](https://github.com/AgentMindCloud/hermes-telegram-dashboard)
 - [Smart Twitter Reply Bot](https://github.com/AgentMindCloud/twitter-reply-bot)

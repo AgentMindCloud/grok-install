@@ -1,270 +1,204 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Agents • grok-install</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .voice-btn {
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.5); }
-      70% { box-shadow: 0 0 0 15px rgba(0, 240, 255, 0); }
-    }
-  </style>
-</head>
-<body class="text-white p-8 max-w-5xl mx-auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <title>My Agents • grok-install</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: #0a0a0a;
+        color: #fff;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 240, 255, 0.3);
+        border-radius: 1.5rem;
+      }
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+      }
+      dialog {
+        color: #fff;
+        background: #0a0a0a;
+        border: 1px solid rgba(0, 240, 255, 0.3);
+        border-radius: 1.5rem;
+      }
+      .voice-btn[aria-pressed="true"] {
+        animation: pulse 1.4s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.6);
+        }
+        70% {
+          box-shadow: 0 0 0 18px rgba(0, 240, 255, 0);
+        }
+      }
+    </style>
+  </head>
+  <body class="text-white">
+    <main class="max-w-5xl mx-auto p-8">
+      <nav class="mb-6 text-sm text-zinc-400">
+        <a href="index.html" class="hover:text-[#00f0ff]"
+          >← Back to marketplace</a
+        >
+      </nav>
 
-  <h1 class="text-5xl font-bold mb-8 flex items-center gap-3">
-    <i class="fa-solid fa-robot text-[#00f0ff]"></i>
-    My Agents
-  </h1>
-  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install <strong>v2.12</strong> • Phase 14 Voice & Mobile Experience</p>
-
-  <!-- PHASE 14 VOICE + MOBILE BANNER -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
-      <i class="fa-solid fa-microphone"></i>
-      Phase 14 – Full Voice & Mobile Experience LIVE
-    </h2>
-    <p class="text-zinc-300">Try voice commands like “Hey Grok, show me my agents”, “Hey Grok, update all my agents”, or “Hey Grok, orchestrate my agents”. Mobile-first dashboard with one-tap voice buttons.</p>
-  </div>
-
-  <!-- PHASE 12 MARKETPLACE INTEGRATION BANNER (preserved) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
-      <i class="fa-solid fa-store"></i>
-      Phase 12 – Professional Marketplace Live
-    </h2>
-    <p class="text-zinc-300">Mobile-first redesign with glassmorphism. Full integration with trending, featured agents, and live search from the main marketplace.</p>
-  </div>
-
-  <!-- PHASE 11 PASSIVE GROWTH ENGINE BANNER (preserved) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
-      <i class="fa-solid fa-seedling"></i>
-      Phase 11 – Passive Growth Engine LIVE
-    </h2>
-    <div class="grid md:grid-cols-2 gap-8 text-sm">
-      <div>Auto-welcome replies for new repos</div>
-      <div>Auto-shareable install cards with referral credits</div>
-      <div>Weekly highlight thread (Sunday 20:00 UTC)</div>
-      <div>Trending &amp; featured boosts</div>
-    </div>
-  </div>
-
-  <!-- PHASE 10 SECTION (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
-      <i class="fa-solid fa-rocket"></i>
-      Phase 10 – Now Live
-    </h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div>
-        <h3 class="text-xl font-semibold mb-3">Native X Agent Runtime</h3>
-        <p class="text-zinc-400 text-sm">Agents run directly on X (reply bots, DM handlers, trend monitors). Grok is the secure runtime orchestrator. One-click X-native deployment.</p>
-      </div>
-      <div>
-        <h3 class="text-xl font-semibold mb-3">Grok Intelligence Layer</h3>
-        <p class="text-zinc-400 text-sm">Seamless function calling + real-time tools. Multi-agent swarms coordinated by Grok. AI-suggested teams &amp; workflows.</p>
-      </div>
-      <div>
-        <h3 class="text-xl font-semibold mb-3">Voice-First Management</h3>
-        <p class="text-zinc-400 text-sm">Full voice commands: install, update, orchestrate, monitor, swarm control. Mobile-friendly private dashboard.</p>
-      </div>
-      <div>
-        <h3 class="text-xl font-semibold mb-3">Enterprise &amp; Team Features</h3>
-        <p class="text-zinc-400 text-sm">Private team workspaces, audit logs, member permissions. Self-hosted orchestrator improvements.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Safety & Verification 2.0 (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-emerald-400/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-emerald-400">
-      <i class="fa-solid fa-shield-halved"></i>
-      Enhanced Safety &amp; Verification 2.0
-    </h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2 mb-4"><i class="fa-solid fa-check-circle text-emerald-400"></i> Pre-Install Deep Scan</strong>
-        <p class="text-zinc-300 text-sm">Grok scanned all repo files. No unusual code or hidden secrets detected.</p>
-        <span class="inline-flex items-center gap-2 mt-4 text-xs bg-emerald-400/10 text-emerald-400 px-4 py-2 rounded-3xl">
-          <i class="fa-solid fa-badge-check"></i>
-          Verified by Grok
-        </span>
-      </div>
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2 mb-4">Scan Summary</strong>
-        <ul class="text-sm text-zinc-300 space-y-2">
-          <li class="flex justify-between"><span class="text-zinc-400">Files scanned</span><span>14</span></li>
-          <li class="flex justify-between"><span class="text-zinc-400">Secrets found</span><span class="text-emerald-400">0 hard-coded</span></li>
-          <li class="flex justify-between"><span class="text-zinc-400">Minimum keys only</span><span class="text-emerald-400">Enabled</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- What's New v2.9 (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00d4ff]/30">
-    <h2 class="text-2xl font-semibold mb-4 flex items-center gap-3 text-[#00d4ff]">
-      <i class="fa-solid fa-rocket"></i>
-      What’s New in v2.9
-    </h2>
-    <ul class="text-zinc-300 space-y-2">
-      <li>✅ Enhanced Safety &amp; Verification 2.0 – pre-install deep scan + Verified by Grok badge</li>
-      <li>✅ Auto-update all my agents command</li>
-      <li>✅ Template generator for orchestration patterns</li>
-      <li>✅ Improved error recovery &amp; debugging tools</li>
-    </ul>
-  </div>
-
-  <!-- Private Analytics Dashboard (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-chart-bar"></i>
-      Private Analytics • Your Agents
-    </h2>
-    <div class="grid md:grid-cols-3 gap-6 mb-8">
-      <!-- Agent 1 -->
-      <div class="glass rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-4">
-          <strong>Hermes Telegram Dashboard</strong>
-          <span class="text-emerald-400 text-xs px-3 py-1 bg-emerald-400/10 rounded-3xl">Active</span>
+      <header class="mb-10 flex items-start justify-between gap-6 flex-wrap">
+        <div>
+          <h1 class="text-5xl font-bold flex items-center gap-3">
+            <i class="fa-solid fa-robot text-[#00f0ff]"></i>
+            My Agents
+          </h1>
+          <p class="text-zinc-400 mt-2">
+            Private dashboard • State lives in your browser.
+            <span data-role="counter" class="text-[#00f0ff] ml-2"></span>
+          </p>
         </div>
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between"><span class="text-zinc-400">Installs</span><span class="font-medium">1,284</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Weekly usage</span><span class="font-medium">347 sessions</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">94%</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">98.7%</span></div>
+        <div class="flex items-center gap-2">
+          <button
+            id="add-agent"
+            class="px-4 py-3 rounded-3xl bg-[#00f0ff] text-black font-semibold text-sm"
+          >
+            <i class="fa-solid fa-plus"></i> Add agent
+          </button>
+          <button
+            id="reset-demo"
+            class="px-4 py-3 rounded-3xl bg-white/5 hover:bg-white/10 text-sm text-zinc-200"
+            title="Clear localStorage and restore the demo agents"
+          >
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
         </div>
-        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
-                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
-          <i class="fa-solid fa-microphone"></i> Voice Update
-        </button>
-      </div>
-      <!-- Agent 2 -->
-      <div class="glass rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-4">
-          <strong>Smart Twitter Reply Bot</strong>
-          <span class="text-emerald-400 text-xs px-3 py-1 bg-emerald-400/10 rounded-3xl">Active</span>
+      </header>
+
+      <!-- Voice command panel -->
+      <section class="glass p-6 mb-10" aria-labelledby="voice-heading">
+        <div class="flex items-center gap-4 flex-wrap">
+          <button
+            id="voice-btn"
+            type="button"
+            aria-pressed="false"
+            class="voice-btn w-14 h-14 rounded-full bg-[#00f0ff] text-black flex items-center justify-center"
+            aria-label="Toggle voice input"
+          >
+            <i class="fa-solid fa-microphone text-2xl"></i>
+          </button>
+          <div class="flex-1 min-w-[16rem]">
+            <h2 id="voice-heading" class="font-semibold">Voice control</h2>
+            <p class="text-sm text-zinc-400">
+              Try: “show my agents”, “pause all agents”, “resume all agents”,
+              “add agent”.
+            </p>
+            <p
+              class="text-sm mt-2 text-zinc-200 italic"
+              data-role="voice-transcript"
+              aria-live="polite"
+            ></p>
+            <p data-role="voice-status" class="text-xs text-zinc-500 mt-1">
+              Idle.
+            </p>
+          </div>
         </div>
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between"><span class="text-zinc-400">Installs</span><span class="font-medium">937</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Weekly usage</span><span class="font-medium">219 sessions</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">89%</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">96.2%</span></div>
+      </section>
+
+      <!-- Agent list -->
+      <section aria-labelledby="agents-heading">
+        <h2 id="agents-heading" class="text-2xl font-semibold mb-6">
+          Installed agents
+        </h2>
+        <div
+          class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          data-role="agent-list"
+          aria-live="polite"
+        ></div>
+        <p data-role="empty" class="text-zinc-500 text-center py-12" hidden>
+          No agents yet. Click <strong>Add agent</strong> to install your first.
+        </p>
+      </section>
+
+      <p class="text-xs text-zinc-500 mt-16 text-center">
+        Your agent list is stored locally
+        (<code>localStorage["grok-install.my-agents"]</code>). Clearing browser
+        data resets it to the demo set.
+      </p>
+    </main>
+
+    <!-- Add-agent dialog -->
+    <dialog id="add-dialog" class="p-0 w-full max-w-md">
+      <form id="add-form" method="dialog" class="p-6 space-y-4">
+        <header class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold">Install agent</h3>
+          <button
+            type="button"
+            data-dialog-close
+            aria-label="Close"
+            class="px-2 py-1 rounded-lg hover:bg-white/10"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </header>
+        <label class="block">
+          <span class="text-sm text-zinc-400">Name</span>
+          <input
+            name="name"
+            required
+            maxlength="80"
+            class="w-full mt-1 bg-zinc-900 border border-white/10 rounded-2xl p-3 text-sm focus:border-[#00f0ff] focus:outline-none"
+            placeholder="My Cool Agent"
+          />
+        </label>
+        <label class="block">
+          <span class="text-sm text-zinc-400">Repository URL</span>
+          <input
+            name="repo"
+            type="url"
+            maxlength="300"
+            class="w-full mt-1 bg-zinc-900 border border-white/10 rounded-2xl p-3 text-sm focus:border-[#00f0ff] focus:outline-none"
+            placeholder="https://github.com/you/my-cool-agent"
+          />
+        </label>
+        <label class="block">
+          <span class="text-sm text-zinc-400">Category</span>
+          <input
+            name="category"
+            maxlength="40"
+            class="w-full mt-1 bg-zinc-900 border border-white/10 rounded-2xl p-3 text-sm focus:border-[#00f0ff] focus:outline-none"
+            placeholder="telegram, discord, x-native, …"
+          />
+        </label>
+        <div class="flex justify-end gap-2 pt-2">
+          <button
+            type="button"
+            data-dialog-close
+            class="px-4 py-2 rounded-3xl bg-white/5 hover:bg-white/10 text-sm"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 rounded-3xl bg-[#00f0ff] text-black font-semibold text-sm"
+          >
+            Install
+          </button>
         </div>
-        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
-                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
-          <i class="fa-solid fa-microphone"></i> Voice Update
-        </button>
-      </div>
-      <!-- Agent 3 -->
-      <div class="glass rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-4">
-          <strong>Discord AI Moderator</strong>
-          <span class="text-emerald-400 text-xs px-3 py-1 bg-emerald-400/10 rounded-3xl">Active</span>
-        </div>
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between"><span class="text-zinc-400">Installs</span><span class="font-medium">621</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Weekly usage</span><span class="font-medium">184 sessions</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">91%</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">97.4%</span></div>
-        </div>
-        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
-                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
-          <i class="fa-solid fa-microphone"></i> Voice Update
-        </button>
-      </div>
-    </div>
-    <p class="text-xs text-zinc-500 text-center">Data updated live • Auto-generated weekly reports sent via Grok DM</p>
-  </div>
+      </form>
+    </dialog>
 
-  <!-- How to Use My Agents Dashboard (shows BOTH text and voice versions) -->
-  <div class="glass rounded-3xl p-8 mb-12">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-book"></i>
-      How to Use My Agents Dashboard
-    </h2>
-    <div class="space-y-6 text-zinc-300">
-      <div>
-        <strong>1. Access the dashboard</strong><br>
-        Type: <code>@grok my agents</code><br>
-        Or say: “Hey Grok, show me my agents”
-      </div>
-      <div>
-        <strong>2. Voice commands (recommended)</strong><br>
-        “Hey Grok, update all my agents”<br>
-        “Hey Grok, orchestrate my agents”<br>
-        “Hey Grok, what is the status of my agents?”<br>
-        “Hey Grok, share my latest install”
-      </div>
-      <div>
-        <strong>3. See your installed agents + analytics</strong><br>
-        All agents you have installed via grok-install will appear here with live stats.
-      </div>
-      <div>
-        <strong>4. Orchestrate agents</strong><br>
-        Click “Link My Agents (Orchestrate)” or say “Hey Grok, orchestrate my agents”.
-      </div>
-      <div>
-        <strong>5. Share install cards</strong><br>
-        Use the Share button or say “Hey Grok, share my latest install”.
-      </div>
-    </div>
-    <p class="mt-8 text-sm text-emerald-400">
-      Tip: Voice commands work best on mobile with X voice mode. Text commands work everywhere.
-    </p>
-  </div>
-
-  <!-- Multi-Agent Orchestration (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-link"></i>
-      Multi-Agent Orchestration
-    </h2>
-    <p class="text-zinc-400 mb-6">Example trigger chain already set up:</p>
-    <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-      <strong>Twitter Reply Bot</strong> → on mention → updates → <strong>Hermes Telegram Dashboard</strong>
-    </div>
-    <button onclick="alert('Voice: \"Hey Grok, orchestrate my agents\"')" 
-            class="mt-8 w-full py-4 bg-[#1DA1F2] text-black font-semibold rounded-3xl flex items-center justify-center gap-3 hover:bg-[#00f0ff]">
-      <i class="fa-solid fa-plus"></i>
-      Link My Agents (Orchestrate)
-    </button>
-  </div>
-
-  <!-- Community Self-Management Tools (preserved exactly) -->
-  <div class="glass rounded-3xl p-8">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-users"></i>
-      Community Self-Management Tools
-    </h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2"><i class="fa-solid fa-vote-yea"></i> Community Voting</strong>
-        <button onclick="alert('Community voting opened – vote now!')"
-                class="mt-6 w-full py-3 bg-[#1DA1F2] text-black font-semibold rounded-3xl">Open Community Voting</button>
-      </div>
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Moderation Queue</strong>
-        <button onclick="alert('Moderation queue loaded – 3 agents waiting for review')"
-                class="mt-6 w-full py-3 border border-zinc-400 rounded-3xl">Open Moderation Queue</button>
-      </div>
-    </div>
-  </div>
-
-  <p class="text-xs text-zinc-500 mt-16 text-center">
-    This is the real grok-install private analytics dashboard with full voice support.
-  </p>
-  <div class="text-center mt-12 text-zinc-400">
-    Built live with @JanSol0s (Jani) &amp; Grok • v2.12 • Phase 14 Voice &amp; Mobile Experience • April 2026
-  </div>
-
-</body>
+    <script type="module" src="assets/my-agents.js"></script>
+  </body>
 </html>

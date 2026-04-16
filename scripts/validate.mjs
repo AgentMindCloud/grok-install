@@ -24,7 +24,9 @@ const validate = ajv.compile(schema);
 
 const defaultTargets = ["grok-install.yaml", "standard/examples"];
 const args = process.argv.slice(2);
-const targets = (args.length ? args : defaultTargets).map((p) => resolve(repoRoot, p));
+const targets = (args.length ? args : defaultTargets).map((p) =>
+  resolve(repoRoot, p),
+);
 
 function expand(target) {
   const st = statSync(target);

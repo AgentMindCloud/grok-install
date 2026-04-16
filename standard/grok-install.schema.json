@@ -76,7 +76,10 @@
         "enabled": { "type": "boolean" },
         "role": { "type": "string" },
         "can_trigger": { "type": "array", "items": { "type": "string" } },
-        "can_be_triggered_by": { "type": "array", "items": { "type": "string" } },
+        "can_be_triggered_by": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "visual_builder": { "type": "boolean" },
         "ai_suggested_patterns": { "type": "boolean" },
         "triggers": {
@@ -87,7 +90,10 @@
             "properties": {
               "event": { "type": "string" },
               "action": { "type": "string" },
-              "target_agents": { "type": "array", "items": { "type": "string" } }
+              "target_agents": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
             }
           }
         },

@@ -6,11 +6,17 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate.mjs",
-    "validate:all": "node scripts/validate.mjs grok-install.yaml standard/examples"
+    "validate:all": "node scripts/validate.mjs grok-install.yaml standard/examples",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "prettier": "^3.3.3",
+    "vitest": "^2.1.9"
   }
 }

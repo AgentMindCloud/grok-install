@@ -2,14 +2,12 @@
 // renders cards, wires the search box, and builds the category chip list from
 // whatever categories appear in the fixtures — no framework, just fetch + DOM.
 
-const CATEGORY_EMOJI = {
-  telegram: "📨",
-  "x-native": "🐦",
-  discord: "🛡️",
-  orchestration: "🔗",
-  twitter: "🐦",
-  example: "✨",
-};
+import {
+  emojiFor,
+  installCount,
+  matches,
+  uniqueCategories,
+} from "./marketplace-utils.js";
 
 const featuredRoot = document.querySelector('[data-role="featured"]');
 const featuredError = document.querySelector('[data-role="featured-error"]');
@@ -20,21 +18,15 @@ const searchCount = document.querySelector('[data-role="search-count"]');
 
 let allFeatured = [];
 
-function emojiFor(category) {
-  return CATEGORY_EMOJI[category] ?? "🤖";
-}
-
-function installCount(n) {
-  return Intl.NumberFormat("en-US").format(n);
-}
-
 function renderFeatured(list) {
   if (!featuredRoot) return;
   featuredRoot.setAttribute("aria-busy", "false");
   featuredRoot.innerHTML = "";
   if (!list.length) {
-    featuredRoot.innerHTML =
-      '<p class="col-span-3 text-zinc-500 text-center py-8">No agents match your search.</p>';
+    const empty = document.createElement("p");
+    empty.className = "col-span-3 text-zinc-500 text-center py-8";
+    empty.textContent = "No agents match your search.";
+    featuredRoot.appendChild(empty);
     return;
   }
   for (const agent of list) {
@@ -42,20 +34,32 @@ function renderFeatured(list) {
     card.href = agent.repo;
     card.className = "glass rounded-3xl p-6 card-hover block";
     card.rel = "noopener";
-    card.innerHTML = `
-      <div class="h-48 bg-zinc-800 rounded-2xl mb-4 flex items-center justify-center text-4xl"
-           aria-hidden="true">${emojiFor(agent.category)}</div>
-      <h4 class="font-semibold text-lg mb-2"></h4>
-      <p class="text-zinc-400 text-sm mb-4"></p>
-      <div class="flex items-center justify-between text-xs">
-        <span class="text-emerald-400"></span>
-        <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] rounded-3xl">Verified by Grok</span>
-      </div>
-    `;
-    card.querySelector("h4").textContent = agent.name;
-    card.querySelector("p").textContent = agent.description;
-    card.querySelector(".text-emerald-400").textContent =
-      `${installCount(agent.installs)} installs`;
+
+    const emoji = document.createElement("div");
+    emoji.className =
+      "h-48 bg-zinc-800 rounded-2xl mb-4 flex items-center justify-center text-4xl";
+    emoji.setAttribute("aria-hidden", "true");
+    emoji.textContent = emojiFor(agent.category);
+
+    const h4 = document.createElement("h4");
+    h4.className = "font-semibold text-lg mb-2";
+    h4.textContent = agent.name;
+
+    const p = document.createElement("p");
+    p.className = "text-zinc-400 text-sm mb-4";
+    p.textContent = agent.description;
+
+    const footer = document.createElement("div");
+    footer.className = "flex items-center justify-between text-xs";
+    const installs = document.createElement("span");
+    installs.className = "text-emerald-400";
+    installs.textContent = `${installCount(agent.installs)} installs`;
+    const badge = document.createElement("span");
+    badge.className = "px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] rounded-3xl";
+    badge.textContent = "Verified by Grok";
+    footer.append(installs, badge);
+
+    card.append(emoji, h4, p, footer);
     featuredRoot.appendChild(card);
   }
 }
@@ -96,20 +100,6 @@ function renderCategories(categories) {
   }
 }
 
-function matches(agent, q) {
-  if (!q) return true;
-  const needle = q.toLowerCase();
-  const hay = [
-    agent.name,
-    agent.description,
-    agent.category,
-    ...(agent.tags ?? []),
-  ]
-    .join(" ")
-    .toLowerCase();
-  return hay.includes(needle);
-}
-
 function applyFilter() {
   if (!searchInput) return;
   const q = searchInput.value.trim();
@@ -137,17 +127,13 @@ async function init() {
     allFeatured = featured.featured ?? [];
     renderFeatured(allFeatured);
     renderTrending(trending.trending_this_week ?? []);
-    const cats = Array.from(
-      new Set(allFeatured.map((a) => a.category).filter(Boolean)),
-    ).sort();
-    renderCategories(cats);
+    renderCategories(uniqueCategories(allFeatured));
   } catch (err) {
     if (featuredRoot) featuredRoot.setAttribute("aria-busy", "false");
     if (featuredError) {
       featuredError.textContent = `Could not load marketplace data: ${err.message}`;
       featuredError.classList.remove("hidden");
     }
-    // eslint-disable-next-line no-console
     console.error(err);
   }
 

@@ -3,6 +3,7 @@
 Thank you for adding grok-install support to your project!
 
 ### What was added / updated
+
 - `grok-install.yaml` at the root (v2.12 standard)
 - Full Phase 14 Voice & Mobile Experience support
 - Phase 12 Professional Marketplace features
@@ -11,7 +12,9 @@ Thank you for adding grok-install support to your project!
 - `promotion:` block (recommended for full passive growth)
 
 ### How it works now
+
 When users post your GitHub repo link on X, Grok will automatically:
+
 - Detect `grok-install.yaml`
 - Post a friendly welcome + blue **"Install with Grok"** pill
 - Run a pre-install safety scan
@@ -19,6 +22,7 @@ When users post your GitHub repo link on X, Grok will automatically:
 - Generate shareable install cards that help your agent grow passively
 
 ### Recommended badges for your README.md
+
 ```markdown
 <image-card alt="Grok-Installed" src="https://img.shields.io/badge/Grok-Installed-00f0ff?style=for-the-badge&logo=x&logoColor=white" ></image-card>
 <image-card alt="Passive Growth Enabled" src="https://img.shields.io/badge/Passive_Growth-00f0ff?style=for-the-badge&logo=x&logoColor=white" ></image-card>
@@ -33,3 +37,4 @@ Added the recommended badges to README.md
 Thank you for helping make one-click AI agent installs the open standard on X!
 Built live with @JanSol0s (Jani) & Grok.
 v2.12 – April 2026
+```
