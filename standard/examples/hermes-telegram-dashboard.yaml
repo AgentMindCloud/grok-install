@@ -1,4 +1,4 @@
-version: "2.10"
+version: "2.12"
 name: "Hermes Telegram Dashboard"
 description: "AI-powered community management dashboard for Telegram groups"
 repository: "https://github.com/AgentMindCloud/hermes-telegram-dashboard"
@@ -22,8 +22,9 @@ llm:
 # Passive Growth Engine
 promotion:
   auto_welcome: true
-  share_installs: true
+  auto_share: true
   weekly_highlight: true
+  builder_credits: "@JanSol0s"
 
 # Deployment
 mode: "simple"
@@ -73,5 +74,5 @@ credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.10"
+  version: "2.12"
   message: "Powered by grok-install open standard"

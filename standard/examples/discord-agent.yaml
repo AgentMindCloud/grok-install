@@ -1,4 +1,4 @@
-version: "2.10"
+version: "2.12"
 name: "Discord AI Moderator"
 description: "Friendly AI moderator for Discord servers with Grok + multi-LLM support"
 repository: "https://github.com/AgentMindCloud/discord-ai-mod"
@@ -22,8 +22,9 @@ llm:
 # Passive Growth Engine
 promotion:
   auto_welcome: true
-  share_installs: true
+  auto_share: true
   weekly_highlight: true
+  builder_credits: "@JanSol0s"
 
 # Deployment
 mode: "simple"
@@ -72,5 +73,5 @@ credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.10"
+  version: "2.12"
   message: "Powered by grok-install open standard"

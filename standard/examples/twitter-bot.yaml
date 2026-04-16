@@ -1,4 +1,4 @@
-version: "2.10"
+version: "2.12"
 name: "Smart Twitter Reply Bot"
 description: "Intelligent replies to mentions that trigger other agents"
 repository: "https://github.com/AgentMindCloud/twitter-reply-bot"
@@ -58,5 +58,5 @@ credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.10"
+  version: "2.12"
   message: "Powered by grok-install open standard"

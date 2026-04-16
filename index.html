@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="style.css">   <!-- Linked correctly here -->
   <style>
     :root { --cyan: #00f0ff; --magenta: #ff00aa; }
-    body { font-family: 'Inter', system_ui, sans-serif; background: #0a0a0a; color: #fff; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #fff; }
     .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(0,240,255,0.3); }
     .glass:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.3); }
     .hero-glow { text-shadow: 0 0 40px var(--cyan); }
@@ -54,93 +54,45 @@
       <i class="fa-solid fa-store"></i> Marketplace
     </h2>
 
+    <!-- Live Search -->
+    <div class="mb-12 glass rounded-3xl p-6">
+      <label for="marketplace-search" class="sr-only">Search agents</label>
+      <input id="marketplace-search" type="text"
+             placeholder="Search agents, tags, or categories..."
+             class="w-full bg-transparent border-b border-white/30 focus:outline-none text-xl py-4"
+             autocomplete="off">
+      <p class="text-xs text-zinc-500 mt-2" data-role="search-count" aria-live="polite"></p>
+    </div>
+
     <!-- Featured Carousel -->
     <div class="mb-16">
       <h3 class="text-2xl mb-6">Featured Agents</h3>
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- These cards will later be populated from featured-agents.json -->
-        <div class="glass rounded-3xl p-6 card-hover">
-          <div class="h-48 bg-zinc-800 rounded-2xl mb-4 flex items-center justify-center text-4xl">📊</div>
-          <h4 class="font-semibold text-lg mb-2">Hermes Telegram Dashboard</h4>
-          <p class="text-zinc-400 text-sm mb-4">AI-powered Telegram dashboard for community management.</p>
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-emerald-400">1,284 installs</span>
-            <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] rounded-3xl">Verified by Grok</span>
-          </div>
-        </div>
-
-        <div class="glass rounded-3xl p-6 card-hover">
-          <div class="h-48 bg-zinc-800 rounded-2xl mb-4 flex items-center justify-center text-4xl">🤖</div>
-          <h4 class="font-semibold text-lg mb-2">Smart Twitter Reply Bot</h4>
-          <p class="text-zinc-400 text-sm mb-4">Native X reply bot using Grok intelligence.</p>
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-emerald-400">937 installs</span>
-            <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] rounded-3xl">Verified by Grok</span>
-          </div>
-        </div>
-
-        <div class="glass rounded-3xl p-6 card-hover">
-          <div class="h-48 bg-zinc-800 rounded-2xl mb-4 flex items-center justify-center text-4xl">🛡️</div>
-          <h4 class="font-semibold text-lg mb-2">Discord AI Moderator</h4>
-          <p class="text-zinc-400 text-sm mb-4">AI moderator for Discord communities.</p>
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-emerald-400">621 installs</span>
-            <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] rounded-3xl">Verified by Grok</span>
-          </div>
-        </div>
+      <div class="grid md:grid-cols-3 gap-6" data-role="featured"
+           aria-busy="true" aria-label="Featured agents">
+        <div class="glass rounded-3xl p-6 animate-pulse h-64" aria-hidden="true"></div>
+        <div class="glass rounded-3xl p-6 animate-pulse h-64" aria-hidden="true"></div>
+        <div class="glass rounded-3xl p-6 animate-pulse h-64" aria-hidden="true"></div>
       </div>
+      <p class="text-sm text-rose-400 mt-4 hidden" data-role="featured-error"></p>
     </div>
 
     <!-- Trending + Categories -->
     <div class="grid md:grid-cols-2 gap-12">
       <div>
         <h3 class="text-2xl mb-6">Trending this week</h3>
-        <div class="space-y-4">
-          <!-- Placeholder for trending items (will use trending.json later) -->
-          <div class="glass p-4 rounded-2xl flex justify-between items-center">
-            <span>Hermes Telegram Dashboard</span>
-            <span class="text-emerald-400">+284 installs</span>
-          </div>
-          <div class="glass p-4 rounded-2xl flex justify-between items-center">
-            <span>Smart Twitter Reply Bot</span>
-            <span class="text-emerald-400">+197 installs</span>
-          </div>
+        <div class="space-y-4" data-role="trending" aria-label="Trending agents this week">
+          <div class="glass p-4 rounded-2xl animate-pulse h-14" aria-hidden="true"></div>
+          <div class="glass p-4 rounded-2xl animate-pulse h-14" aria-hidden="true"></div>
         </div>
       </div>
       <div>
         <h3 class="text-2xl mb-6">Categories</h3>
-        <div class="flex flex-wrap gap-3">
-          <div class="glass px-5 py-2 rounded-3xl text-sm">Telegram</div>
-          <div class="glass px-5 py-2 rounded-3xl text-sm">X-Native</div>
-          <div class="glass px-5 py-2 rounded-3xl text-sm">Discord</div>
-          <div class="glass px-5 py-2 rounded-3xl text-sm">Orchestration</div>
-        </div>
+        <div class="flex flex-wrap gap-3" data-role="categories" aria-label="Agent categories"></div>
       </div>
-    </div>
-
-    <!-- Live Search -->
-    <div class="mt-16 glass rounded-3xl p-8">
-      <input type="text" placeholder="Search agents or tags..." 
-             class="w-full bg-transparent border-b border-white/30 focus:outline-none text-xl py-4">
     </div>
   </div>
 
   <!-- Phase 10 – Native X Integration, Intelligence Layer & Ecosystem Dominance -->
-  <div class="max-w-5xl mx-auto px-6 py-12">
-    <div class="glass rounded-3xl p-8 border border-[#00f0ff]/30">
-      <h2 class="text-4xl font-semibold mb-6 text-center flex items-center justify-center gap-3">
-        <i class="fa-solid fa-rocket text-[#00f0ff]"></i>
-        Phase 10 – Now Live
-      </h2>
-      <!-- (all your original Phase 10 content continues here exactly as before) -->
-    </div>
-  </div>
-
-  <script>
-    console.log('%c✅ index.html v2.12 redesigned for Phase 12 Marketplace + Passive Growth Engine', 'color:#00f0ff; font-family:monospace');
-  </script>
-</body>
-</html>
   <div class="max-w-5xl mx-auto px-6 py-12">
     <div class="glass rounded-3xl p-8 border border-[#00f0ff]/30">
       <h2 class="text-4xl font-semibold mb-6 text-center flex items-center justify-center gap-3">
@@ -416,7 +368,15 @@
 
   <div class="text-center py-16 border-t border-zinc-800 mt-20">
     <p class="text-zinc-400">Made with ❤️ for the X AI community • By @JanSol0s (Jani) • Built live with Grok • v2.12 (April 2026)</p>
+    <p class="text-zinc-500 text-sm mt-4">
+      <a href="validate.html" class="underline hover:text-[#00f0ff]">Validate your grok-install.yaml</a>
+      •
+      <a href="my-agents.html" class="underline hover:text-[#00f0ff]">My agents</a>
+      •
+      <a href="https://github.com/AgentMindCloud/grok-install" class="underline hover:text-[#00f0ff]">GitHub</a>
+    </p>
   </div>
 
+  <script type="module" src="assets/app.js"></script>
 </body>
 </html>

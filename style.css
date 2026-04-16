@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: 'Inter', system_ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   background: var(--bg);
   color: #fff;
   line-height: 1.5;

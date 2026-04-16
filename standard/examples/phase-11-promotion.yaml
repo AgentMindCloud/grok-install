@@ -1,0 +1,32 @@
+# Phase 11 — minimal Passive Growth Engine example.
+# Shows the smallest useful grok-install.yaml that opts in to every
+# passive-growth surface (auto-welcome, share cards, weekly highlight thread,
+# trending boosts) with attribution.
+version: "2.12"
+name: "Minimal Growth Agent"
+description: "Smallest valid grok-install.yaml that opts in to the full Passive Growth Engine."
+repository: "https://github.com/AgentMindCloud/grok-install"
+category: "example"
+tags: ["template", "phase-11", "promotion"]
+ecosystem: ["grok", "x"]
+
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  minimum_keys_only: true
+
+# The block Grok looks for to activate the Passive Growth Engine.
+promotion:
+  auto_welcome: true
+  auto_share: true
+  weekly_highlight: true
+  featured: false
+  builder_credits: "@JanSol0s"
+  support_link: "https://github.com/sponsors/JanSol0s"
+
+credits:
+  standard: "grok-install"
+  author: "@JanSol0s"
+  url: "https://github.com/AgentMindCloud/grok-install"
+  version: "2.12"
+  message: "Powered by grok-install open standard"
