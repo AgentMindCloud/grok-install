@@ -20,12 +20,37 @@
     <div class="max-w-5xl mx-auto px-6 text-center">
       <div class="inline-flex items-center gap-3 mb-6 glass px-6 py-2 rounded-3xl text-sm">
         <i class="fa-solid fa-bolt text-[#1DA1F2]"></i>
-        <span class="text-zinc-300">v2.9 • Phase 8: Developer Experience Polish</span>
+        <span class="text-zinc-300">v2.9 • Phase 9: Enhanced Safety & Verification 2.0</span>
       </div>
       <h1 class="text-7xl font-bold tracking-tighter hero-glow mb-6">grok-install</h1>
       <p class="text-3xl text-zinc-300 max-w-2xl mx-auto mb-10">
         The open standard to install any AI agent in one click on X using Grok
       </p>
+    </div>
+  </div>
+
+  <!-- Enhanced Safety & Verification 2.0 -->
+  <div class="max-w-5xl mx-auto px-6 py-12">
+    <div class="glass rounded-3xl p-8 border border-emerald-400/30">
+      <h2 class="text-4xl font-semibold mb-6 text-center flex items-center justify-center gap-3">
+        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+        Enhanced Safety & Verification 2.0
+      </h2>
+      <div class="grid md:grid-cols-3 gap-8 text-center">
+        <div>
+          <h3 class="text-xl font-semibold mb-2">Pre-Install Deep Scan</h3>
+          <p class="text-zinc-400 text-sm">Grok automatically scans every file in the repo before asking for any keys.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-2">Verified by Grok Badge</h3>
+          <p class="text-zinc-400 text-sm">Clear scan summary shown to user + visible badge on install.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-2">Minimum Keys Only</h3>
+          <p class="text-zinc-400 text-sm">Most environment variables are now optional. Installation is easier and safer.</p>
+        </div>
+      </div>
+      <p class="text-center text-emerald-400 text-sm mt-8">Zero major safety incidents • Maximum transparency • Backward compatible with v2.8</p>
     </div>
   </div>
 
@@ -35,12 +60,12 @@
       <h2 class="text-4xl font-semibold mb-6 text-center">✦ What’s New in v2.9</h2>
       <div class="grid md:grid-cols-2 gap-8">
         <div>
-          <h3 class="text-xl font-semibold mb-3">Auto-update all my agents</h3>
-          <p class="text-zinc-400 text-sm">One command updates every installed agent instantly.</p>
+          <h3 class="text-xl font-semibold mb-3">Enhanced Safety & Verification 2.0</h3>
+          <p class="text-zinc-400 text-sm">Automated deep code scanning + Verified by Grok badge before any install.</p>
         </div>
         <div>
-          <h3 class="text-xl font-semibold mb-3">Template generator</h3>
-          <p class="text-zinc-400 text-sm">@grok generate template orchestration – ready-made patterns.</p>
+          <h3 class="text-xl font-semibold mb-3">Auto-update all my agents</h3>
+          <p class="text-zinc-400 text-sm">One command updates every installed agent instantly.</p>
         </div>
       </div>
     </div>
@@ -100,7 +125,7 @@
           <tr>
             <td class="py-4"><code>@grok install this</code></td>
             <td class="py-4">Reply to any GitHub link containing grok-install.yaml</td>
-            <td class="py-4">Starts one-click install flow</td>
+            <td class="py-4">Starts one-click install flow with pre-install security scan</td>
             <td class="py-4">Works on public repos with valid YAML</td>
           </tr>
         </tbody>
