@@ -1,10 +1,9 @@
-# grok-install.yaml – Root Template (v2.11)
+# grok-install.yaml – Root Template (v2.12)
 # This is the official reference template for the grok-install standard.
 # Place a copy of this (or a customized version) at the root of any agent repo.
-
-version: "2.11"
+version: "2.12"
 name: "Example Agent Template"
-description: "Official grok-install reference template with full Phase 10 support"
+description: "Official grok-install reference template with full Phase 10 + Phase 11 Passive Growth Engine"
 repository: "https://github.com/AgentMindCloud/grok-install"
 category: "example"
 tags: ["template", "reference", "x-native"]
@@ -14,7 +13,7 @@ ecosystem: ["grok", "x"]
 # === PHASE 10 NEW BLOCKS ===
 # Native X Agent Runtime (Goal 1)
 x_native_runtime:
-  type: "reply-bot"          # options: reply-bot | dm-handler | trend-monitor | custom
+  type: "reply-bot" # options: reply-bot | dm-handler | trend-monitor | custom
   permissions: ["tweet.read", "tweet.write", "dm.read"]
   grok_orchestrator: true
   one_click_x_deploy: true
@@ -49,13 +48,13 @@ orchestration:
   can_be_triggered_by: []
   visual_builder: true
   ai_suggested_patterns: true
-  triggers: []     
-  
-# LLM Configuration           # most keys are now optional
-llm:                          # Recommended multi-LLM section
-  provider: "xai"             # xai | openai | anthropic | ollama | custom
+  triggers: []
+
+# LLM Configuration (most keys now optional)
+llm:
+  provider: "xai" # xai | openai | anthropic | ollama | custom
   model: "grok-4"
-  api_key_env: "GROK_API_KEY" # Grok will ask privately only for truly required keys
+  api_key_env: "GROK_API_KEY"
 
 # Deployment Targets
 deployment:
@@ -64,11 +63,6 @@ deployment:
     - railway
     - vercel
     - docker
-    
-# Multi-Agent Orchestration (Phase 7)
-orchestration:
-  enabled: false
-  role: "agent"
 
 # Post-install experience
 on_install:
@@ -80,10 +74,19 @@ on_install:
 # Update & maintenance
 update_strategy: "semver"
 
+# === PHASE 11 NEW BLOCK – Passive Growth Engine ===
+promotion:
+  auto_welcome: true
+  auto_share: true
+  weekly_highlight: true
+  featured: false
+  builder_credits: "@JanSol0s"
+  support_link: "https://github.com/sponsors/JanSol0s"
+
 # Credits (strongly recommended for attribution)
 credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.11"
+  version: "2.12"
   message: "Powered by grok-install open standard"
