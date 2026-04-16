@@ -1,29 +1,22 @@
-# =====================
-# Hide all Phase / Planning / Progress files
-# =====================
+# Phase / planning / progress notes (kept out of the public repo)
 PHASE-*.md
 *PHASE*.md
 *phase*.md
-PHASE*.md
-*PHASE-*.md
-
-# Also catch variations with different casing (Git on Linux is case-sensitive)
 *[Pp][Hh][Aa][Ss][Ee]*.md
-
-# Specific folders if you ever put them in subfolders
 **/PHASE-*/
 **/phase-*/
 
-# =====================
-# Other common files you probably also want to ignore
-# =====================
 # Build artifacts
 build/
 dist/
 out/
 target/
 
-# Logs and temporary files
+# Node
+node_modules/
+npm-debug.log*
+
+# Logs and temp files
 *.log
 *.tmp
 *.cache
@@ -33,28 +26,10 @@ target/
 .env.local
 .env.*.local
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
 # Editor / IDE
 .vscode/
 .idea/
-
-# Remove all PHASE files from Git tracking
-git rm --cached PHASE-*.md
-git rm --cached "*PHASE*.md"
-
-# If you have any in subfolders
-git rm --cached -r "**/PHASE-*" 2>/dev/null || true
-
-# Remove all PHASE files from Git (but keep them on your PC)
-git rm --cached PHASE-*.md
-git rm --cached "*PHASE*.md"
-
-# Or do it in one safer command:
-git rm --cached $(git ls-files | grep -i "PHASE")
-
-git add .gitignore
-git commit -m "Add .gitignore and remove all PHASE planning files from repo"
-git push

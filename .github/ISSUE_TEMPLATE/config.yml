@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security disclosure
+    url: https://github.com/AgentMindCloud/grok-install/security/advisories/new
+    about: Report a vulnerability privately. See SECURITY.md.
+  - name: Community questions
+    url: https://github.com/AgentMindCloud/grok-install/discussions
+    about: Ask questions or share your agent in Discussions.

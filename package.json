@@ -1,0 +1,16 @@
+{
+  "name": "grok-install",
+  "private": true,
+  "version": "2.12.0",
+  "description": "Open standard for one-click AI agent installation on X via Grok.",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "validate:all": "node scripts/validate.mjs grok-install.yaml standard/examples"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "js-yaml": "^4.1.0"
+  }
+}

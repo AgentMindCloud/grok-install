@@ -1,0 +1,50 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    name: Validate grok-install.yaml against schema
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Check schema is valid JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('standard/grok-install.schema.json','utf8'))"
+
+      - name: Validate root template and all examples
+        run: npm run validate:all
+
+  lint-json:
+    name: Lint JSON fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse featured-agents.json
+        run: node -e "JSON.parse(require('fs').readFileSync('featured-agents.json','utf8'))"
+      - name: Parse trending.json
+        run: node -e "JSON.parse(require('fs').readFileSync('trending.json','utf8'))"
+
+  links:
+    name: Markdown link check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links in README and docs
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --verbose --max-concurrency 4 './**/*.md'
+          fail: false

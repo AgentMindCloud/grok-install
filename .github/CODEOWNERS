@@ -1,0 +1,15 @@
+# CODEOWNERS for grok-install
+# Each line is a file pattern followed by one or more owners.
+# Owners are auto-requested for review on matching PRs.
+
+# Default owner for everything in the repo
+*                                   @JanSol0s
+
+# Specification and schema changes require spec owners
+/standard/spec.md                   @JanSol0s
+/standard/grok-install.schema.json  @JanSol0s
+/grok-install.yaml                  @JanSol0s
+
+# CI and automation
+/.github/                           @JanSol0s
+/scripts/                           @JanSol0s

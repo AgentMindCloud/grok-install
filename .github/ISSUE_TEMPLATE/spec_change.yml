@@ -1,0 +1,40 @@
+name: Spec change proposal
+description: Propose a new field, block, or version bump for grok-install.yaml.
+labels: ["spec"]
+body:
+  - type: input
+    id: block
+    attributes:
+      label: Target block or field
+      placeholder: "e.g. promotion.builder_credits, or a new intelligence_layer.* field"
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why does this need to exist?
+      description: What use case does it unlock? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed shape
+      description: YAML snippet showing how the new field looks in practice.
+      render: yaml
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety considerations
+      description: Any new permissions, trust implications, or scan requirements?
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: I will also update
+      options:
+        - label: "`standard/spec.md` (prose)"
+        - label: "`standard/grok-install.schema.json` (schema)"
+        - label: "`grok-install.yaml` (reference template)"
+        - label: "An example under `standard/examples/`"

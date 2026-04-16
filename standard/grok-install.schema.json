@@ -1,74 +1,210 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "grok-install v2.4",
+  "$id": "https://agentmindcloud.github.io/grok-install/standard/grok-install.schema.json",
+  "title": "grok-install v2.12",
+  "description": "Open standard for one-click AI agent installation on X via Grok. Covers Phase 10 (Native X Runtime, Intelligence Layer, Reputation) and Phase 11 (Passive Growth Engine).",
   "type": "object",
   "required": ["version", "name", "description"],
+  "additionalProperties": true,
   "properties": {
-    "version": { "type": "string", "enum": ["2.4"] },
-    "name": { "type": "string" },
-    "description": { "type": "string" },
+    "version": {
+      "type": "string",
+      "enum": ["2.4", "2.10", "2.11", "2.12"],
+      "description": "Spec version the file targets. Current: 2.12."
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
     "repository": { "type": "string", "format": "uri" },
     "category": { "type": "string" },
     "tags": { "type": "array", "items": { "type": "string" } },
     "featured": { "type": "boolean" },
     "ecosystem": { "type": "array", "items": { "type": "string" } },
 
-    "llm": {
+    "x_native_runtime": {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "provider": { "type": "string", "enum": ["xai", "openai", "anthropic", "ollama", "custom"] },
-        "model": { "type": "string" },
-        "api_key_env": { "type": "string" }
+        "type": {
+          "type": "string",
+          "enum": ["reply-bot", "dm-handler", "trend-monitor", "custom"]
+        },
+        "permissions": { "type": "array", "items": { "type": "string" } },
+        "grok_orchestrator": { "type": "boolean" },
+        "one_click_x_deploy": { "type": "boolean" }
       }
     },
 
-    "promotion": {
+    "intelligence_layer": {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "auto_welcome": { "type": "boolean" },
-        "share_installs": { "type": "boolean" },
-        "weekly_highlight": { "type": "boolean" }
+        "function_calling": { "type": "boolean" },
+        "real_time_tools": { "type": "boolean" },
+        "multi_agent_swarm": { "type": "boolean" },
+        "grok_coordinates": { "type": "boolean" },
+        "ai_suggested_teams": { "type": "boolean" }
       }
     },
 
-    "mode": { "type": "string", "enum": ["simple", "advanced"] },
-    "preferred_deploy": { "type": "array", "items": { "type": "string" } },
-
-    "deploy": {
+    "reputation": {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "env": {
+        "public_score": { "type": "boolean" },
+        "verified_by_grok": { "type": "boolean" },
+        "scan_history": { "type": "boolean" },
+        "automated_recommendations": { "type": "boolean" }
+      }
+    },
+
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "pre_install_scan": { "type": "boolean" },
+        "verified_by_grok": { "type": "boolean" },
+        "scan_summary_visible": { "type": "boolean" },
+        "minimum_keys_only": { "type": "boolean" },
+        "safety_checklist": { "type": "boolean" }
+      }
+    },
+
+    "orchestration": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "role": { "type": "string" },
+        "can_trigger": { "type": "array", "items": { "type": "string" } },
+        "can_be_triggered_by": { "type": "array", "items": { "type": "string" } },
+        "visual_builder": { "type": "boolean" },
+        "ai_suggested_patterns": { "type": "boolean" },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "event": { "type": "string" },
+              "action": { "type": "string" },
+              "target_agents": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "safety": {
           "type": "object",
-          "additionalProperties": {
-            "type": "string",
-            "description": "Description shown to the user during private guided install"
+          "additionalProperties": true,
+          "properties": {
+            "permission_check": { "type": "boolean" },
+            "approval_required": { "type": "boolean" },
+            "verified_orchestration": { "type": "boolean" }
           }
         }
       }
     },
 
-    "security": {
+    "marketplace": {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "verified_by_grok": { "type": "boolean" },
-        "safety_checklist": { "type": "boolean" }
+        "featured": { "type": "boolean" },
+        "discovery": { "type": "boolean" },
+        "insights": { "type": "boolean" },
+        "shareable_cards": { "type": "boolean" }
       }
     },
 
+    "llm": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": ["xai", "openai", "anthropic", "ollama", "custom"]
+        },
+        "model": { "type": "string" },
+        "api_key_env": { "type": "string" }
+      }
+    },
+
+    "analytics": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "public_insights": { "type": "boolean" }
+      }
+    },
+
+    "self_hosted": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "orchestrator": { "type": "string" },
+        "grok_api_key_env": { "type": "string" }
+      }
+    },
+
+    "enterprise": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "team_workspace": { "type": "boolean" },
+        "audit_log": { "type": "boolean" },
+        "members": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "governance": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "voting_enabled": { "type": "boolean" },
+        "builder_council": { "type": "boolean" },
+        "auto_changelog": { "type": "boolean" }
+      }
+    },
+
+    "deployment": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "preferred": { "type": "array", "items": { "type": "string" } },
+        "targets": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "deploy": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "env": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+
+    "mode": { "type": "string", "enum": ["simple", "advanced"] },
+    "preferred_deploy": { "type": "array", "items": { "type": "string" } },
     "update_strategy": { "type": "string", "enum": ["semver", "always"] },
     "auto_generate": { "type": "boolean" },
-
     "shareable_card": { "type": "boolean" },
 
     "on_install": {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "welcome_message": { "type": "string" }
+        "welcome": { "type": "string" },
+        "welcome_message": { "type": "string" },
+        "suggested_commands": { "type": "array", "items": { "type": "string" } }
       }
     },
 
     "community": {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
         "onboard": { "type": "boolean" },
         "voting_enabled": { "type": "boolean" },
@@ -76,20 +212,23 @@
       }
     },
 
-    "orchestration": {
+    "promotion": {
       "type": "object",
+      "description": "Phase 11 Passive Growth Engine. Present only if the author opts in.",
+      "additionalProperties": true,
       "properties": {
-        "enabled": { "type": "boolean" },
-        "role": { "type": "string" },
-        "can_trigger": { "type": "array", "items": { "type": "string" } },
-        "can_be_triggered_by": { "type": "array", "items": { "type": "string" } },
-        "triggers": { "type": "array", "items": { "type": "object" } },
-        "safety": { "type": "object" }
+        "auto_welcome": { "type": "boolean" },
+        "auto_share": { "type": "boolean" },
+        "weekly_highlight": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "builder_credits": { "type": "string" },
+        "support_link": { "type": "string" }
       }
     },
 
     "credits": {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
         "standard": { "type": "string" },
         "author": { "type": "string" },
