@@ -1,0 +1,31 @@
+{
+  "featured": [
+    {
+      "name": "Hermes Telegram Dashboard",
+      "description": "AI-powered Telegram dashboard for community management and real-time updates from connected agents.",
+      "repo": "https://github.com/AgentMindCloud/hermes-telegram-dashboard",
+      "installs": 1284,
+      "category": "telegram",
+      "tags": ["dashboard", "community", "orchestration"],
+      "featured": true
+    },
+    {
+      "name": "Smart Twitter Reply Bot",
+      "description": "Native X reply bot that intelligently responds to mentions using Grok.",
+      "repo": "https://github.com/AgentMindCloud/twitter-reply-bot",
+      "installs": 937,
+      "category": "x-native",
+      "tags": ["reply-bot", "automation"],
+      "featured": true
+    },
+    {
+      "name": "Discord AI Moderator",
+      "description": "AI-powered Discord moderator that works with other agents for community management.",
+      "repo": "https://github.com/AgentMindCloud/discord-ai-mod",
+      "installs": 621,
+      "category": "discord",
+      "tags": ["moderator", "community"],
+      "featured": true
+    }
+  ]
+}
