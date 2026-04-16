@@ -1,0 +1,75 @@
+/* style.css – grok-install Design System v2.12 (Phase 12) */
+
+:root {
+  --cyan: #00f0ff;
+  --magenta: #ff00aa;
+  --bg: #0a0a0a;
+  --surface: rgba(255,255,255,0.08);
+}
+
+body {
+  font-family: 'Inter', system_ui, sans-serif;
+  background: var(--bg);
+  color: #fff;
+  line-height: 1.5;
+}
+
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.3);
+}
+
+.hero-glow {
+  text-shadow: 0 0 40px var(--cyan);
+}
+
+.neon-cyan {
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan);
+}
+
+.card-hover:hover {
+  transform: scale(1.03);
+  box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.2);
+}
+
+/* Typography */
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+input[type="text"] {
+  background: transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+  border-color: var(--cyan);
+  outline: none;
+}
+
+/* Micro-animations */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+/* Mobile-first breakpoints */
+@media (max-width: 768px) {
+  .glass {
+    border-radius: 1rem;
+  }
+}
