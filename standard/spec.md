@@ -1,23 +1,25 @@
-grok-install Specification (v2.8)
+grok-install Specification (v2.9)
 
 Overview
 grok-install.yaml is the open standard that lets any developer make their AI agent installable with one click on X using Grok.
 
 File Location
-Must be placed at the root of your public GitHub repository:  
-`grok-install.yaml`
+Must be placed at the root of your public GitHub repository:
+grok-install.yaml
 
 Version
-Current version: 2.8
+Current version: 2.9
 
-New in v2.8
-- Community-voted roadmap (using the voting tools we already built)
-- Builder council for template approval and dispute resolution
-- Automatic changelog + version-bump tools
+New in v2.9 – Enhanced Safety & Verification 2.0
+• Automated deep code scanning before any install
+• Pre-install security scan on all repo files (Grok detects anything unusual)
+• “Verified by Grok” badge with visible scan summary shown to user
+• Reduced security requirements to minimum – most keys are now optional
 
 Recommended Template (copy-paste ready)
+
 ```yaml
-version: "2.8"
+version: "2.9"
 name: "My Awesome Agent"
 description: "Short clear description"
 repository: "https://github.com/yourname/my-agent"
@@ -25,6 +27,13 @@ category: "telegram"
 tags: ["ai", "dashboard", "community", "tesla"]
 featured: true
 ecosystem: ["grok", "x", "tesla"]
+
+# Safety & Verification 2.0 (new in v2.9)
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true   # most keys are optional
 
 llm:
   provider: "xai"
@@ -51,11 +60,11 @@ enterprise:
   audit_log: true
   members: ["@team-member1", "@team-member2"]
 
-# Governance & Community Self-Management 2.0 (Phase 8 Goal 5 – NEW)
+# Governance & Community Self-Management 2.0 (Phase 8)
 governance:
-  voting_enabled: true             # community-voted roadmap
-  builder_council: true            # template approval & dispute resolution
-  auto_changelog: true             # automatic changelog + version-bump tools
+  voting_enabled: true
+  builder_council: true
+  auto_changelog: true
 
 # Multi-Agent Orchestration (Phase 7)
 orchestration:
@@ -71,25 +80,20 @@ orchestration:
     permission_check: true
     approval_required: true
     verified_orchestration: true
-Governance & Community Self-Management 2.0
-
-governance.voting_enabled: true → activates community voting on roadmap items
-governance.builder_council: true → joins the Builder Council for template approval and dispute resolution
-governance.auto_changelog: true → enables automatic changelog generation and version-bump tools
-
-How it works
-Builders with these fields set can now vote on the roadmap using the existing voting tools.
-The Builder Council reviews and approves new templates.
-Grok automatically creates changelogs and suggests version bumps on every update.
+How Safety & Verification 2.0 works
+• Before asking for any keys, Grok runs a deep security scan on the entire repo.
+• Only truly required secrets are asked for (minimum_keys_only: true).
+• User sees a clear “Verified by Grok” badge + scan summary before confirming install.
+• All previous v2.8 files continue to work unchanged.
 Backward Compatibility
-All v2.7 files continue to work unchanged.
-Only agents that set governance.voting_enabled: true or governance.builder_council: true gain the new governance features.
+All v2.8 files continue to work unchanged.
+Only agents that set safety.pre_install_scan: true gain the new verification features.
 Credits (strongly recommended)
 YAMLcredits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.8"
+  version: "2.9"
   message: "Powered by grok-install open standard"
 Built live with @JanSol0s (Jani) & Grok.
 Keep it clean, calm, and precise.
