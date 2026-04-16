@@ -1,4 +1,4 @@
-version: "2.9"
+version: "2.10"
 name: "Smart Twitter Reply Bot"
 description: "Intelligent replies to mentions that trigger other agents"
 repository: "https://github.com/AgentMindCloud/twitter-reply-bot"
@@ -6,6 +6,13 @@ category: "twitter"
 tags: ["reply-bot", "automation", "social", "orchestration"]
 featured: true
 ecosystem: ["grok", "x", "twitter"]
+
+# Safety & Verification 2.0 (Phase 9)
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true
 
 llm:
   provider: "xai"
@@ -21,14 +28,14 @@ analytics:
 discovery:
   verified_orchestration: true
 
-# Multi-Agent Orchestration (Phase 7 + Phase 8)
+# Multi-Agent Orchestration
 orchestration:
   enabled: true
-  role: "listener"                    # This bot listens and triggers others
+  role: "listener"
   can_trigger: ["hermes"]
   can_be_triggered_by: []
   triggers:
-    - event: "mention"                # When someone mentions the bot on X
+    - event: "mention"
       action: "forward_to_dashboard"
       target_agents: ["hermes"]
   safety:
@@ -51,5 +58,5 @@ credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.9"
+  version: "2.10"
   message: "Powered by grok-install open standard"
