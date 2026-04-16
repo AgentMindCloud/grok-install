@@ -1,52 +1,43 @@
-# grok-install — v2.4
+# grok-install — v2.10
+**The open X-native AI Agent Marketplace**
 
-**The open X-native AI Agent Marketplace**  
-Install any AI agent with one click on X using Grok.
-
+Install any AI agent with one click on X using Grok.  
 The platform now grows itself while you sleep.
 
-## ✨ What’s New in v2.4
-
-- Official `llm:` section – native multi-LLM support (Grok + OpenAI + Claude + Ollama + custom)
-- Standardized `credits:` block – automatic attribution on every install
-- All three demo repos updated to v2.4
-- Full backward compatibility
-
-## What’s New in v2.2 / v2.3 (Phase 5–7)
-
-- Passive Growth Engine – Grok auto-detects any new public repo with grok-install.yaml and replies with welcome + blue Install pill
-- Advanced Safety & Trust – Full automated code scan + “Verified by Grok” badge
-- Awesome Developer Experience – `@grok generate grok-install.yaml`, `@grok update all my agents`, private analytics
-- Awesome User Experience – One-tap shareable install cards + Featured Agents section
-- Multi-Agent Orchestration (Phase 7) – triggers, safety layer, community templates
+## ✨ What’s New in v2.10 – Phase 9 Complete
+- Enhanced Safety & Verification 2.0 (pre-install deep scan + Verified by Grok badge)
+- Global Scale & Performance (10,000+ agents, fast search, caching, improved rate limiting)
+- Developer Experience & Tooling (one-command template generator, auto-update + rollback, debugging tools)
+- Advanced Orchestration & AI-Native Features (visual builder + AI-suggested patterns)
+- Full Agent Marketplace Development (expanded insights, discovery, shareable cards)
+- Minimum security requirements – most keys are now optional
+- All files updated with one clean update each
 
 ## How to Use (30 seconds)
-
 1. Add `grok-install.yaml` at the root of your repo (use the [full spec](standard/spec.md))
 2. Commit & push
-3. Post your GitHub link on X → Grok automatically replies with the Install pill
+3. Post your GitHub link on X → Grok automatically replies with the Install pill + pre-install security scan
 
-**Pro tip:** Add the `llm:` and `credits:` blocks for the best experience.
+**Pro tip:** Add the `safety:` and `credits:` blocks for the best experience.
 
 ## Full Specification
-See [standard/spec.md](standard/spec.md) and [grok-install.schema.json](grok-install.schema.json)
+See [standard/spec.md](standard/spec.md)
 
-## Live Demo Agents (v2.4 ready)
-
+## Live Demo Agents (v2.10 ready)
 - [Hermes Telegram Dashboard](https://github.com/AgentMindCloud/hermes-telegram-dashboard)
 - [Smart Twitter Reply Bot](https://github.com/AgentMindCloud/twitter-reply-bot)
 - [Discord AI Moderator](https://github.com/AgentMindCloud/discord-ai-mod)
 
 ## Private Dashboard
-Type `@grok my agents` in any chat with Grok to see your installs, analytics, orchestration view, and shareable cards.
+Type `@grok my agents` in any chat with Grok to see your installs, analytics, orchestration view, shareable cards, and safety scan summary.
 
 ## Security & Trust
-See [SECURITY.md](SECURITY.md) – every install runs a full automated scan.
+See [SECURITY.md](SECURITY.md) – every install now runs a full automated deep scan before asking for keys.
 
-## Weekly Thread
-Every Sunday Grok auto-posts the latest updates using [weekly-thread-template.md](weekly-thread-template.md).
+## Postponed Goals
+See [# POSTPONED-GOALS.md](POSTPONED-GOALS.md)
 
 Built live with @JanSol0s (Jani) & Grok.  
-Phase 7 complete • v2.4 (April 2026)
+Phase 9 complete • v2.10 (April 2026)
 
 Star this repo if you want to help shape the future of AI agents on X.
