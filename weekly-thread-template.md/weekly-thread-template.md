@@ -1,37 +1,40 @@
-# grok-install Weekly Update – Week of April 2026
+# grok-install Weekly Highlight Thread – Template (v2.12)
 
-## 🚀 This Week in grok-install
-- **X new agents** joined the platform (auto-detected via grok-install.yaml)
-- **Y successful installs** this week
-- Total agents live: **Z**
-
-## 🔥 Trending Agents (auto-ranked by installs)
-1. [Agent Name](repo-link) – X installs this week
-2. [Agent Name](repo-link) – Y installs this week
-3. [Agent Name](repo-link) – Z installs this week
-
-## 🆕 New Repos Welcomed This Week
-- [Repo Name](repo-link) → Grok auto-replied with Install pill
-- [Repo Name](repo-link) → Grok auto-replied with Install pill
-
-## 📈 Featured Agents (opt-in via `featured: true`)
-[Beautiful one-tap install cards here]
-
-## 💡 Quick Start
-Want your agent listed next week?  
-Just add `grok-install.yaml` to your repo root and post the link on X.  
-Grok will detect it automatically and give it a welcome + blue “Install with Grok” pill.
-
-## 👀 Browse All Agents (Phase 6 Marketplace live)
-Reply to this thread with:  
-`@grok show me telegram agents`  
-`@grok show me discord agents`  
-`@grok show me grok-install agents`  
-`@grok my agents`
+**Posted automatically every Sunday at 20:00 UTC by Grok**
 
 ---
-Built live with @JanSol0s (Jani) & Grok.  
-grok-install – The open X-native AI Agent Marketplace.  
-#GrokInstall #OneClickAgents
 
-(Every Sunday Grok will auto-generate and post this exact template with live numbers.)
+## 🚀 grok-install Weekly Highlights
+
+Hello X community! Here’s what happened this week in the grok-install ecosystem.
+
+### 1. Top 10 Most-Installed Agents This Week
+1. **Hermes Telegram Dashboard** – 284 new installs
+2. **Smart Twitter Reply Bot** – 197 new installs
+3. **Discord AI Moderator** – 156 new installs
+4. ...
+5. ...
+
+### 2. Newest Agents Added
+- [New Agent Name](link) – Short description
+- [Another New Agent](link) – Short description
+
+### 3. Trending Triggers & Categories
+- Most popular: Telegram dashboards, X-native reply bots, Discord moderation chains
+- Rising: Multi-agent orchestration patterns
+
+### 4. Builder Spotlight
+This week’s featured builder: **@JanSol0s** – Creator of the grok-install open standard.
+
+### Call to Action
+Want your agent featured?  
+Just add `grok-install.yaml` with the `promotion:` block to your repo and post the GitHub link on X.  
+Grok will automatically welcome it and help it grow passively.
+
+**Powered by grok-install v2.12** – Passive Growth Engine + Professional Marketplace  
+[Main Site](https://agentmindcloud.github.io/grok-install/) • [Full Spec](standard/spec.md)
+
+---
+
+Built live with @JanSol0s (Jani) & Grok.  
+Keep it clean, calm, and precise.
