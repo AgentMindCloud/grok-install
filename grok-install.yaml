@@ -1,31 +1,70 @@
-# grok-install.yaml – Official Template (v2.10)
-# Copy this file into the root of your repo to make your AI agent one-click installable on X
+# grok-install.yaml – Root Template (v2.11)
+# This is the official reference template for the grok-install standard.
+# Place a copy of this (or a customized version) at the root of any agent repo.
 
-version: "2.10"
-name: "Your Agent Name"
-description: "One clear sentence describing what your agent does"
-repository: "https://github.com/yourusername/your-repo-name"
-category: "telegram"          # telegram | discord | twitter | web | other
-tags: ["ai", "bot", "automation"]
+version: "2.11"
+name: "Example Agent Template"
+description: "Official grok-install reference template with full Phase 10 support"
+repository: "https://github.com/AgentMindCloud/grok-install"
+category: "example"
+tags: ["template", "reference", "x-native"]
 featured: false
 ecosystem: ["grok", "x"]
 
-# Safety & Verification 2.0 (Phase 9)
+# === PHASE 10 NEW BLOCKS ===
+# Native X Agent Runtime (Goal 1)
+x_native_runtime:
+  type: "reply-bot"          # options: reply-bot | dm-handler | trend-monitor | custom
+  permissions: ["tweet.read", "tweet.write", "dm.read"]
+  grok_orchestrator: true
+  one_click_x_deploy: true
+
+# Grok Intelligence Layer (Goal 2)
+intelligence_layer:
+  function_calling: true
+  real_time_tools: true
+  multi_agent_swarm: true
+  grok_coordinates: true
+  ai_suggested_teams: true
+
+# Advanced Trust & Reputation (Goal 3)
+reputation:
+  public_score: true
+  verified_by_grok: true
+  scan_history: true
+  automated_recommendations: true
+
+# Safety & Verification 2.0 (from Phase 9 – kept unchanged)
 safety:
   pre_install_scan: true
   verified_by_grok: true
   scan_summary_visible: true
-  minimum_keys_only: true     # most keys are now optional
+  minimum_keys_only: true
 
+# Orchestration & Triggers (from previous phases – kept unchanged)
+orchestration:
+  enabled: true
+  role: "example"
+  can_trigger: []
+  can_be_triggered_by: []
+  visual_builder: true
+  ai_suggested_patterns: true
+  triggers: []     
+  
+# LLM Configuration           # most keys are now optional
 llm:                          # Recommended multi-LLM section
   provider: "xai"             # xai | openai | anthropic | ollama | custom
   model: "grok-4"
   api_key_env: "GROK_API_KEY" # Grok will ask privately only for truly required keys
 
-# Deployment settings
-mode: "simple"
-preferred_deploy: ["railway", "vercel", "fly", "render", "local"]
-
+# Deployment Targets
+deployment:
+  preferred: ["railway", "vercel", "docker"]
+  targets:
+    - railway
+    - vercel
+    - docker
+    
 # Multi-Agent Orchestration (Phase 7)
 orchestration:
   enabled: false
@@ -41,10 +80,10 @@ on_install:
 # Update & maintenance
 update_strategy: "semver"
 
-# Credits – strongly recommended
+# Credits (strongly recommended for attribution)
 credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.10"
+  version: "2.11"
   message: "Powered by grok-install open standard"
