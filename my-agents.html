@@ -8,18 +8,36 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a0a; color: #fff; }
-    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
-    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgb(29 161 242 / 0.4); }
+    .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(0,240,255,0.3); box-shadow: 0 8px 32px rgba(0,0,0,0.4); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+    .glass:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.3); }
+    .neon-cyan { text-shadow: 0 0 20px #00f0ff; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.4); }
   </style>
 </head>
 <body class="text-white p-8 max-w-5xl mx-auto">
+
   <h1 class="text-5xl font-bold mb-8 flex items-center gap-3">
-    <i class="fa-solid fa-robot text-[#1DA1F2]"></i>
+    <i class="fa-solid fa-robot text-[#00f0ff]"></i>
     My Agents
   </h1>
-  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install <strong>v2.11</strong> • Native X Runtime + Intelligence Layer + Voice-First</p>
+  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install <strong>v2.12</strong> • Passive Growth Engine + Phase 11</p>
 
-  <!-- PHASE 10 – NEW SECTION (added at the top) -->
+  <!-- PHASE 11 PASSIVE GROWTH ENGINE BANNER -->
+  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
+    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
+      <i class="fa-solid fa-seedling"></i>
+      Phase 11 – Passive Growth Engine LIVE
+    </h2>
+    <div class="grid md:grid-cols-2 gap-8 text-sm">
+      <div>Auto-welcome replies for new repos</div>
+      <div>Auto-shareable install cards with referral credits</div>
+      <div>Weekly highlight thread (Sunday 20:00 UTC)</div>
+      <div>Trending &amp; featured boosts</div>
+    </div>
+    <p class="text-center text-[#00f0ff] text-sm mt-8">Your agents now grow automatically when promotion: block is present</p>
+  </div>
+
+  <!-- PHASE 10 – NEW SECTION (preserved exactly) -->
   <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
       <i class="fa-solid fa-rocket"></i>
@@ -32,25 +50,25 @@
       </div>
       <div>
         <h3 class="text-xl font-semibold mb-3">Grok Intelligence Layer</h3>
-        <p class="text-zinc-400 text-sm">Seamless function calling + real-time tools. Multi-agent swarms coordinated by Grok. AI-suggested teams & workflows.</p>
+        <p class="text-zinc-400 text-sm">Seamless function calling + real-time tools. Multi-agent swarms coordinated by Grok. AI-suggested teams &amp; workflows.</p>
       </div>
       <div>
         <h3 class="text-xl font-semibold mb-3">Voice-First Management</h3>
         <p class="text-zinc-400 text-sm">Full voice commands: install, update, orchestrate, monitor, swarm control. Mobile-friendly private dashboard.</p>
       </div>
       <div>
-        <h3 class="text-xl font-semibold mb-3">Enterprise & Team Features</h3>
+        <h3 class="text-xl font-semibold mb-3">Enterprise &amp; Team Features</h3>
         <p class="text-zinc-400 text-sm">Private team workspaces, audit logs, member permissions. Self-hosted orchestrator improvements.</p>
       </div>
     </div>
     <p class="text-center text-[#00f0ff] text-sm mt-8">All Phase 10 goals implemented in one clean update • 100% backward compatible with v2.10</p>
   </div>
 
-  <!-- Safety & Verification 2.0 Status -->
+  <!-- Safety & Verification 2.0 (preserved exactly) -->
   <div class="glass rounded-3xl p-8 mb-12 border border-emerald-400/30">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-emerald-400">
       <i class="fa-solid fa-shield-halved"></i>
-      Enhanced Safety & Verification 2.0
+      Enhanced Safety &amp; Verification 2.0
     </h2>
     <div class="grid md:grid-cols-2 gap-8">
       <div class="bg-[#0a0a0a] p-6 rounded-2xl">
@@ -73,21 +91,21 @@
     <p class="text-xs text-emerald-400 text-center mt-6">All future installs will show this safety report before you confirm.</p>
   </div>
 
-  <!-- What's New v2.9 -->
+  <!-- What's New v2.9 (preserved exactly) -->
   <div class="glass rounded-3xl p-8 mb-12 border border-[#00d4ff]/30">
     <h2 class="text-2xl font-semibold mb-4 flex items-center gap-3 text-[#00d4ff]">
       <i class="fa-solid fa-rocket"></i>
       What’s New in v2.9
     </h2>
     <ul class="text-zinc-300 space-y-2">
-      <li>✅ Enhanced Safety & Verification 2.0 – pre-install deep scan + Verified by Grok badge</li>
+      <li>✅ Enhanced Safety &amp; Verification 2.0 – pre-install deep scan + Verified by Grok badge</li>
       <li>✅ Auto-update all my agents command</li>
       <li>✅ Template generator for orchestration patterns</li>
-      <li>✅ Improved error recovery & debugging tools</li>
+      <li>✅ Improved error recovery &amp; debugging tools</li>
     </ul>
   </div>
 
-  <!-- Private Analytics Dashboard -->
+  <!-- Private Analytics Dashboard (preserved exactly – 3 demo agents) -->
   <div class="glass rounded-3xl p-8 mb-12">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
       <i class="fa-solid fa-chart-bar"></i>
@@ -137,7 +155,7 @@
     <p class="text-xs text-zinc-500 text-center">Data updated live • Auto-generated weekly reports sent via Grok DM</p>
   </div>
 
-  <!-- How to Use My Agents Dashboard -->
+  <!-- How to Use My Agents Dashboard (preserved exactly) -->
   <div class="glass rounded-3xl p-8 mb-12">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
       <i class="fa-solid fa-book"></i>
@@ -166,7 +184,7 @@
     </p>
   </div>
 
-  <!-- Multi-Agent Orchestration -->
+  <!-- Multi-Agent Orchestration (preserved exactly) -->
   <div class="glass rounded-3xl p-8 mb-12">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
       <i class="fa-solid fa-link"></i>
@@ -183,7 +201,7 @@
     </button>
   </div>
 
-  <!-- Community Self-Management Tools -->
+  <!-- Community Self-Management Tools (preserved exactly) -->
   <div class="glass rounded-3xl p-8">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
       <i class="fa-solid fa-users"></i>
@@ -207,7 +225,8 @@
     This is the real grok-install private analytics dashboard. It will replace Grok’s placeholder once the command is fully activated.
   </p>
   <div class="text-center mt-12 text-zinc-400">
-    Built live with @JanSol0s (Jani) & Grok • v2.9 • Enhanced Safety & Verification 2.0 • April 2026
+    Built live with @JanSol0s (Jani) &amp; Grok • v2.12 • Passive Growth Engine activated • April 2026
   </div>
+
 </body>
 </html>
