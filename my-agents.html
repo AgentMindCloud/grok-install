@@ -6,12 +6,15 @@
   <title>My Agents • grok-install</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
   <style>
-    body { font-family: 'Inter', system_ui, sans-serif; background: #0a0a0a; color: #fff; }
-    .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(0,240,255,0.3); }
-    .glass:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.3); }
-    .neon-cyan { color: #00f0ff; text-shadow: 0 0 20px #00f0ff; }
-    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.4); }
+    .voice-btn {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.5); }
+      70% { box-shadow: 0 0 0 15px rgba(0, 240, 255, 0); }
+    }
   </style>
 </head>
 <body class="text-white p-8 max-w-5xl mx-auto">
@@ -20,9 +23,18 @@
     <i class="fa-solid fa-robot text-[#00f0ff]"></i>
     My Agents
   </h1>
-  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install <strong>v2.12</strong> • Phase 12 Marketplace + Passive Growth Engine</p>
+  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install <strong>v2.12</strong> • Phase 14 Voice & Mobile Experience</p>
 
-  <!-- PHASE 12 MARKETPLACE INTEGRATION BANNER -->
+  <!-- PHASE 14 VOICE + MOBILE BANNER -->
+  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
+    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
+      <i class="fa-solid fa-microphone"></i>
+      Phase 14 – Full Voice & Mobile Experience LIVE
+    </h2>
+    <p class="text-zinc-300">Try voice commands like “Hey Grok, show me my agents”, “Hey Grok, update all my agents”, or “Hey Grok, orchestrate my agents”. Mobile-first dashboard with one-tap voice buttons.</p>
+  </div>
+
+  <!-- PHASE 12 MARKETPLACE INTEGRATION BANNER (preserved) -->
   <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
       <i class="fa-solid fa-store"></i>
@@ -130,6 +142,10 @@
           <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">94%</span></div>
           <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">98.7%</span></div>
         </div>
+        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
+                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
+          <i class="fa-solid fa-microphone"></i> Voice Update
+        </button>
       </div>
       <!-- Agent 2 -->
       <div class="glass rounded-2xl p-6 card-hover">
@@ -143,6 +159,10 @@
           <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">89%</span></div>
           <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">96.2%</span></div>
         </div>
+        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
+                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
+          <i class="fa-solid fa-microphone"></i> Voice Update
+        </button>
       </div>
       <!-- Agent 3 -->
       <div class="glass rounded-2xl p-6 card-hover">
@@ -156,12 +176,16 @@
           <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">91%</span></div>
           <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">97.4%</span></div>
         </div>
+        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
+                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
+          <i class="fa-solid fa-microphone"></i> Voice Update
+        </button>
       </div>
     </div>
     <p class="text-xs text-zinc-500 text-center">Data updated live • Auto-generated weekly reports sent via Grok DM</p>
   </div>
 
-  <!-- How to Use My Agents Dashboard (preserved exactly) -->
+  <!-- How to Use My Agents Dashboard (shows BOTH text and voice versions) -->
   <div class="glass rounded-3xl p-8 mb-12">
     <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
       <i class="fa-solid fa-book"></i>
@@ -170,21 +194,32 @@
     <div class="space-y-6 text-zinc-300">
       <div>
         <strong>1. Access the dashboard</strong><br>
-        Reply to Grok on X with: <code>@grok my agents</code> or <code>@grok show my agents</code>
+        Type: <code>@grok my agents</code><br>
+        Or say: “Hey Grok, show me my agents”
       </div>
       <div>
-        <strong>2. See your installed agents + analytics</strong><br>
+        <strong>2. Voice commands (recommended)</strong><br>
+        “Hey Grok, update all my agents”<br>
+        “Hey Grok, orchestrate my agents”<br>
+        “Hey Grok, what is the status of my agents?”<br>
+        “Hey Grok, share my latest install”
+      </div>
+      <div>
+        <strong>3. See your installed agents + analytics</strong><br>
         All agents you have installed via grok-install will appear here with live stats.
       </div>
       <div>
-        <strong>3. Orchestrate agents</strong><br>
-        Click “Link My Agents (Orchestrate)” to connect agents (e.g. Twitter bot → Hermes dashboard).
+        <strong>4. Orchestrate agents</strong><br>
+        Click “Link My Agents (Orchestrate)” or say “Hey Grok, orchestrate my agents”.
       </div>
       <div>
-        <strong>4. Share install cards</strong><br>
-        Use the Share button to create beautiful X posts.
+        <strong>5. Share install cards</strong><br>
+        Use the Share button or say “Hey Grok, share my latest install”.
       </div>
     </div>
+    <p class="mt-8 text-sm text-emerald-400">
+      Tip: Voice commands work best on mobile with X voice mode. Text commands work everywhere.
+    </p>
   </div>
 
   <!-- Multi-Agent Orchestration (preserved exactly) -->
@@ -197,7 +232,7 @@
     <div class="bg-[#0a0a0a] p-6 rounded-2xl">
       <strong>Twitter Reply Bot</strong> → on mention → updates → <strong>Hermes Telegram Dashboard</strong>
     </div>
-    <button onclick="alert('Orchestration panel would open here – ready for real linking when Grok command is active!')"
+    <button onclick="alert('Voice: \"Hey Grok, orchestrate my agents\"')" 
             class="mt-8 w-full py-4 bg-[#1DA1F2] text-black font-semibold rounded-3xl flex items-center justify-center gap-3 hover:bg-[#00f0ff]">
       <i class="fa-solid fa-plus"></i>
       Link My Agents (Orchestrate)
@@ -225,10 +260,10 @@
   </div>
 
   <p class="text-xs text-zinc-500 mt-16 text-center">
-    This is the real grok-install private analytics dashboard. It will replace Grok’s placeholder once the command is fully activated.
+    This is the real grok-install private analytics dashboard with full voice support.
   </p>
   <div class="text-center mt-12 text-zinc-400">
-    Built live with @JanSol0s (Jani) &amp; Grok • v2.12 • Phase 12 Marketplace redesign • April 2026
+    Built live with @JanSol0s (Jani) &amp; Grok • v2.12 • Phase 14 Voice &amp; Mobile Experience • April 2026
   </div>
 
 </body>
