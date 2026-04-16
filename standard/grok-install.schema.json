@@ -138,7 +138,21 @@
       "additionalProperties": true,
       "properties": {
         "enabled": { "type": "boolean" },
-        "public_insights": { "type": "boolean" }
+        "public_insights": { "type": "boolean" },
+        "privacy": {
+          "type": "object",
+          "description": "Author-declared privacy posture. Surfaced in the pre-install scan.",
+          "additionalProperties": true,
+          "properties": {
+            "collects_personal_data": { "type": "boolean" },
+            "retention_days": { "type": "integer", "minimum": 0 },
+            "data_location": { "type": "string" },
+            "third_party_processors": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
       }
     },
 

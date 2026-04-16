@@ -75,3 +75,57 @@ button:hover {
     border-radius: 1rem;
   }
 }
+
+/* Accessibility: visible focus ring on every interactive element.
+   Uses :focus-visible so mouse clicks don't show a ring, only keyboard nav. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Skip link — hidden until it receives keyboard focus. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  background: var(--cyan);
+  color: #000;
+  border-radius: 0.5rem;
+  z-index: 9999;
+  font-weight: 600;
+}
+
+/* Respect users who opt out of motion. Animations become instant, the
+   voice-button pulse stops pulsing, and hover transforms settle. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .glass:hover,
+  .card-hover:hover,
+  button:hover {
+    transform: none;
+  }
+}

@@ -24,9 +24,11 @@ const validate = ajv.compile(schema);
 
 const defaultTargets = ["grok-install.yaml", "standard/examples"];
 const args = process.argv.slice(2);
-const targets = (args.length ? args : defaultTargets).map((p) =>
-  resolve(repoRoot, p),
-);
+// User-supplied paths resolve from the current working directory so the CLI
+// works from any repo. The built-in defaults resolve from the package root.
+const targets = args.length
+  ? args.map((p) => resolve(process.cwd(), p))
+  : defaultTargets.map((p) => resolve(repoRoot, p));
 
 function expand(target) {
   const st = statSync(target);

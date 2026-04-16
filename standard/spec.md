@@ -100,6 +100,11 @@ llm:
 analytics:
   enabled: true
   public_insights: true
+  privacy:
+    collects_personal_data: false
+    retention_days: 30
+    data_location: "EU"
+    third_party_processors: []
 
 self_hosted:
   enabled: true

@@ -1,6 +1,9 @@
 # grok-install — v2.12
 **The official open operating system for AI agents on X**
 
+![grok-install v2.12](assets/badges/grok-install-v2.12.svg)
+![verified by Grok](assets/badges/verified-by-grok.svg)
+
 Install any AI agent with one click directly on X using Grok.
 
 This is the complete living documentation of everything we have built together since the very beginning.
@@ -58,11 +61,18 @@ Grok acts as the intelligent installer, orchestrator, marketplace, and passive g
 
 ### Full Specification
 See [standard/spec.md](standard/spec.md) – v2.12 with all blocks and promotion settings.
+A rendered, linkable version is published at [docs.html](docs.html) (regenerate with `npm run build:docs`).
 
 ### For builders
 - **Validate your YAML** in the browser: [validate.html](validate.html) (no upload; runs entirely client-side).
-- **Validate locally**: `npm install && npm run validate -- path/to/grok-install.yaml`
+- **Validate locally (no install needed)**: `npx grok-install validate`
+- **Validate from a clone**: `npm install && npm run validate -- path/to/grok-install.yaml`
+- **Show the badge** in your repo README:
+  ```md
+  ![grok-install v2.12](https://cdn.jsdelivr.net/gh/AgentMindCloud/grok-install@main/assets/badges/grok-install-v2.12.svg)
+  ```
 - **Contribute**: see [CONTRIBUTING.md](CONTRIBUTING.md) for spec changes, UI fixes, and examples.
+- **Privacy**: see [PRIVACY.md](PRIVACY.md) — the standard is privacy-first and the docs site ships no tracking.
 - **Report a vulnerability**: see [SECURITY.md](SECURITY.md).
 
 ### Live Demo Agents (all v2.12 ready)
