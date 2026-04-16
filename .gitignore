@@ -1,0 +1,49 @@
+# =====================
+# Hide all Phase / Planning / Progress files
+# =====================
+PHASE-*.md
+*PHASE*.md
+*phase*.md
+PHASE*.md
+*PHASE-*.md
+
+# Also catch variations with different casing (Git on Linux is case-sensitive)
+*[Pp][Hh][Aa][Ss][Ee]*.md
+
+# Specific folders if you ever put them in subfolders
+**/PHASE-*/
+**/phase-*/
+
+# =====================
+# Other common files you probably also want to ignore
+# =====================
+# Build artifacts
+build/
+dist/
+out/
+target/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.cache
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Remove all PHASE files from Git tracking
+git rm --cached PHASE-*.md
+git rm --cached "*PHASE*.md"
+
+# If you have any in subfolders
+git rm --cached -r "**/PHASE-*" 2>/dev/null || true
