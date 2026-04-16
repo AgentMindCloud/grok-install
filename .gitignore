@@ -47,3 +47,14 @@ git rm --cached "*PHASE*.md"
 
 # If you have any in subfolders
 git rm --cached -r "**/PHASE-*" 2>/dev/null || true
+
+# Remove all PHASE files from Git (but keep them on your PC)
+git rm --cached PHASE-*.md
+git rm --cached "*PHASE*.md"
+
+# Or do it in one safer command:
+git rm --cached $(git ls-files | grep -i "PHASE")
+
+git add .gitignore
+git commit -m "Add .gitignore and remove all PHASE planning files from repo"
+git push
