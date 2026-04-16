@@ -1,0 +1,22 @@
+{
+  "trending_this_week": [
+    {
+      "name": "Hermes Telegram Dashboard",
+      "installs_this_week": 284,
+      "total_installs": 1284,
+      "category": "telegram"
+    },
+    {
+      "name": "Smart Twitter Reply Bot",
+      "installs_this_week": 197,
+      "total_installs": 937,
+      "category": "x-native"
+    },
+    {
+      "name": "Discord AI Moderator",
+      "installs_this_week": 156,
+      "total_installs": 621,
+      "category": "discord"
+    }
+  ]
+}
