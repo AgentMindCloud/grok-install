@@ -1,4 +1,4 @@
-version: "2.4"
+version: "2.10"
 name: "Discord AI Moderator"
 description: "Friendly AI moderator for Discord servers with Grok + multi-LLM support"
 repository: "https://github.com/AgentMindCloud/discord-ai-mod"
@@ -7,16 +7,24 @@ tags: ["moderation", "community", "ai-moderator", "trigger-target"]
 featured: true
 ecosystem: ["grok", "x", "discord"]
 
-llm:                          # ← NEW optional section (multi-LLM, fully backwards compatible)
-  provider: "xai"             # default = "xai" | "openai" | "anthropic" | "ollama" | "custom"
-  model: "grok-4"             # default model suggestion
-  api_key_env: "GROK_API_KEY" # tells guided install which secret to ask for
+# Safety & Verification 2.0 (Phase 9)
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true
+
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
 
 # Passive Growth Engine
 promotion:
   auto_welcome: true
   share_installs: true
   weekly_highlight: true
+
 # Deployment
 mode: "simple"
 preferred_deploy: ["railway", "render", "fly", "local"]
@@ -25,38 +33,44 @@ deploy:
     DISCORD_TOKEN: "Ask the user for their Discord bot token"
     GROK_API_KEY: "Ask the user for their xAI/Grok API key"
     OPENAI_API_KEY: "Ask the user for their OpenAI API key (optional)"
+
 # Safety & Trust
 security:
   verified_by_grok: true
   safety_checklist: true
+
 # Developer Experience
 update_strategy: "semver"
 auto_generate: true
+
 # Marketplace & User Experience
 shareable_card: true
 on_install:
   welcome_message: "Thank you for installing the Discord AI Moderator! Your bot is now live and protecting your server."
+
 # Community Self-Management
 community:
   onboard: true
   voting_enabled: true
   moderation_level: "standard"
-# Multi-Agent Orchestration (Phase 7)
+
+# Multi-Agent Orchestration
 orchestration:
   enabled: true
   role: "moderator"
   can_trigger: ["telegram"]
   can_be_triggered_by: ["twitter", "hermes"]
   triggers:
-    - event: "new_message" # triggered by other agents
+    - event: "new_message"
       action: "moderate_content"
       target_agents: ["hermes"]
     - event: "mention"
       action: "alert_moderator"
 
+# Credits (strongly recommended)
 credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.4"
+  version: "2.10"
   message: "Powered by grok-install open standard"
