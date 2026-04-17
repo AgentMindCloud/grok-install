@@ -1,0 +1,45 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  yaml-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint YAML files
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: '.'
+          config_file: .yamllint.yml
+
+  spec-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli js-yaml
+      - name: Validate spec examples against schema
+        run: |
+          for f in examples/*.yaml; do
+            echo "Validating $f..."
+            ajv validate -s schemas/grok-install-v2.13.schema.json -d "$f" --spec=draft7
+          done
+
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: '**/*.md'
+          config: |
+            {
+              "MD013": false,
+              "MD033": false,
+              "MD041": false
+            }

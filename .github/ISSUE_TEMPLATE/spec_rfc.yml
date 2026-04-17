@@ -1,0 +1,74 @@
+name: Spec RFC
+description: Propose a change to the grok-install specification
+labels: ["RFC", "spec"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Read before filing:** Spec changes are permanent and affect every agent using
+        grok-install. Do not open a PR for a spec change without an accepted RFC issue.
+        Acceptance = maintainer comment with "RFC accepted".
+  - type: input
+    id: target-version
+    attributes:
+      label: Target spec version
+      placeholder: "e.g. v2.14"
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this change needed? What real use case does it unlock?
+    validations:
+      required: true
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: Concrete use cases
+      description: At least two real-world examples of agents that would use this.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-yaml
+    attributes:
+      label: Proposed YAML block
+      render: yaml
+      description: Show the exact YAML syntax you are proposing.
+    validations:
+      required: true
+  - type: textarea
+    id: migration
+    attributes:
+      label: Migration path
+      description: |
+        - Is this additive (no breakage) or breaking?
+        - If breaking, what must existing agent authors change?
+        - Can an automated migration tool handle it?
+    validations:
+      required: true
+  - type: textarea
+    id: schema-impact
+    attributes:
+      label: JSON Schema impact
+      description: Describe the schema additions or changes required.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: RFC checklist
+      options:
+        - label: I searched existing RFCs and this is not a duplicate
+          required: true
+        - label: I included at least two concrete use cases
+          required: true
+        - label: I described both the additive and breaking scenario
+          required: true
+        - label: I am willing to implement this if accepted
