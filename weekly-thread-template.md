@@ -32,7 +32,7 @@ Just add `grok-install.yaml` with the `promotion:` block to your repo and post t
 Grok will automatically welcome it and help it grow passively.
 
 **Powered by grok-install v2.12** – Passive Growth Engine + Professional Marketplace  
-[Main Site](https://agentmindcloud.github.io/grok-install/) • [Full Spec](standard/spec.md)
+[Main Site](https://agentmindcloud.github.io/grok-install/) • [Full Spec](spec/v2.13/spec.md)
 
 ---
 
