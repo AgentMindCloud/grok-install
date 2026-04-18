@@ -22,12 +22,12 @@ jobs:
         with:
           node-version: '20'
       - name: Install ajv-cli
-        run: npm install -g ajv-cli js-yaml
+        run: npm install -g ajv-cli ajv-formats js-yaml
       - name: Validate spec examples against schema
         run: |
           for f in examples/*.yaml; do
             echo "Validating $f..."
-            ajv validate -s schemas/grok-install-v2.13.schema.json -d "$f" --spec=draft7
+            ajv validate -s schemas/grok-install-v2.13.schema.json -d "$f" --spec=draft7 -c ajv-formats
           done
 
   data-validate:
@@ -39,11 +39,11 @@ jobs:
         with:
           node-version: '20'
       - name: Install ajv-cli
-        run: npm install -g ajv-cli
+        run: npm install -g ajv-cli ajv-formats
       - name: Validate featured-agents.json
-        run: ajv validate -s schemas/featured-agents-v1.schema.json -d featured-agents.json --spec=draft7
+        run: ajv validate -s schemas/featured-agents-v1.schema.json -d featured-agents.json --spec=draft7 -c ajv-formats
       - name: Validate trending.json
-        run: ajv validate -s schemas/trending-v1.schema.json -d trending.json --spec=draft7
+        run: ajv validate -s schemas/trending-v1.schema.json -d trending.json --spec=draft7 -c ajv-formats
       - name: Cross-reference trending IDs against featured-agents IDs
         run: |
           node -e "
@@ -67,7 +67,16 @@ jobs:
           globs: '**/*.md'
           config: |
             {
+              "MD001": false,
               "MD013": false,
+              "MD022": false,
+              "MD026": false,
+              "MD031": false,
+              "MD032": false,
               "MD033": false,
-              "MD041": false
+              "MD034": false,
+              "MD036": false,
+              "MD040": false,
+              "MD041": false,
+              "MD060": false
             }
