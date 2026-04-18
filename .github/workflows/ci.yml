@@ -30,6 +30,34 @@ jobs:
             ajv validate -s schemas/grok-install-v2.13.schema.json -d "$f" --spec=draft7
           done
 
+  data-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli
+      - name: Validate featured-agents.json
+        run: ajv validate -s schemas/featured-agents-v1.schema.json -d featured-agents.json --spec=draft7
+      - name: Validate trending.json
+        run: ajv validate -s schemas/trending-v1.schema.json -d trending.json --spec=draft7
+      - name: Cross-reference trending IDs against featured-agents IDs
+        run: |
+          node -e "
+            const fa = require('./featured-agents.json');
+            const tr = require('./trending.json');
+            const ids = new Set(fa.agents.map(a => a.id));
+            const missing = tr.trending.map(e => e.id).filter(id => !ids.has(id));
+            if (missing.length) {
+              console.error('trending.json references unknown agent ids:', missing);
+              process.exit(1);
+            }
+            console.log('Cross-reference OK:', tr.trending.length, 'trending entries map to featured agents');
+          "
+
   markdown-lint:
     runs-on: ubuntu-latest
     steps:
