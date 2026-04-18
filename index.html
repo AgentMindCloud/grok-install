@@ -940,6 +940,262 @@ BLOCKED = [<span style="color:#00FFA3;">"deepfake"</span>, <span style="color:#0
         <p style="font-family:'Inter',sans-serif;font-size:clamp(1rem,1.6vw,1.125rem);color:#8B8B9A;max-width:42rem;margin:0 auto;line-height:1.6;">Every agent here is <span style="color:#00FFA3;">Grok-Native Certified</span> — open YAML, declared limits, pre-install scan green.</p>
       </div>
 
+      <!-- ========== TRENDING STRIP ========== -->
+      <div id="trending-strip" style="position:relative;background:linear-gradient(180deg,#0F0F15,#13131A);border:1px solid #1F1F2A;border-radius:1rem;padding:1.1rem 0 1.1rem;margin-bottom:2rem;overflow:hidden;">
+
+        <!-- Header bar -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem 0.85rem;gap:1rem;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:0.65rem;">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#00F0FF,#7C3AED);box-shadow:0 0 18px rgba(0,240,255,0.35);" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 12l3-4 3 2 4-6" stroke="#0A0A0F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div style="display:flex;flex-direction:column;line-height:1.1;">
+              <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:#F5F5F7;letter-spacing:-0.01em;">Trending this week</span>
+              <span id="trending-meta" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:#8B8B9A;letter-spacing:0.06em;text-transform:uppercase;margin-top:2px;">7d window · loading…</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.85rem;">
+            <span style="display:inline-flex;align-items:center;gap:0.35rem;font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:#8B8B9A;">
+              <span id="trending-pulse" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#00FFA3;box-shadow:0 0 8px rgba(0,255,163,0.7);animation:pulse-dot 2s var(--ease) infinite;"></span>
+              live · auto-scrolling
+            </span>
+            <a href="trending.json" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:#00F0FF;border:1px solid rgba(0,240,255,0.25);border-radius:999px;padding:0.2rem 0.55rem;text-decoration:none;transition:all 0.2s var(--ease);">JSON ↗</a>
+          </div>
+        </div>
+
+        <!-- Marquee viewport -->
+        <div id="trending-viewport" style="position:relative;overflow:hidden;mask-image:linear-gradient(90deg,transparent 0%,#000 5%,#000 95%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 5%,#000 95%,transparent 100%);">
+          <div id="trending-track" style="display:flex;gap:0.85rem;padding:0.25rem 1.25rem;will-change:transform;"></div>
+        </div>
+      </div>
+
+      <style>
+        @keyframes trending-marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+        #trending-track[data-anim="1"] { animation: trending-marquee var(--marquee-dur, 60s) linear infinite; }
+        #trending-viewport:hover #trending-track[data-anim="1"] { animation-play-state: paused; }
+
+        .trend-card {
+          position: relative; flex: 0 0 auto;
+          min-width: 280px; max-width: 320px;
+          background: #13131A;
+          border: 1px solid #1F1F2A;
+          border-radius: 0.75rem;
+          padding: 0.75rem 0.85rem 0.75rem 1rem;
+          display: flex; align-items: center; gap: 0.7rem;
+          cursor: pointer; text-decoration: none; color: inherit;
+          transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+        }
+        .trend-card:hover {
+          transform: translateY(-2px);
+          border-color: rgba(0,240,255,0.35);
+          box-shadow: 0 14px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,240,255,0.06);
+        }
+        .trend-card.is-top {
+          border-color: rgba(0,240,255,0.4);
+          background: linear-gradient(135deg, #13131A, #1A1326);
+          box-shadow: 0 0 24px rgba(0,240,255,0.12), inset 0 1px 0 rgba(0,240,255,0.08);
+        }
+        .trend-rank {
+          flex: 0 0 auto;
+          width: 38px; height: 38px;
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1.05rem;
+          letter-spacing: -0.04em;
+          background: #0A0A0F; border-radius: 0.55rem;
+          color: #8B8B9A;
+          border: 1px solid #1F1F2A;
+        }
+        .trend-card.is-top .trend-rank {
+          background: linear-gradient(135deg, #00F0FF, #7C3AED);
+          color: #0A0A0F; border-color: transparent;
+          box-shadow: 0 0 14px rgba(0,240,255,0.5);
+        }
+        .trend-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.2rem; }
+        .trend-name {
+          font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.92rem;
+          color: #F5F5F7; letter-spacing: -0.01em;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .trend-meta {
+          display: flex; align-items: center; gap: 0.45rem;
+          font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; color: #8B8B9A;
+          white-space: nowrap;
+        }
+        .trend-cat {
+          color: #7C3AED; background: rgba(124,58,237,0.1);
+          border: 1px solid rgba(124,58,237,0.2); border-radius: 999px;
+          padding: 0.05rem 0.45rem;
+        }
+        .trend-installs { color: #C9C9D6; }
+        .trend-delta {
+          flex: 0 0 auto;
+          display: inline-flex; align-items: center; gap: 0.2rem;
+          font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.78rem;
+          padding: 0.3rem 0.55rem; border-radius: 0.5rem;
+        }
+        .trend-delta-up   { color: #00FFA3; background: rgba(0,255,163,0.1); border: 1px solid rgba(0,255,163,0.25); }
+        .trend-delta-down { color: #FF3366; background: rgba(255,51,102,0.08); border: 1px solid rgba(255,51,102,0.25); }
+        .trend-delta-flat { color: #8B8B9A; background: rgba(255,255,255,0.03); border: 1px solid #1F1F2A; }
+        .trend-move {
+          font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: #8B8B9A;
+          margin-left: 0.35rem;
+        }
+        .trend-move-up   { color: #00FFA3; }
+        .trend-move-down { color: #FF7CA8; }
+
+        @media (prefers-reduced-motion: reduce) {
+          #trending-track[data-anim="1"] { animation: none !important; transform: none !important; }
+          #trending-viewport { mask-image: none; -webkit-mask-image: none; }
+          #trending-track { flex-wrap: wrap; }
+        }
+      </style>
+
+      <script>
+      (function () {
+        var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var viewport = document.getElementById('trending-viewport');
+        var track = document.getElementById('trending-track');
+        var meta = document.getElementById('trending-meta');
+        if (!track) return;
+
+        var BUNDLED = {
+          version: "1.0", window: "7d",
+          updated_at: "2026-04-18T00:00:00Z",
+          trending: [
+            { id: "reply-engagement-bot", name: "Reply & Engagement Bot", category: "x-native",   installs_window: 312, installs_total: 1284, delta_pct: 27.4, rank: 1, rank_prev: 2 },
+            { id: "research-swarm",       name: "Research Swarm",          category: "research",   installs_window: 246, installs_total: 847,  delta_pct: 41.0, rank: 2, rank_prev: 4 },
+            { id: "trend-to-thread",      name: "Trend-to-Thread Bot",     category: "x-native",   installs_window: 188, installs_total: 532,  delta_pct: 18.7, rank: 3, rank_prev: 3 },
+            { id: "voice-agent",          name: "Voice Agent",             category: "voice",      installs_window: 142, installs_total: 621,  delta_pct: 12.3, rank: 4, rank_prev: 1 },
+            { id: "discord-ai-mod",       name: "Discord AI Moderator",    category: "discord",    installs_window:  98, installs_total: 398,  delta_pct: -4.1, rank: 5, rank_prev: 5 }
+          ]
+        };
+
+        var CACHE = 'gi-trending-cache-v1';
+        var TTL = 5 * 60 * 1000;
+
+        function readCache() {
+          try {
+            var raw = localStorage.getItem(CACHE);
+            if (!raw) return null;
+            var p = JSON.parse(raw);
+            if (!p || !p.ts || (Date.now() - p.ts) > TTL) return null;
+            return p.data;
+          } catch (e) { return null; }
+        }
+        function writeCache(data) {
+          try { localStorage.setItem(CACHE, JSON.stringify({ ts: Date.now(), data: data })); } catch (e) {}
+        }
+
+        function escapeHtml(s) {
+          return String(s).replace(/[&<>"']/g, function (c) {
+            return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+          });
+        }
+
+        function fmtDelta(pct) {
+          var sign = pct > 0 ? '+' : (pct < 0 ? '' : '±');
+          return sign + (Math.round(pct * 10) / 10) + '%';
+        }
+
+        function rankMove(curr, prev) {
+          if (prev == null) return { html: '<span class="trend-move trend-move-up">NEW</span>' };
+          var diff = prev - curr;
+          if (diff > 0) return { html: '<span class="trend-move trend-move-up">▲ ' + diff + '</span>' };
+          if (diff < 0) return { html: '<span class="trend-move trend-move-down">▼ ' + Math.abs(diff) + '</span>' };
+          return { html: '<span class="trend-move">— flat</span>' };
+        }
+
+        function deltaClass(pct) {
+          if (pct > 0.05) return 'trend-delta-up';
+          if (pct < -0.05) return 'trend-delta-down';
+          return 'trend-delta-flat';
+        }
+
+        function deltaArrow(pct) {
+          if (pct > 0.05) return '▲';
+          if (pct < -0.05) return '▼';
+          return '◆';
+        }
+
+        function renderCard(e) {
+          var move = rankMove(e.rank, e.rank_prev);
+          var dc = deltaClass(e.delta_pct);
+          var top = e.rank === 1 ? ' is-top' : '';
+          // Anchor links to gallery anchor; click also focuses the matching gallery card.
+          return '' +
+          '<a class="trend-card' + top + '" href="#gallery" data-id="' + escapeHtml(e.id) + '" data-cat="' + escapeHtml(e.category) + '" aria-label="Rank ' + e.rank + ': ' + escapeHtml(e.name) + ', ' + fmtDelta(e.delta_pct) + '">' +
+            '<span class="trend-rank">#' + e.rank + '</span>' +
+            '<span class="trend-body">' +
+              '<span class="trend-name">' + escapeHtml(e.name) + '</span>' +
+              '<span class="trend-meta">' +
+                '<span class="trend-cat">' + escapeHtml(e.category) + '</span>' +
+                '<span class="trend-installs">' + e.installs_window.toLocaleString() + ' / 7d</span>' +
+                move.html +
+              '</span>' +
+            '</span>' +
+            '<span class="trend-delta ' + dc + '">' + deltaArrow(e.delta_pct) + ' ' + fmtDelta(e.delta_pct) + '</span>' +
+          '</a>';
+        }
+
+        function render(data) {
+          var entries = (data && data.trending) || [];
+          if (!entries.length) return;
+
+          if (data.window) {
+            var when = data.updated_at ? new Date(data.updated_at) : null;
+            var ago = when ? when.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'now';
+            meta.textContent = data.window + ' window · updated ' + ago;
+          }
+
+          var single = entries.map(renderCard).join('');
+
+          if (prefersReduced) {
+            track.innerHTML = single;
+            track.removeAttribute('data-anim');
+            return;
+          }
+
+          // Duplicate so the marquee can scroll -50% seamlessly.
+          track.innerHTML = single + single;
+          track.setAttribute('data-anim', '1');
+          // Tune duration based on number of entries so speed feels consistent.
+          var dur = Math.max(28, entries.length * 7) + 's';
+          track.style.setProperty('--marquee-dur', dur);
+
+          // Wire clicks: jump-filter the gallery by the trending entry's category.
+          track.querySelectorAll('.trend-card').forEach(function (a) {
+            a.addEventListener('click', function () {
+              var cat = a.getAttribute('data-cat');
+              var chip = document.querySelector('.gf-chip[data-filter="' + cat + '"]');
+              if (chip) setTimeout(function () { chip.click(); }, 350);
+            });
+          });
+        }
+
+        // Pause animation when offscreen to save CPU.
+        if (!prefersReduced && 'IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              track.style.animationPlayState = en.isIntersecting ? 'running' : 'paused';
+            });
+          }, { threshold: 0 });
+          io.observe(viewport);
+        }
+
+        var cached = readCache();
+        if (cached) render(cached); else render(BUNDLED);
+
+        fetch('./trending.json', { cache: 'no-cache' })
+          .then(function (r) { if (!r.ok) throw new Error('fetch failed'); return r.json(); })
+          .then(function (data) {
+            writeCache(data);
+            render(data);
+          })
+          .catch(function () { /* bundled / cache already rendered */ });
+      })();
+      </script>
+      <!-- ========== /TRENDING STRIP ========== -->
+
       <!-- Search -->
       <div style="position:relative;max-width:36rem;margin:0 auto 1.25rem;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:#00F0FF;">
