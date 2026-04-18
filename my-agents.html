@@ -3,268 +3,568 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Agents • grok-install</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <title>My Agents — grok-install</title>
+  <meta name="description" content="Track every grok-install agent you've installed locally. Zero backend.">
+  <meta name="theme-color" content="#0A0A0F">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
   <style>
-    .voice-btn {
-      animation: pulse 2s infinite;
+    :root {
+      --bg: #0A0A0F; --surface: #13131A; --border: #1F1F2A;
+      --cyan: #00F0FF; --violet: #7C3AED;
+      --text: #F5F5F7; --muted: #8B8B9A;
+      --success: #00FFA3; --warning: #FFB800; --danger: #FF3366;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.5); }
-      70% { box-shadow: 0 0 0 15px rgba(0, 240, 255, 0); }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s var(--ease); }
+    a:hover { color: var(--text); }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    ::selection { background: rgba(0, 240, 255, 0.25); }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.3); }
+
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.4); opacity: 0.55; }
+    }
+    @keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    /* Sticky nav */
+    .nav {
+      position: sticky; top: 0; z-index: 30;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 80rem; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.85rem 1.5rem;
+    }
+    .nav a.brand {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.05rem;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .brand-mark {
+      width: 26px; height: 26px; border-radius: 6px;
+      background: linear-gradient(135deg, #00F0FF, #7C3AED);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem; color: #0A0A0F;
+    }
+    .nav-links { display: flex; align-items: center; gap: 1.25rem; font-size: 0.875rem; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); }
+
+    /* Layout */
+    .page {
+      max-width: 80rem; margin: 0 auto; padding: 3rem 1.5rem 6rem;
+    }
+    h1.page-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem); font-weight: 900;
+      letter-spacing: -0.04em; margin: 0 0 0.5rem; color: var(--text);
+    }
+    .page-sub {
+      font-family: 'Inter', sans-serif; color: var(--muted);
+      font-size: 1rem; margin: 0 0 2.5rem;
+    }
+
+    /* Stats row */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; margin-bottom: 2rem; }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 0.875rem; padding: 1rem 1.1rem;
+    }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.66rem;
+      color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+      font-size: 1.6rem; color: var(--text); margin-top: 0.3rem;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .chip {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.74rem;
+      padding: 0.4rem 0.8rem; border-radius: 999px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; transition: all 0.2s var(--ease);
+    }
+    .chip:hover { color: var(--text); border-color: rgba(0,240,255,0.4); }
+    .chip[aria-pressed="true"] {
+      background: rgba(0,240,255,0.1); border-color: var(--cyan); color: var(--cyan);
+    }
+    .toolbar .spacer { flex: 1; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem;
+      padding: 0.6rem 1rem; border-radius: 0.65rem; cursor: pointer;
+      border: 1px solid var(--border); background: transparent; color: var(--text);
+      transition: all 0.2s var(--ease);
+    }
+    .btn:hover { border-color: rgba(0,240,255,0.4); color: var(--cyan); }
+    .btn-primary {
+      background: var(--cyan); color: #0A0A0F; border-color: var(--cyan);
+      box-shadow: 0 0 24px rgba(0,240,255,0.25);
+    }
+    .btn-primary:hover { color: #0A0A0F; transform: translateY(-1px); box-shadow: 0 0 32px rgba(0,240,255,0.4); }
+    .btn-ghost { color: var(--muted); }
+
+    /* Grid */
+    .agents-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+    .agent {
+      position: relative;
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--muted);
+      border-radius: 0.875rem; padding: 1.1rem 1.15rem;
+      display: flex; flex-direction: column; gap: 0.7rem;
+      animation: fade-in 0.3s var(--ease);
+      transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+    .agent:hover { transform: translateY(-2px); border-color: rgba(0,240,255,0.3); }
+    .agent[data-status="running"]   { border-left-color: var(--success); }
+    .agent[data-status="paused"]    { border-left-color: var(--warning); }
+    .agent[data-status="error"]     { border-left-color: var(--danger); }
+    .agent[data-status="installed"] { border-left-color: var(--cyan); }
+
+    .agent-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+    .agent-name {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+      font-size: 1.05rem; letter-spacing: -0.02em; margin: 0; color: var(--text);
+    }
+    .agent-menu {
+      background: transparent; border: none; color: var(--muted);
+      cursor: pointer; padding: 0.25rem; border-radius: 0.4rem;
+      transition: all 0.2s var(--ease); position: relative;
+    }
+    .agent-menu:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .menu-pop {
+      position: absolute; right: 0; top: 100%; margin-top: 0.25rem;
+      background: #0A0A0F; border: 1px solid var(--border); border-radius: 0.5rem;
+      min-width: 160px; padding: 0.3rem; box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+      z-index: 10;
+    }
+    .menu-pop button {
+      display: block; width: 100%; text-align: left;
+      background: transparent; border: none; color: var(--text);
+      padding: 0.5rem 0.65rem; border-radius: 0.35rem; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.82rem;
+    }
+    .menu-pop button:hover { background: rgba(255,255,255,0.06); }
+    .menu-pop button.danger { color: var(--danger); }
+
+    .agent-status {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--muted); display: inline-block;
+    }
+    [data-status="running"]   .status-dot { background: var(--success); animation: pulse-dot 2s var(--ease) infinite; box-shadow: 0 0 8px rgba(0,255,163,0.6); }
+    [data-status="paused"]    .status-dot { background: var(--warning); }
+    [data-status="error"]     .status-dot { background: var(--danger); animation: pulse-dot 1.4s var(--ease) infinite; }
+    [data-status="installed"] .status-dot { background: var(--cyan); }
+
+    .agent-meta { font-family: 'Inter', sans-serif; font-size: 0.78rem; color: var(--muted); }
+    .agent-cmd {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+      background: #0A0A0F; border: 1px solid var(--border);
+      border-radius: 0.45rem; padding: 0.45rem 0.6rem; color: #C9C9D6;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .agent-cmd .pf { color: var(--cyan); }
+
+    /* Empty state */
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center; padding: 4rem 1rem;
+      background: var(--surface); border: 1px dashed var(--border);
+      border-radius: 1rem;
+    }
+    .empty svg { display: block; margin: 0 auto 1.25rem; }
+    .empty h3 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem;
+      font-weight: 700; color: var(--text); margin: 0 0 0.5rem;
+    }
+    .empty p { color: var(--muted); margin: 0 0 1.5rem; }
+
+    /* Modal */
+    .modal-bg {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 50; padding: 1rem;
+    }
+    .modal-bg[aria-hidden="false"] { display: flex; }
+    .modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 1rem; padding: 1.5rem; max-width: 32rem; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    }
+    .modal h3 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem;
+      font-weight: 700; color: var(--text); margin: 0 0 0.35rem;
+    }
+    .modal p.sub { color: var(--muted); font-size: 0.875rem; margin: 0 0 1.25rem; }
+    .field { margin-bottom: 1rem; }
+    .field label {
+      display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+      color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      background: #0A0A0F; border: 1px solid var(--border); border-radius: 0.55rem;
+      padding: 0.6rem 0.75rem; color: var(--text);
+      font-family: 'Inter', sans-serif; font-size: 0.875rem;
+      outline: none; transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: rgba(0,240,255,0.5); box-shadow: 0 0 0 3px rgba(0,240,255,0.08);
+    }
+    .field textarea { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; min-height: 80px; resize: vertical; }
+    .modal-actions { display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 1.25rem; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--surface); border: 1px solid var(--success);
+      color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.85rem;
+      padding: 0.7rem 1.1rem; border-radius: 0.6rem;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+      z-index: 100;
+    }
+    .toast[data-show="1"] { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 720px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .nav-links a:not(.nav-cta) { display: none; }
     }
   </style>
 </head>
-<body class="text-white p-8 max-w-5xl mx-auto">
+<body>
 
-  <h1 class="text-5xl font-bold mb-8 flex items-center gap-3">
-    <i class="fa-solid fa-robot text-[#00f0ff]"></i>
-    My Agents
-  </h1>
-  <p class="text-zinc-400 mb-12">Private dashboard • Powered by grok-install <strong>v2.12</strong> • Phase 14 Voice & Mobile Experience</p>
-
-  <!-- PHASE 14 VOICE + MOBILE BANNER -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
-      <i class="fa-solid fa-microphone"></i>
-      Phase 14 – Full Voice & Mobile Experience LIVE
-    </h2>
-    <p class="text-zinc-300">Try voice commands like “Hey Grok, show me my agents”, “Hey Grok, update all my agents”, or “Hey Grok, orchestrate my agents”. Mobile-first dashboard with one-tap voice buttons.</p>
-  </div>
-
-  <!-- PHASE 12 MARKETPLACE INTEGRATION BANNER (preserved) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
-      <i class="fa-solid fa-store"></i>
-      Phase 12 – Professional Marketplace Live
-    </h2>
-    <p class="text-zinc-300">Mobile-first redesign with glassmorphism. Full integration with trending, featured agents, and live search from the main marketplace.</p>
-  </div>
-
-  <!-- PHASE 11 PASSIVE GROWTH ENGINE BANNER (preserved) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
-      <i class="fa-solid fa-seedling"></i>
-      Phase 11 – Passive Growth Engine LIVE
-    </h2>
-    <div class="grid md:grid-cols-2 gap-8 text-sm">
-      <div>Auto-welcome replies for new repos</div>
-      <div>Auto-shareable install cards with referral credits</div>
-      <div>Weekly highlight thread (Sunday 20:00 UTC)</div>
-      <div>Trending &amp; featured boosts</div>
-    </div>
-  </div>
-
-  <!-- PHASE 10 SECTION (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00f0ff]/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-[#00f0ff]">
-      <i class="fa-solid fa-rocket"></i>
-      Phase 10 – Now Live
-    </h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div>
-        <h3 class="text-xl font-semibold mb-3">Native X Agent Runtime</h3>
-        <p class="text-zinc-400 text-sm">Agents run directly on X (reply bots, DM handlers, trend monitors). Grok is the secure runtime orchestrator. One-click X-native deployment.</p>
-      </div>
-      <div>
-        <h3 class="text-xl font-semibold mb-3">Grok Intelligence Layer</h3>
-        <p class="text-zinc-400 text-sm">Seamless function calling + real-time tools. Multi-agent swarms coordinated by Grok. AI-suggested teams &amp; workflows.</p>
-      </div>
-      <div>
-        <h3 class="text-xl font-semibold mb-3">Voice-First Management</h3>
-        <p class="text-zinc-400 text-sm">Full voice commands: install, update, orchestrate, monitor, swarm control. Mobile-friendly private dashboard.</p>
-      </div>
-      <div>
-        <h3 class="text-xl font-semibold mb-3">Enterprise &amp; Team Features</h3>
-        <p class="text-zinc-400 text-sm">Private team workspaces, audit logs, member permissions. Self-hosted orchestrator improvements.</p>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">gi</span>
+        grok-install
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#validator">Validator</a>
+        <a href="https://github.com/agentmindcloud/grok-install" target="_blank" rel="noopener" class="nav-cta">GitHub</a>
       </div>
     </div>
-  </div>
+  </nav>
 
-  <!-- Safety & Verification 2.0 (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-emerald-400/30">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-emerald-400">
-      <i class="fa-solid fa-shield-halved"></i>
-      Enhanced Safety &amp; Verification 2.0
-    </h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2 mb-4"><i class="fa-solid fa-check-circle text-emerald-400"></i> Pre-Install Deep Scan</strong>
-        <p class="text-zinc-300 text-sm">Grok scanned all repo files. No unusual code or hidden secrets detected.</p>
-        <span class="inline-flex items-center gap-2 mt-4 text-xs bg-emerald-400/10 text-emerald-400 px-4 py-2 rounded-3xl">
-          <i class="fa-solid fa-badge-check"></i>
-          Verified by Grok
-        </span>
-      </div>
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2 mb-4">Scan Summary</strong>
-        <ul class="text-sm text-zinc-300 space-y-2">
-          <li class="flex justify-between"><span class="text-zinc-400">Files scanned</span><span>14</span></li>
-          <li class="flex justify-between"><span class="text-zinc-400">Secrets found</span><span class="text-emerald-400">0 hard-coded</span></li>
-          <li class="flex justify-between"><span class="text-zinc-400">Minimum keys only</span><span class="text-emerald-400">Enabled</span></li>
-        </ul>
-      </div>
+  <main class="page">
+    <h1 class="page-title">My Agents</h1>
+    <p class="page-sub">A local-only dashboard. Your installed agents are stored in <code style="color:var(--cyan);background:#13131A;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.8em;">localStorage</code> — nothing ever leaves this browser.</p>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Total</div><div class="stat-value" id="stat-total">0</div></div>
+      <div class="stat"><div class="stat-label">Running</div><div class="stat-value" id="stat-running" style="color:var(--success);">0</div></div>
+      <div class="stat"><div class="stat-label">Paused</div><div class="stat-value" id="stat-paused" style="color:var(--warning);">0</div></div>
+      <div class="stat"><div class="stat-label">Errors</div><div class="stat-value" id="stat-error" style="color:var(--danger);">0</div></div>
     </div>
-  </div>
 
-  <!-- What's New v2.9 (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12 border border-[#00d4ff]/30">
-    <h2 class="text-2xl font-semibold mb-4 flex items-center gap-3 text-[#00d4ff]">
-      <i class="fa-solid fa-rocket"></i>
-      What’s New in v2.9
-    </h2>
-    <ul class="text-zinc-300 space-y-2">
-      <li>✅ Enhanced Safety &amp; Verification 2.0 – pre-install deep scan + Verified by Grok badge</li>
-      <li>✅ Auto-update all my agents command</li>
-      <li>✅ Template generator for orchestration patterns</li>
-      <li>✅ Improved error recovery &amp; debugging tools</li>
-    </ul>
-  </div>
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="chips" id="status-filters" role="tablist" aria-label="Filter by status">
+        <button class="chip" data-status="all"       aria-pressed="true">All</button>
+        <button class="chip" data-status="running"   aria-pressed="false">Running</button>
+        <button class="chip" data-status="paused"    aria-pressed="false">Paused</button>
+        <button class="chip" data-status="installed" aria-pressed="false">Installed</button>
+        <button class="chip" data-status="error"     aria-pressed="false">Error</button>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn btn-ghost" id="btn-export" type="button">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3M3 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Export
+      </button>
+      <button class="btn btn-primary" id="btn-add" type="button">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Add Agent
+      </button>
+    </div>
 
-  <!-- Private Analytics Dashboard (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-chart-bar"></i>
-      Private Analytics • Your Agents
-    </h2>
-    <div class="grid md:grid-cols-3 gap-6 mb-8">
-      <!-- Agent 1 -->
-      <div class="glass rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-4">
-          <strong>Hermes Telegram Dashboard</strong>
-          <span class="text-emerald-400 text-xs px-3 py-1 bg-emerald-400/10 rounded-3xl">Active</span>
+    <!-- Grid -->
+    <div class="agents-grid" id="agents-grid"></div>
+  </main>
+
+  <!-- Add modal -->
+  <div class="modal-bg" id="add-modal" aria-hidden="true" role="dialog" aria-labelledby="add-title">
+    <div class="modal">
+      <h3 id="add-title">Add an agent</h3>
+      <p class="sub">Track an agent you've installed. This stays in your browser.</p>
+      <form id="add-form">
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input id="f-name" type="text" required placeholder="My Reply Bot" maxlength="80">
         </div>
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between"><span class="text-zinc-400">Installs</span><span class="font-medium">1,284</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Weekly usage</span><span class="font-medium">347 sessions</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">94%</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">98.7%</span></div>
+        <div class="field">
+          <label for="f-cmd">Install command</label>
+          <input id="f-cmd" type="text" required placeholder="grok-install install agentmindcloud/x-reply-bot">
         </div>
-        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
-                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
-          <i class="fa-solid fa-microphone"></i> Voice Update
-        </button>
-      </div>
-      <!-- Agent 2 -->
-      <div class="glass rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-4">
-          <strong>Smart Twitter Reply Bot</strong>
-          <span class="text-emerald-400 text-xs px-3 py-1 bg-emerald-400/10 rounded-3xl">Active</span>
+        <div class="field">
+          <label for="f-status">Status</label>
+          <select id="f-status">
+            <option value="installed">Installed</option>
+            <option value="running">Running</option>
+            <option value="paused">Paused</option>
+            <option value="error">Error</option>
+          </select>
         </div>
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between"><span class="text-zinc-400">Installs</span><span class="font-medium">937</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Weekly usage</span><span class="font-medium">219 sessions</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">89%</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">96.2%</span></div>
+        <div class="field">
+          <label for="f-notes">Notes (optional)</label>
+          <textarea id="f-notes" placeholder="Reminders, env vars, anything…"></textarea>
         </div>
-        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
-                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
-          <i class="fa-solid fa-microphone"></i> Voice Update
-        </button>
-      </div>
-      <!-- Agent 3 -->
-      <div class="glass rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-4">
-          <strong>Discord AI Moderator</strong>
-          <span class="text-emerald-400 text-xs px-3 py-1 bg-emerald-400/10 rounded-3xl">Active</span>
+        <div class="modal-actions">
+          <button type="button" class="btn" id="btn-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save agent</button>
         </div>
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between"><span class="text-zinc-400">Installs</span><span class="font-medium">621</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Weekly usage</span><span class="font-medium">184 sessions</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Retention (30d)</span><span class="font-medium text-emerald-400">91%</span></div>
-          <div class="flex justify-between"><span class="text-zinc-400">Trigger success rate</span><span class="font-medium text-emerald-400">97.4%</span></div>
-        </div>
-        <button onclick="alert('Voice: \"Hey Grok, update this agent\"')" 
-                class="mt-4 w-full py-3 bg-[#00f0ff] text-black font-semibold rounded-3xl flex items-center justify-center gap-2 voice-btn">
-          <i class="fa-solid fa-microphone"></i> Voice Update
-        </button>
-      </div>
-    </div>
-    <p class="text-xs text-zinc-500 text-center">Data updated live • Auto-generated weekly reports sent via Grok DM</p>
-  </div>
-
-  <!-- How to Use My Agents Dashboard (shows BOTH text and voice versions) -->
-  <div class="glass rounded-3xl p-8 mb-12">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-book"></i>
-      How to Use My Agents Dashboard
-    </h2>
-    <div class="space-y-6 text-zinc-300">
-      <div>
-        <strong>1. Access the dashboard</strong><br>
-        Type: <code>@grok my agents</code><br>
-        Or say: “Hey Grok, show me my agents”
-      </div>
-      <div>
-        <strong>2. Voice commands (recommended)</strong><br>
-        “Hey Grok, update all my agents”<br>
-        “Hey Grok, orchestrate my agents”<br>
-        “Hey Grok, what is the status of my agents?”<br>
-        “Hey Grok, share my latest install”
-      </div>
-      <div>
-        <strong>3. See your installed agents + analytics</strong><br>
-        All agents you have installed via grok-install will appear here with live stats.
-      </div>
-      <div>
-        <strong>4. Orchestrate agents</strong><br>
-        Click “Link My Agents (Orchestrate)” or say “Hey Grok, orchestrate my agents”.
-      </div>
-      <div>
-        <strong>5. Share install cards</strong><br>
-        Use the Share button or say “Hey Grok, share my latest install”.
-      </div>
-    </div>
-    <p class="mt-8 text-sm text-emerald-400">
-      Tip: Voice commands work best on mobile with X voice mode. Text commands work everywhere.
-    </p>
-  </div>
-
-  <!-- Multi-Agent Orchestration (preserved exactly) -->
-  <div class="glass rounded-3xl p-8 mb-12">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-link"></i>
-      Multi-Agent Orchestration
-    </h2>
-    <p class="text-zinc-400 mb-6">Example trigger chain already set up:</p>
-    <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-      <strong>Twitter Reply Bot</strong> → on mention → updates → <strong>Hermes Telegram Dashboard</strong>
-    </div>
-    <button onclick="alert('Voice: \"Hey Grok, orchestrate my agents\"')" 
-            class="mt-8 w-full py-4 bg-[#1DA1F2] text-black font-semibold rounded-3xl flex items-center justify-center gap-3 hover:bg-[#00f0ff]">
-      <i class="fa-solid fa-plus"></i>
-      Link My Agents (Orchestrate)
-    </button>
-  </div>
-
-  <!-- Community Self-Management Tools (preserved exactly) -->
-  <div class="glass rounded-3xl p-8">
-    <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
-      <i class="fa-solid fa-users"></i>
-      Community Self-Management Tools
-    </h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2"><i class="fa-solid fa-vote-yea"></i> Community Voting</strong>
-        <button onclick="alert('Community voting opened – vote now!')"
-                class="mt-6 w-full py-3 bg-[#1DA1F2] text-black font-semibold rounded-3xl">Open Community Voting</button>
-      </div>
-      <div class="bg-[#0a0a0a] p-6 rounded-2xl">
-        <strong class="flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Moderation Queue</strong>
-        <button onclick="alert('Moderation queue loaded – 3 agents waiting for review')"
-                class="mt-6 w-full py-3 border border-zinc-400 rounded-3xl">Open Moderation Queue</button>
-      </div>
+      </form>
     </div>
   </div>
 
-  <p class="text-xs text-zinc-500 mt-16 text-center">
-    This is the real grok-install private analytics dashboard with full voice support.
-  </p>
-  <div class="text-center mt-12 text-zinc-400">
-    Built live with @JanSol0s (Jani) &amp; Grok • v2.12 • Phase 14 Voice &amp; Mobile Experience • April 2026
-  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script>
+  (function () {
+    var KEY = 'gi-my-agents-v1';
+    var grid = document.getElementById('agents-grid');
+    var modal = document.getElementById('add-modal');
+    var addBtn = document.getElementById('btn-add');
+    var cancelBtn = document.getElementById('btn-cancel');
+    var exportBtn = document.getElementById('btn-export');
+    var form = document.getElementById('add-form');
+    var toastEl = document.getElementById('toast');
+    var chips = document.querySelectorAll('#status-filters .chip');
+
+    var state = { agents: load(), filter: 'all' };
+
+    function load() {
+      try {
+        var raw = localStorage.getItem(KEY);
+        if (!raw) return [];
+        var arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+      } catch (e) { return []; }
+    }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state.agents)); } catch (e) {} }
+
+    function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+      });
+    }
+
+    function toast(msg, color) {
+      toastEl.textContent = msg;
+      toastEl.style.borderColor = color || 'var(--success)';
+      toastEl.dataset.show = '1';
+      setTimeout(function () { toastEl.dataset.show = '0'; }, 1800);
+    }
+
+    function statusLabel(s) {
+      return ({ running: 'Running', paused: 'Paused', error: 'Error', installed: 'Installed' })[s] || s;
+    }
+
+    function render() {
+      // Stats
+      var counts = { total: state.agents.length, running: 0, paused: 0, error: 0, installed: 0 };
+      state.agents.forEach(function (a) { if (counts[a.status] !== undefined) counts[a.status]++; });
+      document.getElementById('stat-total').textContent = counts.total;
+      document.getElementById('stat-running').textContent = counts.running;
+      document.getElementById('stat-paused').textContent  = counts.paused;
+      document.getElementById('stat-error').textContent   = counts.error;
+
+      var visible = state.agents.filter(function (a) {
+        return state.filter === 'all' || a.status === state.filter;
+      });
+
+      if (!state.agents.length) {
+        grid.innerHTML = '' +
+          '<div class="empty">' +
+            '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true">' +
+              '<circle cx="40" cy="40" r="34" stroke="#1F1F2A" stroke-width="2" stroke-dasharray="4 4"/>' +
+              '<path d="M28 40h24M40 28v24" stroke="#00F0FF" stroke-width="2.5" stroke-linecap="round"/>' +
+            '</svg>' +
+            '<h3>No agents yet</h3>' +
+            '<p>Track every grok-install agent you run. Add one to get started.</p>' +
+            '<button class="btn btn-primary" id="empty-add">+ Add your first agent</button>' +
+          '</div>';
+        var ea = document.getElementById('empty-add');
+        if (ea) ea.addEventListener('click', openModal);
+        return;
+      }
+
+      if (!visible.length) {
+        grid.innerHTML = '<div class="empty"><h3>No matching agents</h3><p>Try a different filter.</p></div>';
+        return;
+      }
+
+      grid.innerHTML = visible.map(function (a) {
+        return '' +
+          '<article class="agent" data-status="' + escapeHtml(a.status) + '" data-id="' + escapeHtml(a.id) + '">' +
+            '<div class="agent-head">' +
+              '<h3 class="agent-name">' + escapeHtml(a.name) + '</h3>' +
+              '<button class="agent-menu" aria-label="Open menu" data-id="' + escapeHtml(a.id) + '" type="button">' +
+                '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/></svg>' +
+              '</button>' +
+            '</div>' +
+            '<div class="agent-status"><span class="status-dot"></span>' + escapeHtml(statusLabel(a.status)) + '</div>' +
+            '<div class="agent-cmd"><span class="pf">$ </span>' + escapeHtml(a.cmd) + '</div>' +
+            (a.notes ? '<div class="agent-meta">' + escapeHtml(a.notes) + '</div>' : '') +
+            '<div class="agent-meta">Added ' + escapeHtml(new Date(a.added).toLocaleDateString()) + '</div>' +
+          '</article>';
+      }).join('');
+
+      grid.querySelectorAll('.agent-menu').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          openMenu(btn);
+        });
+      });
+    }
+
+    function openMenu(anchor) {
+      closeMenus();
+      var id = anchor.getAttribute('data-id');
+      var pop = document.createElement('div');
+      pop.className = 'menu-pop';
+      pop.innerHTML = '' +
+        '<button data-act="run">Mark running</button>' +
+        '<button data-act="pause">Mark paused</button>' +
+        '<button data-act="error">Mark error</button>' +
+        '<button data-act="installed">Mark installed</button>' +
+        '<button data-act="copy">Copy command</button>' +
+        '<button data-act="remove" class="danger">Remove</button>';
+      anchor.appendChild(pop);
+      pop.addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        var act = b.getAttribute('data-act');
+        handleAct(id, act);
+        closeMenus();
+      });
+      setTimeout(function () { document.addEventListener('click', closeMenus, { once: true }); }, 0);
+    }
+    function closeMenus() {
+      document.querySelectorAll('.menu-pop').forEach(function (p) { p.parentNode && p.parentNode.removeChild(p); });
+    }
+
+    function handleAct(id, act) {
+      var a = state.agents.find(function (x) { return x.id === id; });
+      if (!a) return;
+      if (act === 'remove') {
+        if (!confirm('Remove "' + a.name + '"?')) return;
+        state.agents = state.agents.filter(function (x) { return x.id !== id; });
+        save(); render(); toast('Agent removed');
+        return;
+      }
+      if (act === 'copy') {
+        var done = function () { toast('Copied install command'); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(a.cmd).then(done).catch(done);
+        else done();
+        return;
+      }
+      a.status = act;
+      save(); render(); toast('Marked ' + statusLabel(act));
+    }
+
+    function openModal() {
+      modal.setAttribute('aria-hidden', 'false');
+      setTimeout(function () { document.getElementById('f-name').focus(); }, 50);
+    }
+    function closeModal() { modal.setAttribute('aria-hidden', 'true'); form.reset(); }
+
+    addBtn.addEventListener('click', openModal);
+    cancelBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var agent = {
+        id: uid(),
+        name:  document.getElementById('f-name').value.trim(),
+        cmd:   document.getElementById('f-cmd').value.trim(),
+        status:document.getElementById('f-status').value,
+        notes: document.getElementById('f-notes').value.trim(),
+        added: Date.now()
+      };
+      if (!agent.name || !agent.cmd) return;
+      state.agents.unshift(agent);
+      save(); render(); closeModal();
+      toast('Agent added');
+    });
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+        chip.setAttribute('aria-pressed', 'true');
+        state.filter = chip.getAttribute('data-status');
+        render();
+      });
+    });
+
+    exportBtn.addEventListener('click', function () {
+      if (!state.agents.length) { toast('Nothing to export', 'var(--warning)'); return; }
+      var blob = new Blob([JSON.stringify({ version: '1.0', exported_at: new Date().toISOString(), agents: state.agents }, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'grok-install-agents.json';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      toast('Exported ' + state.agents.length + ' agent' + (state.agents.length === 1 ? '' : 's'));
+    });
+
+    render();
+  })();
+  </script>
 </body>
 </html>
