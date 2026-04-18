@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /my-agents.html
+
+Sitemap: https://agentmindcloud.github.io/grok-install/sitemap.xml

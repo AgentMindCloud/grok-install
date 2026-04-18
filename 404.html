@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — grok-install</title>
+  <meta name="description" content="Page not found.">
+  <meta name="theme-color" content="#0A0A0F">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex,follow">
+
+  <link rel="icon" type="image/svg+xml" href="/grok-install/assets/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0A0A0F; --surface: #13131A; --border: #1F1F2A;
+      --cyan: #00F0FF; --violet: #7C3AED;
+      --text: #F5F5F7; --muted: #8B8B9A;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 2rem 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .halo {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0,240,255,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .wrap { position: relative; max-width: 36rem; text-align: center; }
+    .code {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(5rem, 18vw, 9rem);
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0 0 0.5rem;
+      text-shadow: 0 0 80px rgba(0,240,255,0.18);
+    }
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 1.875rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.85rem;
+    }
+    p {
+      font-family: 'Inter', sans-serif;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 0 0 2rem;
+    }
+    .term {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text);
+      margin: 0 auto 2rem;
+      max-width: 28rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .term .pf { color: var(--cyan); }
+    .term .ok { color: #00FFA3; }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+    a.btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.9rem;
+      padding: 0.85rem 1.5rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: all 0.2s var(--ease);
+    }
+    a.btn-primary {
+      background: var(--cyan); color: #0A0A0F;
+      box-shadow: 0 0 32px rgba(0,240,255,0.3);
+    }
+    a.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 44px rgba(0,240,255,0.5); }
+    a.btn-ghost {
+      color: var(--cyan);
+      border: 1px solid rgba(0,240,255,0.4);
+    }
+    a.btn-ghost:hover { background: rgba(0,240,255,0.06); border-color: rgba(0,240,255,0.7); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="halo"></div>
+  <div class="wrap">
+    <div class="code">404</div>
+    <h1>Tool not in registry.</h1>
+    <p>The page you're looking for doesn't exist — but your agent can still ship.</p>
+
+    <div class="term">
+      <div><span class="pf">$ </span>grok-install search 404</div>
+      <div class="ok">✓ Returning home in 0 hops</div>
+    </div>
+
+    <div class="actions">
+      <a href="/grok-install/" class="btn btn-primary">
+        Back to home
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m-4-4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://github.com/agentmindcloud/grok-install/issues" target="_blank" rel="noopener" class="btn btn-ghost">
+        Report broken link
+      </a>
+    </div>
+  </div>
+</body>
+</html>
