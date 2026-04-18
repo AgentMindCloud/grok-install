@@ -1,0 +1,137 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json
+# Multi-agent swarm coordinator — grok-install v2.13
+# Full orchestration example with 3 sub-agents
+
+version: "2.13"
+name: "Multi-Agent Coordinator"
+description: "Orchestrates a swarm of specialized agents for complex autonomous tasks"
+repository: "https://github.com/you/multi-agent-coordinator"
+category: "x-native"
+tags: ["multi-agent", "orchestration", "swarm", "advanced"]
+ecosystem: ["grok", "x"]
+
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
+
+intelligence_layer:
+  function_calling: true
+  real_time_tools: true
+  multi_agent_swarm: true
+  grok_coordinates: true
+  ai_suggested_teams: true
+
+orchestration:
+  enabled: true
+  role: "coordinator"
+  can_trigger: ["monitor-agent", "writer-agent", "publisher-agent"]
+  can_be_triggered_by: []
+  visual_builder: true
+  ai_suggested_patterns: true
+  triggers:
+    - event: "schedule"
+      action: "run_daily_pipeline"
+      target_agents: ["monitor-agent", "writer-agent", "publisher-agent"]
+    - event: "user_command"
+      action: "run_now"
+      target_agents: ["monitor-agent", "writer-agent", "publisher-agent"]
+  safety:
+    permission_check: true
+    approval_required: true
+    verified_orchestration: true
+
+parallel_tool_calls: true
+tool_choice: "auto"
+
+tools:
+  - name: "dispatch_task"
+    description: "Sends a task to a specific sub-agent and returns the result"
+    parameters:
+      type: "object"
+      properties:
+        agent:
+          type: "string"
+          enum: ["monitor-agent", "writer-agent", "publisher-agent"]
+        task:
+          type: "string"
+        priority:
+          type: "string"
+          enum: ["low", "normal", "high"]
+          default: "normal"
+      required: ["agent", "task"]
+    returns:
+      type: "object"
+      properties:
+        result: {type: "string"}
+        status: {type: "string"}
+        duration_ms: {type: "integer"}
+
+  - name: "get_swarm_status"
+    description: "Returns health and status of all agents in the swarm"
+    parameters:
+      type: "object"
+      properties: {}
+      required: []
+    returns:
+      type: "object"
+      properties:
+        agents:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              name: {type: "string"}
+              status: {type: "string"}
+              last_run: {type: "string", format: "date-time"}
+
+  - name: "pause_agent"
+    description: "Pauses a specific agent in the swarm"
+    parameters:
+      type: "object"
+      properties:
+        agent: {type: "string"}
+        reason: {type: "string"}
+      required: ["agent"]
+    returns:
+      type: "object"
+      properties:
+        success: {type: "boolean"}
+
+rate_limits:
+  dispatch_task:
+    qps: 2
+    daily_cap: 500
+    burst: 5
+
+cost_limits:
+  daily_usd: 20.00
+  monthly_usd: 300.00
+  per_request_usd: 1.00
+  on_limit: "notify_user"
+
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true
+
+deployment:
+  preferred: ["railway", "docker"]
+  targets:
+    - railway
+    - docker
+
+on_install:
+  welcome: "Multi-Agent Coordinator is live. Type /agents to see your swarm."
+  suggested_commands:
+    - "/agents"
+    - "/status"
+    - "/run-now"
+    - "/pause <agent>"
+
+credits:
+  standard: "grok-install"
+  version: "2.13"
+  url: "https://github.com/AgentMindCloud/grok-install"

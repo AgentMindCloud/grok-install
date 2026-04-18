@@ -1,31 +1,89 @@
 {
-  "featured": [
+  "version": "1.0",
+  "updated_at": "2026-04-17T00:00:00Z",
+  "stats": {
+    "total_installs": 3885,
+    "total_agents": 6,
+    "certified_count": 5
+  },
+  "agents": [
     {
-      "name": "Hermes Telegram Dashboard",
-      "description": "AI-powered Telegram dashboard for community management and real-time updates from connected agents.",
-      "repo": "https://github.com/AgentMindCloud/hermes-telegram-dashboard",
-      "installs": 1284,
-      "category": "telegram",
-      "tags": ["dashboard", "community", "orchestration"],
-      "featured": true
-    },
-    {
-      "name": "Smart Twitter Reply Bot",
-      "description": "Native X reply bot that intelligently responds to mentions using Grok.",
-      "repo": "https://github.com/AgentMindCloud/twitter-reply-bot",
-      "installs": 937,
+      "id": "reply-engagement-bot",
+      "name": "Reply & Engagement Bot",
+      "description": "Monitors mentions and replies intelligently using Grok. Approval gates built in.",
       "category": "x-native",
-      "tags": ["reply-bot", "automation"],
-      "featured": true
+      "tags": ["x-native", "beginner", "reply-bot"],
+      "install_command": "grok-install install agentmindcloud/reply-engagement-bot",
+      "safety_profile": "strict",
+      "certified": true,
+      "installs": 1284,
+      "author": "@JanSol0s",
+      "created_at": "2026-04-17T00:00:00Z"
     },
     {
-      "name": "Discord AI Moderator",
-      "description": "AI-powered Discord moderator that works with other agents for community management.",
-      "repo": "https://github.com/AgentMindCloud/discord-ai-mod",
+      "id": "research-swarm",
+      "name": "Research Swarm",
+      "description": "Three-agent team: Researcher + Critic + Publisher. Posts threads after human approval.",
+      "category": "research",
+      "tags": ["multi-agent", "research", "swarm"],
+      "install_command": "grok-install install agentmindcloud/research-swarm",
+      "safety_profile": "strict",
+      "certified": true,
+      "installs": 847,
+      "author": "@JanSol0s",
+      "created_at": "2026-04-17T00:00:00Z"
+    },
+    {
+      "id": "voice-agent",
+      "name": "Voice Agent",
+      "description": "Responds to natural voice commands on X and mobile. Accessibility-first design.",
+      "category": "voice",
+      "tags": ["voice", "mobile", "accessibility"],
+      "install_command": "grok-install install agentmindcloud/voice-agent",
+      "safety_profile": "moderate",
+      "certified": true,
       "installs": 621,
+      "author": "@JanSol0s",
+      "created_at": "2026-04-17T00:00:00Z"
+    },
+    {
+      "id": "trend-to-thread",
+      "name": "Trend-to-Thread Bot",
+      "description": "Monitors trending topics and drafts threads for review. Never posts without approval.",
+      "category": "x-native",
+      "tags": ["x-native", "trends", "threads"],
+      "install_command": "grok-install install agentmindcloud/trend-to-thread",
+      "safety_profile": "strict",
+      "certified": true,
+      "installs": 532,
+      "author": "@JanSol0s",
+      "created_at": "2026-04-17T00:00:00Z"
+    },
+    {
+      "id": "discord-ai-mod",
+      "name": "Discord AI Moderator",
+      "description": "AI-powered community moderation that works with other agents in an orchestrated swarm.",
       "category": "discord",
-      "tags": ["moderator", "community"],
-      "featured": true
+      "tags": ["discord", "community", "moderation"],
+      "install_command": "grok-install install agentmindcloud/discord-ai-mod",
+      "safety_profile": "moderate",
+      "certified": true,
+      "installs": 398,
+      "author": "@JanSol0s",
+      "created_at": "2026-04-17T00:00:00Z"
+    },
+    {
+      "id": "knowledge-graph",
+      "name": "Personal Knowledge Graph",
+      "description": "Builds a knowledge graph from your X activity and surfaces insights on demand.",
+      "category": "research",
+      "tags": ["research", "knowledge", "personal"],
+      "install_command": "grok-install install agentmindcloud/knowledge-graph",
+      "safety_profile": "strict",
+      "certified": false,
+      "installs": 203,
+      "author": "@JanSol0s",
+      "created_at": "2026-04-17T00:00:00Z"
     }
   ]
 }

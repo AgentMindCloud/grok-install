@@ -3,420 +3,2530 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>grok-install — One-click AI agents on X</title>
+  <title>grok-install — The universal standard for Grok-native agents on X</title>
+  <meta name="description" content="One YAML file. One command. Your agent is live on X. The open standard for Grok-native AI agents.">
+  <meta name="theme-color" content="#0A0A0F">
+  <meta name="color-scheme" content="dark">
+
+  <link rel="canonical" href="https://agentmindcloud.github.io/grok-install/">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="alternate icon" href="assets/favicon.svg">
+  <link rel="mask-icon" href="assets/favicon.svg" color="#00F0FF">
+  <link rel="apple-touch-icon" href="assets/favicon.svg">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="grok-install">
+  <meta property="og:url" content="https://agentmindcloud.github.io/grok-install/">
+  <meta property="og:title" content="grok-install — The universal standard for Grok-native agents">
+  <meta property="og:description" content="One YAML file. One command. Your agent is live on X.">
+  <meta property="og:image" content="https://agentmindcloud.github.io/grok-install/assets/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="grok-install — One YAML file. One command. Your agent is live on X.">
+  <meta property="og:locale" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JanSol0s">
+  <meta name="twitter:creator" content="@JanSol0s">
+  <meta name="twitter:title" content="grok-install — The universal standard for Grok-native agents">
+  <meta name="twitter:description" content="One YAML file. One command. Your agent is live on X.">
+  <meta name="twitter:image" content="https://agentmindcloud.github.io/grok-install/assets/og-image.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "grok-install",
+    "description": "The universal standard for Grok-native AI agents on X. One YAML file, one command.",
+    "url": "https://agentmindcloud.github.io/grok-install/",
+    "codeRepository": "https://github.com/agentmindcloud/grok-install",
+    "programmingLanguage": ["YAML", "Python"],
+    "license": "https://www.apache.org/licenses/LICENSE-2.0",
+    "author": { "@type": "Organization", "name": "AgentMindCloud", "url": "https://github.com/AgentMindCloud" },
+    "softwareVersion": "2.13"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">   <!-- Linked correctly here -->
+
   <style>
-    :root { --cyan: #00f0ff; --magenta: #ff00aa; }
-    body { font-family: 'Inter', system_ui, sans-serif; background: #0a0a0a; color: #fff; }
-    .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(0,240,255,0.3); }
-    .glass:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.3); }
-    .hero-glow { text-shadow: 0 0 40px var(--cyan); }
-    .neon-cyan { color: var(--cyan); text-shadow: 0 0 20px var(--cyan); }
-    .card-hover:hover { transform: scale(1.03); box-shadow: 0 25px 50px -12px rgb(0 240 255 / 0.2); }
+    :root {
+      --bg: #0A0A0F;
+      --surface: #13131A;
+      --surface-2: #1F1F2A;
+      --border: #1F1F2A;
+      --cyan: #00F0FF;
+      --violet: #7C3AED;
+      --text: #F5F5F7;
+      --muted: #8B8B9A;
+      --success: #00FFA3;
+      --warning: #FFB800;
+      --danger: #FF3366;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s var(--ease); }
+    a:hover { color: var(--text); }
+
+    code, pre { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+
+    ::selection { background: rgba(0, 240, 255, 0.25); color: var(--text); }
+
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.3); }
+
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.4); opacity: 0.55; }
+    }
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+    @keyframes dash-flow { to { stroke-dashoffset: -24; } }
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes blink-caret { 50% { opacity: 0; } }
+    @keyframes radial-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50%      { transform: scale(1.05); opacity: 1; }
+    }
+    @keyframes scroll-up {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+    @keyframes float-y {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(8px); }
+    }
+    @keyframes draw-check {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 240, 255, 0.18);
+      border-radius: 999px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
-<body class="text-white">
+<body>
 
-  <!-- HERO – Phase 12 premium redesign -->
-  <div class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
-    <div class="max-w-5xl mx-auto text-center">
-      <div class="inline-flex items-center gap-3 mb-6 glass px-6 py-3 rounded-3xl text-sm neon-cyan">
-        <i class="fa-solid fa-seedling"></i>
-        v2.12 • Phase 11 Passive Growth Engine + Phase 12 Marketplace LIVE
+  <!-- ============================================================
+       SECTION 1 — HERO
+       ============================================================ -->
+  <section id="hero" style="position:relative;min-height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:6rem 1.5rem 4rem;">
+
+    <!-- Particle canvas (filled by JS in Step 3) -->
+    <canvas id="hero-particles" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+    <!-- Subtle radial vignette -->
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,rgba(10,10,15,0.85) 100%);z-index:1;pointer-events:none;"></div>
+
+    <!-- Centered content -->
+    <div style="position:relative;z-index:2;max-width:64rem;margin:0 auto;text-align:center;">
+
+      <!-- Glass badge pill -->
+      <div class="glass" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#00F0FF;margin-bottom:2rem;letter-spacing:0.04em;">
+        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#00F0FF;animation:pulse-dot 2s var(--ease) infinite;"></span>
+        v2.13 &nbsp;·&nbsp; Apache 2.0 &nbsp;·&nbsp; Grok-Native
       </div>
-      <h1 class="text-7xl font-bold tracking-tighter hero-glow mb-4">grok-install</h1>
-      <p class="text-4xl text-[#00f0ff] mb-8">One-click AI agents on X</p>
-      <p class="text-xl text-zinc-400 max-w-2xl mx-auto mb-10">
-        Add grok-install.yaml → Grok auto-welcomes, promotes, and grows your agent passively.
+
+      <!-- H1 wordmark with letter spans for Step 4 animation -->
+      <h1 id="hero-title" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(3.5rem,11vw,8rem);font-weight:900;letter-spacing:-0.05em;line-height:0.95;margin:0 0 1.5rem;color:#F5F5F7;text-shadow:0 0 60px rgba(0,240,255,0.15);">
+        <span class="hero-letter">g</span><span class="hero-letter">r</span><span class="hero-letter">o</span><span class="hero-letter">k</span><span class="hero-letter">-</span><span class="hero-letter">i</span><span class="hero-letter">n</span><span class="hero-letter">s</span><span class="hero-letter">t</span><span class="hero-letter">a</span><span class="hero-letter">l</span><span class="hero-letter">l</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p style="font-family:'Inter',sans-serif;font-size:clamp(1rem,2vw,1.25rem);color:#8B8B9A;margin:0 0 0.75rem;font-weight:400;letter-spacing:0.01em;">
+        The universal standard for Grok-native agents
       </p>
-      <a href="https://github.com/AgentMindCloud/grok-install" 
-         class="inline-flex items-center gap-3 bg-[#00f0ff] hover:bg-[#00d4e0] text-black font-semibold px-10 py-6 rounded-3xl text-3xl transition-all">
-        Install with Grok
-      </a>
-    </div>
-  </div>
 
-  <!-- Passive Growth Engine Banner -->
-  <div class="py-6 bg-white/5 border-y border-[#00f0ff]/30">
-    <div class="max-w-5xl mx-auto px-6 flex flex-wrap items-center justify-center gap-8 text-sm font-medium">
-      <div class="flex items-center gap-2"><span class="text-[#00f0ff]">●</span> Auto-welcome</div>
-      <div class="flex items-center gap-2"><span class="text-[#00f0ff]">●</span> Auto-share cards</div>
-      <div class="flex items-center gap-2"><span class="text-[#00f0ff]">●</span> Weekly highlights</div>
-      <div class="flex items-center gap-2"><span class="text-[#00f0ff]">●</span> Trending boosts</div>
-    </div>
-  </div>
+      <!-- One-liner -->
+      <p style="font-family:'Inter',sans-serif;font-size:clamp(1.125rem,2.4vw,1.5rem);color:#F5F5F7;margin:0 0 2.5rem;font-weight:500;line-height:1.4;">
+        One YAML file. One command. Your agent is live on X.
+      </p>
 
-  <!-- Marketplace Sections (Phase 12) -->
-  <div class="max-w-5xl mx-auto px-6 py-16">
-    <h2 class="text-4xl font-semibold mb-8 flex items-center gap-3">
-      <i class="fa-solid fa-store"></i> Marketplace
-    </h2>
+      <!-- CTAs -->
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="#install" class="hero-cta-primary" style="position:relative;display:inline-flex;align-items:center;gap:0.5rem;background:#00F0FF;color:#0A0A0F;padding:1rem 2rem;border-radius:0.875rem;font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;box-shadow:0 0 32px rgba(0,240,255,0.35),0 4px 16px rgba(0,0,0,0.4);transition:transform 0.2s var(--ease),box-shadow 0.2s var(--ease);">
+          Install in 60 seconds
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m-4-4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#gallery" class="hero-cta-secondary" style="display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:#00F0FF;padding:1rem 2rem;border-radius:0.875rem;border:1px solid rgba(0,240,255,0.4);font-family:'Inter',sans-serif;font-weight:600;font-size:1rem;text-decoration:none;transition:background 0.2s var(--ease),border-color 0.2s var(--ease);">
+          Browse agents
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m-4-4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
 
-    <!-- Featured Carousel -->
-    <div class="mb-16">
-      <h3 class="text-2xl mb-6">Featured Agents</h3>
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- These cards will later be populated from featured-agents.json -->
-        <div class="glass rounded-3xl p-6 card-hover">
-          <div class="h-48 bg-zinc-800 rounded-2xl mb-4 flex items-center justify-center text-4xl">📊</div>
-          <h4 class="font-semibold text-lg mb-2">Hermes Telegram Dashboard</h4>
-          <p class="text-zinc-400 text-sm mb-4">AI-powered Telegram dashboard for community management.</p>
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-emerald-400">1,284 installs</span>
-            <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] rounded-3xl">Verified by Grok</span>
-          </div>
+      <!-- Terminal block -->
+      <div id="hero-terminal" style="max-width:32rem;margin:0 auto;background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;overflow:hidden;text-align:left;box-shadow:0 12px 48px rgba(0,0,0,0.5),0 0 0 1px rgba(0,240,255,0.05);">
+        <!-- Terminal top bar -->
+        <div style="display:flex;align-items:center;gap:0.5rem;padding:0.6rem 0.85rem;background:#0F0F15;border-bottom:1px solid #1F1F2A;">
+          <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#FF5F56;"></span>
+          <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#FFBD2E;"></span>
+          <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#27C93F;"></span>
+          <span style="margin-left:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#8B8B9A;">zsh — grok-install</span>
         </div>
+        <!-- Output area -->
+        <pre id="hero-term-out" aria-live="polite" style="margin:0;padding:1rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.6;color:#F5F5F7;min-height:9.5rem;white-space:pre-wrap;word-break:break-word;"></pre>
+      </div>
 
-        <div class="glass rounded-3xl p-6 card-hover">
-          <div class="h-48 bg-zinc-800 rounded-2xl mb-4 flex items-center justify-center text-4xl">🤖</div>
-          <h4 class="font-semibold text-lg mb-2">Smart Twitter Reply Bot</h4>
-          <p class="text-zinc-400 text-sm mb-4">Native X reply bot using Grok intelligence.</p>
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-emerald-400">937 installs</span>
-            <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] rounded-3xl">Verified by Grok</span>
-          </div>
-        </div>
-
-        <div class="glass rounded-3xl p-6 card-hover">
-          <div class="h-48 bg-zinc-800 rounded-2xl mb-4 flex items-center justify-center text-4xl">🛡️</div>
-          <h4 class="font-semibold text-lg mb-2">Discord AI Moderator</h4>
-          <p class="text-zinc-400 text-sm mb-4">AI moderator for Discord communities.</p>
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-emerald-400">621 installs</span>
-            <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] rounded-3xl">Verified by Grok</span>
-          </div>
-        </div>
+      <!-- Micro-stat row -->
+      <div style="display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;margin-top:2rem;font-family:'Inter',sans-serif;font-size:0.8125rem;color:#8B8B9A;">
+        <span style="display:inline-flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#00F0FF;"></span>Spec v2.13</span>
+        <span style="display:inline-flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#00FFA3;"></span>Apache 2.0</span>
+        <span style="display:inline-flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#7C3AED;"></span>xAI SDK Native</span>
       </div>
     </div>
 
-    <!-- Trending + Categories -->
-    <div class="grid md:grid-cols-2 gap-12">
-      <div>
-        <h3 class="text-2xl mb-6">Trending this week</h3>
-        <div class="space-y-4">
-          <!-- Placeholder for trending items (will use trending.json later) -->
-          <div class="glass p-4 rounded-2xl flex justify-between items-center">
-            <span>Hermes Telegram Dashboard</span>
-            <span class="text-emerald-400">+284 installs</span>
-          </div>
-          <div class="glass p-4 rounded-2xl flex justify-between items-center">
-            <span>Smart Twitter Reply Bot</span>
-            <span class="text-emerald-400">+197 installs</span>
-          </div>
-        </div>
-      </div>
-      <div>
-        <h3 class="text-2xl mb-6">Categories</h3>
-        <div class="flex flex-wrap gap-3">
-          <div class="glass px-5 py-2 rounded-3xl text-sm">Telegram</div>
-          <div class="glass px-5 py-2 rounded-3xl text-sm">X-Native</div>
-          <div class="glass px-5 py-2 rounded-3xl text-sm">Discord</div>
-          <div class="glass px-5 py-2 rounded-3xl text-sm">Orchestration</div>
-        </div>
-      </div>
-    </div>
+    <!-- Scroll indicator -->
+    <a href="#problem" aria-label="Scroll down" style="position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:2;color:#8B8B9A;animation:float-y 2.4s var(--ease) infinite;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </section>
 
-    <!-- Live Search -->
-    <div class="mt-16 glass rounded-3xl p-8">
-      <input type="text" placeholder="Search agents or tags..." 
-             class="w-full bg-transparent border-b border-white/30 focus:outline-none text-xl py-4">
-    </div>
-  </div>
-
-  <!-- Phase 10 – Native X Integration, Intelligence Layer & Ecosystem Dominance -->
-  <div class="max-w-5xl mx-auto px-6 py-12">
-    <div class="glass rounded-3xl p-8 border border-[#00f0ff]/30">
-      <h2 class="text-4xl font-semibold mb-6 text-center flex items-center justify-center gap-3">
-        <i class="fa-solid fa-rocket text-[#00f0ff]"></i>
-        Phase 10 – Now Live
-      </h2>
-      <!-- (all your original Phase 10 content continues here exactly as before) -->
-    </div>
-  </div>
+  <style>
+    .hero-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 0 48px rgba(0,240,255,0.55), 0 6px 20px rgba(0,0,0,0.5); }
+    .hero-cta-secondary:hover { background: rgba(0,240,255,0.06); border-color: rgba(0,240,255,0.7); }
+    .hero-letter { display: inline-block; }
+    .term-prompt { color: #00F0FF; }
+    .term-comment { color: #8B8B9A; }
+    .term-success { color: #00FFA3; }
+    .term-blink::after { content: '\258B'; color: #00F0FF; margin-left: 2px; animation: blink-caret 1s step-end infinite; }
+  </style>
 
   <script>
-    console.log('%c✅ index.html v2.12 redesigned for Phase 12 Marketplace + Passive Growth Engine', 'color:#00f0ff; font-family:monospace');
+  (function () {
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var out = document.getElementById('hero-term-out');
+    if (!out) return;
+
+    var STEPS = [
+      [
+        { t: 'prompt', s: '$ ' },
+        { t: 'cmd',    s: 'pip install grok-install' },
+        { t: 'br' },
+        { t: 'success', s: '\u2713 grok-install 2.13.0 installed' },
+        { t: 'br' }, { t: 'br' }
+      ],
+      [
+        { t: 'prompt', s: '$ ' },
+        { t: 'cmd',    s: 'grok-install init my-reply-bot' },
+        { t: 'br' },
+        { t: 'success', s: '\u2713 Created my-reply-bot/grok-install.yaml' },
+        { t: 'br' }, { t: 'br' }
+      ],
+      [
+        { t: 'prompt', s: '$ ' },
+        { t: 'cmd',    s: 'grok-install run' },
+        { t: 'br' },
+        { t: 'success', s: '\u2713 Safety scan passed' },
+        { t: 'br' },
+        { t: 'success', s: '\u2713 Agent is live \u2014 monitoring @mentions' }
+      ]
+    ];
+
+    function flatten(steps) {
+      var html = '';
+      steps.forEach(function (step) {
+        step.forEach(function (tok) {
+          if (tok.t === 'br') html += '\n';
+          else if (tok.t === 'prompt') html += '<span class="term-prompt">' + tok.s + '</span>';
+          else if (tok.t === 'cmd') html += tok.s;
+          else if (tok.t === 'success') html += '<span class="term-success">' + tok.s + '</span>';
+          else if (tok.t === 'comment') html += '<span class="term-comment">' + tok.s + '</span>';
+        });
+        html += '\n';
+      });
+      return html;
+    }
+
+    if (prefersReduced) {
+      out.innerHTML = flatten(STEPS);
+      return;
+    }
+
+    function typeStep(stepIdx, tokIdx, charIdx, accumHtml, done) {
+      var step = STEPS[stepIdx];
+      if (!step) return done(accumHtml);
+      if (tokIdx >= step.length) return done(accumHtml + '\n');
+      var tok = step[tokIdx];
+      if (tok.t === 'br') {
+        return typeStep(stepIdx, tokIdx + 1, 0, accumHtml + '\n', done);
+      }
+      var openTag = '', closeTag = '';
+      if (tok.t === 'prompt')      { openTag = '<span class="term-prompt">'; closeTag = '</span>'; }
+      else if (tok.t === 'success'){ openTag = '<span class="term-success">'; closeTag = '</span>'; }
+      else if (tok.t === 'comment'){ openTag = '<span class="term-comment">'; closeTag = '</span>'; }
+      var partial = tok.s.slice(0, charIdx);
+      out.innerHTML = accumHtml + openTag + partial + closeTag + '<span class="term-blink"></span>';
+      if (charIdx >= tok.s.length) {
+        return typeStep(stepIdx, tokIdx + 1, 0, accumHtml + openTag + tok.s + closeTag, done);
+      }
+      var delay = (tok.t === 'cmd') ? 22 : 8;
+      setTimeout(function () {
+        typeStep(stepIdx, tokIdx, charIdx + 1, accumHtml, done);
+      }, delay);
+    }
+
+    function runSequence() {
+      out.innerHTML = '';
+      var html = '';
+      var idx = 0;
+      function next() {
+        if (idx >= STEPS.length) {
+          // hold full output 2s, then restart loop
+          setTimeout(runSequence, 2400);
+          return;
+        }
+        typeStep(idx, 0, 0, html, function (newHtml) {
+          html = newHtml;
+          idx++;
+          setTimeout(next, 350);
+        });
+      }
+      next();
+    }
+
+    runSequence();
+  })();
   </script>
-</body>
-</html>
-  <div class="max-w-5xl mx-auto px-6 py-12">
-    <div class="glass rounded-3xl p-8 border border-[#00f0ff]/30">
-      <h2 class="text-4xl font-semibold mb-6 text-center flex items-center justify-center gap-3">
-        <i class="fa-solid fa-rocket text-[#00f0ff]"></i>
-        Phase 10 – Now Live
+
+  <script>
+  (function () {
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    var canvas = document.getElementById('hero-particles');
+    if (!canvas || !canvas.getContext) return;
+    var hero = document.getElementById('hero');
+    var ctx = canvas.getContext('2d');
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+    var W = 0, H = 0;
+    var dots = [];
+    var COUNT = 60;
+    var LINK_DIST = 150;
+    var mouse = { x: -9999, y: -9999, active: false };
+    var rafId = null;
+    var visible = true;
+
+    function size() {
+      var rect = hero.getBoundingClientRect();
+      W = rect.width;
+      H = rect.height;
+      canvas.width = Math.floor(W * DPR);
+      canvas.height = Math.floor(H * DPR);
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
+    function seed() {
+      dots = [];
+      for (var i = 0; i < COUNT; i++) {
+        dots.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          r: Math.random() * 1.4 + 0.6
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i];
+        d.x += d.vx; d.y += d.vy;
+        if (d.x < -10) d.x = W + 10; else if (d.x > W + 10) d.x = -10;
+        if (d.y < -10) d.y = H + 10; else if (d.y > H + 10) d.y = -10;
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 240, 255, 0.55)';
+        ctx.fill();
+
+        for (var j = i + 1; j < dots.length; j++) {
+          var o = dots[j];
+          var dx = d.x - o.x, dy = d.y - o.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < LINK_DIST) {
+            var alpha = (1 - dist / LINK_DIST) * 0.18;
+            ctx.beginPath();
+            ctx.moveTo(d.x, d.y);
+            ctx.lineTo(o.x, o.y);
+            ctx.strokeStyle = 'rgba(124, 58, 237, ' + alpha + ')';
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+
+        if (mouse.active) {
+          var mdx = d.x - mouse.x, mdy = d.y - mouse.y;
+          var mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          if (mdist < LINK_DIST) {
+            var ma = (1 - mdist / LINK_DIST) * 0.45;
+            ctx.beginPath();
+            ctx.moveTo(d.x, d.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = 'rgba(0, 240, 255, ' + ma + ')';
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+      rafId = requestAnimationFrame(draw);
+    }
+
+    var mouseTick = 0;
+    hero.addEventListener('mousemove', function (e) {
+      var now = Date.now();
+      if (now - mouseTick < 16) return;
+      mouseTick = now;
+      var rect = hero.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    });
+    hero.addEventListener('mouseleave', function () { mouse.active = false; });
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () { size(); seed(); }, 150);
+    });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        visible = en.isIntersecting;
+        if (visible && !rafId) draw();
+        else if (!visible && rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      });
+    }, { threshold: 0 });
+    io.observe(hero);
+
+    size();
+    seed();
+    draw();
+  })();
+  </script>
+
+  <script>
+  (function () {
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var letters = document.querySelectorAll('#hero-title .hero-letter');
+    if (!letters.length) return;
+    if (prefersReduced) return;
+
+    for (var i = 0; i < letters.length; i++) {
+      letters[i].style.opacity = '0';
+      letters[i].style.transform = 'translateY(20px)';
+      letters[i].style.transition = 'opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+    }
+
+    function reveal() {
+      letters.forEach(function (el, idx) {
+        setTimeout(function () {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, idx * 40);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', reveal);
+    } else {
+      requestAnimationFrame(reveal);
+    }
+  })();
+  </script>
+
+
+  <!-- ============================================================
+       SECTION 2 — PROBLEM / SOLUTION SPLIT
+       ============================================================ -->
+  <section id="problem" style="position:relative;padding:7rem 1.5rem;background:#0A0A0F;border-top:1px solid #1F1F2A;">
+    <div style="max-width:80rem;margin:0 auto;">
+
+      <!-- Section header -->
+      <div style="text-align:center;margin-bottom:4rem;">
+        <div style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#7C3AED;letter-spacing:0.18em;margin-bottom:1rem;text-transform:uppercase;">02 · The Problem</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-0.04em;line-height:1.05;margin:0 0 1rem;color:#F5F5F7;">Stop wiring SDKs by hand.</h2>
+        <p style="font-family:'Inter',sans-serif;font-size:clamp(1rem,1.6vw,1.125rem);color:#8B8B9A;max-width:42rem;margin:0 auto;line-height:1.6;">Every Grok-native agent reinvents the same plumbing. <span style="color:#F5F5F7;">grok-install replaces 250 lines of Python with 30 lines of YAML</span> — and ships the rest.</p>
+      </div>
+
+      <!-- Split grid -->
+      <div class="ps-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:stretch;">
+
+        <!-- LEFT — Python (the pain) -->
+        <div style="position:relative;background:#13131A;border:1px solid rgba(255,51,102,0.25);border-radius:1rem;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1rem;border-bottom:1px solid #1F1F2A;background:#0F0F15;">
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#FF3366;box-shadow:0 0 10px rgba(255,51,102,0.55);"></span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#FF3366;letter-spacing:0.08em;text-transform:uppercase;">Without grok-install</span>
+            </div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#8B8B9A;">reply_bot.py</span>
+          </div>
+          <div class="ps-scroll" style="position:relative;height:380px;overflow:hidden;">
+            <pre style="margin:0;padding:1.25rem 1.25rem 0;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7;color:#C9C9D6;animation:scroll-up 26s linear infinite;">
+<span style="color:#7C7C8A;"># reply_bot.py — wire xAI SDK by hand</span>
+<span style="color:#FF7CA8;">import</span> os, time, json, logging
+<span style="color:#FF7CA8;">from</span> xai_sdk <span style="color:#FF7CA8;">import</span> Client
+<span style="color:#FF7CA8;">from</span> xai_sdk.chat <span style="color:#FF7CA8;">import</span> user, system, tool
+<span style="color:#FF7CA8;">from</span> tweepy <span style="color:#FF7CA8;">import</span> Client <span style="color:#FF7CA8;">as</span> XClient
+<span style="color:#FF7CA8;">from</span> tenacity <span style="color:#FF7CA8;">import</span> retry, stop_after_attempt
+<span style="color:#FF7CA8;">from</span> ratelimit <span style="color:#FF7CA8;">import</span> limits, sleep_and_retry
+
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(<span style="color:#00FFA3;">"reply-bot"</span>)
+
+<span style="color:#7C7C8A;"># --- env wiring ---</span>
+GROK_KEY = os.environ[<span style="color:#00FFA3;">"GROK_API_KEY"</span>]
+X_BEARER = os.environ[<span style="color:#00FFA3;">"X_BEARER_TOKEN"</span>]
+<span style="color:#FF7CA8;">if not</span> GROK_KEY <span style="color:#FF7CA8;">or not</span> X_BEARER:
+    <span style="color:#FF7CA8;">raise</span> RuntimeError(<span style="color:#00FFA3;">"missing keys"</span>)
+
+grok = Client(api_key=GROK_KEY)
+x    = XClient(bearer_token=X_BEARER)
+
+<span style="color:#7C7C8A;"># --- declare the tool by hand ---</span>
+REPLY_TOOL = {
+    <span style="color:#00FFA3;">"type"</span>: <span style="color:#00FFA3;">"function"</span>,
+    <span style="color:#00FFA3;">"function"</span>: {
+        <span style="color:#00FFA3;">"name"</span>: <span style="color:#00FFA3;">"reply_to_mention"</span>,
+        <span style="color:#00FFA3;">"description"</span>: <span style="color:#00FFA3;">"Reply to an X mention"</span>,
+        <span style="color:#00FFA3;">"parameters"</span>: {
+            <span style="color:#00FFA3;">"type"</span>: <span style="color:#00FFA3;">"object"</span>,
+            <span style="color:#00FFA3;">"properties"</span>: {
+                <span style="color:#00FFA3;">"mention_id"</span>: {<span style="color:#00FFA3;">"type"</span>: <span style="color:#00FFA3;">"string"</span>},
+                <span style="color:#00FFA3;">"reply_text"</span>: {<span style="color:#00FFA3;">"type"</span>: <span style="color:#00FFA3;">"string"</span>, <span style="color:#00FFA3;">"maxLength"</span>: <span style="color:#FFB800;">280</span>},
+            },
+            <span style="color:#00FFA3;">"required"</span>: [<span style="color:#00FFA3;">"mention_id"</span>, <span style="color:#00FFA3;">"reply_text"</span>],
+        },
+    },
+}
+
+<span style="color:#7C7C8A;"># --- rate limit by hand ---</span>
+@sleep_and_retry
+@limits(calls=<span style="color:#FFB800;">200</span>, period=<span style="color:#FFB800;">86400</span>)
+@retry(stop=stop_after_attempt(<span style="color:#FFB800;">3</span>))
+<span style="color:#FF7CA8;">def</span> <span style="color:#00F0FF;">post_reply</span>(mention_id, text):
+    <span style="color:#FF7CA8;">return</span> x.create_tweet(text=text, in_reply_to_tweet_id=mention_id)
+
+<span style="color:#7C7C8A;"># --- cost guard by hand ---</span>
+SPENT_TODAY = <span style="color:#FFB800;">0.0</span>
+DAILY_USD   = <span style="color:#FFB800;">3.0</span>
+
+<span style="color:#FF7CA8;">def</span> <span style="color:#00F0FF;">guard</span>(usage):
+    <span style="color:#FF7CA8;">global</span> SPENT_TODAY
+    cost = usage.prompt_tokens * <span style="color:#FFB800;">3e-6</span> + usage.completion_tokens * <span style="color:#FFB800;">15e-6</span>
+    SPENT_TODAY += cost
+    <span style="color:#FF7CA8;">if</span> SPENT_TODAY &gt; DAILY_USD:
+        <span style="color:#FF7CA8;">raise</span> RuntimeError(<span style="color:#00FFA3;">"daily cost cap exceeded"</span>)
+
+<span style="color:#7C7C8A;"># --- safety scan by hand (just the start...) ---</span>
+BLOCKED = [<span style="color:#00FFA3;">"deepfake"</span>, <span style="color:#00FFA3;">"mass dm"</span>, <span style="color:#00FFA3;">"spam"</span>]
+<span style="color:#FF7CA8;">def</span> <span style="color:#00F0FF;">safety_check</span>(text):
+    low = text.lower()
+    <span style="color:#FF7CA8;">return not any</span>(b <span style="color:#FF7CA8;">in</span> low <span style="color:#FF7CA8;">for</span> b <span style="color:#FF7CA8;">in</span> BLOCKED)
+
+<span style="color:#7C7C8A;"># --- main loop ---</span>
+<span style="color:#FF7CA8;">def</span> <span style="color:#00F0FF;">main</span>():
+    <span style="color:#FF7CA8;">while</span> <span style="color:#FF7CA8;">True</span>:
+        mentions = x.get_users_mentions(id=<span style="color:#00FFA3;">"me"</span>).data <span style="color:#FF7CA8;">or</span> []
+        <span style="color:#FF7CA8;">for</span> m <span style="color:#FF7CA8;">in</span> mentions:
+            chat = grok.chat.create(model=<span style="color:#00FFA3;">"grok-4"</span>, tools=[REPLY_TOOL])
+            chat.append(system(<span style="color:#00FFA3;">"You reply to X mentions."</span>))
+            chat.append(user(m.text))
+            r = chat.sample()
+            guard(r.usage)
+            <span style="color:#FF7CA8;">for</span> tc <span style="color:#FF7CA8;">in</span> r.tool_calls <span style="color:#FF7CA8;">or</span> []:
+                args = json.loads(tc.function.arguments)
+                <span style="color:#FF7CA8;">if</span> safety_check(args[<span style="color:#00FFA3;">"reply_text"</span>]):
+                    post_reply(args[<span style="color:#00FFA3;">"mention_id"</span>], args[<span style="color:#00FFA3;">"reply_text"</span>])
+        time.sleep(<span style="color:#FFB800;">60</span>)
+
+<span style="color:#FF7CA8;">if</span> __name__ == <span style="color:#00FFA3;">"__main__"</span>:
+    main()
+
+<span style="color:#7C7C8A;"># ...and you still need: deploy config, telemetry, structured</span>
+<span style="color:#7C7C8A;"># output validation, Dockerfile, requirements.txt, env loader,</span>
+<span style="color:#7C7C8A;"># pre-install scan, log rotation, parallel tool dispatch...</span>
+
+
+<span style="color:#7C7C8A;"># reply_bot.py — wire xAI SDK by hand</span>
+<span style="color:#FF7CA8;">import</span> os, time, json, logging
+<span style="color:#FF7CA8;">from</span> xai_sdk <span style="color:#FF7CA8;">import</span> Client
+<span style="color:#FF7CA8;">from</span> xai_sdk.chat <span style="color:#FF7CA8;">import</span> user, system, tool
+<span style="color:#FF7CA8;">from</span> tweepy <span style="color:#FF7CA8;">import</span> Client <span style="color:#FF7CA8;">as</span> XClient
+<span style="color:#FF7CA8;">from</span> tenacity <span style="color:#FF7CA8;">import</span> retry, stop_after_attempt
+<span style="color:#FF7CA8;">from</span> ratelimit <span style="color:#FF7CA8;">import</span> limits, sleep_and_retry
+</pre>
+            <!-- Bottom fade -->
+            <div style="position:absolute;left:0;right:0;bottom:0;height:80px;background:linear-gradient(180deg,transparent,#13131A 90%);pointer-events:none;"></div>
+            <!-- Top fade -->
+            <div style="position:absolute;left:0;right:0;top:0;height:24px;background:linear-gradient(180deg,#13131A,transparent);pointer-events:none;"></div>
+          </div>
+          <div style="padding:0.85rem 1rem;border-top:1px solid #1F1F2A;background:#0F0F15;display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#FF3366;">~250 lines of Python</span>
+            <span style="font-family:'Inter',sans-serif;font-size:0.72rem;color:#8B8B9A;">+ Dockerfile · requirements · CI · safety</span>
+          </div>
+        </div>
+
+        <!-- RIGHT — YAML (the calm) -->
+        <div style="position:relative;background:#13131A;border:1px solid rgba(0,240,255,0.28);border-radius:1rem;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 32px rgba(0,240,255,0.08);">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1rem;border-bottom:1px solid #1F1F2A;background:#0F0F15;">
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00F0FF;box-shadow:0 0 10px rgba(0,240,255,0.6);animation:pulse-dot 2.4s var(--ease) infinite;"></span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#00F0FF;letter-spacing:0.08em;text-transform:uppercase;">With grok-install</span>
+            </div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#8B8B9A;">grok-install.yaml</span>
+          </div>
+          <div style="height:380px;overflow:hidden;position:relative;">
+            <pre style="margin:0;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7;color:#C9C9D6;">
+<span style="color:#7C7C8A;">---</span>
+<span style="color:#00F0FF;">version</span>: <span style="color:#00FFA3;">"2.13"</span>
+<span style="color:#00F0FF;">name</span>: <span style="color:#00FFA3;">"My Reply Bot"</span>
+<span style="color:#00F0FF;">description</span>: <span style="color:#00FFA3;">"Replies to X mentions using Grok"</span>
+
+<span style="color:#00F0FF;">llm</span>:
+  <span style="color:#00F0FF;">provider</span>: <span style="color:#00FFA3;">"xai"</span>
+  <span style="color:#00F0FF;">model</span>:    <span style="color:#00FFA3;">"grok-4"</span>
+  <span style="color:#00F0FF;">api_key_env</span>: <span style="color:#00FFA3;">"GROK_API_KEY"</span>
+
+<span style="color:#00F0FF;">tools</span>:
+  - <span style="color:#00F0FF;">name</span>: <span style="color:#00FFA3;">"reply_to_mention"</span>
+    <span style="color:#00F0FF;">description</span>: <span style="color:#00FFA3;">"Reply to a specific X mention"</span>
+    <span style="color:#00F0FF;">parameters</span>:
+      <span style="color:#00F0FF;">type</span>: <span style="color:#00FFA3;">"object"</span>
+      <span style="color:#00F0FF;">properties</span>:
+        <span style="color:#00F0FF;">mention_id</span>: { <span style="color:#00F0FF;">type</span>: <span style="color:#00FFA3;">"string"</span> }
+        <span style="color:#00F0FF;">reply_text</span>: { <span style="color:#00F0FF;">type</span>: <span style="color:#00FFA3;">"string"</span>, <span style="color:#00F0FF;">maxLength</span>: <span style="color:#FFB800;">280</span> }
+      <span style="color:#00F0FF;">required</span>: [<span style="color:#00FFA3;">"mention_id"</span>, <span style="color:#00FFA3;">"reply_text"</span>]
+
+<span style="color:#00F0FF;">rate_limits</span>:
+  <span style="color:#00F0FF;">reply_to_mention</span>:
+    <span style="color:#00F0FF;">qps</span>:        <span style="color:#FFB800;">0.5</span>
+    <span style="color:#00F0FF;">daily_cap</span>:  <span style="color:#FFB800;">200</span>
+
+<span style="color:#00F0FF;">cost_limits</span>:
+  <span style="color:#00F0FF;">daily_usd</span>:  <span style="color:#FFB800;">3.00</span>
+  <span style="color:#00F0FF;">on_limit</span>:   <span style="color:#00FFA3;">"block"</span>
+
+<span style="color:#00F0FF;">safety</span>:
+  <span style="color:#00F0FF;">pre_install_scan</span>:    <span style="color:#FF7CA8;">true</span>
+  <span style="color:#00F0FF;">minimum_keys_only</span>:   <span style="color:#FF7CA8;">true</span>
+</pre>
+          </div>
+          <div style="padding:0.85rem 1rem;border-top:1px solid #1F1F2A;background:#0F0F15;display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#00F0FF;">30 lines of YAML</span>
+            <span style="font-family:'Inter',sans-serif;font-size:0.72rem;color:#8B8B9A;">runtime · safety · limits · all included</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inline reduction stat -->
+      <div style="text-align:center;margin-top:3rem;font-family:'Inter',sans-serif;color:#8B8B9A;font-size:0.95rem;">
+        That's an <span style="color:#00F0FF;font-weight:700;">88%</span> reduction in code — and you didn't write a single line of safety, retry, or rate-limit logic.
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .ps-grid:hover .ps-scroll pre { animation-play-state: paused; }
+    @media (max-width: 768px) {
+      .ps-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+
+
+  <!-- ============================================================
+       SECTION 3 — TERMINAL TABS
+       ============================================================ -->
+  <section id="install" style="position:relative;padding:7rem 1.5rem;background:#0A0A0F;border-top:1px solid #1F1F2A;">
+    <div style="max-width:64rem;margin:0 auto;">
+
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#00F0FF;letter-spacing:0.18em;margin-bottom:1rem;text-transform:uppercase;">03 · 60-Second Quickstart</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-0.04em;line-height:1.05;margin:0 0 1rem;color:#F5F5F7;">Four commands. One agent.</h2>
+        <p style="font-family:'Inter',sans-serif;font-size:clamp(1rem,1.6vw,1.125rem);color:#8B8B9A;max-width:42rem;margin:0 auto;line-height:1.6;">From <code style="color:#00F0FF;background:#13131A;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.9em;">pip install</code> to live on X. No Docker, no config files, no guesswork.</p>
+      </div>
+
+      <!-- Tab buttons -->
+      <div id="tab-bar" role="tablist" style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-bottom:1.25rem;">
+        <button class="tt-btn" data-tab="install" role="tab" aria-selected="true" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:0.55rem 1rem;border-radius:0.5rem;border:1px solid #00F0FF;background:rgba(0,240,255,0.1);color:#00F0FF;cursor:pointer;transition:all 0.2s var(--ease);">$ install</button>
+        <button class="tt-btn" data-tab="init" role="tab" aria-selected="false" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:0.55rem 1rem;border-radius:0.5rem;border:1px solid #1F1F2A;background:transparent;color:#8B8B9A;cursor:pointer;transition:all 0.2s var(--ease);">$ init</button>
+        <button class="tt-btn" data-tab="run" role="tab" aria-selected="false" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:0.55rem 1rem;border-radius:0.5rem;border:1px solid #1F1F2A;background:transparent;color:#8B8B9A;cursor:pointer;transition:all 0.2s var(--ease);">$ run</button>
+        <button class="tt-btn" data-tab="deploy" role="tab" aria-selected="false" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:0.55rem 1rem;border-radius:0.5rem;border:1px solid #1F1F2A;background:transparent;color:#8B8B9A;cursor:pointer;transition:all 0.2s var(--ease);">$ deploy</button>
+      </div>
+
+      <!-- Terminal frame -->
+      <div style="position:relative;background:#13131A;border:1px solid #1F1F2A;border-radius:0.875rem;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.5),0 0 0 1px rgba(0,240,255,0.06);">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:#0F0F15;border-bottom:1px solid #1F1F2A;">
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#FF5F56;"></span>
+            <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#FFBD2E;"></span>
+            <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#27C93F;"></span>
+            <span style="margin-left:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#8B8B9A;" id="tab-title">~/my-reply-bot</span>
+          </div>
+          <button id="tt-copy" style="display:inline-flex;align-items:center;gap:0.4rem;background:transparent;border:1px solid #1F1F2A;color:#8B8B9A;font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:0.3rem 0.6rem;border-radius:0.4rem;cursor:pointer;transition:all 0.2s var(--ease);">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.4"/></svg>
+            <span id="tt-copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="tab-output" aria-live="polite" style="margin:0;padding:1.5rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.65;color:#F5F5F7;min-height:14rem;white-space:pre-wrap;word-break:break-word;"></pre>
+      </div>
+
+      <!-- Hidden source data for tabs -->
+      <script type="application/json" id="tab-data">
+{
+  "install": {
+    "title": "~ — pip",
+    "cmd": "pip install grok-install",
+    "out": [
+      {"t":"prompt","s":"$ "},
+      {"t":"cmd","s":"pip install grok-install"},
+      {"t":"br"},
+      {"t":"plain","s":"Collecting grok-install"},
+      {"t":"br"},
+      {"t":"plain","s":"  Downloading grok_install-2.13.0-py3-none-any.whl (84 kB)"},
+      {"t":"br"},
+      {"t":"plain","s":"Installing collected packages: grok-install"},
+      {"t":"br"},
+      {"t":"success","s":"\u2713 Successfully installed grok-install-2.13.0"}
+    ]
+  },
+  "init": {
+    "title": "~/my-reply-bot",
+    "cmd": "grok-install init my-reply-bot",
+    "out": [
+      {"t":"prompt","s":"$ "},
+      {"t":"cmd","s":"grok-install init my-reply-bot --template x-reply-bot"},
+      {"t":"br"},
+      {"t":"plain","s":"Scaffolding from template: x-reply-bot"},
+      {"t":"br"},
+      {"t":"plain","s":"  + grok-install.yaml"},
+      {"t":"br"},
+      {"t":"plain","s":"  + .env.example"},
+      {"t":"br"},
+      {"t":"plain","s":"  + README.md"},
+      {"t":"br"},
+      {"t":"success","s":"\u2713 Created my-reply-bot/ \u2014 spec v2.13"},
+      {"t":"br"},
+      {"t":"comment","s":"\u2192 cd my-reply-bot && grok-install run"}
+    ]
+  },
+  "run": {
+    "title": "~/my-reply-bot — agent",
+    "cmd": "grok-install run",
+    "out": [
+      {"t":"prompt","s":"$ "},
+      {"t":"cmd","s":"grok-install run"},
+      {"t":"br"},
+      {"t":"plain","s":"Loaded grok-install.yaml (My Reply Bot)"},
+      {"t":"br"},
+      {"t":"success","s":"\u2713 Pre-install scan: clean"},
+      {"t":"br"},
+      {"t":"success","s":"\u2713 Schema valid (v2.13)"},
+      {"t":"br"},
+      {"t":"success","s":"\u2713 Rate limits applied: 0.5 qps / 200 daily"},
+      {"t":"br"},
+      {"t":"success","s":"\u2713 Cost cap armed: $3.00/day"},
+      {"t":"br"},
+      {"t":"plain","s":"Connected to xAI \u2014 model: grok-4"},
+      {"t":"br"},
+      {"t":"success","s":"\u2713 Listening on @mentions \u2014 agent live"}
+    ]
+  },
+  "deploy": {
+    "title": "~/my-reply-bot — vercel",
+    "cmd": "grok-install deploy --target vercel",
+    "out": [
+      {"t":"prompt","s":"$ "},
+      {"t":"cmd","s":"grok-install deploy --target vercel"},
+      {"t":"br"},
+      {"t":"plain","s":"Building bundle for vercel runtime..."},
+      {"t":"br"},
+      {"t":"plain","s":"  \u2192 Generating vercel.json"},
+      {"t":"br"},
+      {"t":"plain","s":"  \u2192 Mapping rate_limits to KV store"},
+      {"t":"br"},
+      {"t":"plain","s":"  \u2192 Pushing secrets from .env"},
+      {"t":"br"},
+      {"t":"success","s":"\u2713 Deployed: https://my-reply-bot.vercel.app"},
+      {"t":"br"},
+      {"t":"comment","s":"\u2192 First request cold-starts in ~140ms"}
+    ]
+  }
+}
+      </script>
+
+      <!-- Mini stat pills -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0.75rem;margin-top:1.5rem;">
+        <div style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.625rem;padding:0.85rem 1rem;text-align:center;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#00F0FF;">12s</div>
+          <div style="font-family:'Inter',sans-serif;font-size:0.72rem;color:#8B8B9A;letter-spacing:0.06em;text-transform:uppercase;">avg install</div>
+        </div>
+        <div style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.625rem;padding:0.85rem 1rem;text-align:center;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#7C3AED;">1</div>
+          <div style="font-family:'Inter',sans-serif;font-size:0.72rem;color:#8B8B9A;letter-spacing:0.06em;text-transform:uppercase;">YAML file</div>
+        </div>
+        <div style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.625rem;padding:0.85rem 1rem;text-align:center;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#00FFA3;">0</div>
+          <div style="font-family:'Inter',sans-serif;font-size:0.72rem;color:#8B8B9A;letter-spacing:0.06em;text-transform:uppercase;">Docker steps</div>
+        </div>
+        <div style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.625rem;padding:0.85rem 1rem;text-align:center;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#FFB800;">3</div>
+          <div style="font-family:'Inter',sans-serif;font-size:0.72rem;color:#8B8B9A;letter-spacing:0.06em;text-transform:uppercase;">deploy targets</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .tt-btn:hover { color: #F5F5F7 !important; border-color: rgba(0,240,255,0.4) !important; }
+    .tt-btn[aria-selected="true"] { background: rgba(0,240,255,0.1) !important; border-color: #00F0FF !important; color: #00F0FF !important; }
+    #tt-copy:hover { color: #00F0FF !important; border-color: rgba(0,240,255,0.4) !important; }
+    .tt-prompt { color: #00F0FF; }
+    .tt-comment { color: #8B8B9A; }
+    .tt-success { color: #00FFA3; }
+    .tt-blink::after { content: '\258B'; color: #00F0FF; margin-left: 2px; animation: blink-caret 1s step-end infinite; }
+  </style>
+
+  <script>
+  (function () {
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var data = JSON.parse(document.getElementById('tab-data').textContent);
+    var out = document.getElementById('tab-output');
+    var title = document.getElementById('tab-title');
+    var btns = document.querySelectorAll('.tt-btn');
+    var copyBtn = document.getElementById('tt-copy');
+    var copyText = document.getElementById('tt-copy-text');
+    var current = 'install';
+    var typingToken = 0;
+
+    function flatten(tokens) {
+      return tokens.map(function (tok) {
+        if (tok.t === 'br') return '\n';
+        if (tok.t === 'prompt') return '<span class="tt-prompt">' + tok.s + '</span>';
+        if (tok.t === 'cmd') return tok.s;
+        if (tok.t === 'success') return '<span class="tt-success">' + tok.s + '</span>';
+        if (tok.t === 'comment') return '<span class="tt-comment">' + tok.s + '</span>';
+        return tok.s;
+      }).join('');
+    }
+
+    function typeTab(key) {
+      typingToken++;
+      var token = typingToken;
+      var tokens = data[key].out;
+      title.textContent = data[key].title;
+
+      if (prefersReduced) { out.innerHTML = flatten(tokens); return; }
+
+      out.innerHTML = '';
+      var i = 0, ci = 0, html = '';
+
+      function step() {
+        if (token !== typingToken) return;
+        if (i >= tokens.length) {
+          out.innerHTML = html;
+          return;
+        }
+        var tok = tokens[i];
+        if (tok.t === 'br') { html += '\n'; i++; ci = 0; return step(); }
+
+        var open = '', close = '';
+        if (tok.t === 'prompt')      { open = '<span class="tt-prompt">';  close = '</span>'; }
+        else if (tok.t === 'success'){ open = '<span class="tt-success">'; close = '</span>'; }
+        else if (tok.t === 'comment'){ open = '<span class="tt-comment">'; close = '</span>'; }
+
+        var partial = tok.s.slice(0, ci);
+        out.innerHTML = html + open + partial + close + '<span class="tt-blink"></span>';
+
+        if (ci >= tok.s.length) { html += open + tok.s + close; i++; ci = 0; setTimeout(step, 60); return; }
+        ci++;
+        var delay = (tok.t === 'cmd') ? 22 : 8;
+        setTimeout(step, delay);
+      }
+      step();
+    }
+
+    function activate(key) {
+      current = key;
+      btns.forEach(function (b) {
+        var active = b.getAttribute('data-tab') === key;
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      typeTab(key);
+    }
+
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () { activate(b.getAttribute('data-tab')); });
+    });
+
+    copyBtn.addEventListener('click', function () {
+      var cmd = data[current].cmd;
+      var done = function () {
+        copyText.textContent = 'Copied';
+        copyBtn.style.color = '#00FFA3';
+        copyBtn.style.borderColor = 'rgba(0,255,163,0.4)';
+        setTimeout(function () {
+          copyText.textContent = 'Copy';
+          copyBtn.style.color = '';
+          copyBtn.style.borderColor = '';
+        }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cmd).then(done).catch(function () {
+          var ta = document.createElement('textarea');
+          ta.value = cmd; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta); done();
+        });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = cmd; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta); done();
+      }
+    });
+
+    activate('install');
+  })();
+  </script>
+
+  <!-- ============================================================
+       SECTION 4 — GALLERY (curated agents)
+       ============================================================ -->
+  <section id="gallery" style="position:relative;padding:7rem 1.5rem;background:#0A0A0F;border-top:1px solid #1F1F2A;">
+    <div style="max-width:80rem;margin:0 auto;">
+
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#7C3AED;letter-spacing:0.18em;margin-bottom:1rem;text-transform:uppercase;">04 · Curated Gallery</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-0.04em;line-height:1.05;margin:0 0 1rem;color:#F5F5F7;">Install a battle-tested agent.</h2>
+        <p style="font-family:'Inter',sans-serif;font-size:clamp(1rem,1.6vw,1.125rem);color:#8B8B9A;max-width:42rem;margin:0 auto;line-height:1.6;">Every agent here is <span style="color:#00FFA3;">Grok-Native Certified</span> — open YAML, declared limits, pre-install scan green.</p>
+      </div>
+
+      <!-- ========== TRENDING STRIP ========== -->
+      <div id="trending-strip" style="position:relative;background:linear-gradient(180deg,#0F0F15,#13131A);border:1px solid #1F1F2A;border-radius:1rem;padding:1.1rem 0 1.1rem;margin-bottom:2rem;overflow:hidden;">
+
+        <!-- Header bar -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem 0.85rem;gap:1rem;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:0.65rem;">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#00F0FF,#7C3AED);box-shadow:0 0 18px rgba(0,240,255,0.35);" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 12l3-4 3 2 4-6" stroke="#0A0A0F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div style="display:flex;flex-direction:column;line-height:1.1;">
+              <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:#F5F5F7;letter-spacing:-0.01em;">Trending this week</span>
+              <span id="trending-meta" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:#8B8B9A;letter-spacing:0.06em;text-transform:uppercase;margin-top:2px;">7d window · loading…</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.85rem;">
+            <span style="display:inline-flex;align-items:center;gap:0.35rem;font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:#8B8B9A;">
+              <span id="trending-pulse" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#00FFA3;box-shadow:0 0 8px rgba(0,255,163,0.7);animation:pulse-dot 2s var(--ease) infinite;"></span>
+              live · auto-scrolling
+            </span>
+            <a href="trending.json" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:#00F0FF;border:1px solid rgba(0,240,255,0.25);border-radius:999px;padding:0.2rem 0.55rem;text-decoration:none;transition:all 0.2s var(--ease);">JSON ↗</a>
+          </div>
+        </div>
+
+        <!-- Marquee viewport -->
+        <div id="trending-viewport" style="position:relative;overflow:hidden;mask-image:linear-gradient(90deg,transparent 0%,#000 5%,#000 95%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 5%,#000 95%,transparent 100%);">
+          <div id="trending-track" style="display:flex;gap:0.85rem;padding:0.25rem 1.25rem;will-change:transform;"></div>
+        </div>
+      </div>
+
+      <style>
+        @keyframes trending-marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+        #trending-track[data-anim="1"] { animation: trending-marquee var(--marquee-dur, 60s) linear infinite; }
+        #trending-viewport:hover #trending-track[data-anim="1"] { animation-play-state: paused; }
+
+        .trend-card {
+          position: relative; flex: 0 0 auto;
+          min-width: 280px; max-width: 320px;
+          background: #13131A;
+          border: 1px solid #1F1F2A;
+          border-radius: 0.75rem;
+          padding: 0.75rem 0.85rem 0.75rem 1rem;
+          display: flex; align-items: center; gap: 0.7rem;
+          cursor: pointer; text-decoration: none; color: inherit;
+          transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+        }
+        .trend-card:hover {
+          transform: translateY(-2px);
+          border-color: rgba(0,240,255,0.35);
+          box-shadow: 0 14px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,240,255,0.06);
+        }
+        .trend-card.is-top {
+          border-color: rgba(0,240,255,0.4);
+          background: linear-gradient(135deg, #13131A, #1A1326);
+          box-shadow: 0 0 24px rgba(0,240,255,0.12), inset 0 1px 0 rgba(0,240,255,0.08);
+        }
+        .trend-rank {
+          flex: 0 0 auto;
+          width: 38px; height: 38px;
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1.05rem;
+          letter-spacing: -0.04em;
+          background: #0A0A0F; border-radius: 0.55rem;
+          color: #8B8B9A;
+          border: 1px solid #1F1F2A;
+        }
+        .trend-card.is-top .trend-rank {
+          background: linear-gradient(135deg, #00F0FF, #7C3AED);
+          color: #0A0A0F; border-color: transparent;
+          box-shadow: 0 0 14px rgba(0,240,255,0.5);
+        }
+        .trend-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.2rem; }
+        .trend-name {
+          font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.92rem;
+          color: #F5F5F7; letter-spacing: -0.01em;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .trend-meta {
+          display: flex; align-items: center; gap: 0.45rem;
+          font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; color: #8B8B9A;
+          white-space: nowrap;
+        }
+        .trend-cat {
+          color: #7C3AED; background: rgba(124,58,237,0.1);
+          border: 1px solid rgba(124,58,237,0.2); border-radius: 999px;
+          padding: 0.05rem 0.45rem;
+        }
+        .trend-installs { color: #C9C9D6; }
+        .trend-delta {
+          flex: 0 0 auto;
+          display: inline-flex; align-items: center; gap: 0.2rem;
+          font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.78rem;
+          padding: 0.3rem 0.55rem; border-radius: 0.5rem;
+        }
+        .trend-delta-up   { color: #00FFA3; background: rgba(0,255,163,0.1); border: 1px solid rgba(0,255,163,0.25); }
+        .trend-delta-down { color: #FF3366; background: rgba(255,51,102,0.08); border: 1px solid rgba(255,51,102,0.25); }
+        .trend-delta-flat { color: #8B8B9A; background: rgba(255,255,255,0.03); border: 1px solid #1F1F2A; }
+        .trend-move {
+          font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: #8B8B9A;
+          margin-left: 0.35rem;
+        }
+        .trend-move-up   { color: #00FFA3; }
+        .trend-move-down { color: #FF7CA8; }
+
+        @media (prefers-reduced-motion: reduce) {
+          #trending-track[data-anim="1"] { animation: none !important; transform: none !important; }
+          #trending-viewport { mask-image: none; -webkit-mask-image: none; }
+          #trending-track { flex-wrap: wrap; }
+        }
+      </style>
+
+      <script>
+      (function () {
+        var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var viewport = document.getElementById('trending-viewport');
+        var track = document.getElementById('trending-track');
+        var meta = document.getElementById('trending-meta');
+        if (!track) return;
+
+        var BUNDLED = {
+          version: "1.0", window: "7d",
+          updated_at: "2026-04-18T00:00:00Z",
+          trending: [
+            { id: "reply-engagement-bot", name: "Reply & Engagement Bot", category: "x-native",   installs_window: 312, installs_total: 1284, delta_pct: 27.4, rank: 1, rank_prev: 2 },
+            { id: "research-swarm",       name: "Research Swarm",          category: "research",   installs_window: 246, installs_total: 847,  delta_pct: 41.0, rank: 2, rank_prev: 4 },
+            { id: "trend-to-thread",      name: "Trend-to-Thread Bot",     category: "x-native",   installs_window: 188, installs_total: 532,  delta_pct: 18.7, rank: 3, rank_prev: 3 },
+            { id: "voice-agent",          name: "Voice Agent",             category: "voice",      installs_window: 142, installs_total: 621,  delta_pct: 12.3, rank: 4, rank_prev: 1 },
+            { id: "discord-ai-mod",       name: "Discord AI Moderator",    category: "discord",    installs_window:  98, installs_total: 398,  delta_pct: -4.1, rank: 5, rank_prev: 5 }
+          ]
+        };
+
+        var CACHE = 'gi-trending-cache-v1';
+        var TTL = 5 * 60 * 1000;
+
+        function readCache() {
+          try {
+            var raw = localStorage.getItem(CACHE);
+            if (!raw) return null;
+            var p = JSON.parse(raw);
+            if (!p || !p.ts || (Date.now() - p.ts) > TTL) return null;
+            return p.data;
+          } catch (e) { return null; }
+        }
+        function writeCache(data) {
+          try { localStorage.setItem(CACHE, JSON.stringify({ ts: Date.now(), data: data })); } catch (e) {}
+        }
+
+        function escapeHtml(s) {
+          return String(s).replace(/[&<>"']/g, function (c) {
+            return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+          });
+        }
+
+        function fmtDelta(pct) {
+          var sign = pct > 0 ? '+' : (pct < 0 ? '' : '±');
+          return sign + (Math.round(pct * 10) / 10) + '%';
+        }
+
+        function rankMove(curr, prev) {
+          if (prev == null) return { html: '<span class="trend-move trend-move-up">NEW</span>' };
+          var diff = prev - curr;
+          if (diff > 0) return { html: '<span class="trend-move trend-move-up">▲ ' + diff + '</span>' };
+          if (diff < 0) return { html: '<span class="trend-move trend-move-down">▼ ' + Math.abs(diff) + '</span>' };
+          return { html: '<span class="trend-move">— flat</span>' };
+        }
+
+        function deltaClass(pct) {
+          if (pct > 0.05) return 'trend-delta-up';
+          if (pct < -0.05) return 'trend-delta-down';
+          return 'trend-delta-flat';
+        }
+
+        function deltaArrow(pct) {
+          if (pct > 0.05) return '▲';
+          if (pct < -0.05) return '▼';
+          return '◆';
+        }
+
+        function renderCard(e) {
+          var move = rankMove(e.rank, e.rank_prev);
+          var dc = deltaClass(e.delta_pct);
+          var top = e.rank === 1 ? ' is-top' : '';
+          // Anchor links to gallery anchor; click also focuses the matching gallery card.
+          return '' +
+          '<a class="trend-card' + top + '" href="#gallery" data-id="' + escapeHtml(e.id) + '" data-cat="' + escapeHtml(e.category) + '" aria-label="Rank ' + e.rank + ': ' + escapeHtml(e.name) + ', ' + fmtDelta(e.delta_pct) + '">' +
+            '<span class="trend-rank">#' + e.rank + '</span>' +
+            '<span class="trend-body">' +
+              '<span class="trend-name">' + escapeHtml(e.name) + '</span>' +
+              '<span class="trend-meta">' +
+                '<span class="trend-cat">' + escapeHtml(e.category) + '</span>' +
+                '<span class="trend-installs">' + e.installs_window.toLocaleString() + ' / 7d</span>' +
+                move.html +
+              '</span>' +
+            '</span>' +
+            '<span class="trend-delta ' + dc + '">' + deltaArrow(e.delta_pct) + ' ' + fmtDelta(e.delta_pct) + '</span>' +
+          '</a>';
+        }
+
+        function render(data) {
+          var entries = (data && data.trending) || [];
+          if (!entries.length) return;
+
+          if (data.window) {
+            var when = data.updated_at ? new Date(data.updated_at) : null;
+            var ago = when ? when.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'now';
+            meta.textContent = data.window + ' window · updated ' + ago;
+          }
+
+          var single = entries.map(renderCard).join('');
+
+          if (prefersReduced) {
+            track.innerHTML = single;
+            track.removeAttribute('data-anim');
+            return;
+          }
+
+          // Duplicate so the marquee can scroll -50% seamlessly.
+          track.innerHTML = single + single;
+          track.setAttribute('data-anim', '1');
+          // Tune duration based on number of entries so speed feels consistent.
+          var dur = Math.max(28, entries.length * 7) + 's';
+          track.style.setProperty('--marquee-dur', dur);
+
+          // Wire clicks: jump-filter the gallery by the trending entry's category.
+          track.querySelectorAll('.trend-card').forEach(function (a) {
+            a.addEventListener('click', function () {
+              var cat = a.getAttribute('data-cat');
+              var chip = document.querySelector('.gf-chip[data-filter="' + cat + '"]');
+              if (chip) setTimeout(function () { chip.click(); }, 350);
+            });
+          });
+        }
+
+        // Pause animation when offscreen to save CPU.
+        if (!prefersReduced && 'IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              track.style.animationPlayState = en.isIntersecting ? 'running' : 'paused';
+            });
+          }, { threshold: 0 });
+          io.observe(viewport);
+        }
+
+        var cached = readCache();
+        if (cached) render(cached); else render(BUNDLED);
+
+        fetch('./trending.json', { cache: 'no-cache' })
+          .then(function (r) { if (!r.ok) throw new Error('fetch failed'); return r.json(); })
+          .then(function (data) {
+            writeCache(data);
+            render(data);
+          })
+          .catch(function () { /* bundled / cache already rendered */ });
+      })();
+      </script>
+      <!-- ========== /TRENDING STRIP ========== -->
+
+      <!-- Search -->
+      <div style="position:relative;max-width:36rem;margin:0 auto 1.25rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:#00F0FF;">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+          <path d="M20 20l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input id="gallery-search" type="search" placeholder="Search agents…" aria-label="Search agents"
+          style="width:100%;background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.85rem 1rem 0.85rem 2.75rem;font-family:'Inter',sans-serif;font-size:0.95rem;color:#F5F5F7;outline:none;transition:border-color 0.2s var(--ease),box-shadow 0.2s var(--ease);">
+      </div>
+
+      <!-- Filter chips -->
+      <div id="gallery-filters" style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-bottom:2.5rem;">
+        <button class="gf-chip" data-filter="all" aria-pressed="true" style="font-family:'JetBrains Mono',monospace;font-size:0.74rem;padding:0.45rem 0.85rem;border-radius:999px;border:1px solid #00F0FF;background:rgba(0,240,255,0.1);color:#00F0FF;cursor:pointer;transition:all 0.2s var(--ease);">All</button>
+        <button class="gf-chip" data-filter="x-native" aria-pressed="false" style="font-family:'JetBrains Mono',monospace;font-size:0.74rem;padding:0.45rem 0.85rem;border-radius:999px;border:1px solid #1F1F2A;background:transparent;color:#8B8B9A;cursor:pointer;transition:all 0.2s var(--ease);">X-Native</button>
+        <button class="gf-chip" data-filter="multi-agent" aria-pressed="false" style="font-family:'JetBrains Mono',monospace;font-size:0.74rem;padding:0.45rem 0.85rem;border-radius:999px;border:1px solid #1F1F2A;background:transparent;color:#8B8B9A;cursor:pointer;transition:all 0.2s var(--ease);">Multi-Agent</button>
+        <button class="gf-chip" data-filter="voice" aria-pressed="false" style="font-family:'JetBrains Mono',monospace;font-size:0.74rem;padding:0.45rem 0.85rem;border-radius:999px;border:1px solid #1F1F2A;background:transparent;color:#8B8B9A;cursor:pointer;transition:all 0.2s var(--ease);">Voice</button>
+        <button class="gf-chip" data-filter="research" aria-pressed="false" style="font-family:'JetBrains Mono',monospace;font-size:0.74rem;padding:0.45rem 0.85rem;border-radius:999px;border:1px solid #1F1F2A;background:transparent;color:#8B8B9A;cursor:pointer;transition:all 0.2s var(--ease);">Research</button>
+        <button class="gf-chip" data-filter="beginner" aria-pressed="false" style="font-family:'JetBrains Mono',monospace;font-size:0.74rem;padding:0.45rem 0.85rem;border-radius:999px;border:1px solid #1F1F2A;background:transparent;color:#8B8B9A;cursor:pointer;transition:all 0.2s var(--ease);">Beginner</button>
+      </div>
+
+      <!-- Grid -->
+      <div id="gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;"></div>
+
+      <!-- Empty state (toggled by JS) -->
+      <div id="gallery-empty" hidden style="text-align:center;padding:4rem 1rem;color:#8B8B9A;font-family:'Inter',sans-serif;">
+        No agents match your search.
+      </div>
+
+      <!-- CTA -->
+      <div style="text-align:center;margin-top:3rem;">
+        <a href="https://github.com/agentmindcloud/awesome-grok-agents" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;color:#00F0FF;font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:0.75rem 1.25rem;border:1px solid rgba(0,240,255,0.4);border-radius:0.75rem;transition:all 0.2s var(--ease);">
+          Browse all 10+ agents on GitHub
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    #gallery-search:focus { border-color: rgba(0,240,255,0.5); box-shadow: 0 0 0 4px rgba(0,240,255,0.08); }
+    .gf-chip:hover { color: #F5F5F7 !important; border-color: rgba(0,240,255,0.4) !important; }
+    .gf-chip[aria-pressed="true"] { background: rgba(0,240,255,0.1) !important; border-color: #00F0FF !important; color: #00F0FF !important; }
+    .ag-card {
+      background: #13131A;
+      border: 1px solid #1F1F2A;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+    .ag-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0,240,255,0.35);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,240,255,0.08);
+    }
+    .ag-card .ag-cmd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      background: #0A0A0F;
+      border: 1px solid #1F1F2A;
+      border-radius: 0.5rem;
+      padding: 0.5rem 0.65rem;
+      color: #C9C9D6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .ag-card .ag-copy {
+      background: transparent;
+      border: 1px solid #1F1F2A;
+      color: #8B8B9A;
+      border-radius: 0.35rem;
+      padding: 0.2rem 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s var(--ease);
+    }
+    .ag-card .ag-copy:hover { color: #00F0FF; border-color: rgba(0,240,255,0.4); }
+  </style>
+
+  <script>
+  (function () {
+    window.BUNDLED_AGENTS = {
+      "version": "1.0",
+      "stats": { "total_installs": 3885, "total_agents": 6, "certified_count": 5 },
+      "agents": [
+        { "id":"reply-engagement-bot","name":"Reply & Engagement Bot","description":"Monitors mentions and replies intelligently using Grok. Approval gates built in.","category":"x-native","tags":["x-native","beginner","reply-bot"],"install_command":"grok-install install agentmindcloud/reply-engagement-bot","safety_profile":"strict","certified":true,"installs":1284,"author":"@JanSol0s" },
+        { "id":"research-swarm","name":"Research Swarm","description":"Three-agent team: Researcher + Critic + Publisher. Posts threads after human approval.","category":"research","tags":["multi-agent","research","swarm"],"install_command":"grok-install install agentmindcloud/research-swarm","safety_profile":"strict","certified":true,"installs":847,"author":"@JanSol0s" },
+        { "id":"voice-agent","name":"Voice Agent","description":"Responds to natural voice commands on X and mobile. Accessibility-first design.","category":"voice","tags":["voice","mobile","accessibility"],"install_command":"grok-install install agentmindcloud/voice-agent","safety_profile":"moderate","certified":true,"installs":621,"author":"@JanSol0s" },
+        { "id":"trend-to-thread","name":"Trend-to-Thread Bot","description":"Monitors trending topics and drafts threads for review. Never posts without approval.","category":"x-native","tags":["x-native","trends","threads"],"install_command":"grok-install install agentmindcloud/trend-to-thread","safety_profile":"strict","certified":true,"installs":532,"author":"@JanSol0s" },
+        { "id":"discord-ai-mod","name":"Discord AI Moderator","description":"AI-powered community moderation that works with other agents in an orchestrated swarm.","category":"discord","tags":["discord","community","moderation"],"install_command":"grok-install install agentmindcloud/discord-ai-mod","safety_profile":"moderate","certified":true,"installs":398,"author":"@JanSol0s" },
+        { "id":"knowledge-graph","name":"Personal Knowledge Graph","description":"Builds a knowledge graph from your X activity and surfaces insights on demand.","category":"research","tags":["research","knowledge","personal"],"install_command":"grok-install install agentmindcloud/knowledge-graph","safety_profile":"strict","certified":false,"installs":203,"author":"@JanSol0s" }
+      ]
+    };
+
+    function safetyDot(profile) {
+      if (profile === 'strict')   return { color: '#00FFA3', label: 'Strict safety' };
+      if (profile === 'moderate') return { color: '#FFB800', label: 'Moderate safety' };
+      return { color: '#FF3366', label: 'Custom safety' };
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+      });
+    }
+
+    window.renderAgentCard = function renderAgentCard(a) {
+      var dot = safetyDot(a.safety_profile);
+      var certBadge = a.certified
+        ? '<span title="Grok-Native Certified" style="display:inline-flex;align-items:center;gap:0.3rem;font-family:JetBrains Mono,monospace;font-size:0.65rem;color:#00F0FF;background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.25);border-radius:999px;padding:0.15rem 0.5rem;"><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#00F0FF;animation:pulse-dot 2s var(--ease) infinite;"></span>Certified</span>'
+        : '<span style="font-family:JetBrains Mono,monospace;font-size:0.65rem;color:#8B8B9A;border:1px solid #1F1F2A;border-radius:999px;padding:0.15rem 0.5rem;">Community</span>';
+      var catBadge = '<span style="font-family:JetBrains Mono,monospace;font-size:0.65rem;color:#7C3AED;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);border-radius:999px;padding:0.15rem 0.5rem;">' + escapeHtml(a.category) + '</span>';
+
+      return '' +
+      '<article class="ag-card" data-id="' + escapeHtml(a.id) + '" data-tags="' + escapeHtml(a.tags.join(' ')) + '" data-cat="' + escapeHtml(a.category) + '" data-name="' + escapeHtml(a.name.toLowerCase()) + '" data-desc="' + escapeHtml(a.description.toLowerCase()) + '">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;">' +
+          '<div style="display:flex;align-items:center;gap:0.4rem;">' + catBadge + certBadge + '</div>' +
+          '<span title="' + dot.label + '" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:' + dot.color + ';box-shadow:0 0 8px ' + dot.color + '55;"></span>' +
+        '</div>' +
+        '<h3 style="font-family:Space Grotesk,sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:-0.02em;margin:0;color:#F5F5F7;">' + escapeHtml(a.name) + '</h3>' +
+        '<p style="font-family:Inter,sans-serif;font-size:0.875rem;color:#8B8B9A;line-height:1.55;margin:0;flex:1;">' + escapeHtml(a.description) + '</p>' +
+        '<div class="ag-cmd"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;"><span style="color:#00F0FF;">$ </span>' + escapeHtml(a.install_command) + '</span><button class="ag-copy" data-cmd="' + escapeHtml(a.install_command) + '">Copy</button></div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;font-family:Inter,sans-serif;font-size:0.72rem;color:#8B8B9A;border-top:1px solid #1F1F2A;padding-top:0.65rem;">' +
+          '<span><span class="ag-installs" data-target="' + a.installs + '">0</span> installs</span>' +
+          '<span>by ' + escapeHtml(a.author) + '</span>' +
+        '</div>' +
+      '</article>';
+    };
+  })();
+  </script>
+
+
+  <script>
+  (function () {
+    var grid = document.getElementById('gallery-grid');
+    var emptyEl = document.getElementById('gallery-empty');
+    var searchEl = document.getElementById('gallery-search');
+    var chips = document.querySelectorAll('.gf-chip');
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var state = { agents: [], filter: 'all', query: '' };
+    var CACHE_KEY = 'gi-featured-cache-v1';
+    var CACHE_TTL = 5 * 60 * 1000;
+
+    function readCache() {
+      try {
+        var raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        var p = JSON.parse(raw);
+        if (!p || !p.ts || (Date.now() - p.ts) > CACHE_TTL) return null;
+        return p.data;
+      } catch (e) { return null; }
+    }
+    function writeCache(data) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: data })); } catch (e) {}
+    }
+
+    function matchesFilter(card, filter) {
+      if (filter === 'all') return true;
+      var tags = (card.dataset.tags || '').split(' ');
+      var cat = card.dataset.cat;
+      if (filter === cat) return true;
+      if (tags.indexOf(filter) !== -1) return true;
+      if (filter === 'multi-agent' && tags.indexOf('multi-agent') !== -1) return true;
+      return false;
+    }
+
+    function applyFilters() {
+      var q = state.query.trim().toLowerCase();
+      var visible = 0;
+      var cards = grid.querySelectorAll('.ag-card');
+      cards.forEach(function (c) {
+        var passFilter = matchesFilter(c, state.filter);
+        var passSearch = !q || c.dataset.name.indexOf(q) !== -1 || c.dataset.desc.indexOf(q) !== -1;
+        var show = passFilter && passSearch;
+        c.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      emptyEl.hidden = visible !== 0;
+    }
+
+    function animateCount(el, target, duration) {
+      if (prefersReduced) { el.textContent = target.toLocaleString(); return; }
+      var start = performance.now();
+      function frame(now) {
+        var t = Math.min(1, (now - start) / duration);
+        var eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(target * eased).toLocaleString();
+        if (t < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function setupCounters() {
+      var counters = grid.querySelectorAll('.ag-installs');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var el = en.target;
+          if (el.dataset.done === '1') return;
+          el.dataset.done = '1';
+          animateCount(el, parseInt(el.dataset.target, 10) || 0, 1000);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.4 });
+      counters.forEach(function (c) { io.observe(c); });
+    }
+
+    function wireCopy() {
+      grid.querySelectorAll('.ag-copy').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var cmd = btn.getAttribute('data-cmd');
+          var done = function () {
+            var orig = btn.textContent;
+            btn.textContent = 'Copied';
+            btn.style.color = '#00FFA3';
+            btn.style.borderColor = 'rgba(0,255,163,0.4)';
+            setTimeout(function () {
+              btn.textContent = orig;
+              btn.style.color = '';
+              btn.style.borderColor = '';
+            }, 1400);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(cmd).then(done).catch(done);
+          } else {
+            var ta = document.createElement('textarea');
+            ta.value = cmd; document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta); done();
+          }
+        });
+      });
+    }
+
+    function render(payload) {
+      var agents = (payload && payload.agents) || [];
+      state.agents = agents;
+      grid.innerHTML = agents.map(window.renderAgentCard).join('');
+      setupCounters();
+      wireCopy();
+      applyFilters();
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+        chip.setAttribute('aria-pressed', 'true');
+        state.filter = chip.getAttribute('data-filter');
+        applyFilters();
+      });
+    });
+
+    var searchTimer;
+    searchEl.addEventListener('input', function (e) {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(function () {
+        state.query = e.target.value || '';
+        applyFilters();
+      }, 200);
+    });
+
+    var cached = readCache();
+    if (cached) render(cached);
+    else render(window.BUNDLED_AGENTS);
+
+    fetch('./featured-agents.json', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error('fetch failed'); return r.json(); })
+      .then(function (data) {
+        writeCache(data);
+        if (!cached) render(data);
+        else if (JSON.stringify(data.agents) !== JSON.stringify(cached.agents || [])) render(data);
+      })
+      .catch(function () { /* bundled fallback already rendered */ });
+  })();
+  </script>
+
+
+  <!-- ============================================================
+       SECTION 5 — ECOSYSTEM MAP
+       ============================================================ -->
+  <section id="ecosystem" style="position:relative;padding:7rem 1.5rem;background:#0A0A0F;border-top:1px solid #1F1F2A;">
+    <div style="max-width:64rem;margin:0 auto;">
+
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#00F0FF;letter-spacing:0.18em;margin-bottom:1rem;text-transform:uppercase;">05 · The Ecosystem</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-0.04em;line-height:1.05;margin:0 0 1rem;color:#F5F5F7;">One spec. Five repos.</h2>
+        <p style="font-family:'Inter',sans-serif;font-size:clamp(1rem,1.6vw,1.125rem);color:#8B8B9A;max-width:42rem;margin:0 auto;line-height:1.6;">grok-install is the kernel. Hover any node to see what it does.</p>
+      </div>
+
+      <div id="ecosystem-canvas" style="position:relative;background:#13131A;border:1px solid #1F1F2A;border-radius:1.25rem;padding:2rem 1rem;overflow:hidden;">
+        <svg viewBox="0 0 600 420" width="100%" preserveAspectRatio="xMidYMid meet" style="display:block;max-height:480px;margin:0 auto;" role="img" aria-label="grok-install ecosystem map">
+          <defs>
+            <linearGradient id="lg-cli" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00F0FF"/><stop offset="100%" stop-color="#7C3AED"/>
+            </linearGradient>
+            <linearGradient id="lg-aw" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#00F0FF"/>
+            </linearGradient>
+            <linearGradient id="lg-yaml" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#00FFA3"/><stop offset="100%" stop-color="#00F0FF"/>
+            </linearGradient>
+            <linearGradient id="lg-docs" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#FFB800"/>
+            </linearGradient>
+            <radialGradient id="rg-core" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(0,240,255,0.4)"/>
+              <stop offset="60%" stop-color="rgba(124,58,237,0.18)"/>
+              <stop offset="100%" stop-color="rgba(10,10,15,0)"/>
+            </radialGradient>
+          </defs>
+
+          <line x1="300" y1="210" x2="120" y2="80"  stroke="url(#lg-cli)"  stroke-width="1.5" stroke-dasharray="6 4" stroke-dashoffset="0" style="animation: dash-flow 1.6s linear infinite;" opacity="0.7"/>
+          <line x1="300" y1="210" x2="480" y2="80"  stroke="url(#lg-aw)"   stroke-width="1.5" stroke-dasharray="6 4" stroke-dashoffset="0" style="animation: dash-flow 1.8s linear infinite;" opacity="0.7"/>
+          <line x1="300" y1="210" x2="120" y2="340" stroke="url(#lg-yaml)" stroke-width="1.5" stroke-dasharray="6 4" stroke-dashoffset="0" style="animation: dash-flow 2.0s linear infinite;" opacity="0.7"/>
+          <line x1="300" y1="210" x2="480" y2="340" stroke="url(#lg-docs)" stroke-width="1.5" stroke-dasharray="6 4" stroke-dashoffset="0" style="animation: dash-flow 2.2s linear infinite;" opacity="0.7"/>
+
+          <circle cx="300" cy="210" r="120" fill="url(#rg-core)"/>
+          <g class="orbit-core" style="transform-origin: 300px 210px; animation: radial-pulse 3.6s var(--ease) infinite;">
+            <circle cx="300" cy="210" r="58" fill="#13131A" stroke="#00F0FF" stroke-width="2"/>
+            <circle cx="300" cy="210" r="58" fill="none" stroke="rgba(0,240,255,0.18)" stroke-width="6"/>
+            <text x="300" y="206" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="14" font-weight="700" fill="#F5F5F7">grok-install</text>
+            <text x="300" y="222" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#00F0FF">spec · v2.13</text>
+          </g>
+
+          <g class="orbit-node" data-id="cli"   tabindex="0" role="button" aria-label="grok-install-cli" style="cursor:pointer;">
+            <circle cx="120" cy="80" r="38" fill="#13131A" stroke="#7C3AED" stroke-width="1.6" class="on-circle"/>
+            <text x="120" y="76" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="#F5F5F7">CLI</text>
+            <text x="120" y="91" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#8B8B9A">runtime</text>
+          </g>
+
+          <g class="orbit-node" data-id="awesome" tabindex="0" role="button" aria-label="awesome-grok-agents" style="cursor:pointer;">
+            <circle cx="480" cy="80" r="38" fill="#13131A" stroke="#00F0FF" stroke-width="1.6" class="on-circle"/>
+            <text x="480" y="76" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="#F5F5F7">Templates</text>
+            <text x="480" y="91" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#8B8B9A">10+ agents</text>
+          </g>
+
+          <g class="orbit-node" data-id="yaml"  tabindex="0" role="button" aria-label="grok-yaml-standards" style="cursor:pointer;">
+            <circle cx="120" cy="340" r="38" fill="#13131A" stroke="#00FFA3" stroke-width="1.6" class="on-circle"/>
+            <text x="120" y="336" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="#F5F5F7">.grok/</text>
+            <text x="120" y="351" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#8B8B9A">extensions</text>
+          </g>
+
+          <g class="orbit-node" data-id="docs"  tabindex="0" role="button" aria-label="grok-docs" style="cursor:pointer;">
+            <circle cx="480" cy="340" r="38" fill="#13131A" stroke="#FFB800" stroke-width="1.6" class="on-circle"/>
+            <text x="480" y="336" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="#F5F5F7">Docs</text>
+            <text x="480" y="351" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#8B8B9A">guides</text>
+          </g>
+        </svg>
+
+        <div id="orbit-tooltip" hidden style="position:absolute;pointer-events:none;background:#0A0A0F;border:1px solid #1F1F2A;border-radius:0.5rem;padding:0.5rem 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#F5F5F7;box-shadow:0 12px 32px rgba(0,0,0,0.6);z-index:5;max-width:240px;line-height:1.45;">
+          <span id="orbit-tooltip-name" style="color:#00F0FF;display:block;margin-bottom:0.2rem;"></span>
+          <span id="orbit-tooltip-desc" style="color:#8B8B9A;font-family:'Inter',sans-serif;font-size:0.72rem;"></span>
+        </div>
+      </div>
+
+      <p style="text-align:center;margin-top:1.5rem;font-family:'Inter',sans-serif;font-size:0.85rem;color:#8B8B9A;">
+        Works with: <span style="color:#F5F5F7;">xAI SDK</span> (native) · LiteLLM · Semantic Kernel · OpenAI-compatible clients
+      </p>
+    </div>
+  </section>
+
+  <style>
+    .orbit-node { transition: transform 0.25s var(--ease); transform-origin: center; transform-box: fill-box; }
+    .orbit-node:hover .on-circle, .orbit-node:focus .on-circle { stroke-width: 2.4; filter: drop-shadow(0 0 10px currentColor); }
+    .orbit-node:hover, .orbit-node:focus { outline: none; }
+  </style>
+
+  <script>
+  (function () {
+    var canvas = document.getElementById('ecosystem-canvas');
+    var tt = document.getElementById('orbit-tooltip');
+    var ttName = document.getElementById('orbit-tooltip-name');
+    var ttDesc = document.getElementById('orbit-tooltip-desc');
+    if (!canvas || !tt) return;
+
+    var META = {
+      cli:     { name: 'grok-install-cli',    desc: 'The Python CLI + runtime. pip install, init, run, deploy.' },
+      awesome: { name: 'awesome-grok-agents', desc: 'Curated, certified template agents — install with one command.' },
+      yaml:    { name: 'grok-yaml-standards', desc: 'Modular .grok/ folder — share tools, prompts, and policies.' },
+      docs:    { name: 'grok-docs',           desc: 'Full documentation site — spec reference, recipes, migration.' }
+    };
+
+    function show(node, e) {
+      var id = node.getAttribute('data-id');
+      var meta = META[id]; if (!meta) return;
+      ttName.textContent = meta.name;
+      ttDesc.textContent = meta.desc;
+      tt.hidden = false;
+      var rect = canvas.getBoundingClientRect();
+      var x = ((e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX) || rect.left + rect.width/2) - rect.left);
+      var y = ((e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY) || rect.top + rect.height/2) - rect.top);
+      var pad = 14;
+      var ttW = tt.offsetWidth || 200;
+      var ttH = tt.offsetHeight || 60;
+      var px = Math.max(8, Math.min(rect.width - ttW - 8, x + pad));
+      var py = Math.max(8, Math.min(rect.height - ttH - 8, y + pad));
+      tt.style.left = px + 'px';
+      tt.style.top  = py + 'px';
+    }
+    function hide() { tt.hidden = true; }
+
+    canvas.querySelectorAll('.orbit-node').forEach(function (n) {
+      n.addEventListener('mouseenter', function (e) { show(n, e); });
+      n.addEventListener('mousemove',  function (e) { show(n, e); });
+      n.addEventListener('mouseleave', hide);
+      n.addEventListener('focus', function () {
+        var bb = n.getBoundingClientRect();
+        show(n, { clientX: bb.left + bb.width/2, clientY: bb.bottom });
+      });
+      n.addEventListener('blur', hide);
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       SECTION 6 — LIVE VALIDATOR
+       ============================================================ -->
+  <section id="validator" style="position:relative;padding:7rem 1.5rem;background:#0A0A0F;border-top:1px solid #1F1F2A;">
+    <div style="max-width:80rem;margin:0 auto;">
+
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#7C3AED;letter-spacing:0.18em;margin-bottom:1rem;text-transform:uppercase;">06 · Live Validator</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-0.04em;line-height:1.05;margin:0 0 1rem;color:#F5F5F7;">Edit YAML. See errors. Ship.</h2>
+        <p style="font-family:'Inter',sans-serif;font-size:clamp(1rem,1.6vw,1.125rem);color:#8B8B9A;max-width:42rem;margin:0 auto;line-height:1.6;">Validated against the official v2.13 schema in your browser. Nothing leaves this page.</p>
+      </div>
+
+      <div class="vd-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:stretch;">
+
+        <!-- LEFT: Editor -->
+        <div style="background:#13131A;border:1px solid #1F1F2A;border-radius:1rem;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:#0F0F15;border-bottom:1px solid #1F1F2A;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00F0FF;"></span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#F5F5F7;">grok-install.yaml</span>
+            </div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:#7C3AED;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);border-radius:999px;padding:0.15rem 0.5rem;">spec v2.13</span>
+          </div>
+          <div id="monaco-editor" style="height:520px;background:#0F0F15;display:flex;align-items:center;justify-content:center;color:#8B8B9A;font-family:'JetBrains Mono',monospace;font-size:0.85rem;">
+            <span id="monaco-loading">Editor loads when you scroll here…</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: Validation panel -->
+        <div style="background:#13131A;border:1px solid #1F1F2A;border-radius:1rem;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:#0F0F15;border-bottom:1px solid #1F1F2A;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <span id="vd-status-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#8B8B9A;"></span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#F5F5F7;">Validation</span>
+            </div>
+            <span id="vd-status-label" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:#8B8B9A;">waiting</span>
+          </div>
+          <div id="validation-panel" style="height:520px;overflow-y:auto;padding:1rem 1.1rem;font-family:'Inter',sans-serif;font-size:0.875rem;color:#8B8B9A;line-height:1.55;">
+            <div style="color:#8B8B9A;">Scroll into view to load the editor and start validating.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;margin-top:1.5rem;">
+        <button id="vd-copy" disabled style="display:inline-flex;align-items:center;gap:0.5rem;background:#00F0FF;color:#0A0A0F;border:none;padding:0.85rem 1.5rem;border-radius:0.75rem;font-family:'Inter',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;opacity:0.4;transition:all 0.2s var(--ease);">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span id="vd-copy-text">Copy install command</span>
+        </button>
+        <button id="vd-download" disabled style="display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:#00F0FF;border:1px solid rgba(0,240,255,0.4);padding:0.85rem 1.5rem;border-radius:0.75rem;font-family:'Inter',sans-serif;font-weight:600;font-size:0.9rem;cursor:pointer;opacity:0.4;transition:all 0.2s var(--ease);">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3M3 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download grok-install.yaml
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    #vd-copy:not([disabled]):hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,240,255,0.4); }
+    #vd-download:not([disabled]):hover { background: rgba(0,240,255,0.06); border-color: rgba(0,240,255,0.7); }
+    .vd-err {
+      background: rgba(255,51,102,0.06);
+      border: 1px solid rgba(255,51,102,0.25);
+      border-radius: 0.5rem;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 0.6rem;
+      color: #F5F5F7;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+    }
+    .vd-err code {
+      color: #FF7CA8;
+      background: rgba(255,51,102,0.1);
+      padding: 0.05rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+    }
+    .vd-ok {
+      background: rgba(0,255,163,0.06);
+      border: 1px solid rgba(0,255,163,0.25);
+      border-radius: 0.5rem;
+      padding: 0.85rem 1rem;
+      color: #F5F5F7;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.85rem;
+    }
+    .vd-detected { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #8B8B9A; padding-left: 0.2rem; }
+    .vd-detected b { color: #00F0FF; font-weight: 500; }
+    @media (max-width: 900px) {
+      .vd-grid { grid-template-columns: 1fr !important; }
+      #monaco-editor, #validation-panel { height: 380px !important; }
+    }
+  </style>
+
+  <script>
+  (function () {
+    var DEFAULT_YAML = [
+      "---",
+      "version: \"2.13\"",
+      "name: \"My Reply Bot\"",
+      "description: \"Replies to X mentions using Grok\"",
+      "category: \"x-native\"",
+      "",
+      "llm:",
+      "  provider: \"xai\"",
+      "  model: \"grok-4\"",
+      "  api_key_env: \"GROK_API_KEY\"",
+      "",
+      "tools:",
+      "  - name: \"reply_to_mention\"",
+      "    description: \"Replies to a specific X mention\"",
+      "    parameters:",
+      "      type: \"object\"",
+      "      properties:",
+      "        mention_id: { type: \"string\" }",
+      "        reply_text: { type: \"string\", maxLength: 280 }",
+      "      required: [\"mention_id\", \"reply_text\"]",
+      "    returns:",
+      "      type: \"object\"",
+      "      properties:",
+      "        reply_url: { type: \"string\" }",
+      "",
+      "rate_limits:",
+      "  reply_to_mention:",
+      "    qps: 0.5",
+      "    daily_cap: 200",
+      "",
+      "cost_limits:",
+      "  daily_usd: 3.00",
+      "  on_limit: \"block\"",
+      "",
+      "safety:",
+      "  pre_install_scan: true",
+      "  minimum_keys_only: true",
+      ""
+    ].join("\n");
+    window.__VD_DEFAULT_YAML = DEFAULT_YAML;
+
+    var loaded = false;
+    var section = document.getElementById('validator');
+    var loadingEl = document.getElementById('monaco-loading');
+    var editorContainer = document.getElementById('monaco-editor');
+
+    function loadMonaco() {
+      if (loaded) return;
+      loaded = true;
+      if (loadingEl) loadingEl.textContent = 'Loading editor…';
+
+      var loaderScript = document.createElement('script');
+      loaderScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js';
+      loaderScript.onload = function () {
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
+        require(['vs/editor/editor.main'], function () {
+          editorContainer.innerHTML = '';
+          editorContainer.style.display = 'block';
+          var editor = monaco.editor.create(editorContainer, {
+            value: DEFAULT_YAML,
+            language: 'yaml',
+            theme: 'vs-dark',
+            fontFamily: "'JetBrains Mono', 'Courier New', monospace",
+            fontSize: 13,
+            lineHeight: 22,
+            minimap: { enabled: false },
+            scrollBeyondLastLine: false,
+            automaticLayout: true,
+            wordWrap: 'on',
+            tabSize: 2,
+            renderLineHighlight: 'gutter',
+            padding: { top: 12 }
+          });
+          window.__monacoEditor = editor;
+          window.dispatchEvent(new CustomEvent('monaco-ready', { detail: { editor: editor } }));
+        });
+      };
+      loaderScript.onerror = function () {
+        if (loadingEl) loadingEl.textContent = 'Editor failed to load (offline?)';
+      };
+      document.head.appendChild(loaderScript);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { loadMonaco(); io.disconnect(); }
+        });
+      }, { rootMargin: '200px 0px' });
+      io.observe(section);
+    } else {
+      loadMonaco();
+    }
+  })();
+  </script>
+
+
+  <script>
+  (function () {
+    var statusDot = document.getElementById('vd-status-dot');
+    var statusLabel = document.getElementById('vd-status-label');
+    var panel = document.getElementById('validation-panel');
+    var copyBtn = document.getElementById('vd-copy');
+    var copyText = document.getElementById('vd-copy-text');
+    var dlBtn = document.getElementById('vd-download');
+    if (!panel) return;
+
+    var jsyaml = null, ajv = null, validate = null, schema = null, currentDoc = null;
+
+    function setStatus(state, label) {
+      var colors = { idle: '#8B8B9A', loading: '#FFB800', valid: '#00FFA3', invalid: '#FF3366' };
+      statusDot.style.background = colors[state] || '#8B8B9A';
+      statusDot.style.boxShadow = state === 'idle' ? 'none' : '0 0 10px ' + colors[state] + '88';
+      statusLabel.style.color = colors[state] || '#8B8B9A';
+      statusLabel.textContent = label;
+    }
+
+    function loadScript(src) {
+      return new Promise(function (resolve, reject) {
+        var s = document.createElement('script'); s.src = src; s.async = true;
+        s.onload = resolve; s.onerror = function () { reject(new Error('failed: ' + src)); };
+        document.head.appendChild(s);
+      });
+    }
+
+    function fetchSchema() {
+      return fetch('./schemas/grok-install-v2.13.schema.json', { cache: 'force-cache' })
+        .then(function (r) { if (!r.ok) throw new Error('schema fetch failed'); return r.json(); });
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+      });
+    }
+
+    function renderSuccess(doc) {
+      currentDoc = doc;
+      copyBtn.disabled = false; copyBtn.style.opacity = '1';
+      dlBtn.disabled = false;   dlBtn.style.opacity = '1';
+
+      var detected = [];
+      if (doc.name)              detected.push('<b>name:</b> ' + escapeHtml(doc.name));
+      if (doc.version)           detected.push('<b>version:</b> ' + escapeHtml(doc.version));
+      if (doc.llm && doc.llm.model) detected.push('<b>model:</b> ' + escapeHtml(doc.llm.model));
+      if (Array.isArray(doc.tools)) detected.push('<b>tools:</b> ' + doc.tools.length);
+      if (doc.rate_limits)       detected.push('<b>rate_limits:</b> declared');
+      if (doc.cost_limits)       detected.push('<b>cost_limits:</b> $' + (doc.cost_limits.daily_usd || 0) + '/day');
+      if (doc.safety && doc.safety.pre_install_scan) detected.push('<b>safety:</b> pre-install scan ON');
+
+      panel.innerHTML =
+        '<div class="vd-ok">' +
+          '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#00FFA3" stroke-width="2"/><path d="M7 12l3.5 3.5L17 9" stroke="#00FFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '<div><strong style="color:#00FFA3;">Valid</strong> · conforms to spec v2.13</div>' +
+        '</div>' +
+        (detected.length ? '<div class="vd-detected">' + detected.join('<br>') + '</div>' : '');
+    }
+
+    function renderErrors(errors) {
+      currentDoc = null;
+      copyBtn.disabled = true; copyBtn.style.opacity = '0.4';
+      dlBtn.disabled = true;   dlBtn.style.opacity = '0.4';
+      var html = '<div style="margin-bottom:0.85rem;color:#FF3366;font-family:JetBrains Mono,monospace;font-size:0.78rem;">' + errors.length + ' error' + (errors.length === 1 ? '' : 's') + ' found</div>';
+      errors.slice(0, 12).forEach(function (e) {
+        var path = e.instancePath || '/';
+        html += '<div class="vd-err"><code>' + escapeHtml(path) + '</code> ' + escapeHtml(e.message || 'invalid') + '</div>';
+      });
+      if (errors.length > 12) html += '<div style="color:#8B8B9A;font-size:0.78rem;">…and ' + (errors.length - 12) + ' more</div>';
+      panel.innerHTML = html;
+    }
+
+    function renderParseError(err) {
+      currentDoc = null;
+      copyBtn.disabled = true; copyBtn.style.opacity = '0.4';
+      dlBtn.disabled = true;   dlBtn.style.opacity = '0.4';
+      panel.innerHTML = '<div class="vd-err"><strong>YAML parse error</strong><br>' + escapeHtml(err.message || 'Could not parse') + '</div>';
+    }
+
+    function runValidation(text) {
+      if (!jsyaml || !validate) return;
+      var doc;
+      try { doc = jsyaml.load(text); }
+      catch (e) { setStatus('invalid', 'parse error'); renderParseError(e); return; }
+      if (typeof doc !== 'object' || doc === null) {
+        setStatus('invalid', 'empty');
+        renderErrors([{ instancePath: '/', message: 'Document must be a YAML object' }]);
+        return;
+      }
+      var ok = validate(doc);
+      if (ok) { setStatus('valid', 'valid'); renderSuccess(doc); }
+      else    { setStatus('invalid', validate.errors.length + ' issue(s)'); renderErrors(validate.errors); }
+    }
+
+    function bootstrap(editor) {
+      setStatus('loading', 'loading deps…');
+      panel.innerHTML = '<div style="color:#8B8B9A;">Loading js-yaml + Ajv…</div>';
+
+      Promise.all([
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js'),
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/ajv/8.12.0/ajv7.bundle.min.js'),
+        fetchSchema()
+      ]).then(function (results) {
+        jsyaml = window.jsyaml;
+        var Ajv = window.ajv7 ? window.ajv7.default : (window.Ajv7 || window.Ajv);
+        if (!Ajv) throw new Error('Ajv not available');
+        ajv = new Ajv({ strict: false, allErrors: true });
+        schema = results[2];
+        validate = ajv.compile(schema);
+
+        var debounceTimer;
+        editor.onDidChangeModelContent(function () {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(function () { runValidation(editor.getValue()); }, 300);
+        });
+        runValidation(editor.getValue());
+      }).catch(function (err) {
+        setStatus('invalid', 'load error');
+        panel.innerHTML = '<div class="vd-err"><strong>Could not load validator</strong><br>' + escapeHtml(err.message) + '<br><br><span style="color:#8B8B9A;">Open this page over HTTP (not file://) to load the schema.</span></div>';
+      });
+    }
+
+    if (window.__monacoEditor) bootstrap(window.__monacoEditor);
+    else window.addEventListener('monaco-ready', function (e) { bootstrap(e.detail.editor); });
+
+    copyBtn.addEventListener('click', function () {
+      if (!currentDoc) return;
+      var name = (currentDoc.name || 'my-agent').toString().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-|-$/g, '');
+      var cmd = 'grok-install install ' + (currentDoc.repo || ('agentmindcloud/' + name));
+      var done = function () {
+        copyText.textContent = 'Copied';
+        setTimeout(function () { copyText.textContent = 'Copy install command'; }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(cmd).then(done).catch(done);
+      else done();
+    });
+
+    dlBtn.addEventListener('click', function () {
+      if (!currentDoc || !window.__monacoEditor) return;
+      var blob = new Blob([window.__monacoEditor.getValue()], { type: 'text/yaml' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'grok-install.yaml';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    });
+  })();
+  </script>
+
+<!-- ============================================================
+     SECTION 7 — SAFETY & STANDARDS
+     ============================================================ -->
+<section id="safety" style="background:#0A0A0F;padding:6rem 1.5rem;">
+  <div style="max-width:72rem;margin:0 auto;">
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:3.5rem;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:800;color:#F5F5F7;letter-spacing:-0.03em;margin:0 0 1rem;">
+        Safety First. Always.
       </h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        <div>
-          <h3 class="text-xl font-semibold mb-3">1. Native X Agent Runtime</h3>
-          <p class="text-zinc-400 text-sm">Agents run directly on X (reply bots, DM handlers, trend monitors). Grok is the secure runtime orchestrator. One-click X-native deployment.</p>
+      <p style="font-family:'Inter',sans-serif;font-size:1.125rem;color:#8B8B9A;max-width:48rem;margin:0 auto;line-height:1.7;">
+        Every agent installed via grok-install goes through an automated scan before any key is requested.
+      </p>
+    </div>
+
+    <!-- 4-column grid -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;" class="safety-grid">
+      <!-- Card 1: Pre-install Scan -->
+      <div class="safety-card" style="background:#13131A;border:1px solid #1F1F2A;border-radius:1rem;padding:1.5rem;text-align:center;transition:border-color 0.25s,transform 0.25s;">
+        <div class="safety-icon" style="display:inline-flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.8);transition:opacity 0.4s,transform 0.4s;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20 4L6 9.5V21c0 7.5 5.8 14.4 14 16 8.2-1.6 14-8.5 14-16V9.5L20 4z" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" fill="rgba(0,240,255,0.06)"/>
+            <path d="M13 20l5 5 9-9" stroke="#00F0FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-3">2. Grok Intelligence Layer</h3>
-          <p class="text-zinc-400 text-sm">Seamless function calling + real-time tools. Multi-agent swarms coordinated by Grok. AI-suggested teams & workflows.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-3">3. Advanced Trust & Reputation</h3>
-          <p class="text-zinc-400 text-sm">Public reputation score (scan history + feedback + usage). “Verified by Grok” trusted brand. Automated recommendations.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-3">4. Voice-First Management</h3>
-          <p class="text-zinc-400 text-sm">Full voice commands: install, update, orchestrate, monitor, swarm control. Mobile-friendly private dashboard.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-3">5–7. Enterprise, Insights & Builder Economy</h3>
-          <p class="text-zinc-400 text-sm">Team workspaces, anonymous insights for xAI, optional GitHub Sponsors integration – all opt-in and backward compatible.</p>
-        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:#F5F5F7;margin:1rem 0 0.5rem;">Pre-install Scan</h3>
+        <p style="font-family:'Inter',sans-serif;font-size:0.8125rem;color:#8B8B9A;line-height:1.6;margin:0;">Every file in the repo is scanned before Grok asks for any secrets.</p>
       </div>
-      <p class="text-center text-[#00f0ff] text-sm mt-8">All Phase 10 goals implemented in one clean update • 100% backward compatible with v2.10</p>
+
+      <!-- Card 2: Approval Gates -->
+      <div class="safety-card" style="background:#13131A;border:1px solid #1F1F2A;border-radius:1rem;padding:1.5rem;text-align:center;transition:border-color 0.25s,transform 0.25s;">
+        <div class="safety-icon" style="display:inline-flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.8);transition:opacity 0.4s,transform 0.4s;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="10" y="19" width="20" height="15" rx="2.5" stroke="#00F0FF" stroke-width="2" fill="rgba(0,240,255,0.06)"/>
+            <path d="M14 19v-5a6 6 0 0112 0v5" stroke="#00F0FF" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="28" cy="26" r="4" stroke="#00F0FF" stroke-width="1.5" fill="none"/>
+            <path d="M26.5 26l1 1 2-2" stroke="#00F0FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:#F5F5F7;margin:1rem 0 0.5rem;">Approval Gates</h3>
+        <p style="font-family:'Inter',sans-serif;font-size:0.8125rem;color:#8B8B9A;line-height:1.6;margin:0;">X-posting tools require explicit user sign-off by default. No surprise tweets.</p>
+      </div>
+
+      <!-- Card 3: Rate Limits -->
+      <div class="safety-card" style="background:#13131A;border:1px solid #1F1F2A;border-radius:1rem;padding:1.5rem;text-align:center;transition:border-color 0.25s,transform 0.25s;">
+        <div class="safety-icon" style="display:inline-flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.8);transition:opacity 0.4s,transform 0.4s;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 28a14 14 0 1124 0" stroke="#00F0FF" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M20 28V16" stroke="#00F0FF" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 28l8-8" stroke="#00F0FF" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+            <circle cx="20" cy="28" r="2.5" fill="#00F0FF"/>
+            <path d="M11 22l1.5 1" stroke="#00F0FF" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+            <path d="M29 22l-1.5 1" stroke="#00F0FF" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:#F5F5F7;margin:1rem 0 0.5rem;">Rate Limits</h3>
+        <p style="font-family:'Inter',sans-serif;font-size:0.8125rem;color:#8B8B9A;line-height:1.6;margin:0;">Declarative QPS caps and daily hard stops. Runaway posting is impossible.</p>
+      </div>
+
+      <!-- Card 4: Minimal Permissions -->
+      <div class="safety-card" style="background:#13131A;border:1px solid #1F1F2A;border-radius:1rem;padding:1.5rem;text-align:center;transition:border-color 0.25s,transform 0.25s;">
+        <div class="safety-icon" style="display:inline-flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.8);transition:opacity 0.4s,transform 0.4s;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="14" cy="22" r="7" stroke="#00F0FF" stroke-width="2" fill="rgba(0,240,255,0.06)"/>
+            <circle cx="14" cy="22" r="2.5" fill="#00F0FF"/>
+            <path d="M20.5 18.5L32 10" stroke="#00F0FF" stroke-width="2" stroke-linecap="round"/>
+            <path d="M28 8l4 2-2 4" stroke="#00F0FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M27 14l2 2" stroke="#00F0FF" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:#F5F5F7;margin:1rem 0 0.5rem;">Minimal Permissions</h3>
+        <p style="font-family:'Inter',sans-serif;font-size:0.8125rem;color:#8B8B9A;line-height:1.6;margin:0;"><code style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#00F0FF;">minimum_keys_only: true</code> — Only the secrets this agent actually needs.</p>
+      </div>
+    </div>
+
+    <!-- Certified success bar -->
+    <div style="margin-top:2.5rem;background:rgba(0,255,163,0.08);border:1px solid rgba(0,255,163,0.2);border-radius:0.75rem;padding:1rem;text-align:center;">
+      <span style="font-family:'Inter',sans-serif;font-size:0.9375rem;color:#00FFA3;font-weight:600;">
+        &#10003;&nbsp; Only agents that pass all checks earn the Grok-Native Certified badge.
+      </span>
     </div>
   </div>
+</section>
 
-  <!-- Enhanced Safety & Verification 2.0 (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-12">
-    <div class="glass rounded-3xl p-8 border border-emerald-400/30">
-      <h2 class="text-4xl font-semibold mb-6 text-center flex items-center justify-center gap-3">
-        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
-        Enhanced Safety & Verification 2.0
+<!-- ============================================================
+     SECTION 8 — COMPARISON TABLE
+     ============================================================ -->
+<section id="compare" style="background:#0A0A0F;padding:6rem 1.5rem;">
+  <div style="max-width:72rem;margin:0 auto;">
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:3.5rem;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:800;color:#F5F5F7;letter-spacing:-0.03em;margin:0 0 1rem;">
+        Why not just write the SDK directly?
       </h2>
-      <div class="grid md:grid-cols-3 gap-8 text-center">
-        <div>
-          <h3 class="text-xl font-semibold mb-2">Pre-Install Deep Scan</h3>
-          <p class="text-zinc-400 text-sm">Grok automatically scans every file in the repo before asking for any keys.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-2">Verified by Grok Badge</h3>
-          <p class="text-zinc-400 text-sm">Clear scan summary shown to user + visible badge on install.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-2">Minimum Keys Only</h3>
-          <p class="text-zinc-400 text-sm">Most environment variables are now optional. Installation is easier and safer.</p>
-        </div>
-      </div>
-      <p class="text-center text-emerald-400 text-sm mt-8">Zero major safety incidents • Maximum transparency • Backward compatible with v2.8</p>
+      <p style="font-family:'Inter',sans-serif;font-size:1.125rem;color:#8B8B9A;margin:0;">
+        Here's the honest breakdown.
+      </p>
     </div>
-  </div>
 
-  <!-- Phase 9 Completion – Goals 2 to 5 (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-12">
-    <div class="glass rounded-3xl p-8 border border-[#00f0ff]/30">
-      <h2 class="text-4xl font-semibold mb-6 text-center flex items-center justify-center gap-3">
-        <i class="fa-solid fa-rocket text-[#00f0ff]"></i>
-        Phase 9 Complete
-      </h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        <div>
-          <h3 class="text-xl font-semibold mb-3">2. Global Scale & Performance</h3>
-          <p class="text-zinc-400 text-sm">10,000+ agents • fast search & caching • improved rate limiting & error handling</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-3">3. Developer Experience & Tooling</h3>
-          <p class="text-zinc-400 text-sm">One-command template generator • improved debugging • auto-update + rollback</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-3">4. Advanced Orchestration</h3>
-          <p class="text-zinc-400 text-sm">Visual orchestration builder inside Grok • AI-suggested patterns</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-3">5. Agent Marketplace Development</h3>
-          <p class="text-zinc-400 text-sm">Expanded public Marketplace Insights, dynamic discovery & shareable cards</p>
-        </div>
-      </div>
-      <p class="text-center text-[#00f0ff] text-sm mt-8">All goals 2–5 completed in one clean update • Goals 6–8 postponed</p>
-    </div>
-  </div>
-
-  <!-- What's New v2.10 (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-12">
-    <div class="glass rounded-3xl p-8">
-      <h2 class="text-4xl font-semibold mb-6 text-center">✦ What’s New in v2.10</h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        <div>
-          <h3 class="text-xl font-semibold mb-3">Phase 9 Complete</h3>
-          <p class="text-zinc-400 text-sm">Global Scale, Developer Tools, Advanced Orchestration & full Marketplace</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold mb-3">Auto-update all my agents</h3>
-          <p class="text-zinc-400 text-sm">One command updates every installed agent instantly.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Grok Commands Reference (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-16">
-    <h2 class="text-4xl font-semibold mb-8 text-center">Grok Commands Reference</h2>
-    <p class="text-zinc-400 text-center mb-12">All official grok-install commands. Copy and use on X.</p>
-    <div class="glass rounded-3xl p-8">
-      <table class="w-full text-left">
+    <!-- Table wrapper -->
+    <div style="max-width:56rem;margin:0 auto;overflow-x:auto;border-radius:1rem;border:1px solid #1F1F2A;box-shadow:0 0 0 1px #1F1F2A,0 8px 48px rgba(0,0,0,0.5);">
+      <table style="width:100%;border-collapse:collapse;font-family:'Inter',sans-serif;font-size:0.9375rem;">
         <thead>
-          <tr class="border-b border-zinc-700">
-            <th class="pb-4 font-semibold">Command</th>
-            <th class="pb-4 font-semibold">Example</th>
-            <th class="pb-4 font-semibold">What it does</th>
-            <th class="pb-4 font-semibold">Troubleshooting</th>
+          <tr style="background:#13131A;border-bottom:2px solid #00F0FF;">
+            <th style="padding:1rem 1.25rem;text-align:left;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#F5F5F7;font-size:0.875rem;letter-spacing:0.04em;text-transform:uppercase;width:36%;">Feature</th>
+            <th style="padding:1rem 1.25rem;text-align:center;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#8B8B9A;font-size:0.875rem;letter-spacing:0.04em;text-transform:uppercase;width:32%;">Writing xAI SDK manually</th>
+            <th style="padding:1rem 1.25rem;text-align:center;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#00F0FF;font-size:0.875rem;letter-spacing:0.04em;text-transform:uppercase;width:32%;">With grok-install</th>
           </tr>
         </thead>
-        <tbody class="text-sm text-zinc-300 space-y-6">
-          <!-- All rows from your current file are kept exactly the same -->
-          <tr class="border-b border-zinc-700">
-            <td class="py-4"><code>@grok my agents</code></td>
-            <td class="py-4"><code>@grok my agents</code></td>
-            <td class="py-4">Shows your private dashboard with installed agents, orchestration view, and share cards</td>
-            <td class="py-4">If you see placeholder agents, try <code>@grok show my agents</code></td>
+        <tbody>
+          <tr class="compare-row" style="background:#13131A;">
+            <td style="padding:0.9rem 1.25rem;color:#F5F5F7;border-bottom:1px solid #1F1F2A;">Lines of code (reply bot)</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#8B8B9A;border-bottom:1px solid #1F1F2A;">~250 Python</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#00F0FF;font-weight:600;border-bottom:1px solid #1F1F2A;">30 YAML</td>
           </tr>
-          <tr class="border-b border-zinc-700">
-            <td class="py-4"><code>@grok show me [category] agents</code></td>
-            <td class="py-4"><code>@grok show me telegram agents</code></td>
-            <td class="py-4">Browse marketplace agents by category</td>
-            <td class="py-4">Add <code>category</code> and <code>tags</code> to your YAML</td>
+          <tr class="compare-row" style="background:#0A0A0F;">
+            <td style="padding:0.9rem 1.25rem;color:#F5F5F7;border-bottom:1px solid #1F1F2A;">Time to first deploy</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#8B8B9A;border-bottom:1px solid #1F1F2A;">2–4 hours</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#00F0FF;font-weight:600;border-bottom:1px solid #1F1F2A;">Under 5 minutes</td>
           </tr>
-          <tr class="border-b border-zinc-700">
-            <td class="py-4"><code>@grok show me agents that use [API]</code></td>
-            <td class="py-4"><code>@grok show me agents that use Tesla API</code></td>
-            <td class="py-4">Advanced filtered search</td>
-            <td class="py-4">Add matching <code>tags</code> to your YAML</td>
+          <tr class="compare-row" style="background:#13131A;">
+            <td style="padding:0.9rem 1.25rem;color:#F5F5F7;border-bottom:1px solid #1F1F2A;">Multi-agent orchestration</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#8B8B9A;border-bottom:1px solid #1F1F2A;">DIY from scratch</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#00F0FF;font-weight:600;border-bottom:1px solid #1F1F2A;">Built-in</td>
           </tr>
-          <tr class="border-b border-zinc-700">
-            <td class="py-4"><code>@grok orchestrate my agents</code></td>
-            <td class="py-4"><code>@grok orchestrate my agents</code></td>
-            <td class="py-4">View and create connections between your agents</td>
-            <td class="py-4">Requires <code>orchestration.enabled: true</code></td>
+          <tr class="compare-row" style="background:#0A0A0F;">
+            <td style="padding:0.9rem 1.25rem;color:#F5F5F7;border-bottom:1px solid #1F1F2A;">Safety scanning</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#8B8B9A;border-bottom:1px solid #1F1F2A;">You build it</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#00F0FF;font-weight:600;border-bottom:1px solid #1F1F2A;">Automated pre-install</td>
           </tr>
-          <tr class="border-b border-zinc-700">
-            <td class="py-4"><code>@grok update all my agents</code></td>
-            <td class="py-4"><code>@grok update all my agents</code></td>
-            <td class="py-4">One command updates every installed agent (new in v2.9)</td>
-            <td class="py-4">Works on all agents with valid grok-install.yaml</td>
+          <tr class="compare-row" style="background:#13131A;">
+            <td style="padding:0.9rem 1.25rem;color:#F5F5F7;border-bottom:1px solid #1F1F2A;">Rate limiting</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#8B8B9A;border-bottom:1px solid #1F1F2A;">DIY</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#00F0FF;font-weight:600;border-bottom:1px solid #1F1F2A;">One declarative block</td>
           </tr>
-          <tr class="border-b border-zinc-700">
-            <td class="py-4"><code>@grok generate template [pattern]</code></td>
-            <td class="py-4"><code>@grok generate template orchestration</code></td>
-            <td class="py-4">Grok creates ready-to-use orchestration templates (new in v2.9)</td>
-            <td class="py-4">Reply to your repo link</td>
+          <tr class="compare-row" style="background:#0A0A0F;">
+            <td style="padding:0.9rem 1.25rem;color:#F5F5F7;border-bottom:1px solid #1F1F2A;">Cost controls</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#8B8B9A;border-bottom:1px solid #1F1F2A;">DIY</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#00F0FF;font-weight:600;border-bottom:1px solid #1F1F2A;">Hard USD stops</td>
           </tr>
-          <tr>
-            <td class="py-4"><code>@grok install this</code></td>
-            <td class="py-4">Reply to any GitHub link containing grok-install.yaml</td>
-            <td class="py-4">Starts one-click install flow with pre-install security scan</td>
-            <td class="py-4">Works on public repos with valid YAML</td>
+          <tr class="compare-row" style="background:#13131A;">
+            <td style="padding:0.9rem 1.25rem;color:#F5F5F7;border-bottom:1px solid #1F1F2A;">Tool schema validation</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#8B8B9A;border-bottom:1px solid #1F1F2A;">Write JSON Schema manually</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#00F0FF;font-weight:600;border-bottom:1px solid #1F1F2A;">Declared in YAML</td>
+          </tr>
+          <tr class="compare-row" style="background:#0A0A0F;">
+            <td style="padding:0.9rem 1.25rem;color:#F5F5F7;">Passive growth engine</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#8B8B9A;">None</td>
+            <td style="padding:0.9rem 1.25rem;text-align:center;color:#00F0FF;font-weight:600;">Auto-welcome + weekly highlights</td>
           </tr>
         </tbody>
       </table>
+      <!-- Cyan bottom accent -->
+      <div style="height:2px;background:linear-gradient(90deg,transparent,#00F0FF,transparent);border-radius:0 0 1rem 1rem;"></div>
     </div>
   </div>
+</section>
 
-  <!-- Curated Community Templates Gallery (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-16 bg-zinc-950">
-    <h2 class="text-4xl font-semibold mb-8 text-center">Curated Community Templates</h2>
-    <p class="text-zinc-400 text-center mb-12">Ready-to-use, community-voted multi-agent orchestration templates with Verified Orchestration badges</p>
-    <div class="grid md:grid-cols-3 gap-8">
-      <a href="https://github.com/AgentMindCloud/twitter-reply-bot" class="glass rounded-3xl p-8 card-hover block">
-        <h3 class="text-xl font-semibold mb-2">Social Media → Dashboard</h3>
-        <p class="text-zinc-400 text-sm mb-6">Twitter Reply Bot automatically updates Hermes Telegram Dashboard on every mention.</p>
-        <span class="px-3 py-1 text-xs bg-emerald-400/10 text-emerald-400 rounded-3xl">Most voted • 184 installs</span>
-        <span class="ml-2 px-3 py-1 text-xs bg-purple-400/10 text-purple-400 rounded-3xl">Verified Orchestration</span>
-      </a>
-      <a href="https://github.com/AgentMindCloud/discord-ai-mod" class="glass rounded-3xl p-8 card-hover block">
-        <h3 class="text-xl font-semibold mb-2">Discord Moderator Chain</h3>
-        <p class="text-zinc-400 text-sm mb-6">Discord AI Moderator + Hermes Dashboard + Twitter Bot work together on community alerts.</p>
-        <span class="px-3 py-1 text-xs bg-blue-400/10 text-blue-400 rounded-3xl">Community pick</span>
-        <span class="ml-2 px-3 py-1 text-xs bg-purple-400/10 text-purple-400 rounded-3xl">Verified Orchestration</span>
-      </a>
-      <a href="https://github.com/AgentMindCloud/hermes-telegram-dashboard" class="glass rounded-3xl p-8 card-hover block">
-        <h3 class="text-xl font-semibold mb-2">Trading Signal Suite</h3>
-        <p class="text-zinc-400 text-sm mb-6">CryptoConsole + Nexus Terminal + Dashboard – fully orchestrated trading alerts.</p>
-        <span class="px-3 py-1 text-xs bg-purple-400/10 text-purple-400 rounded-3xl">New template</span>
-      </a>
+<!-- ============================================================
+     SECTION 9 — WORKS WITH
+     ============================================================ -->
+<section id="works-with" style="background:#0A0A0F;padding:6rem 1.5rem;">
+  <div style="max-width:72rem;margin:0 auto;">
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:3rem;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:800;color:#F5F5F7;letter-spacing:-0.03em;margin:0 0 1rem;">
+        Works with your entire stack
+      </h2>
+      <p style="font-family:'Inter',sans-serif;font-size:1.125rem;color:#8B8B9A;margin:0;">
+        Native xAI SDK support. Interoperable with everything else.
+      </p>
+    </div>
+
+    <!-- Pills row -->
+    <div style="display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;">
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">xAI SDK</div>
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">Grok-4</div>
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">LiteLLM</div>
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">Semantic Kernel</div>
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">OpenAI-compatible</div>
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">Railway</div>
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">Vercel</div>
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">Docker</div>
+      <div class="stack-pill" style="background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1.5rem;font-family:'Inter',sans-serif;font-weight:600;color:#8B8B9A;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s;">GitHub Actions</div>
     </div>
   </div>
+</section>
 
-  <!-- Advanced Discovery (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-16">
-    <h2 class="text-4xl font-semibold mb-8 text-center">Advanced Discovery</h2>
-    <p class="text-zinc-400 text-center mb-12">Find exactly the agents you need with smart filtering inside Grok</p>
-    <div class="glass rounded-3xl p-8">
-      <p class="text-lg mb-6">Try these commands on X:</p>
-      <div class="grid md:grid-cols-2 gap-6 text-sm">
-        <div class="bg-zinc-900 p-6 rounded-2xl">@grok show me agents that use Tesla API</div>
-        <div class="bg-zinc-900 p-6 rounded-2xl">@grok show me agents with Verified Orchestration</div>
-        <div class="bg-zinc-900 p-6 rounded-2xl">@grok show me telegram agents</div>
-        <div class="bg-zinc-900 p-6 rounded-2xl">@grok show me agents that use orchestration</div>
-      </div>
+<!-- ============================================================
+     SECTION 10 — TESTIMONIALS
+     ============================================================ -->
+<section id="testimonials" style="background:#0A0A0F;padding:6rem 1.5rem;">
+  <div style="max-width:72rem;margin:0 auto;">
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:3.5rem;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:800;color:#F5F5F7;letter-spacing:-0.03em;margin:0 0 1rem;">
+        What builders are saying
+      </h2>
+      <p style="font-family:'Inter',sans-serif;font-size:1.125rem;color:#8B8B9A;margin:0;">
+        Coming soon — reach out on X to share your story.
+      </p>
     </div>
-  </div>
 
-  <!-- Marketplace Insights (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-16">
-    <h2 class="text-4xl font-semibold mb-8 text-center">📊 Marketplace Insights</h2>
-    <p class="text-zinc-400 text-center mb-12">Live data from all grok-install agents • Updated in real-time by Grok</p>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="glass rounded-3xl p-8">
-        <h3 class="text-xl font-semibold mb-6 flex items-center gap-2"><i class="fa-solid fa-trophy"></i> Top Agents</h3>
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between"><span>1. Hermes Telegram Dashboard</span><span class="text-emerald-400">1,284 installs</span></div>
-          <div class="flex justify-between"><span>2. Smart Twitter Reply Bot</span><span class="text-emerald-400">937 installs</span></div>
-          <div class="flex justify-between"><span>3. Discord AI Moderator</span><span class="text-emerald-400">621 installs</span></div>
+    <!-- 3-column grid -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;" class="testimonial-grid">
+      <!-- Card 1 -->
+      <div style="background:#13131A;border:1px solid #1F1F2A;border-left:4px solid #7C3AED;border-radius:1rem;padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem;">
+        <p style="font-family:'Inter',sans-serif;font-style:italic;color:#8B8B9A;line-height:1.7;margin:0;font-size:0.9375rem;">
+          "Your testimonial will appear here."
+        </p>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:auto;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#1F1F2A;flex-shrink:0;"></div>
+          <span style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#8B8B9A;font-weight:500;">Builder @handle</span>
         </div>
       </div>
-      <div class="glass rounded-3xl p-8">
-        <h3 class="text-xl font-semibold mb-6 flex items-center gap-2"><i class="fa-solid fa-chart-line"></i> Growth Trends</h3>
-        <p class="text-zinc-400 text-sm mb-4">Last 7 days</p>
-        <div class="space-y-3">
-          <div class="flex items-center gap-3"><div class="flex-1 h-2 bg-emerald-400 rounded"></div><span class="text-emerald-400 font-medium">+184 installs</span></div>
-          <div class="flex items-center gap-3"><div class="flex-1 h-2 bg-blue-400 rounded w-4/5"></div><span class="text-blue-400 font-medium">+97 agents added</span></div>
+
+      <!-- Card 2 -->
+      <div style="background:#13131A;border:1px solid #1F1F2A;border-left:4px solid #7C3AED;border-radius:1rem;padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem;">
+        <p style="font-family:'Inter',sans-serif;font-style:italic;color:#8B8B9A;line-height:1.7;margin:0;font-size:0.9375rem;">
+          "Your testimonial will appear here."
+        </p>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:auto;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#1F1F2A;flex-shrink:0;"></div>
+          <span style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#8B8B9A;font-weight:500;">Builder @handle</span>
         </div>
       </div>
-      <div class="glass rounded-3xl p-8">
-        <h3 class="text-xl font-semibold mb-6 flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Most-used Triggers</h3>
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between"><span>@grok my agents</span><span class="text-amber-400">2,841 uses</span></div>
-          <div class="flex justify-between"><span>@grok show me telegram agents</span><span class="text-amber-400">1,673 uses</span></div>
+
+      <!-- Card 3 -->
+      <div style="background:#13131A;border:1px solid #1F1F2A;border-left:4px solid #7C3AED;border-radius:1rem;padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem;">
+        <p style="font-family:'Inter',sans-serif;font-style:italic;color:#8B8B9A;line-height:1.7;margin:0;font-size:0.9375rem;">
+          "Your testimonial will appear here."
+        </p>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:auto;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#1F1F2A;flex-shrink:0;"></div>
+          <span style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#8B8B9A;font-weight:500;">Builder @handle</span>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Premium bottom cards (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
-    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
-      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-store"></i> Public Agent Marketplace</h3>
-      <p class="text-zinc-400">Now live in Grok with browse commands and dynamic Featured section.</p>
-    </a>
-    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
-      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-users"></i> Community Hub – Self-Management</h3>
-      <p class="text-zinc-400">Builders and users run the platform together.</p>
-    </a>
-    <a href="https://github.com/AgentMindCloud/grok-install" class="glass rounded-3xl p-8 card-hover block">
-      <h3 class="text-xl font-semibold flex items-center gap-2"><i class="fa-solid fa-link"></i> Multi-Agent Orchestration (Phase 7)</h3>
-      <p class="text-zinc-400">Link multiple agents into smart workflows. Grok coordinates them automatically.</p>
-    </a>
-  </div>
-
-  <!-- Developer Experience Tools (preserved) -->
-  <div class="max-w-5xl mx-auto px-6 py-16 bg-zinc-950">
-    <h2 class="text-4xl font-semibold mb-8 text-center">Developer Experience Tools</h2>
-    <p class="text-zinc-400 text-center mb-12">Built for speed and simplicity</p>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="glass rounded-3xl p-8 card-hover">
-        <h3 class="text-xl font-semibold mb-3">Auto-update all agents</h3>
-        <p class="text-zinc-400">One message updates every installed agent instantly.</p>
-      </div>
-      <div class="glass rounded-3xl p-8 card-hover">
-        <h3 class="text-xl font-semibold mb-3">Template generator</h3>
-        <p class="text-zinc-400">@grok generate template orchestration – instant ready-to-use patterns.</p>
-      </div>
-      <div class="glass rounded-3xl p-8 card-hover">
-        <h3 class="text-xl font-semibold mb-3">Smart error recovery</h3>
-        <p class="text-zinc-400">Grok now suggests fixes and retry buttons automatically.</p>
-      </div>
+    <!-- CTA below -->
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a
+        href="https://twitter.com/intent/tweet?text=I%20built%20something%20with%20grok-install%20%E2%80%94%20the%20open%20standard%20for%20Grok-native%20AI%20agents%20on%20X.%20%40JanSol0s%20%23grokinstall"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="font-family:'Inter',sans-serif;font-size:1rem;color:#00F0FF;text-decoration:none;font-weight:600;border-bottom:1px solid rgba(0,240,255,0.3);padding-bottom:2px;transition:border-color 0.2s;"
+      >
+        Built something with grok-install? Share your experience &#8594;
+      </a>
     </div>
   </div>
+</section>
 
-  <div class="text-center py-16 border-t border-zinc-800 mt-20">
-    <p class="text-zinc-400">Made with ❤️ for the X AI community • By @JanSol0s (Jani) • Built live with Grok • v2.12 (April 2026)</p>
+<!-- ============================================================
+     SECTION 11 — FINAL CTA
+     ============================================================ -->
+<section id="get-started" style="background:#0A0A0F;padding:6rem 1.5rem;min-height:60vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+  <!-- Radial bg glow -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,240,255,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+
+  <div style="max-width:48rem;margin:0 auto;text-align:center;position:relative;z-index:1;">
+    <!-- Heading -->
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:900;letter-spacing:-0.04em;color:#F5F5F7;margin:0 0 1.25rem;line-height:1.05;">
+      Ready to ship your agent?
+    </h2>
+
+    <!-- Subtext -->
+    <p style="font-family:'Inter',sans-serif;font-size:1.125rem;color:#8B8B9A;line-height:1.7;margin:0 0 0.5rem;">
+      Join the builders who are making AI agents on X actually accessible.
+    </p>
+
+    <!-- CTA buttons -->
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:2rem;">
+      <!-- Primary -->
+      <a
+        href="#"
+        style="display:inline-flex;align-items:center;gap:0.5rem;background:#00F0FF;color:#0A0A0F;padding:1.25rem 2.5rem;border-radius:1rem;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9375rem;text-decoration:none;box-shadow:0 0 32px rgba(0,240,255,0.35),0 4px 16px rgba(0,0,0,0.4);transition:box-shadow 0.25s,transform 0.25s;"
+        class="cta-primary"
+        onclick="navigator.clipboard && navigator.clipboard.writeText('pip install grok-install')"
+      >
+        Install now — <code style="font-family:'JetBrains Mono',monospace;font-weight:700;">pip install grok-install</code>
+      </a>
+      <!-- Secondary -->
+      <a
+        href="spec/v2.13/spec.md"
+        style="display:inline-flex;align-items:center;background:transparent;color:#00F0FF;padding:1.25rem 2.5rem;border-radius:1rem;border:1px solid rgba(0,240,255,0.4);font-family:'Inter',sans-serif;font-weight:700;font-size:0.9375rem;text-decoration:none;transition:background 0.25s,border-color 0.25s;"
+        class="cta-secondary"
+      >
+        Read the spec &#8594;
+      </a>
+    </div>
+
+    <!-- Newsletter form -->
+    <div style="margin-top:3rem;">
+      <p style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#8B8B9A;margin:0 0 1rem;line-height:1.6;">
+        Get spec updates and new agents in your inbox. No spam. Unsubscribe anytime.
+      </p>
+      <form
+        id="newsletter-form"
+        action="https://app.brevo.com/"
+        method="POST"
+        style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;max-width:28rem;margin:0 auto;"
+        onsubmit="handleNewsletterSubmit(event)"
+      >
+        <input
+          type="email"
+          name="email"
+          placeholder="your@email.com"
+          required
+          style="flex:1;min-width:0;background:#13131A;border:1px solid #1F1F2A;border-radius:0.75rem;padding:0.75rem 1rem;color:#F5F5F7;font-family:'Inter',sans-serif;font-size:0.9375rem;outline:none;transition:border-color 0.2s;"
+          class="newsletter-input"
+        />
+        <button
+          type="submit"
+          style="background:#7C3AED;color:#ffffff;padding:0.75rem 1.5rem;border-radius:0.75rem;border:none;font-family:'Inter',sans-serif;font-weight:700;font-size:0.9375rem;cursor:pointer;white-space:nowrap;transition:background 0.2s,box-shadow 0.2s;"
+          class="newsletter-btn"
+        >
+          Subscribe
+        </button>
+      </form>
+      <!-- Confirmation message (hidden initially) -->
+      <p
+        id="newsletter-confirm"
+        style="display:none;font-family:'Inter',sans-serif;font-size:0.9375rem;color:#00FFA3;font-weight:600;margin-top:0.75rem;"
+      >
+        Thanks! Check your inbox.
+      </p>
+    </div>
+
+    <!-- Micro trust signals -->
+    <div style="display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;margin-top:1.75rem;">
+      <span style="font-family:'Inter',sans-serif;font-size:0.75rem;color:#8B8B9A;">No spam</span>
+      <span style="font-family:'Inter',sans-serif;font-size:0.75rem;color:#8B8B9A;">&#183;</span>
+      <span style="font-family:'Inter',sans-serif;font-size:0.75rem;color:#8B8B9A;">Unsubscribe anytime</span>
+      <span style="font-family:'Inter',sans-serif;font-size:0.75rem;color:#8B8B9A;">&#183;</span>
+      <span style="font-family:'Inter',sans-serif;font-size:0.75rem;color:#8B8B9A;">Spec updates only</span>
+    </div>
   </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="background:#0A0A0F;border-top:1px solid #1F1F2A;">
+  <!-- Gradient separator line -->
+  <div style="height:1px;background:linear-gradient(90deg,transparent 0%,#00F0FF 50%,transparent 100%);"></div>
+
+  <div style="max-width:72rem;margin:0 auto;padding:2rem 1.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;">
+    <!-- Left -->
+    <div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.125rem;color:#F5F5F7;margin-bottom:0.375rem;">
+        grok-install
+      </div>
+      <div style="font-family:'Inter',sans-serif;font-size:0.8125rem;color:#8B8B9A;line-height:1.6;">
+        Apache 2.0 &middot; Built by <a href="https://x.com/JanSol0s" target="_blank" rel="noopener noreferrer" style="color:#8B8B9A;text-decoration:none;transition:color 0.2s;" class="footer-link">@JanSol0s</a> &middot; Part of AgentMindCloud
+      </div>
+    </div>
+
+    <!-- Right links -->
+    <nav style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;">
+      <a href="https://github.com/AgentMindCloud/grok-install" target="_blank" rel="noopener noreferrer" class="footer-link" style="font-family:'Inter',sans-serif;font-size:0.9375rem;color:#8B8B9A;text-decoration:none;transition:color 0.2s;">GitHub</a>
+      <a href="https://x.com/JanSol0s" target="_blank" rel="noopener noreferrer" class="footer-link" style="font-family:'Inter',sans-serif;font-size:0.9375rem;color:#8B8B9A;text-decoration:none;transition:color 0.2s;">X</a>
+      <a href="spec/v2.13/spec.md" class="footer-link" style="font-family:'Inter',sans-serif;font-size:0.9375rem;color:#8B8B9A;text-decoration:none;transition:color 0.2s;">Spec</a>
+      <a href="#" class="footer-link" style="font-family:'Inter',sans-serif;font-size:0.9375rem;color:#8B8B9A;text-decoration:none;transition:color 0.2s;">Docs</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- ============================================================
+     RESPONSIVE STYLES
+     ============================================================ -->
+<style>
+  @media (max-width: 768px) {
+    .safety-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .testimonial-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .safety-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* Card hover states */
+  .safety-card:hover {
+    border-color: rgba(0, 240, 255, 0.4) !important;
+    transform: translateY(-2px);
+  }
+
+  /* Stack pill hover */
+  .stack-pill:hover {
+    border-color: rgba(0, 240, 255, 0.4) !important;
+    color: #F5F5F7 !important;
+    background: rgba(0, 240, 255, 0.05) !important;
+  }
+
+  /* CTA hover */
+  .cta-primary:hover {
+    box-shadow: 0 0 48px rgba(0, 240, 255, 0.55), 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    transform: translateY(-1px);
+  }
+  .cta-secondary:hover {
+    background: rgba(0, 240, 255, 0.06) !important;
+    border-color: rgba(0, 240, 255, 0.7) !important;
+  }
+
+  /* Newsletter input focus */
+  .newsletter-input:focus {
+    border-color: rgba(0, 240, 255, 0.5) !important;
+  }
+  .newsletter-btn:hover {
+    background: #6d28d9 !important;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+  }
+
+  /* Footer / inline links */
+  .footer-link:hover {
+    color: #00F0FF !important;
+  }
+
+  /* Compare table row hover */
+  .compare-row:hover td {
+    background: rgba(0, 240, 255, 0.04) !important;
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .safety-icon,
+    .safety-card,
+    .stack-pill,
+    .cta-primary,
+    .cta-secondary,
+    .newsletter-btn,
+    .footer-link {
+      transition: none !important;
+    }
+    .safety-icon {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<!-- ============================================================
+     VANILLA JS — IntersectionObserver + newsletter
+     ============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── 1. Safety icon scroll-reveal ─────────────────────────── */
+  var prefersReduced = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReduced && 'IntersectionObserver' in window) {
+    var iconObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          // Stagger each card's icon by its index
+          var cards = Array.prototype.slice.call(
+            document.querySelectorAll('.safety-card')
+          );
+          var cardEl = el.closest('.safety-card');
+          var delay = cardEl ? cards.indexOf(cardEl) * 80 : 0;
+
+          setTimeout(function () {
+            el.style.opacity = '1';
+            el.style.transform = 'scale(1)';
+          }, delay);
+
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.safety-icon').forEach(function (icon) {
+      iconObserver.observe(icon);
+    });
+  } else {
+    // Immediately show icons for reduced-motion or unsupported browsers
+    document.querySelectorAll('.safety-icon').forEach(function (icon) {
+      icon.style.opacity = '1';
+      icon.style.transform = 'scale(1)';
+    });
+  }
+
+  /* ── 2. Generic section fade-in on scroll ─────────────────── */
+  if (!prefersReduced && 'IntersectionObserver' in window) {
+    var sectionIds = ['safety', 'compare', 'works-with', 'testimonials', 'install'];
+    var revealObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+
+    sectionIds.forEach(function (id) {
+      var sec = document.getElementById(id);
+      if (sec) {
+        sec.style.opacity = '0';
+        sec.style.transform = 'translateY(24px)';
+        sec.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        revealObserver.observe(sec);
+      }
+    });
+  }
+
+  /* ── 3. Newsletter submit handler ─────────────────────────── */
+  window.handleNewsletterSubmit = function (e) {
+    e.preventDefault();
+    var form = document.getElementById('newsletter-form');
+    var confirm = document.getElementById('newsletter-confirm');
+    if (form) form.style.display = 'none';
+    if (confirm) confirm.style.display = 'block';
+  };
+
+  /* ── 4. Compare table row hover (JS fallback for specificity) */
+  document.querySelectorAll('.compare-row').forEach(function (row) {
+    var cells = row.querySelectorAll('td');
+    var origBg = row.style.background;
+
+    row.addEventListener('mouseenter', function () {
+      cells.forEach(function (td) {
+        td.style.background = 'rgba(0,240,255,0.04)';
+      });
+    });
+    row.addEventListener('mouseleave', function () {
+      cells.forEach(function (td) {
+        td.style.background = '';
+      });
+    });
+  });
+})();
+</script>
+
+
+  <script>
+  (function () {
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.length < 2) return;
+      var target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+      if (target.id) history.replaceState(null, '', '#' + target.id);
+    });
+  })();
+  </script>
 
 </body>
 </html>

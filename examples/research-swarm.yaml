@@ -1,0 +1,163 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json
+# Research swarm — 3-agent team: Researcher + Critic + Publisher
+# grok-install v2.13
+
+version: "2.13"
+name: "Research Swarm"
+description: "Three-agent team that researches a topic, critiques the draft, then publishes a thread on X"
+repository: "https://github.com/you/research-swarm"
+category: "research"
+tags: ["multi-agent", "research", "swarm", "x-native"]
+ecosystem: ["grok", "x"]
+
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
+
+intelligence_layer:
+  function_calling: true
+  real_time_tools: true
+  multi_agent_swarm: true
+  grok_coordinates: true
+  ai_suggested_teams: true
+
+# This YAML defines the Publisher agent — the orchestrator of the swarm.
+# Researcher and Critic are sibling repos that also contain grok-install.yaml.
+orchestration:
+  enabled: true
+  role: "publisher"
+  can_trigger: ["researcher", "critic"]
+  can_be_triggered_by: []
+  ai_suggested_patterns: true
+  triggers:
+    - event: "user_command"
+      action: "start_research_pipeline"
+      target_agents: ["researcher", "critic"]
+  safety:
+    permission_check: true
+    approval_required: true         # require human sign-off before posting the thread
+    verified_orchestration: true
+
+parallel_tool_calls: true           # researcher and critic can run concurrently
+tool_choice: "auto"
+
+tools:
+  - name: "post_thread"
+    description: "Posts a multi-tweet thread to X after human approval"
+    parameters:
+      type: "object"
+      properties:
+        tweets:
+          type: "array"
+          items:
+            type: "string"
+            maxLength: 280
+          minItems: 1
+          maxItems: 25
+        require_approval:
+          type: "boolean"
+          default: true
+      required: ["tweets"]
+    returns:
+      type: "object"
+      properties:
+        thread_url:
+          type: "string"
+        posted_at:
+          type: "string"
+          format: "date-time"
+
+  - name: "request_research"
+    description: "Sends a research task to the Researcher agent and waits for results"
+    parameters:
+      type: "object"
+      properties:
+        topic:
+          type: "string"
+        depth:
+          type: "string"
+          enum: ["quick", "standard", "deep"]
+          default: "standard"
+      required: ["topic"]
+    returns:
+      type: "object"
+      properties:
+        summary: {type: "string"}
+        sources: {type: "array", items: {type: "string"}}
+
+  - name: "request_critique"
+    description: "Sends a draft to the Critic agent and receives structured feedback"
+    parameters:
+      type: "object"
+      properties:
+        draft:
+          type: "string"
+        critique_focus:
+          type: "array"
+          items:
+            type: "string"
+            enum: ["accuracy", "tone", "clarity", "safety"]
+      required: ["draft"]
+    returns:
+      type: "object"
+      properties:
+        approved: {type: "boolean"}
+        feedback: {type: "string"}
+        revised_draft: {type: "string"}
+
+rate_limits:
+  post_thread:
+    qps: 0.1          # one thread per 10 seconds max
+    daily_cap: 5
+    burst: 1
+
+cost_limits:
+  daily_usd: 10.00    # research swarms can be token-heavy
+  per_request_usd: 0.50
+  on_limit: "notify_user"
+
+structured_output:
+  enabled: true
+  schema: "./schemas/ResearchOutput.json"
+  strict: true
+
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true
+
+x_native_runtime:
+  type: "custom"
+  permissions: ["tweet.read", "tweet.write"]
+  grok_orchestrator: true
+  one_click_x_deploy: true
+
+deployment:
+  preferred: ["railway", "docker"]
+
+on_install:
+  welcome: "Research Swarm is ready. Say 'research [topic]' to start."
+  suggested_commands:
+    - "/research <topic>"
+    - "/status"
+    - "/agents"
+
+telemetry:
+  enabled: true
+  anonymous: true
+  endpoint: "https://telemetry.grokyaml.dev/v1/events"
+  events: ["install", "run", "tool_call", "error"]
+
+promotion:
+  auto_welcome: true
+  auto_share: true
+  weekly_highlight: true
+  builder_credits: "@you"
+
+credits:
+  standard: "grok-install"
+  version: "2.13"
+  url: "https://github.com/AgentMindCloud/grok-install"

@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json
+# Minimal valid grok-install.yaml — v2.13
+# Copy this to your repo root and fill in your details.
+
+version: "2.13"
+name: "My Agent"
+description: "Does something useful on X"
+
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"      # this env var is requested privately during install
+
+tools:
+  - name: "do_thing"
+    description: "Does the thing with the given input"
+    parameters:
+      type: "object"
+      properties:
+        input:
+          type: "string"
+      required: ["input"]
+    returns:
+      type: "object"
+      properties:
+        result:
+          type: "string"
+
+safety:
+  pre_install_scan: true            # run automated safety scan before any keys are requested
+  minimum_keys_only: true           # only request secrets this agent actually needs

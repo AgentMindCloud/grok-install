@@ -1,0 +1,112 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json
+# Production-ready X reply bot — grok-install v2.13
+
+version: "2.13"
+name: "X Reply Bot"
+description: "Monitors mentions and replies intelligently using Grok"
+repository: "https://github.com/you/x-reply-bot"
+category: "x-native"
+tags: ["reply-bot", "x-native", "automation"]
+ecosystem: ["grok", "x"]
+
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
+
+# Declare every X API permission this agent needs — no more, no less
+x_native_runtime:
+  type: "reply-bot"
+  permissions: ["tweet.read", "tweet.write"]
+  grok_orchestrator: true
+  one_click_x_deploy: true
+
+# Full tool schemas — required in v2.13
+tools:
+  - name: "reply_to_mention"
+    description: "Replies to a specific X mention after reading conversation context"
+    parameters:
+      type: "object"
+      properties:
+        mention_id:
+          type: "string"
+          description: "X post ID of the mention to reply to"
+        reply_text:
+          type: "string"
+          maxLength: 280
+          description: "Text of the reply"
+        require_approval:
+          type: "boolean"
+          default: false
+          description: "Ask the bot owner before posting"
+      required: ["mention_id", "reply_text"]
+    returns:
+      type: "object"
+      properties:
+        reply_url:
+          type: "string"
+        posted_at:
+          type: "string"
+          format: "date-time"
+
+  - name: "get_mentions"
+    description: "Fetches unread mentions since the last poll"
+    parameters:
+      type: "object"
+      properties:
+        since_id:
+          type: "string"
+          description: "Only return mentions newer than this post ID"
+      required: []
+    returns:
+      type: "object"
+      properties:
+        mentions:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              id: {type: "string"}
+              text: {type: "string"}
+              author: {type: "string"}
+
+# Rate limit X posting — be a good citizen
+rate_limits:
+  reply_to_mention:
+    qps: 0.5        # max 1 reply per 2 seconds
+    daily_cap: 200  # hard stop at 200 replies per day
+    burst: 2
+
+# Hard cost ceiling — never spend more than this per day
+cost_limits:
+  daily_usd: 3.00
+  per_request_usd: 0.05
+  on_limit: "block"
+
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true
+
+deployment:
+  preferred: ["railway", "vercel", "docker"]
+
+on_install:
+  welcome: "X Reply Bot is live. Monitoring mentions now."
+  suggested_commands:
+    - "/status"
+    - "/pause"
+    - "/resume"
+
+promotion:
+  auto_welcome: true
+  auto_share: true
+  weekly_highlight: true
+  builder_credits: "@you"
+
+credits:
+  standard: "grok-install"
+  version: "2.13"
+  url: "https://github.com/AgentMindCloud/grok-install"

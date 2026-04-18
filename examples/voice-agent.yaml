@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json
+# Voice-enabled agent — grok-install v2.13
+# Responds to voice commands on X and mobile
+
+version: "2.13"
+name: "Voice Agent"
+description: "Responds to natural voice commands via Grok on X and mobile"
+repository: "https://github.com/you/voice-agent"
+category: "voice"
+tags: ["voice", "mobile", "x-native", "accessibility"]
+ecosystem: ["grok", "x"]
+
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
+
+x_native_runtime:
+  type: "custom"
+  permissions: ["tweet.read", "tweet.write", "dm.read"]
+  grok_orchestrator: true
+  one_click_x_deploy: true
+
+tool_choice: "auto"
+parallel_tool_calls: false          # voice commands are sequential by nature
+
+tools:
+  - name: "execute_voice_command"
+    description: "Interprets and executes a natural-language voice command"
+    parameters:
+      type: "object"
+      properties:
+        transcript:
+          type: "string"
+          description: "Raw transcript of the voice input"
+        context:
+          type: "string"
+          description: "Previous conversation context for disambiguation"
+      required: ["transcript"]
+    returns:
+      type: "object"
+      properties:
+        action: {type: "string"}
+        result: {type: "string"}
+        spoken_response: {type: "string"}
+
+  - name: "post_voice_reply"
+    description: "Posts a reply composed from a voice command transcript"
+    parameters:
+      type: "object"
+      properties:
+        mention_id: {type: "string"}
+        spoken_reply: {type: "string", maxLength: 280}
+        require_approval: {type: "boolean", default: true}
+      required: ["mention_id", "spoken_reply"]
+    returns:
+      type: "object"
+      properties:
+        reply_url: {type: "string"}
+        posted_at: {type: "string", format: "date-time"}
+
+  - name: "get_agent_status"
+    description: "Returns a voice-readable status summary of the agent"
+    parameters:
+      type: "object"
+      properties: {}
+      required: []
+    returns:
+      type: "object"
+      properties:
+        spoken_summary: {type: "string"}
+        stats: {type: "object"}
+
+rate_limits:
+  execute_voice_command:
+    qps: 1
+    daily_cap: 1000
+    burst: 2
+  post_voice_reply:
+    qps: 0.5
+    daily_cap: 100
+    burst: 1
+
+cost_limits:
+  daily_usd: 5.00
+  per_request_usd: 0.02
+  on_limit: "warn"
+
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true
+
+deployment:
+  preferred: ["vercel", "railway"]
+
+on_install:
+  welcome: "Voice Agent is ready. Try: 'Hey Grok, show me my agents'"
+  suggested_commands:
+    - "Hey Grok, show me my agents"
+    - "Hey Grok, what is my status?"
+    - "Hey Grok, pause this agent"
+
+promotion:
+  auto_welcome: true
+  auto_share: true
+  weekly_highlight: false
+  builder_credits: "@you"
+
+credits:
+  standard: "grok-install"
+  version: "2.13"
+  url: "https://github.com/AgentMindCloud/grok-install"

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="grok-install — the universal standard for Grok-native agents">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0F"/>
+      <stop offset="100%" stop-color="#13131A"/>
+    </linearGradient>
+    <linearGradient id="text" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00F0FF"/>
+      <stop offset="60%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="rgba(0,240,255,0.18)"/>
+      <stop offset="60%" stop-color="rgba(124,58,237,0.06)"/>
+      <stop offset="100%" stop-color="rgba(10,10,15,0)"/>
+    </radialGradient>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+
+  <rect x="0" y="0" width="1200" height="3" fill="url(#text)" opacity="0.85"/>
+  <rect x="0" y="627" width="1200" height="3" fill="url(#text)" opacity="0.55"/>
+
+  <g transform="translate(96, 138)" filter="url(#glow)">
+    <path d="M 0 0 L 0 90 L 22 90" stroke="#00F0FF" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 70 0 L 70 90 L 48 90" stroke="#7C3AED" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="35" cy="45" r="7" fill="#00F0FF" opacity="0.95"/>
+  </g>
+
+  <text x="220" y="216"
+    font-family="'Space Grotesk', 'Inter', sans-serif"
+    font-size="120"
+    font-weight="900"
+    letter-spacing="-6"
+    fill="url(#text)"
+    filter="url(#glow)">grok-install</text>
+
+  <text x="220" y="288"
+    font-family="'Inter', sans-serif"
+    font-size="34"
+    font-weight="500"
+    fill="#F5F5F7"
+    letter-spacing="-0.5">The universal standard for Grok-native agents</text>
+
+  <text x="220" y="338"
+    font-family="'Inter', sans-serif"
+    font-size="22"
+    font-weight="400"
+    fill="#8B8B9A">One YAML file. One command. Your agent is live on X.</text>
+
+  <g transform="translate(96, 412)">
+    <rect width="1008" height="142" rx="18" fill="#0F0F15" stroke="#1F1F2A" stroke-width="1.5"/>
+    <circle cx="32" cy="34" r="7"  fill="#FF5F56"/>
+    <circle cx="56" cy="34" r="7"  fill="#FFBD2E"/>
+    <circle cx="80" cy="34" r="7"  fill="#27C93F"/>
+    <text x="112" y="40" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8B8B9A">zsh — grok-install</text>
+    <text x="32" y="86" font-family="'JetBrains Mono', monospace" font-size="22" fill="#00F0FF">$</text>
+    <text x="58" y="86" font-family="'JetBrains Mono', monospace" font-size="22" fill="#F5F5F7">pip install grok-install &amp;&amp; grok-install init my-bot</text>
+    <text x="32" y="120" font-family="'JetBrains Mono', monospace" font-size="20" fill="#00FFA3">✓ Agent live — monitoring @mentions</text>
+  </g>
+
+  <g transform="translate(96, 580)">
+    <rect width="160" height="34" rx="17" fill="rgba(0,240,255,0.1)" stroke="rgba(0,240,255,0.3)" stroke-width="1"/>
+    <text x="80" y="22" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#00F0FF">spec v2.13</text>
+
+    <rect x="180" width="170" height="34" rx="17" fill="rgba(0,255,163,0.08)" stroke="rgba(0,255,163,0.3)" stroke-width="1"/>
+    <text x="265" y="22" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#00FFA3">Apache 2.0</text>
+
+    <rect x="370" width="190" height="34" rx="17" fill="rgba(124,58,237,0.1)" stroke="rgba(124,58,237,0.3)" stroke-width="1"/>
+    <text x="465" y="22" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#7C3AED">xAI SDK Native</text>
+
+    <text x="1008" y="22" text-anchor="end" font-family="'Inter', sans-serif" font-size="14" fill="#8B8B9A">agentmindcloud.github.io/grok-install</text>
+  </g>
+</svg>

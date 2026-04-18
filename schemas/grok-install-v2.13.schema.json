@@ -1,0 +1,299 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json",
+  "title": "grok-install v2.13",
+  "description": "Schema for grok-install.yaml agent definition files",
+  "type": "object",
+  "required": ["version", "name", "description"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": ["2.13"],
+      "description": "Spec version — must be exactly '2.13'"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "Human-readable agent name"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "One-sentence description of what the agent does"
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri",
+      "description": "GitHub repo URL for this agent"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["x-native", "telegram", "discord", "research", "voice", "custom"],
+      "description": "Primary category for marketplace filtering"
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Kebab-case tags for discovery"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "ecosystem": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "update_strategy": {
+      "type": "string",
+      "enum": ["semver", "always"],
+      "default": "semver"
+    },
+
+    "tools": {
+      "type": "array",
+      "description": "Full tool declarations with JSON Schema parameters (required in v2.13)",
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "parameters", "returns"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "parameters": {
+            "type": "object",
+            "required": ["type", "properties"],
+            "properties": {
+              "type": {"type": "string", "enum": ["object"]},
+              "properties": {"type": "object"},
+              "required": {"type": "array", "items": {"type": "string"}}
+            }
+          },
+          "returns": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {"type": "string"},
+              "properties": {"type": "object"}
+            }
+          }
+        }
+      }
+    },
+
+    "structured_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "schema": {"type": "string", "description": "Path to JSON Schema file (relative to repo root)"},
+        "strict": {"type": "boolean", "default": true}
+      }
+    },
+
+    "parallel_tool_calls": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable concurrent tool execution"
+    },
+
+    "tool_choice": {
+      "description": "Tool selection strategy: 'auto', 'required', or a specific tool name object",
+      "oneOf": [
+        {"type": "string", "enum": ["auto", "required"]},
+        {
+          "type": "object",
+          "required": ["name"],
+          "additionalProperties": false,
+          "properties": {
+            "name": {"type": "string"}
+          }
+        }
+      ]
+    },
+
+    "rate_limits": {
+      "type": "object",
+      "description": "Per-tool rate limiting (keys are tool names)",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "qps": {"type": "number", "minimum": 0, "description": "Max requests per second"},
+          "daily_cap": {"type": "integer", "minimum": 0, "description": "Max calls per UTC day"},
+          "burst": {"type": "integer", "minimum": 1, "description": "Max simultaneous in-flight calls"}
+        }
+      }
+    },
+
+    "cost_limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "daily_usd": {"type": "number", "minimum": 0},
+        "monthly_usd": {"type": "number", "minimum": 0},
+        "per_request_usd": {"type": "number", "minimum": 0},
+        "on_limit": {"type": "string", "enum": ["block", "warn", "notify_user"]}
+      }
+    },
+
+    "telemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {"type": "boolean", "default": false},
+        "anonymous": {"type": "boolean", "default": true},
+        "endpoint": {"type": "string", "format": "uri"},
+        "events": {
+          "type": "array",
+          "items": {"type": "string", "enum": ["install", "run", "tool_call", "error"]}
+        }
+      }
+    },
+
+    "llm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": {"type": "string", "enum": ["xai", "openai", "anthropic", "ollama", "custom"]},
+        "model": {"type": "string"},
+        "api_key_env": {"type": "string"}
+      }
+    },
+
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pre_install_scan": {"type": "boolean"},
+        "verified_by_grok": {"type": "boolean"},
+        "scan_summary_visible": {"type": "boolean"},
+        "minimum_keys_only": {"type": "boolean"}
+      }
+    },
+
+    "x_native_runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "enum": ["reply-bot", "dm-handler", "trend-monitor", "custom"]},
+        "permissions": {"type": "array", "items": {"type": "string"}},
+        "grok_orchestrator": {"type": "boolean"},
+        "one_click_x_deploy": {"type": "boolean"}
+      }
+    },
+
+    "intelligence_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "function_calling": {"type": "boolean"},
+        "real_time_tools": {"type": "boolean"},
+        "multi_agent_swarm": {"type": "boolean"},
+        "grok_coordinates": {"type": "boolean"},
+        "ai_suggested_teams": {"type": "boolean"}
+      }
+    },
+
+    "reputation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "public_score": {"type": "boolean"},
+        "verified_by_grok": {"type": "boolean"},
+        "scan_history": {"type": "boolean"},
+        "automated_recommendations": {"type": "boolean"}
+      }
+    },
+
+    "orchestration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "role": {"type": "string"},
+        "can_trigger": {"type": "array", "items": {"type": "string"}},
+        "can_be_triggered_by": {"type": "array", "items": {"type": "string"}},
+        "visual_builder": {"type": "boolean"},
+        "ai_suggested_patterns": {"type": "boolean"},
+        "triggers": {"type": "array", "items": {"type": "object"}},
+        "safety": {
+          "type": "object",
+          "properties": {
+            "permission_check": {"type": "boolean"},
+            "approval_required": {"type": "boolean"},
+            "verified_orchestration": {"type": "boolean"}
+          }
+        }
+      }
+    },
+
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preferred": {"type": "array", "items": {"type": "string"}},
+        "targets": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+
+    "on_install": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "welcome": {"type": "string"},
+        "suggested_commands": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "auto_welcome": {"type": "boolean"},
+        "auto_share": {"type": "boolean"},
+        "weekly_highlight": {"type": "boolean"},
+        "featured": {"type": "boolean"},
+        "builder_credits": {"type": "string"},
+        "support_link": {"type": "string", "format": "uri"}
+      }
+    },
+
+    "credits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "standard": {"type": "string"},
+        "author": {"type": "string"},
+        "url": {"type": "string", "format": "uri"},
+        "version": {"type": "string"},
+        "message": {"type": "string"}
+      }
+    }
+  },
+
+  "examples": [
+    {
+      "version": "2.13",
+      "name": "My Reply Bot",
+      "description": "Replies to X mentions intelligently using Grok",
+      "llm": {"provider": "xai", "model": "grok-4", "api_key_env": "GROK_API_KEY"},
+      "tools": [
+        {
+          "name": "reply_to_mention",
+          "description": "Replies to a mention",
+          "parameters": {
+            "type": "object",
+            "properties": {"mention_id": {"type": "string"}, "reply_text": {"type": "string"}},
+            "required": ["mention_id", "reply_text"]
+          },
+          "returns": {
+            "type": "object",
+            "properties": {"reply_url": {"type": "string"}}
+          }
+        }
+      ]
+    }
+  ]
+}
