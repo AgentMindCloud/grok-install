@@ -1917,13 +1917,21 @@ BLOCKED = [<span style="color:#00FFA3;">"deepfake"</span>, <span style="color:#0
       setStatus('loading', 'loading deps…');
       panel.innerHTML = '<div style="color:#8B8B9A;">Loading js-yaml + Ajv…</div>';
 
+      // Monaco's loader is RequireJS — it sets window.define with define.amd,
+      // which makes UMD bundles (Ajv, js-yaml) register via define() instead
+      // of setting window globals. Stash define while we load them.
+      var savedDefine = window.define;
+      try { window.define = undefined; } catch (e) {}
+      function restoreDefine() { try { window.define = savedDefine; } catch (e) {} }
+
       Promise.all([
         loadScript('https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js'),
         loadScript('https://cdnjs.cloudflare.com/ajax/libs/ajv/8.12.0/ajv7.bundle.min.js'),
         fetchSchema()
       ]).then(function (results) {
+        restoreDefine();
         jsyaml = window.jsyaml;
-        var Ajv = window.ajv7 ? window.ajv7.default : (window.Ajv7 || window.Ajv);
+        var Ajv = window.ajv7 ? (typeof window.ajv7 === 'function' ? window.ajv7 : window.ajv7.default) : (window.Ajv7 || window.Ajv);
         if (!Ajv) throw new Error('Ajv not available');
         ajv = new Ajv({ strict: false, allErrors: true });
         schema = results[2];
@@ -1936,8 +1944,9 @@ BLOCKED = [<span style="color:#00FFA3;">"deepfake"</span>, <span style="color:#0
         });
         runValidation(editor.getValue());
       }).catch(function (err) {
+        restoreDefine();
         setStatus('invalid', 'load error');
-        panel.innerHTML = '<div class="vd-err"><strong>Could not load validator</strong><br>' + escapeHtml(err.message) + '<br><br><span style="color:#8B8B9A;">Open this page over HTTP (not file://) to load the schema.</span></div>';
+        panel.innerHTML = '<div class="vd-err"><strong>Could not load validator</strong><br>' + escapeHtml(err.message) + '</div>';
       });
     }
 
