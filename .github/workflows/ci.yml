@@ -65,18 +65,3 @@ jobs:
       - uses: DavidAnson/markdownlint-cli2-action@v16
         with:
           globs: '**/*.md'
-          config: |
-            {
-              "MD001": false,
-              "MD013": false,
-              "MD022": false,
-              "MD026": false,
-              "MD031": false,
-              "MD032": false,
-              "MD033": false,
-              "MD034": false,
-              "MD036": false,
-              "MD040": false,
-              "MD041": false,
-              "MD060": false
-            }
