@@ -1,0 +1,72 @@
+---
+name: Visual feature request (v2.14)
+description: Propose a new visual field or refinement for the v2.14 visuals block
+title: "[visuals] "
+labels: ["enhancement", "visuals", "v2.14"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to propose a new field under `visuals` or a refinement to
+        an existing one. For non-visual spec changes, file a `spec-bug` or open
+        a Discussion first.
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Visual surface
+      options:
+        - preview_card
+        - install_flow
+        - demo_media
+        - post_install.mini_dashboard
+        - theme
+        - accessibility
+        - new top-level visuals field
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What problem does this solve? Who benefits? How often does it matter?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-yaml
+    attributes:
+      label: Proposed YAML block
+      description: Paste the exact YAML you want to write in a grok-install.yaml.
+      render: yaml
+    validations:
+      required: true
+  - type: textarea
+    id: schema-impact
+    attributes:
+      label: Schema impact
+      description: |
+        How should schemas/v2.14/schema.json change? Include the property name,
+        type, enums, and any validators (pattern, min/max, required).
+    validations:
+      required: true
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility consideration
+      description: |
+        How does this field behave with reduce-motion, high-contrast, alt text,
+        and keyboard navigation?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: This is additive — it does not break any v2.14 agent.
+          required: true
+        - label: I have read docs/v2.14/visuals.md.
+          required: true

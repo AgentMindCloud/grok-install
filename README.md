@@ -1,4 +1,8 @@
 <div align="center">
+  <img src="assets/hero-v2.14.svg" alt="grok-install v2.14 — dark-premium install surface" width="100%">
+
+  <br/>
+
   <img src="assets/logo-dark.svg" alt="grok-install" height="80">
 
   <br/><br/>
@@ -8,11 +12,12 @@
   One YAML file. One command. Your agent is live on X.
 
   [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-00F0FF?style=flat-square)](LICENSE)
-  [![Spec: v2.13](https://img.shields.io/badge/Spec-v2.13-7C3AED?style=flat-square)](spec/v2.13/spec.md)
+  [![Spec: v2.14](https://img.shields.io/badge/Spec-v2.14-7C3AED?style=flat-square)](spec/v2.14/spec.md)
   [![xAI SDK Compatible](https://img.shields.io/badge/xAI_SDK-Compatible-00FFA3?style=flat-square)](https://github.com/xai-org/xai-sdk)
   [![Grok-Native](https://img.shields.io/badge/Grok--Native-Certified-00F0FF?style=flat-square&logo=x&logoColor=white)](https://agentmindcloud.github.io/grok-install)
+  [![Validate live](https://img.shields.io/badge/Validate-live-00FF9D?style=flat-square)](https://agentmindcloud.github.io/grok-install#validate)
 
-  [**Quickstart**](#60-second-quickstart) · [**Spec**](spec/v2.13/spec.md) · [**Gallery**](https://agentmindcloud.github.io/grok-install) · [**Examples**](examples/) · [**CLI**](https://github.com/agentmindcloud/grok-install-cli)
+  [**Quickstart**](#60-second-quickstart) · [**Spec v2.14**](spec/v2.14/spec.md) · [**What's new**](#whats-new-in-v214) · [**Gallery**](https://agentmindcloud.github.io/grok-install) · [**Examples**](examples/) · [**CLI**](https://github.com/agentmindcloud/grok-install-cli)
 </div>
 
 ---
@@ -86,9 +91,9 @@ grok-install.yaml
 └── promotion (auto_welcome, auto_share, ...)
 ```
 
-Full spec: [spec/v2.13/spec.md](spec/v2.13/spec.md)
+Full spec: [spec/v2.14/spec.md](spec/v2.14/spec.md) (v2.13 still at [spec/v2.13/spec.md](spec/v2.13/spec.md))
 
-Validate your YAML live: [grokyaml.dev](https://agentmindcloud.github.io/grok-install)
+**Validate your YAML live → [agentmindcloud.github.io/grok-install#validate](https://agentmindcloud.github.io/grok-install#validate)**
 
 ---
 
@@ -163,22 +168,48 @@ Only green-scan agents earn the **Grok-Native Certified** badge.
 
 ---
 
-## Migrating from v2.12
+## What's new in v2.14
 
-The only breaking change is tool declarations — name-only syntax is gone. See the
-[v2.12 → v2.13 migration guide](docs/migration/v2.12-to-v2.13.md) or run:
+v2.14 is **additive** — zero breaking changes. It introduces the optional
+`visuals` block: a declarative way to ship a branded, dark-premium install
+surface without custom design work.
+
+| Field | What it does |
+|---|---|
+| `visuals.accent_color` | Hex color for strokes, focus rings, CTA fills |
+| `visuals.preview_card.style` | `futuristic`, `premium`, or `minimal` |
+| `visuals.install_flow` | Animated step track for the install modal |
+| `visuals.demo_media` | Attach a demo asset or auto-generate one |
+| `visuals.post_install.mini_dashboard` | Animated status widget, haptics, a11y |
+| `visuals.theme.auto_adapt` | Auto light/dark swap on the gallery |
+| `visuals.accessibility.alt_text_template` | Alt text for every rendered surface |
+
+- Full reference: [`docs/v2.14/visuals.md`](docs/v2.14/visuals.md)
+- Flagship example: [`examples/janvisuals/grok-install.yaml`](examples/janvisuals/grok-install.yaml)
+- Migration notes: [`docs/migration/v2.13-to-v2.14.md`](docs/migration/v2.13-to-v2.14.md)
+
+---
+
+## Migrating from v2.12 / v2.13
+
+- **v2.13 → v2.14** is additive, no migration required. See the
+  [v2.13 → v2.14 guide](docs/migration/v2.13-to-v2.14.md).
+- **v2.12 → v2.13** has one breaking change (tool declarations require full
+  JSON Schema). See the [v2.12 → v2.13 guide](docs/migration/v2.12-to-v2.13.md) or run:
 
 ```bash
 grok-install migrate --from 2.12 --to 2.13
+grok-install migrate --from 2.13 --to 2.14
 ```
 
 ---
 
-## Featured In
+## Community & Calls to Action
 
-- Coming soon: docs.x.ai community integrations
-- Coming soon: Show HN feature
-- Coming soon: xAI Community Spotlight
+- [**Submit your agent**](https://github.com/AgentMindCloud/grok-install/issues/new?template=agent-submission.yml) to the featured gallery.
+- [**Join the weekly spec review**](https://github.com/AgentMindCloud/grok-install/discussions) in GitHub Discussions.
+- [**Validate your YAML live**](https://agentmindcloud.github.io/grok-install#validate) in the browser.
+- [**Sponsor the project**](https://github.com/sponsors/JanSol0s) to fund the open standard.
 
 ---
 

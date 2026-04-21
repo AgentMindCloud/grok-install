@@ -1,0 +1,88 @@
+---
+name: anti-slop
+
+"on":
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Load slop patterns
+        id: patterns
+        run: |
+          cat > /tmp/slop-patterns.txt <<'PATTERNS'
+          as an ai language model
+          i cannot fulfill
+          lorem ipsum
+          placeholder placeholder
+          TODO TODO TODO
+          \\.\\.\\.and so on
+          certainly! here is
+          here is the complete
+          PATTERNS
+          echo "pattern_file=/tmp/slop-patterns.txt" >> "$GITHUB_OUTPUT"
+
+      - name: Scan PR diff for low-quality markers
+        id: scan
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          git diff --no-color "$BASE" "$HEAD" > /tmp/pr.diff || true
+          HITS=0
+          REPORT=""
+          while IFS= read -r pat; do
+            [ -z "$pat" ] && continue
+            COUNT=$(grep -ciE "$pat" /tmp/pr.diff || true)
+            if [ "$COUNT" -gt 0 ]; then
+              HITS=$((HITS + COUNT))
+              REPORT="${REPORT}- \`${pat}\` — ${COUNT} hit(s)\n"
+            fi
+          done < "${{ steps.patterns.outputs.pattern_file }}"
+
+          EMOJI_RUNS=$(grep -cE '([[:space:]]|^)([^[:alnum:][:space:]]{3,})' /tmp/pr.diff || true)
+          if [ "$EMOJI_RUNS" -gt 10 ]; then
+            HITS=$((HITS + 1))
+            REPORT="${REPORT}- excessive emoji/symbol runs — ${EMOJI_RUNS} lines\n"
+          fi
+
+          LOREM=$(grep -ciE '\\blorem\\b.*\\bipsum\\b' /tmp/pr.diff || true)
+          if [ "$LOREM" -gt 0 ]; then
+            HITS=$((HITS + 1))
+            REPORT="${REPORT}- placeholder filler text detected — ${LOREM} line(s)\n"
+          fi
+
+          {
+            echo "hits=$HITS"
+            echo 'report<<EOF'
+            printf '%b' "$REPORT"
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR if slop detected
+        if: steps.scan.outputs.hits != '0'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **anti-slop check** flagged ${{ steps.scan.outputs.hits }} marker(s):
+
+            ${{ steps.scan.outputs.report }}
+
+            These patterns often indicate low-effort AI output. Please review
+            and remove or justify each hit before merge. This check is
+            advisory — it does not block the PR.
+
+      - name: Summary
+        run: |
+          echo "Slop hits: ${{ steps.scan.outputs.hits }}"
+          echo "Report: ${{ steps.scan.outputs.report }}"

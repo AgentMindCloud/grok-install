@@ -1,0 +1,61 @@
+---
+name: validate
+
+"on":
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  yaml-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint YAML files
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: '.'
+          config_file: .yamllint.yml
+
+  schema-v2-13:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install ajv
+        run: npm install -g ajv-cli ajv-formats js-yaml
+      - name: Validate flat examples against v2.13 schema (back-compat)
+        run: |
+          for f in examples/*.yaml; do
+            echo "Validating $f against v2.13 schema..."
+            ajv validate \
+              -s schemas/grok-install-v2.13.schema.json \
+              -d "$f" \
+              --spec=draft7 -c ajv-formats
+          done
+
+  schema-v2-14:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install ajv
+        run: npm install -g ajv-cli ajv-formats js-yaml
+      - name: Validate v2.14 flagship example
+        run: |
+          ajv validate \
+            -s schemas/v2.14/schema.json \
+            -d examples/janvisuals/grok-install.yaml \
+            --spec=draft2020 -c ajv-formats
+
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: '**/*.md'

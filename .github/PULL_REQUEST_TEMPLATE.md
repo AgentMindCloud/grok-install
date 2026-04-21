@@ -6,21 +6,26 @@
 
 - [ ] Bug fix (non-breaking)
 - [ ] New feature / enhancement (non-breaking)
-- [ ] Breaking change (`feat!:` or `fix!:` prefix in commit)
-- [ ] Spec change (requires accepted RFC issue)
+- [ ] Breaking change (`feat!:` or `fix!:` prefix in commit — requires accepted RFC)
+- [ ] Spec change (v2.14 additive only — breaking changes require RFC)
+- [ ] Visuals field addition or refinement (v2.14 visuals block)
 - [ ] Documentation / examples only
-- [ ] CI / tooling
+- [ ] CI / tooling / hygiene
 
 ## Checklist
 
-- [ ] Spec changes documented in `spec/v2.XX/spec.md`
+- [ ] Spec changes documented under `spec/v2.14/spec.md`
+- [ ] JSON Schema updated (`schemas/v2.14/schema.json`) and is Draft 2020-12 valid
+- [ ] Back-compat preserved: every v2.13 example still validates under v2.14
 - [ ] Examples updated to reflect any new fields
-- [ ] JSON Schema updated (`schemas/grok-install-v2.13.schema.json`)
+- [ ] Visuals fields documented in `docs/v2.14/visuals.md`
+- [ ] Migration notes updated in `docs/migration/v2.13-to-v2.14.md` if relevant
 - [ ] `CHANGELOG.md` entry added under `## [Unreleased]`
 - [ ] Breaking changes flagged in PR title with `!`
 - [ ] Linked to RFC issue (spec changes only): #
-- [ ] CI passes (YAML lint, schema validation, markdown lint)
-- [ ] Tested landing page locally if HTML/CSS/JS changed
+- [ ] CI passes: `validate`, `ci`, `anti-slop`, `markdown-lint`
+- [ ] Landing page smoke-tested locally if HTML/CSS/JS changed
+- [ ] Code of Conduct respected
 
 ## Related issues
 

@@ -1,0 +1,76 @@
+---
+name: Agent submission
+description: Submit an agent for the featured gallery (featured-agents.json)
+title: "[agent] "
+labels: ["agent-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting an agent to the grok-install gallery. Submissions
+        are reviewed weekly. Please make sure your repo is public and your
+        `grok-install.yaml` validates against the v2.14 schema before filing.
+  - type: input
+    id: agent-name
+    attributes:
+      label: Agent name
+      placeholder: "My Reply Bot"
+    validations:
+      required: true
+  - type: input
+    id: repo-url
+    attributes:
+      label: Repository URL
+      placeholder: "https://github.com/you/your-agent"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - x-native
+        - telegram
+        - discord
+        - research
+        - voice
+        - custom
+    validations:
+      required: true
+  - type: input
+    id: tags
+    attributes:
+      label: Tags
+      description: Comma-separated kebab-case tags.
+      placeholder: "reply-bot, beginner, v2.14"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: One-sentence description
+      description: Max 200 characters.
+    validations:
+      required: true
+  - type: input
+    id: demo-url
+    attributes:
+      label: Demo URL (optional)
+      placeholder: "https://cdn.example.com/demo.mp4"
+  - type: checkboxes
+    id: certification
+    attributes:
+      label: Certification checklist
+      options:
+        - label: The repo is public.
+          required: true
+        - label: grok-install.yaml is at the repo root.
+          required: true
+        - label: The file validates against the v2.14 schema (or v2.13 schema).
+          required: true
+        - label: safety.pre_install_scan is set to true.
+          required: true
+        - label: No hardcoded secrets in the repo.
+          required: true
+        - label: I agree to the Code of Conduct.
+          required: true

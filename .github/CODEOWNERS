@@ -1,0 +1,14 @@
+# CODEOWNERS — grok-install
+# Paths listed here auto-request review from the listed owner.
+# Last match wins; order matters.
+
+# Default fallback
+*                       @JanSol0s
+
+# Spec & schema — Jani owns the contract
+/spec/**                @JanSol0s
+/schemas/**             @JanSol0s
+
+# CI & hygiene
+/.github/workflows/**   @JanSol0s
+/.github/ISSUE_TEMPLATE/** @JanSol0s
