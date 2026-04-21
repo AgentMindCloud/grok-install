@@ -1,0 +1,133 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/v2.14/schema.json
+# Flagship v2.14 example — exercises every field in the visuals block.
+# Brand tokens: #0A0A0A (canvas), #00F0FF (primary accent), #00FF9D (secondary accent).
+
+version: "2.14"
+name: "Jan Visuals"
+description: "Flagship v2.14 reference agent that showcases the full visuals layer"
+repository: "https://github.com/AgentMindCloud/grok-install"
+category: "x-native"
+tags: ["reference", "visuals", "v2.14", "dark-premium"]
+featured: true
+ecosystem: ["grok", "x"]
+
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
+
+tools:
+  - name: "reply_to_mention"
+    description: "Replies to a specific X mention with a branded response"
+    parameters:
+      type: "object"
+      properties:
+        mention_id:
+          type: "string"
+        reply_text:
+          type: "string"
+          maxLength: 280
+      required: ["mention_id", "reply_text"]
+    returns:
+      type: "object"
+      properties:
+        reply_url:
+          type: "string"
+        posted_at:
+          type: "string"
+          format: "date-time"
+
+  - name: "render_preview_card"
+    description: "Renders the branded v2.14 preview card for the gallery"
+    parameters:
+      type: "object"
+      properties:
+        accent:
+          type: "string"
+      required: ["accent"]
+    returns:
+      type: "object"
+      properties:
+        image_url:
+          type: "string"
+
+rate_limits:
+  reply_to_mention:
+    qps: 0.5
+    daily_cap: 200
+    burst: 3
+
+cost_limits:
+  daily_usd: 2.00
+  monthly_usd: 40.00
+  per_request_usd: 0.05
+  on_limit: "block"
+
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true
+
+x_native_runtime:
+  type: "reply-bot"
+  permissions: ["tweet.read", "tweet.write"]
+  grok_orchestrator: true
+  one_click_x_deploy: true
+
+deployment:
+  preferred: ["vercel", "railway"]
+  targets:
+    - vercel
+    - railway
+
+on_install:
+  welcome: "{{name}} is live — theme locked to dark-premium."
+  suggested_commands:
+    - "/status"
+    - "/help"
+    - "/preview"
+
+promotion:
+  auto_welcome: true
+  auto_share: true
+  weekly_highlight: true
+  featured: true
+  builder_credits: "@JanSol0s"
+  support_link: "https://github.com/sponsors/JanSol0s"
+
+visuals:
+  accent_color: "#00F0FF"
+  preview_card:
+    style: "futuristic"
+    panel_count: 4
+  install_flow:
+    steps:
+      - "Scan safety"
+      - "Request keys"
+      - "Deploy agent"
+      - "Go live"
+    animation_speed: "normal"
+  demo_media:
+    type: "video"
+    url: "https://cdn.agentmindcloud.com/janvisuals/demo.mp4"
+    auto_generate: false
+  post_install:
+    mini_dashboard:
+      animations: true
+      haptics: true
+      accessibility:
+        reduce_motion_respect: true
+        high_contrast: false
+  theme:
+    auto_adapt: true
+  accessibility:
+    alt_text_template: "{{name}} — {{description}} ({{category}})"
+
+credits:
+  standard: "grok-install"
+  author: "@JanSol0s"
+  url: "https://github.com/AgentMindCloud/grok-install"
+  version: "2.14"
+  message: "Powered by grok-install open standard — v2.14 visuals"

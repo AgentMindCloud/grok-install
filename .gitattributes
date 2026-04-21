@@ -1,0 +1,19 @@
+# grok-install — .gitattributes
+# Mark generated/landing-page assets as vendored so GitHub language stats
+# reflect the actual spec + tooling source (YAML + JSON + Markdown).
+
+*.html linguist-vendored
+*.css  linguist-vendored
+
+# Enforce LF line endings across the repo for portability.
+* text=auto eol=lf
+
+# Treat binary asset types as binary (no diff, no text conversion).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.mp4 binary
+*.mov binary
+*.woff binary
+*.woff2 binary

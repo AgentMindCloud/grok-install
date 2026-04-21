@@ -1,0 +1,15 @@
+---
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question in Discussions
+    url: https://github.com/AgentMindCloud/grok-install/discussions
+    about: Questions, ideas, RFC drafts, and community chatter belong in Discussions.
+  - name: Read the v2.14 spec
+    url: https://github.com/AgentMindCloud/grok-install/blob/main/spec/v2.14/spec.md
+    about: Before filing, check that the field you want is not already specified.
+  - name: Migration guide (v2.13 → v2.14)
+    url: https://github.com/AgentMindCloud/grok-install/blob/main/docs/migration/v2.13-to-v2.14.md
+    about: v2.14 is additive — there is nothing to migrate.
+  - name: Visuals reference
+    url: https://github.com/AgentMindCloud/grok-install/blob/main/docs/v2.14/visuals.md
+    about: Full reference for the new visuals block.

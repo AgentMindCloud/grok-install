@@ -1,0 +1,72 @@
+---
+name: Spec bug
+description: Report a bug in the grok-install spec, schema, examples, or docs
+title: "[spec-bug] "
+labels: ["bug", "spec"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a spec bug. Please fill in every required field — it
+        makes triage fast and prevents back-and-forth.
+  - type: input
+    id: spec-version
+    attributes:
+      label: Spec version
+      description: Which version of the spec are you on?
+      placeholder: "2.14"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Spec document (spec/vX.XX/spec.md)
+        - JSON Schema (schemas/)
+        - Reference example (examples/)
+        - Visuals block (v2.14)
+        - Migration guide (docs/migration/)
+        - Docs site
+        - CI workflows
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly and concisely.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: yaml
+    attributes:
+      label: Minimal grok-install.yaml (if relevant)
+      render: yaml
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and did not find a duplicate.
+          required: true
+        - label: This reproduces on the latest commit of `main`.
+          required: true
+        - label: My YAML passes `yamllint -c .yamllint.yml`.
+          required: false
