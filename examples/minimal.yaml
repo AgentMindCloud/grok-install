@@ -1,6 +1,9 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json
 # Minimal valid grok-install.yaml — v2.13
+# Pinned to 2.13 as a back-compat fixture for CI; v2.14 tooling accepts it
+# unchanged (v2.14 is purely additive). For a v2.14 example see
+# examples/janvisuals/grok-install.yaml.
 # Copy this to your repo root and fill in your details.
 
 version: "2.13"

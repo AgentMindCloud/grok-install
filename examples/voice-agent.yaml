@@ -2,6 +2,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json
 # Voice-enabled agent — grok-install v2.13
 # Responds to voice commands on X and mobile
+# Pinned to 2.13 as a back-compat fixture for CI; valid under v2.14 unchanged
+# (v2.14 is purely additive). See examples/janvisuals/ for a v2.14 example.
 
 version: "2.13"
 name: "Voice Agent"

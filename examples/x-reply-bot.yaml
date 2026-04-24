@@ -1,6 +1,8 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/grok-install-v2.13.schema.json
 # Production-ready X reply bot — grok-install v2.13
+# Pinned to 2.13 as a back-compat fixture for CI; valid under v2.14 unchanged
+# (v2.14 is purely additive). See examples/janvisuals/ for a v2.14 example.
 
 version: "2.13"
 name: "X Reply Bot"
