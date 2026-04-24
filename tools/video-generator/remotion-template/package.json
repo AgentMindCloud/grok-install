@@ -1,0 +1,23 @@
+{
+  "name": "grok-vidgen-remotion",
+  "version": "0.1.0",
+  "description": "Remotion project that renders a single 60s explainer video from scene.json.",
+  "private": true,
+  "scripts": {
+    "start": "remotion studio src/index.ts",
+    "build": "remotion render src/index.ts Explainer out/video.mp4",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "remotion": "^4.0.0",
+    "@remotion/cli": "^4.0.0",
+    "@remotion/bundler": "^4.0.0",
+    "@remotion/renderer": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.4.0"
+  }
+}
