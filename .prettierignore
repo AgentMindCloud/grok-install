@@ -1,0 +1,13 @@
+node_modules/
+package-lock.json
+dist/
+build/
+out/
+# Content files formatted by humans — leave as-is
+README.md
+SECURITY.md
+CONTRIBUTING.md
+community-welcome.md
+weekly-thread-template.md
+docs/
+standard/spec.md
