@@ -1,6 +1,0 @@
-# One GitHub URL (or owner/name shorthand) per line. Blank lines and lines
-# starting with `#` are ignored. Used by `grok-vidgen batch`.
-#
-# Example:
-agentmindcloud/grok-install
-agentmindcloud/x-reply-bot

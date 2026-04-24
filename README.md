@@ -20,12 +20,12 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/Apache%202.0-00E5FF?style=for-the-badge&logoColor=001018&labelColor=0A0D14" /></a>
-  <a href="spec/v2.14/spec.md"><img src="https://img.shields.io/badge/Spec%20v2.14-7C3AED?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" /></a>
-  <a href="https://github.com/xai-org/xai-sdk"><img src="https://img.shields.io/badge/xAI%20SDK%20Compatible-FF4FD8?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" /></a>
-  <a href="https://agentmindcloud.github.io/grok-install"><img src="https://img.shields.io/badge/Grok--Native%20Certified-00D5FF?style=for-the-badge&logo=x&logoColor=001018&labelColor=0A0D14" /></a>
-  <a href="https://agentmindcloud.github.io/grok-install#validate"><img src="https://img.shields.io/badge/Validate%20Live-9D4EDD?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" /></a>
-  <a href="https://github.com/agentmindcloud/grok-install"><img src="https://img.shields.io/github/stars/agentmindcloud/grok-install?style=for-the-badge&color=5EF2FF&logoColor=001018&labelColor=0A0D14" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/Apache%202.0-00E5FF?style=for-the-badge&logoColor=001018&labelColor=0A0D14" alt="License: Apache 2.0" /></a>
+  <a href="spec/v2.14/spec.md"><img src="https://img.shields.io/badge/Spec%20v2.14-7C3AED?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" alt="Spec v2.14" /></a>
+  <a href="https://github.com/xai-org/xai-sdk"><img src="https://img.shields.io/badge/xAI%20SDK%20Compatible-FF4FD8?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" alt="xAI SDK Compatible" /></a>
+  <a href="https://agentmindcloud.github.io/grok-install"><img src="https://img.shields.io/badge/Grok--Native%20Certified-00D5FF?style=for-the-badge&logo=x&logoColor=001018&labelColor=0A0D14" alt="Grok-Native Certified" /></a>
+  <a href="https://agentmindcloud.github.io/grok-install#validate"><img src="https://img.shields.io/badge/Validate%20Live-9D4EDD?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" alt="Validate Live" /></a>
+  <a href="https://github.com/agentmindcloud/grok-install"><img src="https://img.shields.io/github/stars/agentmindcloud/grok-install?style=for-the-badge&color=5EF2FF&logoColor=001018&labelColor=0A0D14" alt="GitHub stars" /></a>
 </p>
 
 <p align="center">
@@ -218,10 +218,10 @@ v2.14 is **additive** — zero breaking changes. It introduces the optional `vis
 </table>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Full%20Reference-00E5FF?style=for-the-badge&logoColor=001018&labelColor=0A0D14" />
-  <img src="https://img.shields.io/badge/Flagship%20Example-7C3AED?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" />
-  <img src="https://img.shields.io/badge/JSON%20Schema-FF4FD8?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" />
-  <img src="https://img.shields.io/badge/Migration%20Guide-00D5FF?style=for-the-badge&logoColor=001018&labelColor=0A0D14" />
+  <img src="https://img.shields.io/badge/Full%20Reference-00E5FF?style=for-the-badge&logoColor=001018&labelColor=0A0D14" alt="Full Reference" />
+  <img src="https://img.shields.io/badge/Flagship%20Example-7C3AED?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" alt="Flagship Example" />
+  <img src="https://img.shields.io/badge/JSON%20Schema-FF4FD8?style=for-the-badge&logoColor=FFFFFF&labelColor=0A0D14" alt="JSON Schema" />
+  <img src="https://img.shields.io/badge/Migration%20Guide-00D5FF?style=for-the-badge&logoColor=001018&labelColor=0A0D14" alt="Migration Guide" />
 </p>
 
 - Full reference: [`docs/v2.14/visuals.md`](docs/v2.14/visuals.md)
@@ -299,12 +299,6 @@ grok-install migrate --from 2.13 --to 2.14
 
 Both are schema-validated and served statically — no backend. See [`docs/data-layer.md`](docs/data-layer.md).
 
-### Tools
-
-| Tool | Purpose |
-|---|---|
-| [`tools/video-generator`](tools/video-generator) | 60s explainer-video generator — point it at any repo, get MP4s for X/TikTok/Shorts |
-
 **Works with:** xAI SDK (native) · LiteLLM · Semantic Kernel · OpenAI-compatible clients
 
 ## ✦ Community & Calls to Action
@@ -334,7 +328,7 @@ Both are schema-validated and served statically — no backend. See [`docs/data-
 
 <p align="center">
   <a href="https://github.com/sponsors/JanSol0s">
-    <img src="https://img.shields.io/badge/Sponsor%20the%20Project-FF4FD8?style=for-the-badge&logo=githubsponsors&logoColor=FFFFFF&labelColor=0A0D14" />
+    <img src="https://img.shields.io/badge/Sponsor%20the%20Project-FF4FD8?style=for-the-badge&logo=githubsponsors&logoColor=FFFFFF&labelColor=0A0D14" alt="Sponsor the Project" />
   </a>
 </p>
 
@@ -346,16 +340,16 @@ RFCs for v2.14 are open. Propose a spec change, ship a template, fix a bug. See 
 
 <p align="center">
   <a href="https://github.com/agentmindcloud">
-    <img src="https://img.shields.io/badge/GitHub-00E5FF?style=for-the-badge&logo=github&logoColor=001018&labelColor=0A0D14" />
+    <img src="https://img.shields.io/badge/GitHub-00E5FF?style=for-the-badge&logo=github&logoColor=001018&labelColor=0A0D14" alt="GitHub" />
   </a>
   <a href="https://x.com/JanSol0s">
-    <img src="https://img.shields.io/badge/X-7C3AED?style=for-the-badge&logo=x&logoColor=FFFFFF&labelColor=0A0D14" />
+    <img src="https://img.shields.io/badge/X-7C3AED?style=for-the-badge&logo=x&logoColor=FFFFFF&labelColor=0A0D14" alt="X" />
   </a>
   <a href="https://www.jansolos.com">
-    <img src="https://img.shields.io/badge/Portfolio-FF4FD8?style=for-the-badge&logo=vercel&logoColor=FFFFFF&labelColor=0A0D14" />
+    <img src="https://img.shields.io/badge/Portfolio-FF4FD8?style=for-the-badge&logo=vercel&logoColor=FFFFFF&labelColor=0A0D14" alt="Portfolio" />
   </a>
   <a href="https://agentmindcloud.github.io/grok-install">
-    <img src="https://img.shields.io/badge/Live%20Gallery-00D5FF?style=for-the-badge&logoColor=001018&labelColor=0A0D14" />
+    <img src="https://img.shields.io/badge/Live%20Gallery-00D5FF?style=for-the-badge&logoColor=001018&labelColor=0A0D14" alt="Live Gallery" />
   </a>
 </p>
 
@@ -370,5 +364,5 @@ Apache 2.0 — same as xAI. Patent grant included.
 </p>
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:00E5FF,50:7C3AED,100:FF4FD8" width="100%" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:00E5FF,50:7C3AED,100:FF4FD8" width="100%" alt="footer" />
 </p>
