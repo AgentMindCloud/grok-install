@@ -142,36 +142,6 @@ safety:
 
 ---
 
-## Ecosystem
-
-| Repo | Purpose |
-|---|---|
-| [`grok-install`](https://github.com/agentmindcloud/grok-install) | This repo — spec, schema, landing page |
-| [`grok-install-cli`](https://github.com/agentmindcloud/grok-install-cli) | Official Python CLI and runtime |
-| [`awesome-grok-agents`](https://github.com/agentmindcloud/awesome-grok-agents) | 10+ production-ready agent templates |
-| [`grok-yaml-standards`](https://github.com/agentmindcloud/grok-yaml-standards) | Modular YAML extensions (.grok/ folder) |
-| [`grok-docs`](https://github.com/agentmindcloud/grok-docs) | Full documentation site |
-| [`tools/video-generator`](tools/video-generator) | 60s explainer-video generator — point it at any repo, get MP4s for X/TikTok/Shorts |
-| [`featured-agents.json`](featured-agents.json) · [`trending.json`](trending.json) | Public JSON feeds powering the gallery — schema-validated, no backend. See [`docs/data-layer.md`](docs/data-layer.md). |
-
-Works with: **xAI SDK** (native) · LiteLLM · Semantic Kernel · OpenAI-compatible clients
-
----
-
-## Safety First
-
-Every agent installed via grok-install runs an automated pre-install scan:
-
-- No hardcoded API keys
-- X-posting tools behind approval gates (configurable)
-- Rate limits declared — no runaway posting
-- Permissions explicit and minimal
-- Blocked patterns: deepfakes, mass DMs, spam
-
-Only green-scan agents earn the **Grok-Native Certified** badge.
-
----
-
 ## What's new in v2.14
 
 v2.14 is **additive** — zero breaking changes. It introduces the optional
@@ -192,6 +162,51 @@ surface without custom design work.
 - Flagship example: [`examples/janvisuals/grok-install.yaml`](examples/janvisuals/grok-install.yaml)
 - JSON Schema: [`schemas/v2.14/schema.json`](schemas/v2.14/schema.json)
 - Migration notes: [`docs/migration/v2.13-to-v2.14.md`](docs/migration/v2.13-to-v2.14.md)
+
+---
+
+## Safety First
+
+Every agent installed via grok-install runs an automated pre-install scan:
+
+- No hardcoded API keys
+- X-posting tools behind approval gates (configurable)
+- Rate limits declared — no runaway posting
+- Permissions explicit and minimal
+- Blocked patterns: deepfakes, mass DMs, spam
+
+Only green-scan agents earn the **Grok-Native Certified** badge.
+
+---
+
+## Ecosystem
+
+### Sister repos
+
+| Repo | Purpose |
+|---|---|
+| [`grok-install`](https://github.com/agentmindcloud/grok-install) | This repo — spec, schema, landing page |
+| [`grok-install-cli`](https://github.com/agentmindcloud/grok-install-cli) | Official Python CLI and runtime |
+| [`awesome-grok-agents`](https://github.com/agentmindcloud/awesome-grok-agents) | 10+ production-ready agent templates |
+| [`grok-yaml-standards`](https://github.com/agentmindcloud/grok-yaml-standards) | Modular YAML extensions (.grok/ folder) |
+| [`grok-docs`](https://github.com/agentmindcloud/grok-docs) | Full documentation site |
+
+### Data feeds
+
+| File | Purpose |
+|---|---|
+| [`featured-agents.json`](featured-agents.json) | Curated, certified agents shown in the gallery |
+| [`trending.json`](trending.json) | Time-windowed install rankings |
+
+Both are schema-validated and served statically — no backend. See [`docs/data-layer.md`](docs/data-layer.md).
+
+### Tools
+
+| Tool | Purpose |
+|---|---|
+| [`tools/video-generator`](tools/video-generator) | 60s explainer-video generator — point it at any repo, get MP4s for X/TikTok/Shorts |
+
+Works with: **xAI SDK** (native) · LiteLLM · Semantic Kernel · OpenAI-compatible clients
 
 ---
 
