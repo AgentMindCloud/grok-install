@@ -2,7 +2,7 @@
 
 Autonomous 60-second explainer videos for GitHub repos. Point it at a repo,
 it picks the most "wow in 10 seconds" functions, generates Remotion scripts
-+ narration + captions, and renders vertical MP4s (1080×1920 @ 30fps)
+plus narration and captions, and renders vertical MP4s (1080×1920 @ 30fps)
 optimized for X, TikTok, and YouTube Shorts.
 
 ```
@@ -85,28 +85,28 @@ The analyzer walks `src/`, `lib/`, `components/` (and falls back to the whole
 repo), parses Python with `ast` and JS/TS with a purpose-built regex, then
 scores each candidate on:
 
-* **concise-body** - 3–12 line functions tell stories; 1-liners and walls of
+- **concise-body** - 3–12 line functions tell stories; 1-liners and walls of
   code don't.
-* **has-docstring** - we lean on the existing doc for the narration's concept
+- **has-docstring** - we lean on the existing doc for the narration's concept
   beat.
-* **verb:<name>** - names that start with `stream`, `generate`, `parse`,
+- **verb:&lt;name&gt;** - names that start with `stream`, `generate`, `parse`,
   `render`, `deploy`, `reply`, `sign`, … score higher.
-* **canonical-dir** - functions under `src/`, `lib/`, `components/`.
-* **async** - small bump; async functions usually have a demo-able side effect.
+- **canonical-dir** - functions under `src/`, `lib/`, `components/`.
+- **async** - small bump; async functions usually have a demo-able side effect.
 
 Penalties: names like `main`/`run`/`init` without a docstring, or bodies
 under 2 lines.
 
 ## Why these constraints?
 
-* **Vertical 1080×1920 @ 30fps** - meets the minimum for X, TikTok,
+- **Vertical 1080×1920 @ 30fps** - meets the minimum for X, TikTok,
   YouTube Shorts without upscaling.
-* **≤ 15 visible code lines** - larger snippets don't read on mobile.
-* **150–200 narration words** - ~2.6 words/sec is energetic but natural.
-* **No external deps in the Remotion scripts** - we ship our own tiny
+- **≤ 15 visible code lines** - larger snippets don't read on mobile.
+- **150–200 narration words** - ~2.6 words/sec is energetic but natural.
+- **No external deps in the Remotion scripts** - we ship our own tiny
   tokenizer (`src/lib/highlight.ts`) for Python/JS/TS, so the generated
   project has a fixed, auditable dependency graph: Remotion + React only.
-* **Per-tool TTS fallback** - if `ELEVENLABS_API_KEY` is absent or the call
+- **Per-tool TTS fallback** - if `ELEVENLABS_API_KEY` is absent or the call
   fails, we write a silent 60s WAV so the render pipeline stays testable.
 
 ## Developing
