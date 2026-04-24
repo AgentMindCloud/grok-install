@@ -1,62 +1,79 @@
-# grok-install.yaml – Root Template (v2.12)
-# This is the official reference template for the grok-install standard.
-# Place a copy of this (or a customized version) at the root of any agent repo.
-version: "2.12"
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/schemas/v2.14/schema.json
+# grok-install.yaml – Root reference template (v2.14)
+# Copy this (or a customized version) to the root of any agent repo.
+
+version: "2.14"
 name: "Example Agent Template"
-description: "Official grok-install reference template with full Phase 10 + Phase 11 Passive Growth Engine"
+description: "Official grok-install reference template — fill in your agent's details"
 repository: "https://github.com/AgentMindCloud/grok-install"
-category: "example"
+category: "x-native"
 tags: ["template", "reference", "x-native"]
 featured: false
 ecosystem: ["grok", "x"]
 
-# === PHASE 10 NEW BLOCKS ===
-# Native X Agent Runtime (Goal 1)
+# LLM configuration
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
+
+# Tool declarations (JSON Schema per tool — required from v2.13 onward)
+tools:
+  - name: "example_tool"
+    description: "Replace this with a real tool your agent exposes"
+    parameters:
+      type: "object"
+      properties:
+        input:
+          type: "string"
+      required: ["input"]
+    returns:
+      type: "object"
+      properties:
+        result:
+          type: "string"
+
+# Rate limiting — declarative, per-tool
+rate_limits:
+  example_tool:
+    qps: 1.0
+    daily_cap: 500
+
+# Hard cost stops
+cost_limits:
+  daily_usd: 3.00
+  on_limit: "block"
+
+# Native X agent runtime
 x_native_runtime:
-  type: "reply-bot" # options: reply-bot | dm-handler | trend-monitor | custom
-  permissions: ["tweet.read", "tweet.write", "dm.read"]
+  type: "reply-bot"
+  permissions: ["tweet.read", "tweet.write"]
   grok_orchestrator: true
   one_click_x_deploy: true
 
-# Grok Intelligence Layer (Goal 2)
+# Grok intelligence layer
 intelligence_layer:
   function_calling: true
   real_time_tools: true
   multi_agent_swarm: true
-  grok_coordinates: true
-  ai_suggested_teams: true
 
-# Advanced Trust & Reputation (Goal 3)
-reputation:
-  public_score: true
-  verified_by_grok: true
-  scan_history: true
-  automated_recommendations: true
+# Orchestration (optional)
+orchestration:
+  enabled: true
+  role: "example"
+  can_trigger: []
+  can_be_triggered_by: []
+  triggers: []
 
-# Safety & Verification 2.0 (from Phase 9 – kept unchanged)
+# Safety & verification
 safety:
   pre_install_scan: true
   verified_by_grok: true
   scan_summary_visible: true
   minimum_keys_only: true
 
-# Orchestration & Triggers (from previous phases – kept unchanged)
-orchestration:
-  enabled: true
-  role: "example"
-  can_trigger: []
-  can_be_triggered_by: []
-  visual_builder: true
-  ai_suggested_patterns: true
-  triggers: []
-
-# LLM Configuration (most keys now optional)
-llm:
-  provider: "xai" # xai | openai | anthropic | ollama | custom
-  model: "grok-4"
-  api_key_env: "GROK_API_KEY"
-
-# Deployment Targets
+# Deployment targets
 deployment:
   preferred: ["railway", "vercel", "docker"]
   targets:
@@ -66,15 +83,12 @@ deployment:
 
 # Post-install experience
 on_install:
-  welcome: "🎉 {{name}} is now LIVE! Type /help for commands."
+  welcome: "{{name}} is now live. Type /help for commands."
   suggested_commands:
     - "/status"
     - "/help"
 
-# Update & maintenance
-update_strategy: "semver"
-
-# === PHASE 11 NEW BLOCK – Passive Growth Engine ===
+# Promotion (opt-in)
 promotion:
   auto_welcome: true
   auto_share: true
@@ -83,10 +97,13 @@ promotion:
   builder_credits: "@JanSol0s"
   support_link: "https://github.com/sponsors/JanSol0s"
 
-# Credits (strongly recommended for attribution)
+# Update strategy
+update_strategy: "semver"
+
+# Attribution (recommended)
 credits:
   standard: "grok-install"
   author: "@JanSol0s"
   url: "https://github.com/AgentMindCloud/grok-install"
-  version: "2.12"
+  version: "2.14"
   message: "Powered by grok-install open standard"
