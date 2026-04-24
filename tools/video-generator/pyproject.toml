@@ -1,0 +1,28 @@
+[project]
+name = "grok-video-generator"
+version = "0.1.0"
+description = "Autonomous 60s explainer-video generator for GitHub repos (Remotion + TTS)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "AgentMindCloud" }]
+dependencies = [
+    "click>=8.1",
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+tts = ["elevenlabs>=1.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+grok-vidgen = "video_generator.cli:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
