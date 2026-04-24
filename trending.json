@@ -1,57 +1,57 @@
 {
   "version": "1.0",
-  "updated_at": "2026-04-18T00:00:00Z",
+  "updated_at": "2026-04-24T00:00:00Z",
   "window": "7d",
   "trending": [
     {
       "id": "reply-engagement-bot",
       "name": "Reply & Engagement Bot",
       "category": "x-native",
-      "installs_window": 312,
-      "installs_total": 1284,
-      "delta_pct": 27.4,
+      "installs_window": 0,
+      "installs_total": 0,
+      "delta_pct": 0,
       "rank": 1,
-      "rank_prev": 2
+      "rank_prev": null
     },
     {
       "id": "research-swarm",
       "name": "Research Swarm",
       "category": "research",
-      "installs_window": 246,
-      "installs_total": 847,
-      "delta_pct": 41.0,
+      "installs_window": 0,
+      "installs_total": 0,
+      "delta_pct": 0,
       "rank": 2,
-      "rank_prev": 4
+      "rank_prev": null
     },
     {
       "id": "trend-to-thread",
       "name": "Trend-to-Thread Bot",
       "category": "x-native",
-      "installs_window": 188,
-      "installs_total": 532,
-      "delta_pct": 18.7,
+      "installs_window": 0,
+      "installs_total": 0,
+      "delta_pct": 0,
       "rank": 3,
-      "rank_prev": 3
+      "rank_prev": null
     },
     {
       "id": "voice-agent",
       "name": "Voice Agent",
       "category": "voice",
-      "installs_window": 142,
-      "installs_total": 621,
-      "delta_pct": 12.3,
+      "installs_window": 0,
+      "installs_total": 0,
+      "delta_pct": 0,
       "rank": 4,
-      "rank_prev": 1
+      "rank_prev": null
     },
     {
       "id": "discord-ai-mod",
       "name": "Discord AI Moderator",
       "category": "discord",
-      "installs_window": 98,
-      "installs_total": 398,
-      "delta_pct": -4.1,
+      "installs_window": 0,
+      "installs_total": 0,
+      "delta_pct": 0,
       "rank": 5,
-      "rank_prev": 5
+      "rank_prev": null
     }
   ]
 }

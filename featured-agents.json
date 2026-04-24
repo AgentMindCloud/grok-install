@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "updated_at": "2026-04-17T00:00:00Z",
+  "updated_at": "2026-04-24T00:00:00Z",
   "stats": {
-    "total_installs": 3885,
+    "total_installs": 0,
     "total_agents": 6,
     "certified_count": 5
   },
@@ -16,9 +16,9 @@
       "install_command": "grok-install install agentmindcloud/reply-engagement-bot",
       "safety_profile": "strict",
       "certified": true,
-      "installs": 1284,
+      "installs": 0,
       "author": "@JanSol0s",
-      "created_at": "2026-04-17T00:00:00Z"
+      "created_at": "2026-04-24T00:00:00Z"
     },
     {
       "id": "research-swarm",
@@ -29,9 +29,9 @@
       "install_command": "grok-install install agentmindcloud/research-swarm",
       "safety_profile": "strict",
       "certified": true,
-      "installs": 847,
+      "installs": 0,
       "author": "@JanSol0s",
-      "created_at": "2026-04-17T00:00:00Z"
+      "created_at": "2026-04-24T00:00:00Z"
     },
     {
       "id": "voice-agent",
@@ -42,9 +42,9 @@
       "install_command": "grok-install install agentmindcloud/voice-agent",
       "safety_profile": "moderate",
       "certified": true,
-      "installs": 621,
+      "installs": 0,
       "author": "@JanSol0s",
-      "created_at": "2026-04-17T00:00:00Z"
+      "created_at": "2026-04-24T00:00:00Z"
     },
     {
       "id": "trend-to-thread",
@@ -55,9 +55,9 @@
       "install_command": "grok-install install agentmindcloud/trend-to-thread",
       "safety_profile": "strict",
       "certified": true,
-      "installs": 532,
+      "installs": 0,
       "author": "@JanSol0s",
-      "created_at": "2026-04-17T00:00:00Z"
+      "created_at": "2026-04-24T00:00:00Z"
     },
     {
       "id": "discord-ai-mod",
@@ -68,9 +68,9 @@
       "install_command": "grok-install install agentmindcloud/discord-ai-mod",
       "safety_profile": "moderate",
       "certified": true,
-      "installs": 398,
+      "installs": 0,
       "author": "@JanSol0s",
-      "created_at": "2026-04-17T00:00:00Z"
+      "created_at": "2026-04-24T00:00:00Z"
     },
     {
       "id": "knowledge-graph",
@@ -81,9 +81,9 @@
       "install_command": "grok-install install agentmindcloud/knowledge-graph",
       "safety_profile": "strict",
       "certified": false,
-      "installs": 203,
+      "installs": 0,
       "author": "@JanSol0s",
-      "created_at": "2026-04-17T00:00:00Z"
+      "created_at": "2026-04-24T00:00:00Z"
     }
   ]
 }
