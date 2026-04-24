@@ -1,0 +1,6 @@
+{
+  "name": "sample-repo",
+  "description": "Streams Grok replies and auto-generates X threads.",
+  "keywords": ["agent", "grok", "x"],
+  "version": "0.0.1"
+}

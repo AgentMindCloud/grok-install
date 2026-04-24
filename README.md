@@ -149,6 +149,7 @@ safety:
 | [`awesome-grok-agents`](https://github.com/agentmindcloud/awesome-grok-agents) | 10+ production-ready agent templates |
 | [`grok-yaml-standards`](https://github.com/agentmindcloud/grok-yaml-standards) | Modular YAML extensions (.grok/ folder) |
 | [`grok-docs`](https://github.com/agentmindcloud/grok-docs) | Full documentation site |
+| [`tools/video-generator`](tools/video-generator) | 60s explainer-video generator — point it at any repo, get MP4s for X/TikTok/Shorts |
 
 Works with: **xAI SDK** (native) · LiteLLM · Semantic Kernel · OpenAI-compatible clients
 

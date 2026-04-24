@@ -20,6 +20,7 @@ import click
 from .analyzer import FunctionCandidate, RepoAnalyzer, RepoSummary
 from .brand import BrandPalette
 from .metadata import BatchRow, MetadataBuilder, write_batch_csv
+from .music import generate_music
 from .narration import NarrationBuilder
 from .remotion import RemotionProjectWriter
 from .renderer import Renderer
@@ -75,7 +76,10 @@ def plan(repo: str, work_dir: Path, top_n: int, functions: tuple[str, ...]) -> N
 @click.option("--violet", default="#8b5cf6")
 @click.option("--amber", default="#f5a524")
 @click.option("--tts-backend", default="auto", type=click.Choice(["auto", "elevenlabs", "stub"]))
+@click.option("--music/--no-music", default=True, help="Add a procedural ambient pad under the voiceover.")
 @click.option("--render/--no-render", default=True, help="Invoke remotion render at the end.")
+@click.option("--install-remotion/--no-install-remotion", default=False,
+              help="Run `npm install` inside each project dir before rendering.")
 def build(
     repo: str,
     work_dir: Path,
@@ -87,7 +91,9 @@ def build(
     violet: str,
     amber: str,
     tts_backend: str,
+    music: bool,
     render: bool,
+    install_remotion: bool,
 ) -> None:
     """Analyze, script, render, and package a video per candidate function."""
     ref = parse_github_url(repo)
@@ -120,16 +126,40 @@ def build(
         click.echo(f"      narration: {narration.word_count()} words")
 
         project_dir = out_dir / "projects" / summary.name / candidate.name
-        audio_path = project_dir / "public" / "narration"
-        audio_path.parent.mkdir(parents=True, exist_ok=True)
-        tts_result = tts.synthesize(narration.full_text(), audio_path, duration_seconds=narration.total_seconds)
-        click.echo(f"      tts: {tts_result.backend} -> {tts_result.audio_path.name}")
-        audio_rel = f"narration/{tts_result.audio_path.name}"
 
+        # Write the project skeleton first; the template copy wipes public/,
+        # so audio must land in public/ *after* this step.
+        music_rel: Optional[str] = "music.wav" if music else None
         project_writer.write(
             project_dir, summary, candidate, narration, ref.url,
-            audio_rel=audio_rel,
+            audio_rel="narration/narration.wav",  # placeholder; updated after TTS
+            music_rel=music_rel,
         )
+
+        audio_dir = project_dir / "public" / "narration"
+        audio_dir.mkdir(parents=True, exist_ok=True)
+        tts_result = tts.synthesize(
+            narration.full_text(), audio_dir / "narration",
+            duration_seconds=narration.total_seconds,
+        )
+        click.echo(f"      tts: {tts_result.backend} -> {tts_result.audio_path.name}")
+
+        # Rewrite scene.json with the real audio filename (ElevenLabs -> .mp3).
+        audio_rel = f"narration/{tts_result.audio_path.name}"
+        scene_path = project_dir / "scene.json"
+        scene = json.loads(scene_path.read_text())
+        scene["audioSrc"] = audio_rel
+        scene_path.write_text(json.dumps(scene, indent=2))
+
+        if music:
+            music_path = project_dir / "public" / "music.wav"
+            generate_music(music_path, duration_seconds=narration.total_seconds)
+            click.echo(f"      music: procedural -> {music_path.name}")
+
+        if install_remotion and render:
+            click.echo("      installing remotion deps (first run only)...")
+            import subprocess
+            subprocess.run(["npm", "install", "--silent"], cwd=project_dir, check=False)
 
         video_path = videos_root / f"{candidate.name}.mp4"
         metadata_path = metadata_root / f"{candidate.name}.json"
@@ -188,7 +218,8 @@ def batch(
                 functions=(),
                 audience=audience,
                 cyan="#00f0ff", violet="#8b5cf6", amber="#f5a524",
-                tts_backend="auto", render=render,
+                tts_backend="auto", music=True, render=render,
+                install_remotion=False,
             )
         except Exception as exc:  # noqa: BLE001
             click.echo(f"  FAILED: {exc}")

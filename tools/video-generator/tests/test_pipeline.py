@@ -15,10 +15,13 @@ from pathlib import Path
 
 import pytest
 
+import wave
+
 from video_generator.analyzer import RepoAnalyzer
 from video_generator.brand import BrandPalette, FPS, TOTAL_SECONDS
 from video_generator.metadata import MetadataBuilder
-from video_generator.narration import NarrationBuilder
+from video_generator.music import generate_music
+from video_generator.narration import NarrationBuilder, _to_third_person
 from video_generator.remotion import RemotionProjectWriter
 
 
@@ -108,6 +111,39 @@ def test_writes_scene_json(sample_repo: Path, tmp_path: Path) -> None:
     assert len(scene["segments"]) == 5
     # source honors the MAX_VISIBLE_LINES constraint.
     assert scene["candidate"]["source"].count("\n") < 15
+
+
+def test_imperative_to_third_person() -> None:
+    # Covers the grammar bug where docstrings like "Stream a Grok reply"
+    # became "The fn function stream a Grok reply."
+    assert _to_third_person("Stream a Grok reply") == "streams a Grok reply"
+    assert _to_third_person("Parse the response") == "parses the response"
+    assert _to_third_person("Fly a kite") == "flies a kite"
+    assert _to_third_person("Push to main") == "pushes to main"
+    # Already third-person / non-verb lead should be left alone.
+    assert _to_third_person("Runs the core step") == "runs the core step"
+    assert _to_third_person("A tiny demo") == "a tiny demo"
+
+
+def test_music_wav_roundtrip(tmp_path: Path) -> None:
+    out = tmp_path / "music.wav"
+    generate_music(out, duration_seconds=2.0)  # tiny for speed
+    assert out.exists()
+    with wave.open(str(out)) as w:
+        assert w.getnchannels() == 1
+        assert w.getframerate() == 44_100
+        assert abs(w.getnframes() / w.getframerate() - 2.0) < 0.05
+
+
+def test_narration_walkthrough_varies(sample_repo: Path) -> None:
+    analyzer = RepoAnalyzer(sample_repo, top_n=5)
+    summary = analyzer.summarize()
+    candidate = next(c for c in analyzer.pick_functions() if c.name == "stream_reply")
+    narration = NarrationBuilder().build(candidate, summary)
+    walkthrough = next(s for s in narration.segments if s.key == "walkthrough")
+    # The three described actions should not all be identical.
+    actions = walkthrough.narration.split(", then ")
+    assert len(set(actions)) > 1, walkthrough.narration
 
 
 def test_metadata_post_fits_x(sample_repo: Path, tmp_path: Path) -> None:

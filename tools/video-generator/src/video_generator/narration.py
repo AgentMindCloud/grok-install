@@ -108,22 +108,32 @@ class NarrationBuilder:
 
     def _concept(self, c: FunctionCandidate, repo: RepoSummary) -> str:
         purpose = _clean_docstring(c.docstring) or repo.readme_first_paragraph
-        lede = f"The {_humanize_name(c.name)} function"
+        pretty = _humanize_name(c.name)
         if purpose:
-            summary = _first_sentence(purpose)
-            return f"{lede} {summary.lower() if summary[:1].isupper() else summary}"
-        return f"{lede} is the core of {repo.name}: a single entry point you can call from your app."
+            sentence = _first_sentence(purpose).rstrip(".")
+            rephrased = _to_third_person(sentence)
+            return f"The {pretty} function {rephrased}."
+        return (
+            f"{pretty.capitalize()} is the heart of {repo.name}: "
+            "one entry point, no orchestration boilerplate."
+        )
 
     def _walkthrough(self, c: FunctionCandidate) -> str:
-        lines = [ln for ln in c.source.splitlines() if ln.strip() and not ln.strip().startswith(("#", "//"))]
-        highlights = lines[:3]
-        first = _describe_line(highlights[0]) if highlights else "It takes your input"
-        second = _describe_line(highlights[1]) if len(highlights) > 1 else "runs the core logic"
-        third = _describe_line(highlights[2]) if len(highlights) > 2 else "and hands back a clean result"
-        prefix = "Under the hood,"
-        if c.is_async:
-            prefix = "Under the hood, because it is async,"
-        return f"{prefix} {first}, then {second}, and finally {third}."
+        lines = [
+            ln for ln in c.source.splitlines()
+            if ln.strip() and not ln.strip().startswith(("#", "//", '"""', "'''"))
+        ]
+        # Skip the def/function line itself so we narrate the body, not the signature.
+        body = lines[1:] if lines and re.match(r"^\s*(def\s|async\s+def|function\s|export\s|const\s|let\s)", lines[0]) else lines
+        positions = ("first", "second", "third")
+        parts = []
+        for i, pos in enumerate(positions):
+            if i < len(body):
+                parts.append(_describe_line(body[i], pos))
+            else:
+                parts.append({"first": "takes your input", "second": "runs the core transform", "third": "hands back a clean result"}[pos])
+        prefix = "Under the hood, it" if not c.is_async else "Under the hood, because it's async, it"
+        return f"{prefix} {parts[0]}, then {parts[1]}, and finally {parts[2]}."
 
     def _result(self, c: FunctionCandidate, repo: RepoSummary) -> str:
         artifact = _infer_artifact(c, repo)
@@ -185,19 +195,76 @@ def _first_sentence(text: str) -> str:
     return sentence
 
 
-def _describe_line(line: str) -> str:
-    """Best-effort plain-English description of a single code line."""
+def _describe_line(line: str, position: str = "middle") -> str:
+    """Plain-English description of a single code line.
+
+    `position` is one of "first" | "second" | "third" | "middle" and only
+    affects the generic fallback so three adjacent lines don't all say
+    "runs the core step."
+    """
     stripped = line.strip()
-    if stripped.startswith(("return ", "return(")):
-        return "returns the result"
-    if stripped.startswith(("await ", "yield ")):
-        return "waits on an async call"
-    if "=" in stripped and "==" not in stripped.split("=")[0]:
-        target = stripped.split("=")[0].strip().split()[-1]
-        return f"builds `{target}`"
-    if stripped.startswith(("if ", "for ", "while ", "switch", "match ")):
+    if stripped.startswith(("return ", "return(")) or stripped == "return":
+        return "hands back the final value"
+    if stripped.startswith("await "):
+        return "awaits an async call"
+    if stripped.startswith("yield "):
+        return "yields the next chunk"
+    if stripped.startswith(("raise ", "throw ")):
+        return "surfaces a clean error"
+    assign_match = re.match(r"^(?:const|let|var)?\s*([A-Za-z_$][\w$]*)\s*(?::[^=]+)?\s*=(?!=)", stripped)
+    if assign_match:
+        return f"builds {assign_match.group(1)}"
+    if stripped.startswith(("for ", "while ")):
+        return "loops over the input"
+    if stripped.startswith("if "):
         return "branches on the input"
-    return "runs the core step"
+    fallbacks = {
+        "first": "sets up the inputs",
+        "second": "runs the core transform",
+        "third": "polishes the output",
+        "middle": "runs the core step",
+    }
+    return fallbacks.get(position, "runs the core step")
+
+
+_IRREGULAR_VERBS = {
+    "stream": "streams", "run": "runs", "fly": "flies", "try": "tries",
+    "build": "builds", "ship": "ships", "return": "returns", "parse": "parses",
+    "render": "renders", "generate": "generates", "fetch": "fetches",
+    "match": "matches", "push": "pushes", "watch": "watches", "do": "does",
+    "go": "goes", "have": "has", "be": "is",
+}
+
+
+def _to_third_person(sentence: str) -> str:
+    """Best-effort imperative -> third-person singular.
+
+    "Stream a Grok reply" -> "streams a Grok reply".
+    If the first word already looks third-person (ends in 's' or is a common
+    irregular that already has an 's' form), we leave it alone.
+    """
+    words = sentence.strip().split()
+    if not words:
+        return sentence
+    first = words[0]
+    lower = first.lower()
+
+    # Already third-person or a non-verb (article, preposition) -> don't touch.
+    non_verb_leads = {"a", "an", "the", "this", "that", "these", "those", "it"}
+    if lower in non_verb_leads:
+        return sentence[0].lower() + sentence[1:]
+    # "runs"/"flies"/"parses" are already third-person - leave untouched.
+    if lower.endswith("s") and not lower.endswith("ss"):
+        third = lower
+    elif lower in _IRREGULAR_VERBS:
+        third = _IRREGULAR_VERBS[lower]
+    elif re.match(r"^[a-z]+y$", lower) and lower[-2] not in "aeiou":
+        third = lower[:-1] + "ies"
+    elif lower.endswith(("x", "z", "o")) or lower.endswith(("ch", "sh", "ss")):
+        third = lower + "es"
+    else:
+        third = lower + "s"
+    return " ".join([third] + words[1:])
 
 
 def _infer_artifact(c: FunctionCandidate, repo: RepoSummary) -> str:

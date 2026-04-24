@@ -20,19 +20,34 @@ pip install -e tools/video-generator
 ## Commands
 
 ```bash
-# Just list the functions grok-vidgen would turn into videos
+# List the functions grok-vidgen would turn into videos
 grok-vidgen plan  https://github.com/agentmindcloud/grok-install
 
-# Full pipeline: analyze, script, TTS, render, package
+# Full pipeline: analyze, script, TTS, music, render, package
 grok-vidgen build https://github.com/agentmindcloud/grok-install \
     --audience developers \
     --out ./out
 
-# Same but point at a local checkout
-grok-vidgen build ./tools/video-generator --out ./out --no-render
+# Same but point at a local checkout (repo URL OR a local path)
+grok-vidgen build ./tools/video-generator/examples/sample-repo --out ./out --no-render
 
-# Batch a folder of repos (one URL per line) into a spreadsheet
-grok-vidgen batch repos.txt --out ./out --render
+# Batch a list of repos (see examples/repos.txt) into a spreadsheet
+grok-vidgen batch examples/repos.txt --out ./out --render
+
+# Skip procedural music / skip the renderer / auto-install deps
+grok-vidgen build owner/name --no-music --no-render --install-remotion
+```
+
+### What the narration sounds like
+
+Pointed at the committed `examples/sample-repo`:
+
+```
+[       hook] Want to stream reply with one function? sample-repo does it in 4 lines.
+[    concept] The stream reply function streams a Grok reply back to the caller.
+[walkthrough] Under the hood, it builds tokens, then builds chunks, and finally hands back the final value.
+[     result] Call it once and you get a posted reply, logged and rate-limited...
+[        cta] If this is the kind of tool you wish existed, star sample-repo on GitHub...
 ```
 
 Defaults to the brand palette: cyan `#00f0ff`, violet `#8b5cf6`, amber
