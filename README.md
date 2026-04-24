@@ -1,4 +1,5 @@
 <div align="center">
+  <!-- TODO: verify still supported — assets/hero-v2.14.svg is referenced but not present in /assets -->
   <img src="assets/hero-v2.14.svg" alt="grok-install v2.14 — dark-premium install surface" width="100%">
 
   <br/>
@@ -88,7 +89,8 @@ grok-install.yaml
 ├── safety (pre_install_scan, minimum_keys_only, ...)
 ├── deployment (railway, vercel, docker)
 ├── telemetry ─── NEW: opt-in anonymous events
-└── promotion (auto_welcome, auto_share, ...)
+├── promotion (auto_welcome, auto_share, ...)
+└── visuals ─── v2.14: dark-premium install surface (optional)
 ```
 
 Full spec: [spec/v2.14/spec.md](spec/v2.14/spec.md) (v2.13 still at [spec/v2.13/spec.md](spec/v2.13/spec.md))
@@ -150,6 +152,7 @@ safety:
 | [`grok-yaml-standards`](https://github.com/agentmindcloud/grok-yaml-standards) | Modular YAML extensions (.grok/ folder) |
 | [`grok-docs`](https://github.com/agentmindcloud/grok-docs) | Full documentation site |
 | [`tools/video-generator`](tools/video-generator) | 60s explainer-video generator — point it at any repo, get MP4s for X/TikTok/Shorts |
+| [`featured-agents.json`](featured-agents.json) · [`trending.json`](trending.json) | Public JSON feeds powering the gallery — schema-validated, no backend. See [`docs/data-layer.md`](docs/data-layer.md). |
 
 Works with: **xAI SDK** (native) · LiteLLM · Semantic Kernel · OpenAI-compatible clients
 
@@ -187,6 +190,7 @@ surface without custom design work.
 
 - Full reference: [`docs/v2.14/visuals.md`](docs/v2.14/visuals.md)
 - Flagship example: [`examples/janvisuals/grok-install.yaml`](examples/janvisuals/grok-install.yaml)
+- JSON Schema: [`schemas/v2.14/schema.json`](schemas/v2.14/schema.json)
 - Migration notes: [`docs/migration/v2.13-to-v2.14.md`](docs/migration/v2.13-to-v2.14.md)
 
 ---
@@ -210,6 +214,7 @@ grok-install migrate --from 2.13 --to 2.14
 - [**Submit your agent**](https://github.com/AgentMindCloud/grok-install/issues/new?template=agent-submission.yml) to the featured gallery.
 - [**Join the weekly spec review**](https://github.com/AgentMindCloud/grok-install/discussions) in GitHub Discussions.
 - [**Validate your YAML live**](https://agentmindcloud.github.io/grok-install#validate) in the browser.
+- [**Install by voice or one-command reply**](docs/voice-and-clone-examples.md) — `@grok install this` on any repo.
 - [**Sponsor the project**](https://github.com/sponsors/JanSol0s) to fund the open standard.
 
 ---
