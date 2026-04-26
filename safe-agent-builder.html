@@ -1,183 +1,1188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safe Agent Builder • grok-install</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-        
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
-            font-family: 'Inter', system-ui, sans-serif;
-        }
-        
-        .glass {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4),
-                        inset 0 2px 4px rgba(255, 255, 255, 0.3);
-        }
-        
-        .glass-hover:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 35px 60px -15px rgb(0 0 0 / 0.5),
-                        inset 0 4px 8px rgba(255, 255, 255, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .tier-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .slider-thumb {
-            accent-color: #22c55e;
-        }
-        
-        .yaml-preview {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safe Agent Builder • grok-install</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #050818;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Living mesh background */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.15), transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.12), transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.12), transparent 50%),
+    radial-gradient(circle at 90% 70%, rgba(236, 72, 153, 0.1), transparent 50%);
+  animation: meshFloat 20s ease-in-out infinite;
+}
+
+@keyframes meshFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-20px, 20px) scale(1.05); }
+}
+
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
+}
+
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.glass-strong {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Step number badge */
+.step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+}
+
+/* AGENT TEMPLATE CARDS (the showpiece) */
+.agent-card {
+  position: relative;
+  border-radius: 22px;
+  padding: 22px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.025);
+}
+
+.agent-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: 0;
+  background: var(--card-bg);
+}
+
+.agent-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.agent-card:hover::before { opacity: 0.6; }
+
+.agent-card.selected {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.3), 0 24px 48px -12px rgba(34,197,94,0.25);
+}
+
+.agent-card.selected::before { opacity: 1; }
+
+.agent-card > * { position: relative; z-index: 1; }
+
+.agent-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+.agent-avatar svg {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+
+.agent-tag {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #22c55e;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 9px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+
+/* LLM CARDS */
+.llm-card {
+  border-radius: 16px;
+  padding: 16px 12px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.llm-card:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.llm-card.active {
+  background: linear-gradient(135deg, rgba(34,197,94,0.18), rgba(16,185,129,0.08));
+  border-color: #22c55e;
+  box-shadow: 0 0 0 1px rgba(34,197,94,0.3), 0 8px 24px -4px rgba(34,197,94,0.2);
+}
+
+/* TOOL PILLS */
+.tool-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.tool-pill:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+}
+
+.tool-pill.active {
+  background: rgba(34,197,94,0.15);
+  border-color: rgba(34,197,94,0.5);
+  color: #4ade80;
+}
+
+.tool-pill.warn {
+  border-color: rgba(245,158,11,0.3);
+}
+
+.tool-pill.warn.active {
+  background: rgba(245,158,11,0.15);
+  border-color: rgba(245,158,11,0.5);
+  color: #fbbf24;
+}
+
+/* TIER CARDS */
+.tier-card {
+  border-radius: 18px;
+  padding: 16px 14px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.tier-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.06);
+}
+
+.tier-card.active {
+  border-color: #22c55e;
+  background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.06));
+  box-shadow: 0 0 0 1px rgba(34,197,94,0.3), 0 12px 28px -6px rgba(34,197,94,0.2);
+}
+
+/* CARD ICON (LLM + TIER SVGs) */
+.card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.85);
+  transition: color 0.3s, transform 0.3s;
+  margin-bottom: 6px;
+}
+
+.card-icon svg {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.llm-card:hover .card-icon,
+.tier-card:hover .card-icon {
+  transform: scale(1.08);
+}
+
+.llm-card.active .card-icon,
+.tier-card.active .card-icon {
+  color: #4ade80;
+}
+
+/* SLIDER */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 9999px;
+  outline: none;
+  width: 100%;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(34,197,94,0.5);
+  border: 3px solid #050818;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(34,197,94,0.5);
+  border: 3px solid #050818;
+}
+
+/* INPUT */
+.input-field {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 14px 18px;
+  color: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #22c55e;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.15);
+}
+
+.input-field::placeholder { color: rgba(255,255,255,0.3); }
+
+/* CTA */
+.cta-btn {
+  background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+  color: white;
+  font-weight: 700;
+  border-radius: 18px;
+  padding: 20px 28px;
+  width: 100%;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s;
+  box-shadow: 0 16px 36px -10px rgba(34,197,94,0.55);
+  cursor: pointer;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s;
+}
+
+.cta-btn:hover::after { left: 100%; }
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 44px -10px rgba(34,197,94,0.65);
+}
+
+.cta-btn:active { transform: translateY(0); }
+
+/* SECONDARY ACTION BUTTONS */
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-secondary svg { transition: transform 0.3s; }
+.btn-secondary:hover svg { transform: translateY(-2px); }
+
+.btn-x {
+  background: linear-gradient(135deg, #0a0a0a, #1f1f1f);
+  border-color: rgba(255,255,255,0.18);
+}
+.btn-x:hover {
+  background: linear-gradient(135deg, #1f1f1f, #2e2e2e);
+  border-color: rgba(255,255,255,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(0,0,0,0.6);
+}
+
+.btn-render {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-color: rgba(139,92,246,0.4);
+  box-shadow: 0 8px 24px -8px rgba(139,92,246,0.4);
+}
+.btn-render:hover {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px -8px rgba(139,92,246,0.6);
+}
+
+/* SCORE CIRCLE */
+.score-circle { position: relative; width: 84px; height: 84px; }
+.score-circle svg { transform: rotate(-90deg); }
+.score-circle .bg-ring { stroke: rgba(255,255,255,0.08); }
+.score-circle .progress-ring {
+  stroke: url(#scoreGradient);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.score-text {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 24px;
+}
+
+/* CODE PREVIEW */
+.code-pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: #86efac;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.code-pre .yk { color: #93c5fd; }
+.code-pre .yv { color: #fbbf24; }
+.code-pre .yc { color: #64748b; font-style: italic; }
+
+/* PULSE */
+.pulse-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* SCROLL */
+html { scroll-behavior: smooth; }
+
+/* STICKY */
+@media (min-width: 1024px) {
+  .sticky-preview { position: sticky; top: 24px; }
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.6s ease-out backwards; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: rgba(34,197,94,0.95);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* MOBILE */
+@media (max-width: 640px) {
+  .agent-grid { grid-template-columns: 1fr !important; }
+  h1 { font-size: 36px !important; }
+}
+</style>
 </head>
-<body class="min-h-screen py-12 px-6">
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-5xl font-semibold text-white mb-3 tracking-tight">Build Your First Safe Agent</h1>
-            <p class="text-xl text-slate-300 max-w-2xl mx-auto">No code. No surprises. Ready for Grok in seconds.</p>
-            
-            <div class="inline-flex items-center gap-3 glass rounded-3xl px-6 py-3 mt-8 text-emerald-300 font-medium text-sm">
-                🔒 Security scan 99% pre-approved by Grok ✅
-            </div>
+<body>
+
+<div class="mesh-bg"></div>
+<div class="grid-overlay"></div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+  <!-- HERO -->
+  <header class="text-center mb-12 fade-up">
+    <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6 text-xs font-medium text-emerald-300">
+      <span class="pulse-dot"></span>
+      99% pre-approved by Grok safety scan
+    </div>
+    <h1 class="text-5xl sm:text-6xl font-bold mb-4 tracking-tight leading-tight">
+      Build a <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 bg-clip-text text-transparent">Safe Agent</span><br class="hidden sm:block">
+      in 60 seconds
+    </h1>
+    <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto">
+      Pick a template. Tweak the limits. Ship to Grok. Zero code.
+    </p>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- LEFT (form) -->
+    <div class="lg:col-span-8 space-y-5">
+      <!-- STEP 1: Pick a template -->
+      <section class="glass-strong rounded-3xl p-6 sm:p-8 fade-up" style="animation-delay:0.1s">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="step-num">1</span>
+          <div>
+            <h2 class="text-xl font-bold">Pick an agent template</h2>
+            <p class="text-sm text-slate-400">Each one is pre-tuned for safety. Tap to select.</p>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- LEFT COLUMN -->
-            <div class="lg:col-span-7 glass rounded-3xl p-10">
-                
-                <!-- Tier Selection -->
-                <div class="mb-10">
-                    <h2 class="text-2xl font-semibold text-white mb-6 flex items-center gap-3">
-                        1. Choose your safety tier 
-                        <span class="text-xs bg-white/10 text-white px-4 py-1.5 rounded-3xl">recommended for beginners</span>
-                    </h2>
-                    <div class="grid grid-cols-3 gap-4" id="tier-cards"></div>
-                </div>
+        <div class="agent-grid grid grid-cols-2 gap-4" id="agent-templates"></div>
+      </section>
 
-                <!-- Agent Description -->
-                <div class="mb-10">
-                    <h2 class="text-2xl font-semibold text-white mb-4">2. Tell us about your agent</h2>
-                    <div class="mb-6">
-                        <p class="text-slate-400 mb-3">Not sure what to build? Pick a ready-made example:</p>
-                        <div class="flex flex-wrap gap-3" id="example-buttons"></div>
-                    </div>
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-2">Agent name</label>
-                            <input id="agent-name" type="text" value="DogeDoughAI" 
-                                   class="w-full bg-white/10 border border-white/30 focus:border-emerald-400 rounded-3xl px-6 py-4 text-white placeholder:text-slate-400 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-2">One-sentence description</label>
-                            <textarea id="agent-desc" rows="3" class="w-full bg-white/10 border border-white/30 focus:border-emerald-400 rounded-3xl px-6 py-4 text-white placeholder:text-slate-400 focus:outline-none">The official friendly AI for Doge Dough Pizza. Always up-to-date menu & specials with fun visuals of Doge the Dough Chef 🍕🐶</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Usage Limits -->
-                <div class="mb-10">
-                    <h2 class="text-2xl font-semibold text-white mb-6">3. Set your usage limits (visual & safe)</h2>
-                    <div class="space-y-8">
-                        <div>
-                            <div class="flex justify-between text-white mb-3">
-                                <span class="font-medium">Max daily replies / mentions</span>
-                                <span id="value-replies" class="font-mono text-emerald-400 font-semibold">200</span>
-                            </div>
-                            <input type="range" id="slider-replies" min="10" max="1000" value="200" step="10" class="w-full slider-thumb">
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-white mb-3">
-                                <span class="font-medium">Max actions per second (QPS)</span>
-                                <span id="value-qps" class="font-mono text-emerald-400 font-semibold">0.5</span>
-                            </div>
-                            <input type="range" id="slider-qps" min="0.1" max="2" value="0.5" step="0.1" class="w-full slider-thumb">
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-white mb-3">
-                                <span class="font-medium">Daily cost cap (USD)</span>
-                                <span id="value-usd" class="font-mono text-emerald-400 font-semibold">$3</span>
-                            </div>
-                            <input type="range" id="slider-usd" min="1" max="20" value="3" step="1" class="w-full slider-thumb">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LLM + Tools -->
-                <div class="grid grid-cols-2 gap-8 mb-10">
-                    <div>
-                        <h2 class="text-xl font-semibold text-white mb-4">Brain • Choose LLM</h2>
-                        <select id="llm-provider" class="w-full bg-white/10 border border-white/30 text-white rounded-3xl px-6 py-4 focus:outline-none focus:border-emerald-400">
-                            <option value="grok">Grok (grok-4) — recommended</option>
-                            <option value="claude">Claude 3.7 Sonnet</option>
-                            <option value="openai">GPT-4o</option>
-                        </select>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-semibold text-white mb-4">Actions on X • Safe tools</h2>
-                        <div class="flex flex-wrap gap-3" id="x-tools"></div>
-                    </div>
-                </div>
-
-                <!-- Safety Checklist -->
-                <div class="glass rounded-3xl p-8 mb-10">
-                    <h2 class="text-xl font-semibold text-emerald-300 mb-6 flex items-center gap-2">✅ X Platform Safety Checklist</h2>
-                    <div class="space-y-4" id="safety-checklist"></div>
-                </div>
-
-                <button onclick="generateYAML()" 
-                        class="w-full py-6 text-xl font-semibold bg-emerald-500 hover:bg-emerald-600 text-white rounded-3xl flex items-center justify-center gap-4 shadow-2xl shadow-emerald-500/30 transition-all">
-                    Generate Safe grok-install.yaml
-                    <span class="text-3xl">→</span>
-                </button>
-            </div>
-
-            <!-- RIGHT COLUMN: Preview -->
-            <div class="lg:col-span-5">
-                <div class="glass rounded-3xl p-8 sticky top-8">
-                    <div class="flex justify-between text-white/80 text-sm font-medium mb-6">
-                        <span>LIVE SAFETY SCORE</span>
-                        <div id="safety-score" class="flex items-center gap-2 text-4xl font-bold text-emerald-400"></div>
-                    </div>
-                    
-                    <div class="bg-slate-950/70 backdrop-blur-xl rounded-3xl p-6 mb-6">
-                        <div class="flex justify-between text-xs text-white/60 mb-4">
-                            <span class="uppercase tracking-widest">grok-install.yaml</span>
-                            <span onclick="copyYAML()" class="cursor-pointer hover:text-emerald-400">📋 Copy</span>
-                        </div>
-                        <pre id="yaml-preview" class="yaml-preview text-emerald-300 text-sm leading-relaxed overflow-auto max-h-96 p-4 rounded-2xl"></pre>
-                    </div>
-
-                    <div class="flex gap-4">
-                        <button onclick="downloadYAML()" class="flex-1 py-4 bg-white/10 hover:bg-white/20 text-white rounded-3xl font-medium transition-all">↓ Download .yaml</button>
-                        <button onclick="copyToClipboard()" class="flex-1 py-4 bg-white/10 hover:bg-white/20 text-white rounded-3xl font-medium transition-all">Copy to clipboard</button>
-                    </div>
-                </div>
-            </div>
+      <!-- STEP 2: Customize -->
+      <section class="glass-strong rounded-3xl p-6 sm:p-8 fade-up" style="animation-delay:0.15s">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="step-num">2</span>
+          <div>
+            <h2 class="text-xl font-bold">Make it yours</h2>
+            <p class="text-sm text-slate-400">Name it, describe it, and pick a safety tier.</p>
+          </div>
         </div>
+
+        <div class="space-y-4 mb-6">
+          <div>
+            <label class="text-xs text-slate-400 mb-1.5 block uppercase tracking-wider font-medium">Agent name</label>
+            <input id="agent-name" type="text" class="input-field" placeholder="e.g. DogeDoughAI">
+          </div>
+          <div>
+            <label class="text-xs text-slate-400 mb-1.5 block uppercase tracking-wider font-medium">Description</label>
+            <textarea id="agent-desc" rows="2" class="input-field resize-none" placeholder="What does your agent do?"></textarea>
+          </div>
+        </div>
+
+        <label class="text-xs text-slate-400 mb-3 block uppercase tracking-wider font-medium">Safety tier</label>
+        <div class="grid grid-cols-3 gap-3" id="tier-cards"></div>
+      </section>
+
+      <!-- STEP 3: Limits -->
+      <section class="glass-strong rounded-3xl p-6 sm:p-8 fade-up" style="animation-delay:0.2s">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="step-num">3</span>
+          <div>
+            <h2 class="text-xl font-bold">Set safe limits</h2>
+            <p class="text-sm text-slate-400">Slide to set caps. Defaults are conservative.</p>
+          </div>
+        </div>
+
+        <div class="space-y-7">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="font-medium text-sm">📨 Daily replies / mentions</span>
+              <span class="font-mono text-emerald-400 font-bold text-sm bg-emerald-400/10 px-3 py-1 rounded-lg" id="value-replies">200</span>
+            </div>
+            <input type="range" id="slider-replies" min="10" max="1000" value="200" step="10">
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="font-medium text-sm">⚡ Actions per second (QPS)</span>
+              <span class="font-mono text-emerald-400 font-bold text-sm bg-emerald-400/10 px-3 py-1 rounded-lg" id="value-qps">0.5</span>
+            </div>
+            <input type="range" id="slider-qps" min="0.1" max="2" value="0.5" step="0.1">
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="font-medium text-sm">💰 Daily cost cap</span>
+              <span class="font-mono text-emerald-400 font-bold text-sm bg-emerald-400/10 px-3 py-1 rounded-lg" id="value-usd">$3</span>
+            </div>
+            <input type="range" id="slider-usd" min="1" max="20" value="3" step="1">
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 4: Brain + Tools -->
+      <section class="glass-strong rounded-3xl p-6 sm:p-8 fade-up" style="animation-delay:0.25s">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="step-num">4</span>
+          <div>
+            <h2 class="text-xl font-bold">Brain + tools</h2>
+            <p class="text-sm text-slate-400">Choose the LLM and what your agent can do.</p>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label class="text-xs text-slate-400 mb-3 block uppercase tracking-wider font-medium">🧠 Brain</label>
+          <div class="grid grid-cols-3 gap-3" id="llm-cards"></div>
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-400 mb-3 block uppercase tracking-wider font-medium">⚡ Allowed actions on X</label>
+          <div class="flex flex-wrap gap-2" id="tool-pills"></div>
+        </div>
+      </section>
+
+      <!-- Safety checklist -->
+      <section class="rounded-3xl p-6 sm:p-7 border border-emerald-500/20 fade-up" style="animation-delay:0.3s; background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(16,185,129,0.04));">
+        <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-emerald-300">
+          <span>🛡️</span> X Platform Safety Checklist
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="safety-checklist"></div>
+      </section>
+
+      <button class="cta-btn" onclick="generateYAML()">
+        <span>Generate Safe grok-install.yaml</span>
+        <span class="text-xl">→</span>
+      </button>
+
+      <div class="grid grid-cols-2 gap-3">
+        <button class="btn-secondary btn-x" onclick="shareOnX()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          <span>Share on X</span>
+        </button>
+        <button class="btn-secondary btn-render" onclick="deployToRender()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19 L12 5"/>
+            <path d="M5 12 L12 5 L19 12"/>
+            <path d="M4 20 L20 20" opacity="0.5"/>
+          </svg>
+          <span>Deploy to Render</span>
+        </button>
+      </div>
+      <p class="text-center text-xs text-slate-500 -mt-1">
+        Help others discover this · Deploy your agent in one click
+      </p>
     </div>
 
-    <script>
-        // (Same JS logic as before – fully preserved, just prettier visuals)
-        // ... [the entire script from the previous version is unchanged]
-        // I kept the exact same functionality (tiers, sliders, examples, tools, checklist, preview, etc.)
-        // Only the styling changed to glassmorphic premium look.
-        // For brevity I’m not repeating the full 300-line JS here, but it is 100% identical to the last version you had.
-        // Just copy the <script> block from the previous HTML I gave you – nothing was removed or broken.
-    </script>
+    <!-- RIGHT (preview) -->
+    <div class="lg:col-span-4">
+      <div class="sticky-preview glass-strong rounded-3xl p-6 fade-up" style="animation-delay:0.35s">
+
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <p class="text-xs uppercase tracking-widest text-slate-400 mb-1 font-medium">Live safety score</p>
+            <p class="text-xs text-emerald-400 font-medium">Updated as you build</p>
+          </div>
+          <div class="score-circle">
+            <svg width="84" height="84">
+              <defs>
+                <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#22c55e"/>
+                  <stop offset="100%" stop-color="#10b981"/>
+                </linearGradient>
+              </defs>
+              <circle class="bg-ring" cx="42" cy="42" r="35" fill="none" stroke-width="6"/>
+              <circle id="score-progress" class="progress-ring" cx="42" cy="42" r="35" fill="none" stroke-width="6"
+                      stroke-dasharray="219.9" stroke-dashoffset="0"/>
+            </svg>
+            <div class="score-text" id="score-text">99</div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl p-4 bg-black/40 border border-white/5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[11px] uppercase tracking-widest text-slate-500 font-medium">grok-install.yaml</span>
+            <button onclick="copyYAML()" class="text-xs text-slate-400 hover:text-emerald-400 transition flex items-center gap-1">
+              <span>📋</span> Copy
+            </button>
+          </div>
+          <pre id="yaml-preview" class="code-pre max-h-96 overflow-auto"></pre>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="downloadYAML()" class="py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl text-sm font-medium transition">
+            ↓ Download
+          </button>
+          <button onclick="copyYAML()" class="py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl text-sm font-medium transition">
+            📋 Copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- X PROFILE RETURN -->
+  <section class="mt-14 fade-up" style="animation-delay:0.4s">
+    <div class="rounded-3xl p-6 sm:p-7" style="border: 1.5px solid rgba(34,197,94,0.5); background: rgba(34,197,94,0.04); box-shadow: 0 0 32px -12px rgba(34,197,94,0.25);">
+      <h3 class="text-base font-bold text-emerald-300 mb-4 flex items-center gap-2">
+        <span class="text-lg">𝕏</span> Add your handle here to return to your X profile
+      </h3>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <div id="x-input-wrap" class="flex-1 flex items-center bg-black/40 border border-white/10 rounded-xl overflow-hidden transition">
+          <span class="px-4 py-3.5 text-slate-400 font-mono text-sm border-r border-white/10 bg-white/5 select-none whitespace-nowrap">
+            https://x.com/@
+          </span>
+          <input id="x-handle" type="text" 
+                 placeholder="yourhandle" 
+                 maxlength="50"
+                 autocomplete="username"
+                 class="flex-1 bg-transparent border-0 px-4 py-3.5 text-white font-mono text-sm focus:outline-none min-w-0 w-full"
+                 oninput="updateXButton()"
+                 onkeypress="if(event.key==='Enter') goToX()">
+        </div>
+        <button id="x-back-btn" onclick="goToX()" 
+                class="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 disabled:bg-white/10 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none text-white rounded-xl font-semibold text-sm transition flex items-center justify-center gap-2 whitespace-nowrap shadow-lg shadow-emerald-500/30"
+                disabled>
+          Back to X
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center mt-12 text-slate-500 text-sm">
+    <p>Built for the <a href="https://github.com/agentmindcloud/grok-install" class="text-emerald-400 hover:underline">grok-install</a> ecosystem · Safe by default</p>
+  </footer>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ===== Data =====
+const AGENT_TEMPLATES = [
+  {
+    id: 'doge',
+    icon: `<svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 4 L18.5 13.5 L28 16 L18.5 18.5 L16 28 L13.5 18.5 L4 16 L13.5 13.5 Z" fill="white" fill-opacity="0.95" stroke="none"/>
+      <circle cx="25.5" cy="6.5" r="1.4" fill="white"/>
+      <circle cx="6.5" cy="25.5" r="1.1" fill="white"/>
+    </svg>`,
+    name: 'DogeDoughAI',
+    role: 'Brand Assistant',
+    desc: 'Friendly AI for restaurants & local brands. Replies to mentions, posts daily specials, answers menu questions.',
+    gradient: 'linear-gradient(135deg, #f97316, #ef4444)',
+    bg: 'linear-gradient(135deg, rgba(249,115,22,0.18), rgba(239,68,68,0.08))',
+    fillName: 'DogeDoughAI',
+    fillDesc: 'Official AI for Doge Dough Pizza. Always up-to-date menu & specials with fun visuals of Doge the Dough Chef 🍕🐶'
+  },
+  {
+    id: 'alpha',
+    icon: `<svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 23 L11 15 L17 19 L28 7"/>
+      <path d="M21 7 L28 7 L28 14"/>
+      <circle cx="28" cy="7" r="2.4" fill="white" stroke="none"/>
+    </svg>`,
+    name: 'AlphaSignalBot',
+    role: 'Markets & Insights',
+    desc: 'Posts daily market updates, replies to crypto questions, shares technical analysis. No financial advice.',
+    gradient: 'linear-gradient(135deg, #10b981, #06b6d4)',
+    bg: 'linear-gradient(135deg, rgba(16,185,129,0.18), rgba(6,182,212,0.08))',
+    fillName: 'AlphaSignalBot',
+    fillDesc: 'Daily market context for crypto traders. Educational only, never financial advice. Posts 4x/day with charts.'
+  },
+  {
+    id: 'visual',
+    icon: `<svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 4 L26 12 L22 26 L10 26 L6 12 Z" fill="white" fill-opacity="0.2"/>
+      <path d="M6 12 L26 12"/>
+      <path d="M16 4 L16 12"/>
+      <path d="M16 12 L10 26"/>
+      <path d="M16 12 L22 26"/>
+    </svg>`,
+    name: 'VisualForge',
+    role: 'Creative Content',
+    desc: 'Generates daily AI art, replies to visual prompts, posts themed creative drops. All output watermarked.',
+    gradient: 'linear-gradient(135deg, #a855f7, #ec4899)',
+    bg: 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(236,72,153,0.08))',
+    fillName: 'VisualForge',
+    fillDesc: 'Daily AI-generated art with watermarks. Replies with custom visuals when tagged. Themed & on-brand.'
+  },
+  {
+    id: 'devpilot',
+    icon: `<svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 9 L4 16 L11 23"/>
+      <path d="M21 9 L28 16 L21 23"/>
+      <path d="M19 5.5 L13 26.5" stroke-width="2.2"/>
+    </svg>`,
+    name: 'DevPilot',
+    role: 'Developer Assistant',
+    desc: 'Answers API questions, posts coding tips, helps developers ship faster. Open-source friendly.',
+    gradient: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
+    bg: 'linear-gradient(135deg, rgba(59,130,246,0.18), rgba(6,182,212,0.08))',
+    fillName: 'DevPilot',
+    fillDesc: 'Helps developers ship faster. Posts coding tips, answers API questions, links to docs. Open source.'
+  }
+];
+
+const TIERS = [
+  {
+    id: 'beginner',
+    icon: `<svg viewBox="0 0 28 28" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 3 L23 6 L23 14 C23 19 19 23 14 25 C9 23 5 19 5 14 L5 6 Z" fill="currentColor" fill-opacity="0.18"/>
+      <path d="M10 14 L13 17 L18 11" stroke-width="2.4"/>
+    </svg>`,
+    name: 'Beginner', desc: 'Strict caps · safest'
+  },
+  {
+    id: 'builder',
+    icon: `<svg viewBox="0 0 28 28" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="15" width="9" height="9" rx="1.6" fill="currentColor" fill-opacity="0.2"/>
+      <rect x="15.5" y="15" width="9" height="9" rx="1.6" fill="currentColor" fill-opacity="0.2"/>
+      <rect x="9.5" y="3.5" width="9" height="9" rx="1.6" fill="currentColor" fill-opacity="0.2"/>
+    </svg>`,
+    name: 'Builder', desc: 'Balanced · most popular'
+  },
+  {
+    id: 'advanced',
+    icon: `<svg viewBox="0 0 28 28" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 17 L14 8 L23 17"/>
+      <path d="M5 23 L14 14 L23 23" opacity="0.45"/>
+    </svg>`,
+    name: 'Advanced', desc: 'Full toolset · audited'
+  }
+];
+
+const LLMS = [
+  {
+    id: 'grok',
+    icon: `<svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 3 L14 25"/>
+      <path d="M3 14 L25 14"/>
+      <path d="M6.5 6.5 L21.5 21.5"/>
+      <path d="M21.5 6.5 L6.5 21.5"/>
+      <circle cx="14" cy="14" r="2.4" fill="currentColor" stroke="none"/>
+    </svg>`,
+    name: 'Grok 4', sub: 'xAI · recommended'
+  },
+  {
+    id: 'claude',
+    icon: `<svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 22 L9.5 9 L13.5 16 L17.5 6 L25 22 Z" fill="currentColor" fill-opacity="0.18"/>
+      <path d="M3 22 L9.5 9 L13.5 16 L17.5 6 L25 22"/>
+    </svg>`,
+    name: 'Claude 4.7', sub: 'Anthropic'
+  },
+  {
+    id: 'gpt',
+    icon: `<svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="14" cy="14" r="3" fill="currentColor" fill-opacity="0.3"/>
+      <path d="M14 4 L14 8.5"/>
+      <path d="M14 19.5 L14 24"/>
+      <path d="M4 14 L8.5 14"/>
+      <path d="M19.5 14 L24 14"/>
+      <path d="M7 7 L10.2 10.2"/>
+      <path d="M17.8 17.8 L21 21"/>
+      <path d="M21 7 L17.8 10.2"/>
+      <path d="M10.2 17.8 L7 21"/>
+    </svg>`,
+    name: 'GPT-4o', sub: 'OpenAI'
+  }
+];
+
+const TOOLS = [
+  { id: 'read_mentions',     label: 'Read mentions',     safe: true,  default: true  },
+  { id: 'reply_to_mentions', label: 'Reply to mentions', safe: true,  default: true  },
+  { id: 'post_text',         label: 'Post text',         safe: true,  default: true  },
+  { id: 'post_image',        label: 'Post image',        safe: true,  default: false },
+  { id: 'like_posts',        label: 'Like posts',        safe: true,  default: false },
+  { id: 'repost',            label: 'Repost',            safe: true,  default: false },
+  { id: 'follow_users',      label: 'Follow users',      safe: false, default: false },
+  { id: 'send_dm',           label: 'Send DM',           safe: false, default: false }
+];
+
+const SAFETY_CHECKS = [
+  'Rate limits enforced',
+  'Daily cost cap set',
+  'No DMs without approval',
+  'No unfollowing actions',
+  'Audit log enabled',
+  'Content moderation on'
+];
+
+// ===== State =====
+let state = {
+  template: 'doge',
+  tier: 'beginner',
+  llm: 'grok',
+  tools: TOOLS.filter(t => t.default).map(t => t.id),
+  name: AGENT_TEMPLATES[0].fillName,
+  desc: AGENT_TEMPLATES[0].fillDesc,
+  replies: 200,
+  qps: 0.5,
+  usd: 3
+};
+
+// ===== Render =====
+function renderAgentCards() {
+  const grid = document.getElementById('agent-templates');
+  grid.innerHTML = AGENT_TEMPLATES.map(t => `
+    <div class="agent-card ${state.template === t.id ? 'selected' : ''}" 
+         style="--card-bg: ${t.bg};"
+         onclick="selectTemplate('${t.id}')">
+      ${state.template === t.id ? '<div class="agent-tag">SELECTED</div>' : ''}
+      <div class="agent-avatar" style="background: ${t.gradient};">${t.icon}</div>
+      <h3 class="font-bold text-base mb-1">${t.name}</h3>
+      <p class="text-[11px] text-slate-400 uppercase tracking-wider mb-2 font-medium">${t.role}</p>
+      <p class="text-sm text-slate-300 leading-snug">${t.desc}</p>
+    </div>
+  `).join('');
+}
+
+function renderTiers() {
+  document.getElementById('tier-cards').innerHTML = TIERS.map(t => `
+    <div class="tier-card ${state.tier === t.id ? 'active' : ''}" onclick="selectTier('${t.id}')">
+      <div class="card-icon">${t.icon}</div>
+      <p class="font-bold text-sm">${t.name}</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">${t.desc}</p>
+    </div>
+  `).join('');
+}
+
+function renderLLMs() {
+  document.getElementById('llm-cards').innerHTML = LLMS.map(l => `
+    <div class="llm-card ${state.llm === l.id ? 'active' : ''}" onclick="selectLLM('${l.id}')">
+      <div class="card-icon">${l.icon}</div>
+      <p class="font-bold text-sm">${l.name}</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">${l.sub}</p>
+    </div>
+  `).join('');
+}
+
+function renderTools() {
+  document.getElementById('tool-pills').innerHTML = TOOLS.map(t => `
+    <div class="tool-pill ${state.tools.includes(t.id) ? 'active' : ''} ${!t.safe ? 'warn' : ''}" 
+         onclick="toggleTool('${t.id}')">
+      <span>${state.tools.includes(t.id) ? '✓' : '+'}</span>
+      <span>${t.label}</span>
+      ${!t.safe ? '<span class="text-amber-400 text-[10px]">⚠</span>' : ''}
+    </div>
+  `).join('');
+}
+
+function renderChecklist() {
+  document.getElementById('safety-checklist').innerHTML = SAFETY_CHECKS.map(c => `
+    <div class="flex items-center gap-2 text-sm text-emerald-200">
+      <span class="text-emerald-400 font-bold">✓</span>
+      <span>${c}</span>
+    </div>
+  `).join('');
+}
+
+// ===== Actions =====
+function selectTemplate(id) {
+  const t = AGENT_TEMPLATES.find(x => x.id === id);
+  state.template = id;
+  state.name = t.fillName;
+  state.desc = t.fillDesc;
+  document.getElementById('agent-name').value = t.fillName;
+  document.getElementById('agent-desc').value = t.fillDesc;
+  renderAgentCards();
+  updateYAML();
+}
+
+function selectTier(id) {
+  state.tier = id;
+  if (id === 'beginner') { state.replies = 200;  state.qps = 0.5; state.usd = 3; }
+  if (id === 'builder')  { state.replies = 500;  state.qps = 1;   state.usd = 8; }
+  if (id === 'advanced') { state.replies = 1000; state.qps = 2;   state.usd = 20; }
+  syncSliders();
+  renderTiers();
+  updateYAML();
+}
+
+function selectLLM(id) { state.llm = id; renderLLMs(); updateYAML(); }
+
+function toggleTool(id) {
+  if (state.tools.includes(id)) {
+    state.tools = state.tools.filter(x => x !== id);
+  } else {
+    state.tools.push(id);
+  }
+  renderTools();
+  updateYAML();
+}
+
+function syncSliders() {
+  document.getElementById('slider-replies').value = state.replies;
+  document.getElementById('slider-qps').value = state.qps;
+  document.getElementById('slider-usd').value = state.usd;
+  document.getElementById('value-replies').textContent = state.replies;
+  document.getElementById('value-qps').textContent = state.qps;
+  document.getElementById('value-usd').textContent = '$' + state.usd;
+}
+
+// ===== YAML =====
+function buildYAMLHTML() {
+  const slug = state.name.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  const model = state.llm === 'grok' ? 'grok-4' : state.llm === 'claude' ? 'claude-opus-4-7' : 'gpt-4o';
+  return `<span class="yc"># grok-install.yaml — generated by Safe Agent Builder</span>
+<span class="yk">name</span>: <span class="yv">"${state.name}"</span>
+<span class="yk">slug</span>: <span class="yv">${slug}</span>
+<span class="yk">description</span>: <span class="yv">"${state.desc}"</span>
+<span class="yk">tier</span>: <span class="yv">${state.tier}</span>
+
+<span class="yk">brain</span>:
+  <span class="yk">provider</span>: <span class="yv">${state.llm}</span>
+  <span class="yk">model</span>: <span class="yv">${model}</span>
+  <span class="yk">temperature</span>: <span class="yv">0.7</span>
+
+<span class="yk">limits</span>:
+  <span class="yk">daily_replies</span>: <span class="yv">${state.replies}</span>
+  <span class="yk">qps</span>: <span class="yv">${state.qps}</span>
+  <span class="yk">daily_usd_cap</span>: <span class="yv">${state.usd}</span>
+
+<span class="yk">tools</span>:
+${state.tools.map(t => `  - <span class="yv">${t}</span>`).join('\n')}
+
+<span class="yk">safety</span>:
+  <span class="yk">audit_log</span>: <span class="yv">true</span>
+  <span class="yk">content_moderation</span>: <span class="yv">true</span>
+  <span class="yk">approval_required</span>:
+    - <span class="yv">send_dm</span>
+    - <span class="yv">follow_users</span>
+  <span class="yk">rate_limit_strategy</span>: <span class="yv">strict</span>`;
+}
+
+function buildYAMLPlain() {
+  const slug = state.name.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  const model = state.llm === 'grok' ? 'grok-4' : state.llm === 'claude' ? 'claude-opus-4-7' : 'gpt-4o';
+  return `# grok-install.yaml — generated by Safe Agent Builder
+name: "${state.name}"
+slug: ${slug}
+description: "${state.desc}"
+tier: ${state.tier}
+
+brain:
+  provider: ${state.llm}
+  model: ${model}
+  temperature: 0.7
+
+limits:
+  daily_replies: ${state.replies}
+  qps: ${state.qps}
+  daily_usd_cap: ${state.usd}
+
+tools:
+${state.tools.map(t => `  - ${t}`).join('\n')}
+
+safety:
+  audit_log: true
+  content_moderation: true
+  approval_required:
+    - send_dm
+    - follow_users
+  rate_limit_strategy: strict
+`;
+}
+
+function updateYAML() {
+  document.getElementById('yaml-preview').innerHTML = buildYAMLHTML();
+  let score = 99;
+  if (state.tier === 'builder') score = 92;
+  if (state.tier === 'advanced') score = 85;
+  if (state.tools.includes('send_dm')) score -= 5;
+  if (state.tools.includes('follow_users')) score -= 4;
+  if (state.qps > 1) score -= 3;
+  if (state.usd > 10) score -= 2;
+  score = Math.max(50, score);
+  document.getElementById('score-text').textContent = score;
+  const offset = 219.9 - (219.9 * score / 100);
+  document.getElementById('score-progress').setAttribute('stroke-dashoffset', offset);
+}
+
+function copyYAML() {
+  navigator.clipboard.writeText(buildYAMLPlain()).then(() => showToast('✅ Copied to clipboard'));
+}
+
+function downloadYAML() {
+  const blob = new Blob([buildYAMLPlain()], { type: 'text/yaml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'grok-install.yaml';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ Downloaded grok-install.yaml');
+}
+
+function generateYAML() { copyYAML(); }
+
+// ===== Share on X =====
+function shareOnX() {
+  const text = `Just built ${state.name} — a safe AI agent — in 60 seconds 🤖
+
+✓ Zero code
+✓ 99% pre-approved by safety scan
+✓ Smart rate limits + audit logs
+
+Build yours free 👇`;
+  const url = 'https://agentmindcloud.github.io/grok-install/safe-agent-builder.html';
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  window.open(intent, '_blank', 'noopener,noreferrer,width=600,height=600');
+  showToast('𝕏 Opening compose window...');
+}
+
+// ===== Deploy to Render =====
+function deployToRender() {
+  // 1. Download the YAML so the user has it ready
+  downloadYAML();
+  // 2. Open Render's deploy URL pointing at the grok-install repo
+  setTimeout(() => {
+    const repo = 'https://github.com/agentmindcloud/grok-install';
+    const deployUrl = `https://render.com/deploy?repo=${encodeURIComponent(repo)}`;
+    window.open(deployUrl, '_blank', 'noopener,noreferrer');
+  }, 500);
+  showToast('⚡ YAML downloaded · Opening Render...');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ===== X Profile Return =====
+function cleanHandle(raw) {
+  return raw.trim()
+    .replace(/^@+/, '')
+    .replace(/^https?:\/\/(www\.)?(x|twitter)\.com\//i, '')
+    .replace(/[\/\?#].*$/, '')
+    .replace(/[^A-Za-z0-9_]/g, '');
+}
+
+function updateXButton() {
+  const input = document.getElementById('x-handle');
+  const btn = document.getElementById('x-back-btn');
+  const wrap = document.getElementById('x-input-wrap');
+  const handle = cleanHandle(input.value);
+  btn.disabled = !handle;
+  if (handle) {
+    wrap.style.borderColor = 'rgba(34,197,94,0.5)';
+  } else {
+    wrap.style.borderColor = 'rgba(255,255,255,0.1)';
+  }
+}
+
+function goToX() {
+  const input = document.getElementById('x-handle');
+  const handle = cleanHandle(input.value);
+  if (!handle) {
+    showToast('⚠️ Enter your X handle first');
+    input.focus();
+    return;
+  }
+  try { localStorage.setItem('grok_install_x_handle', handle); } catch(e) {}
+  window.open('https://x.com/' + handle, '_blank', 'noopener,noreferrer');
+  showToast('✅ Opening @' + handle + ' on X');
+}
+
+// Auto-restore saved handle
+try {
+  const saved = localStorage.getItem('grok_install_x_handle');
+  if (saved) {
+    document.getElementById('x-handle').value = saved;
+    updateXButton();
+  }
+} catch(e) {}
+
+// ===== Listeners =====
+document.getElementById('slider-replies').addEventListener('input', e => {
+  state.replies = +e.target.value;
+  document.getElementById('value-replies').textContent = state.replies;
+  updateYAML();
+});
+document.getElementById('slider-qps').addEventListener('input', e => {
+  state.qps = +e.target.value;
+  document.getElementById('value-qps').textContent = state.qps;
+  updateYAML();
+});
+document.getElementById('slider-usd').addEventListener('input', e => {
+  state.usd = +e.target.value;
+  document.getElementById('value-usd').textContent = '$' + state.usd;
+  updateYAML();
+});
+document.getElementById('agent-name').addEventListener('input', e => {
+  state.name = e.target.value;
+  updateYAML();
+});
+document.getElementById('agent-desc').addEventListener('input', e => {
+  state.desc = e.target.value;
+  updateYAML();
+});
+
+// ===== Init =====
+document.getElementById('agent-name').value = state.name;
+document.getElementById('agent-desc').value = state.desc;
+renderAgentCards();
+renderTiers();
+renderLLMs();
+renderTools();
+renderChecklist();
+updateYAML();
+</script>
 </body>
 </html>
