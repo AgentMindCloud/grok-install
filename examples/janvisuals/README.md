@@ -1,3 +1,9 @@
+---
+title: janvisuals — flagship v2.14 example
+description: Reference grok-install.yaml exercising every field in the new v2.14 visuals block — branded preview card, install flow, demo media, dashboard.
+image: /docs/posters/og-default.png
+---
+
 # janvisuals — flagship v2.14 example
 
 This example exercises every field in the new `visuals` block introduced in

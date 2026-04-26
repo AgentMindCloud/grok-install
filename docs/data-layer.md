@@ -1,3 +1,9 @@
+---
+title: grok-install Data Layer
+description: Public schema-validated JSON feeds (featured-agents, trending) served statically from the grok-install repo.
+image: /docs/posters/og-default.png
+---
+
 # grok-install Data Layer (v1.0)
 
 The grok-install ecosystem ships two public, schema-validated JSON feeds. Both

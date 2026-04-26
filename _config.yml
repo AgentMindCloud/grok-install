@@ -1,0 +1,33 @@
+---
+title: grok-install
+description: The declarative open standard for Grok-native AI agents — one YAML, one command.
+url: https://agentmindcloud.github.io
+baseurl: /grok-install
+twitter:
+  username: agentmindcloud
+  card: summary_large_image
+social:
+  name: AgentMindCloud
+  links:
+    - https://github.com/AgentMindCloud
+plugins:
+  - jekyll-seo-tag
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+      image: /docs/posters/og-default.png
+exclude:
+  - scripts/
+  - tests/
+  - tools/
+  - bin/
+  - node_modules/
+  - .github/
+  - "*.lock"
+  - package.json
+  - package-lock.json
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
