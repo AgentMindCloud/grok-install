@@ -1,3 +1,9 @@
+---
+title: grok-install v2.14 — visuals reference
+description: The optional v2.14 visuals block — branded preview cards, animated install flows, demo media, dashboards, and accessibility defaults.
+image: /docs/posters/og-default.png
+---
+
 # v2.14 Visuals
 
 The `visuals` block is new in v2.14. It is **optional** — any valid v2.13

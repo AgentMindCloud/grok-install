@@ -1,3 +1,9 @@
+---
+title: grok-install spec v2.14
+description: The active grok-install specification — declarative agent install standard for Grok-native AI agents on X.
+image: /docs/posters/og-default.png
+---
+
 # grok-install Specification — v2.14
 
 > **Status:** Active
