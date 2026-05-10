@@ -67,7 +67,7 @@ graph TD
 
 ## Agents
 
-Browse the catalog at [`agents/README.md`](agents/README.md). A hosted, browsable marketplace launches with v1.0.
+Browse the bundled catalog with `grok-install list-agents agents/`. The Next.js storefront under [`marketplace/`](marketplace/) renders the same catalog as a browsable web UI; see [`marketplace/README.md`](marketplace/README.md) for local dev. A hosted instance launches with v1.0.
 
 ## Spec
 
