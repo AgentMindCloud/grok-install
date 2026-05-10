@@ -34,13 +34,6 @@ def test_init_stub() -> None:
     assert "Not yet implemented" in result.output
 
 
-def test_run_stub() -> None:
-    runner = CliRunner()
-    result = runner.invoke(cli, ["run", "some-agent"])
-    assert result.exit_code == 0
-    assert "Not yet implemented" in result.output
-
-
 def test_scan_stub() -> None:
     runner = CliRunner()
     result = runner.invoke(cli, ["scan"])
@@ -54,10 +47,3 @@ def test_scan_with_lucas_flag() -> None:
     assert result.exit_code == 0
     assert "Not yet implemented" in result.output
     assert "xlos" in result.output.lower() or "lucas" in result.output.lower()
-
-
-def test_list_agents_stub() -> None:
-    runner = CliRunner()
-    result = runner.invoke(cli, ["list-agents"])
-    assert result.exit_code == 0
-    assert "Not yet implemented" in result.output
