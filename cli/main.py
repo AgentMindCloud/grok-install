@@ -8,6 +8,8 @@ import click
 
 from cli import __version__
 from cli._utils import phase_stub
+from cli.listing import run_list_agents
+from cli.runner import run_agent
 from cli.validate import run_validate
 
 
@@ -51,18 +53,21 @@ def validate(path: pathlib.Path) -> None:
 
 @cli.command()
 @click.argument("agent_name")
-def run(agent_name: str) -> None:
-    """Run an installed agent by name."""
-    del agent_name
-    phase_stub(
-        "run",
-        "a later release",
-        extra=(
-            "Streamlit-shape detection and passthrough for X Money / "
-            "finance-app manifests is per DECISIONS.md Q4 and ships with the "
-            "finance agent catalog."
-        ),
-    )
+@click.option(
+    "--path",
+    "search_path",
+    type=click.Path(path_type=pathlib.Path),
+    default="agents",
+    help="Directory to search for installed agents (default: agents/).",
+)
+def run(agent_name: str, search_path: pathlib.Path) -> None:
+    """Run an installed agent by name.
+
+    Streamlit-targeted agents (per DECISIONS.md Q4) dispatch to ``streamlit
+    run <entrypoint>``. Other deploy targets emit a 'ships in a later release'
+    notice for now.
+    """
+    raise SystemExit(run_agent(search_path, agent_name))
 
 
 @cli.command()
@@ -96,15 +101,36 @@ def scan(path: pathlib.Path, lucas_via: str | None) -> None:
 @click.argument(
     "path",
     type=click.Path(path_type=pathlib.Path),
-    default=".",
+    default="agents",
 )
-def list_agents(path: pathlib.Path) -> None:
-    """List installed agents under PATH."""
-    del path
-    phase_stub(
-        "list-agents",
-        "a later release",
-        extra="Agent listing wires up alongside the catalog migration.",
+@click.option(
+    "--json",
+    "output_json",
+    is_flag=True,
+    help="Emit a JSON array of full manifest objects instead of the table.",
+)
+@click.option(
+    "--target",
+    "target_filter",
+    default=None,
+    help="Filter agents by deploy.targets membership (e.g. cli, streamlit).",
+)
+def list_agents(
+    path: pathlib.Path,
+    output_json: bool,
+    target_filter: str | None,
+) -> None:
+    """List installed agents under PATH (default: agents/).
+
+    Default table columns (in order): slug, name, version, targets, updated_at.
+    Exit 0 on empty result; exit 2 if any schema-invalid manifest is found.
+    """
+    raise SystemExit(
+        run_list_agents(
+            path,
+            output_json=output_json,
+            target_filter=target_filter,
+        )
     )
 
 
