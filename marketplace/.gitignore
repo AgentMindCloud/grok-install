@@ -1,0 +1,5 @@
+.next/
+node_modules/
+.catalog.json
+*.tsbuildinfo
+next-env.d.ts
