@@ -1,0 +1,36 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ['3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install pytest
+        run: pip install pytest
+      # NOTE: tests/ is empty in Phase 2a; pytest exits 5 ("no tests collected")
+      # which the shell wrapper translates to success. Drop the wrapper once tests
+      # land in Phase 2b.
+      - name: Run pytest
+        shell: bash
+        run: |
+          set +e
+          pytest tests/ --tb=short
+          rc=$?
+          if [ "$rc" -eq 5 ]; then
+            echo "No tests collected — acceptable in Phase 2a."
+            exit 0
+          fi
+          exit "$rc"

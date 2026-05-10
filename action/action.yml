@@ -1,0 +1,6 @@
+name: 'grok-install'
+description: 'Install and run Grok-native agents in CI.'
+branding:
+  icon: 'play-circle'
+  color: 'blue'
+# `runs:` spec lands in Phase 2b.

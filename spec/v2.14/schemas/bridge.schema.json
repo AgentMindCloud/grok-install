@@ -1,0 +1,4 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grok-install.dev/spec/v2.14/schemas/bridge.schema.json"
+}

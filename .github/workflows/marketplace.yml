@@ -1,0 +1,14 @@
+name: marketplace
+
+on:
+  pull_request:
+    paths:
+      - 'marketplace/**'
+
+jobs:
+  marketplace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder
+        run: echo "Phase 2a placeholder — Next.js build + lighthouse wire up in Phase 2b"
