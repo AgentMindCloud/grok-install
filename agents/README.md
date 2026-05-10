@@ -9,6 +9,6 @@ Catalog of bundled agent manifests, organized by category:
 
 Manifest schema is locked at v2.14 per DECISIONS.md D5. Validate any manifest with `grok-install validate <path>`.
 
-A hosted, browsable marketplace launches with v1.0.
+Browse the bundled catalog with `grok-install list-agents agents/` — table by default, `--json` for machine-readable output, `--target <name>` to filter by deploy target. A hosted, browsable marketplace launches with v1.0.
 
-Status: PLACEHOLDER (catalog content migration in progress)
+Status: `simple/` populated (10 agents); `creator/`, `finance/`, `super/` migration in progress.
