@@ -1,0 +1,8 @@
+:root {
+  --color-background: #0A0A0A;
+  --color-primary: #00F0FF;
+  --color-secondary: #00FF9D;
+  /* --color-experimental: #FF2D55 — RESERVED for xlOS only */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
