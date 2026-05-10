@@ -1,0 +1,17 @@
+version: "2.14"
+name: live-event-commentator
+description: Real-time X commentary on a live event with strict rate limits and a kill switch.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - cli
+updated_at: "2026-05-10"
+entrypoint: .grok/grok-workflow.yaml
+python_version: ">=3.11"
+env:
+  - XAI_API_KEY
+  - X_BEARER_TOKEN
+  - X_ACCESS_TOKEN
+  - X_ACCESS_SECRET

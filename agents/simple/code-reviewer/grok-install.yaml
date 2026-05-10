@@ -1,0 +1,45 @@
+version: "2.14"
+name: code-reviewer
+description: Reviews GitHub PRs with Grok reasoning. Posts inline comments behind approval.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - cli
+updated_at: "2026-05-10"
+entrypoint: .grok/grok-workflow.yaml
+python_version: ">=3.11"
+env:
+  - XAI_API_KEY
+  - GITHUB_TOKEN
+triggers:
+  - type: github_webhook
+    event: pull_request
+    actions: [opened, synchronize, ready_for_review]
+visuals:
+  accent_color: "#22c55e"
+  theme: minimal
+  palette:
+    bg: "#0b0f17"
+    panel: "#0f1623"
+    accent: "#22c55e"
+    accent_soft: "#0f3320"
+    text: "#d8e1ea"
+    muted: "#6f7c90"
+  typography:
+    heading_family: "monospace"
+    body_family: "monospace"
+    heading_weight: 500
+    letter_spacing: "0"
+  preview_card:
+    style: minimal
+    variant: terminal
+    title: code-reviewer
+    subtitle: "$ grok review <PR>  # inline comments, approval-gated"
+    poster: docs/posters/code-reviewer.svg
+    prompt_prefix: "~/repo $ "
+    cursor:
+      enabled: true
+      blink: true
+      respect_reduced_motion: true

@@ -1,0 +1,17 @@
+version: "2.14"
+name: scientific-discovery
+description: Daily brief of new arXiv papers and the X discussion around them.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - cli
+updated_at: "2026-05-10"
+entrypoint: .grok/grok-workflow.yaml
+python_version: ">=3.11"
+env:
+  - XAI_API_KEY
+  - X_BEARER_TOKEN
+schedule:
+  cron: "0 14 * * *"
