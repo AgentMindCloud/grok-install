@@ -34,7 +34,7 @@ def test_missing_version(fixtures_dir: pathlib.Path) -> None:
     assert not result.ok
     paths = [e.path for e in result.errors]
     messages = [e.message for e in result.errors]
-    assert any("version" in p or "version" in m for p, m in zip(paths, messages))
+    assert any("version" in p or "version" in m for p, m in zip(paths, messages, strict=False))
 
 
 def test_wrong_version(fixtures_dir: pathlib.Path) -> None:
@@ -64,9 +64,7 @@ def test_validate_with_explicit_schema_path(fixtures_dir: pathlib.Path) -> None:
     assert result.ok
 
 
-def test_run_validate_directory_mixed(
-    tmp_path: pathlib.Path, fixtures_dir: pathlib.Path
-) -> None:
+def test_run_validate_directory_mixed(tmp_path: pathlib.Path, fixtures_dir: pathlib.Path) -> None:
     """Directory mode: 3 valid + 1 invalid → exit code 1."""
     sources = [
         "valid_minimal.yaml",

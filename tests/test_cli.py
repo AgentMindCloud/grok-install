@@ -17,17 +17,13 @@ def test_version() -> None:
 
 def test_validate_valid_file(fixtures_dir: pathlib.Path) -> None:
     runner = CliRunner()
-    result = runner.invoke(
-        cli, ["validate", str(fixtures_dir / "valid_minimal.yaml")]
-    )
+    result = runner.invoke(cli, ["validate", str(fixtures_dir / "valid_minimal.yaml")])
     assert result.exit_code == 0, f"Output: {result.output}"
 
 
 def test_validate_invalid_file(fixtures_dir: pathlib.Path) -> None:
     runner = CliRunner()
-    result = runner.invoke(
-        cli, ["validate", str(fixtures_dir / "invalid_missing_version.yaml")]
-    )
+    result = runner.invoke(cli, ["validate", str(fixtures_dir / "invalid_missing_version.yaml")])
     assert result.exit_code == 1
 
 
