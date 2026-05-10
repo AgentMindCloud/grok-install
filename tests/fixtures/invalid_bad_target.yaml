@@ -1,0 +1,9 @@
+version: "2.14"
+name: bad-deploy-target
+description: Deploys to a target not in the v1.0 enum.
+runtime:
+  engine: grok
+  model: grok-3
+deploy:
+  targets:
+    - mars-rover

@@ -1,0 +1,9 @@
+version: "2.14"
+name: hello-world
+description: A simple greeting agent for demo purposes.
+runtime:
+  engine: grok
+  model: grok-3
+deploy:
+  targets:
+    - cli

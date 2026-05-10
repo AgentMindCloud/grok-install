@@ -1,0 +1,9 @@
+version: "2.14"
+name: "Bad Slug With Spaces"
+description: Name violates the slug pattern.
+runtime:
+  engine: grok
+  model: grok-3
+deploy:
+  targets:
+    - cli

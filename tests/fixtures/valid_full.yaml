@@ -1,0 +1,39 @@
+version: "2.14"
+name: full-example
+description: A comprehensive example exercising every optional field.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - cli
+    - action
+    - streamlit
+inputs:
+  type: object
+  properties:
+    prompt:
+      type: string
+outputs:
+  type: object
+  properties:
+    response:
+      type: string
+tools:
+  - name: web-search
+    version: "1.0"
+extensions:
+  constitution:
+    articles:
+      - rule-001
+      - rule-002
+  multi_agent_roles:
+    - name: planner
+    - name: executor
+  provenance:
+    cite_sources: true
+  demo_metadata:
+    video_url: https://example.com/demo.mp4
+  x_money_specific:
+    cost_cap_usd: 0.10
+    tax_disclaimer: "Demo only; not financial advice."

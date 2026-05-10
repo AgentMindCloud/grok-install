@@ -1,0 +1,9 @@
+version: "2.13"
+name: bad-old-version
+description: Wrong version constant, should be 2.14.
+runtime:
+  engine: grok
+  model: grok-3
+deploy:
+  targets:
+    - cli
