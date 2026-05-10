@@ -51,9 +51,9 @@
           "uniqueItems": true,
           "items": {
             "type": "string",
-            "enum": ["cli", "action", "ide", "marketplace", "worker", "web"]
+            "enum": ["cli", "action", "ide", "worker", "streamlit", "web"]
           },
-          "description": "Deployment surfaces. v1.0 enum proposal (pending PR open-question Q1): `cli` (local CLI run), `action` (GitHub Actions step), `ide` (IDE preview/run), `marketplace` (storefront listing), `worker` (cloud worker), `web` (browser/Streamlit sandbox)."
+          "description": "Deployment runtime targets per DECISIONS.md Q1 resolution: `cli` runs locally via the grok-install CLI; `action` runs as a GitHub Actions workflow step; `ide` runs interactively in the VSCode extension; `worker` runs as a Cloudflare Worker serverless runtime (per architecture Q3); `streamlit` runs as a Streamlit sub-app (per architecture Q4 — X Money / finance agents; CLI soft-passthrough via `grok-install run <agent>` detecting the Streamlit shape); `web` runs as a browser-resident static HTML page (per DECISIONS.md D13). `marketplace` is intentionally excluded — it is a discovery surface, not a runtime."
         }
       }
     },

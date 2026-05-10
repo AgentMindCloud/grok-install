@@ -8,7 +8,7 @@ deploy:
   targets:
     - cli
     - action
-    - marketplace
+    - streamlit
 inputs:
   type: object
   properties:
