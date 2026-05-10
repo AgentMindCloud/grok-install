@@ -1,0 +1,21 @@
+version: "2.14"
+name: hello-grok
+description: The simplest possible Grok agent. Single agent, single tool.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - cli
+updated_at: "2026-05-10"
+entrypoint: .grok/grok-agent.yaml
+python_version: ">=3.11"
+env:
+  - XAI_API_KEY
+visuals:
+  accent_color: "#7c5cff"
+  preview_card:
+    style: minimal
+    title: hello-grok
+    subtitle: Your first Grok agent in 20 lines of YAML.
+    poster: docs/posters/hello-grok.svg

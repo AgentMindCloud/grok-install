@@ -1,0 +1,51 @@
+version: "2.14"
+name: trend-to-thread
+description: Monitors X trends and drafts a full thread on topics you care about.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - cli
+updated_at: "2026-05-10"
+entrypoint: .grok/grok-workflow.yaml
+python_version: ">=3.11"
+env:
+  - XAI_API_KEY
+  - X_BEARER_TOKEN
+  - X_ACCESS_TOKEN
+  - X_ACCESS_SECRET
+schedule:
+  interval: 30m
+visuals:
+  accent_color: "#22d3ee"
+  theme: futuristic
+  palette:
+    bg: "#0b0f17"
+    panel: "#121826"
+    accent: "#22d3ee"
+    accent_soft: "#0e3a49"
+    text: "#e6e8ef"
+    muted: "#8b93a7"
+  preview_card:
+    style: futuristic
+    title: trend-to-thread
+    subtitle: Trends in. Threads out. Behind an approval gate.
+    poster: docs/posters/trend-to-thread.svg
+    gradient:
+      from: "#0b0f17"
+      to: "#0e3a49"
+      angle: 135
+    glow:
+      enabled: true
+      color: "#22d3ee"
+      intensity: 0.45
+    animation:
+      type: pulse
+      duration_ms: 2400
+      respect_reduced_motion: true
+  auto_generate:
+    demo_media: true
+    demo_length_seconds: 45
+    demo_resolution: 1280x720
+    demo_caption: "30m trend sweep → draft thread → approval gate"
