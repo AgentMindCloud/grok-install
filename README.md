@@ -8,25 +8,40 @@ grok-install is the unified Grok-native agent ecosystem — a single repository 
 
 ## Install
 
-> v1.0 not yet shipped; placeholders here document the planned UX.
+### Install from source (pre-1.0)
+
+```bash
+pip install git+https://github.com/AgentMindCloud/grok-install-v2.git
+```
+
+### After v1.0 launch
 
 ```bash
 pip install grok-install
 ```
 
-```bash
-curl -fsSL https://grok-install.dev/install.sh | sh
-```
-
-```powershell
-winget install AgentMindCloud.GrokInstall
-```
-
 ## Quick start
 
-1. `grok-install init` — scaffold a new agent project in the current directory.
-2. `grok-install pick simple/researcher` — install an agent from the catalog.
-3. `grok-install run` — execute the agent against your local Grok endpoint.
+Validate an agent manifest against the v2.14 schema:
+
+```yaml
+# manifest.yaml
+version: "2.14"
+name: hello-world
+description: A simple greeting agent for demo purposes.
+runtime:
+  engine: grok
+  model: grok-3
+deploy:
+  targets:
+    - cli
+```
+
+```bash
+grok-install validate manifest.yaml
+```
+
+The validator emits JSON-Pointer error paths and rich-coloured diagnostics. Pass a directory to validate every `grok-install.yaml` underneath it.
 
 ## Features
 
