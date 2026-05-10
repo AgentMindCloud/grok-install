@@ -1,0 +1,8 @@
+name: bad-no-version
+description: Missing required version field.
+runtime:
+  engine: grok
+  model: grok-3
+deploy:
+  targets:
+    - cli

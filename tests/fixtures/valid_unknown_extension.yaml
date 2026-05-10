@@ -1,0 +1,12 @@
+version: "2.14"
+name: future-compat
+description: Exercises the forward-compat policy for unknown extension keys.
+runtime:
+  engine: grok
+  model: grok-3
+deploy:
+  targets:
+    - cli
+extensions:
+  future_block:
+    placeholder: true
