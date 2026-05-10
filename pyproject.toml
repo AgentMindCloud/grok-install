@@ -1,6 +1,6 @@
 [project]
 name = "grok-install"
-version = "1.0.0a1"
+version = "1.0.0a2"
 description = "Unified Grok-native agent ecosystem: spec, CLI, GitHub Action, IDE extension, marketplace, safety scanner."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -14,7 +14,29 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Operating System :: OS Independent",
 ]
-dependencies = []
+dependencies = [
+  "click>=8.1",
+  "jsonschema>=4.21",
+  "platformdirs>=4.0",
+  "filelock>=3.13",
+  "rich>=13.7",
+  "colorama>=0.4.6",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=4.1",
+  "ruff>=0.6",
+  "black>=24.0",
+  "mypy>=1.10",
+  "types-pyyaml>=6.0",
+  "types-jsonschema>=4.21",
+]
+
+[project.scripts]
+grok-install = "cli.main:cli"
 
 [project.urls]
 Homepage = "https://github.com/AgentMindCloud/grok-install-v2"
@@ -27,6 +49,9 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["cli"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"spec/v2.14/schemas/bridge.schema.json" = "cli/bridge.schema.json"
 
 [tool.ruff]
 line-length = 100
