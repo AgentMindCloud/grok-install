@@ -1,15 +1,17 @@
 # extensions/
 
-Optional `extensions:` blocks in a v2.14 manifest, per DECISIONS.md D5. Five blocks are reserved:
+## Defined `extensions:` blocks per DECISIONS.md D5
 
-1. `constitution` — references to constitution rule files used by the safety scanner.
-2. `roles` — multi-agent role definitions for orchestrated manifests.
-3. `provenance` — provenance and audit-trail metadata.
-4. `demo` — demo metadata for marketplace listings.
-5. `context` — personal-context binding metadata.
+The `extensions:` block on a v2.14 manifest is optional. Parsers without extension support ignore unknown top-level keys, so manifests using these stay backward-compat with vanilla v2.14 parsers.
 
-Each block is backward-compatible: a v2.14-conformant runtime that does not implement an extension MUST ignore unknown extension keys without erroring.
+| Block | Purpose |
+|---|---|
+| `extensions.constitution` | List of article references (constitution-scanner integration) |
+| `extensions.multi_agent_roles` | Role declarations for super-agents that coordinate multiple sub-agents |
+| `extensions.provenance` | Citation and confidence configuration (provenance-trust agent) |
+| `extensions.demo_metadata` | Video / storyboard URLs and demo metadata |
+| `extensions.x_money_specific` | Cost caps + tax disclaimer config for X Money / finance-app templates |
 
-Authoritative block schemas land in Phase 2b alongside their consumers.
+v2.15 RFC for additional blocks is deferred post-launch per D5. Field schemas land in `spec/v2.14/extensions/<block>.schema.json` during Phase 2b.
 
-Status: PLACEHOLDER (Phase 2b)
+Status: PLACEHOLDER (Phase 2b — field schemas, validator wiring, examples).
