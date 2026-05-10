@@ -18,19 +18,31 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - name: Install pytest
-        run: pip install pytest
-      # NOTE: tests/ is empty in Phase 2a; pytest exits 5 ("no tests collected")
-      # which the shell wrapper translates to success. Drop the wrapper once tests
-      # land in Phase 2b.
+      - name: Install
+        run: pip install -e ".[dev]"
       - name: Run pytest
-        shell: bash
+        run: pytest tests/ --tb=short
+
+  wheel-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build wheel
         run: |
-          set +e
-          pytest tests/ --tb=short
-          rc=$?
-          if [ "$rc" -eq 5 ]; then
-            echo "No tests collected — acceptable in Phase 2a."
-            exit 0
-          fi
-          exit "$rc"
+          pip install build
+          python -m build --wheel
+      - name: Install wheel in clean venv
+        run: |
+          python -m venv /tmp/smoke-venv
+          /tmp/smoke-venv/bin/pip install dist/*.whl
+      - name: Smoke test --version
+        run: /tmp/smoke-venv/bin/grok-install --version
+      - name: Smoke test validate from outside source tree
+        run: |
+          mkdir -p /tmp/smoke-test
+          cp tests/fixtures/valid_minimal.yaml /tmp/smoke-test/manifest.yaml
+          cd /tmp/smoke-test
+          /tmp/smoke-venv/bin/grok-install validate manifest.yaml

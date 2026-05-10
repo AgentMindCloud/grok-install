@@ -4,12 +4,16 @@ on:
   pull_request:
     paths:
       - 'agents/**'
-      - 'cli/validate.py'
 
 jobs:
   validate-templates:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Placeholder
-        run: echo "Phase 2a placeholder — agent YAML validation wires up in Phase 2b"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Validate agent manifests
+        run: grok-install validate agents/

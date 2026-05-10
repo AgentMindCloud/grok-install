@@ -13,13 +13,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install lint toolchain
-        run: pip install ruff black mypy
+      - name: Install
+        run: pip install -e ".[dev]"
       - name: ruff
         run: ruff check .
       - name: black
         run: black --check .
-      # NOTE: cli/ is intentionally empty in Phase 2a. The `|| true` lets mypy pass
-      # on an empty package; drop the suffix once cli/ ships real code in Phase 2b.
       - name: mypy
-        run: mypy --strict cli || true
+        run: mypy --strict cli
