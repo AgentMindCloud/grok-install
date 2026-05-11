@@ -1,0 +1,307 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-workflow.json",
+  "title": "grok-workflow.yaml",
+  "description": "Official JSON Schema for grok-workflow.yaml — defines multi-step automated workflows with conditional branching, error handling, and composable actions. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "workflows"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this workflow configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the workflow config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "workflows": {
+      "type": "object",
+      "description": "Named workflow definitions. Each key is the workflow identifier used in '@grok run workflow:<Name>' triggers.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "description": "A single multi-step automated workflow.",
+        "required": ["description", "steps"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Human-readable explanation of what this workflow accomplishes end-to-end.",
+            "minLength": 10,
+            "maxLength": 500
+          },
+          "trigger": {
+            "type": "string",
+            "description": "Canonical @grok trigger string used to invoke this workflow from any X context.",
+            "pattern": "^@grok .+",
+            "examples": ["@grok run workflow:ReleasePipeline"]
+          },
+          "timeout_minutes": {
+            "type": "integer",
+            "description": "Maximum wall-clock minutes the entire workflow may run before being force-stopped.",
+            "minimum": 1,
+            "maximum": 1440,
+            "default": 30
+          },
+          "on_failure": {
+            "type": "string",
+            "description": "Global failure strategy applied when any step fails and the step has no local on_error override.",
+            "enum": ["stop", "continue", "retry", "notify"],
+            "default": "stop"
+          },
+          "notify_on_complete": {
+            "type": "boolean",
+            "description": "Post an X notification when the workflow finishes (success or failure).",
+            "default": false
+          },
+          "orchestration": {
+            "type": "object",
+            "description": "Optional multi-agent orchestration metadata. When present, the workflow coordinates one or more sub-agents under a declared execution mode.",
+            "required": ["mode"],
+            "additionalProperties": false,
+            "properties": {
+              "mode": {
+                "type": "string",
+                "description": "Execution topology for the orchestrated agents.",
+                "enum": ["hybrid", "graph", "crew", "debate_swarm"]
+              },
+              "agents": {
+                "type": "array",
+                "description": "Sub-agents participating in this orchestration. Each entry describes a named role and the tools it may invoke.",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["name", "role"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Identifier used to reference this agent in graph edges and step outputs.",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+                    },
+                    "role": {
+                      "type": "string",
+                      "description": "Human-readable description of the agent's responsibility in this orchestration.",
+                      "minLength": 5,
+                      "maxLength": 200
+                    },
+                    "tools": {
+                      "type": "array",
+                      "description": "Tool identifiers this agent is permitted to invoke. Must match entries in grok-tools.yaml.",
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "read_file",
+                          "write_file",
+                          "run_command",
+                          "search_code",
+                          "create_pr",
+                          "post_thread",
+                          "analyze_engagement",
+                          "reply_to_mentions",
+                          "web_search",
+                          "web_fetch",
+                          "run_tests",
+                          "deploy",
+                          "send_notification",
+                          "read_database",
+                          "write_database",
+                          "call_api",
+                          "list_files",
+                          "delete_file",
+                          "create_branch",
+                          "merge_pr"
+                        ]
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "description": "Number of parallel instances of this agent to spawn. Useful for crew and debate_swarm modes.",
+                      "minimum": 1,
+                      "maximum": 100,
+                      "default": 1
+                    }
+                  }
+                }
+              },
+              "graph": {
+                "type": "object",
+                "description": "Directed execution graph. Used when mode is 'graph' or 'hybrid'.",
+                "additionalProperties": false,
+                "properties": {
+                  "edges": {
+                    "type": "array",
+                    "description": "Directed edges between agents, optionally guarded by a condition expression.",
+                    "items": {
+                      "type": "object",
+                      "required": ["from", "to"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "from": {
+                          "type": "string",
+                          "description": "Source agent name — must match an agent 'name' defined in this orchestration."
+                        },
+                        "to": {
+                          "type": "string",
+                          "description": "Target agent name — must match an agent 'name' defined in this orchestration."
+                        },
+                        "condition": {
+                          "type": "string",
+                          "description": "JavaScript-style boolean expression gating this edge. Edge is traversed only when the expression evaluates to true.",
+                          "maxLength": 500
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "debate_swarm": {
+                "type": "object",
+                "description": "Debate-swarm settings. Used when mode is 'debate_swarm'.",
+                "required": ["rounds", "voter_model"],
+                "additionalProperties": false,
+                "properties": {
+                  "rounds": {
+                    "type": "integer",
+                    "description": "Number of debate rounds before a final vote is tallied.",
+                    "minimum": 1,
+                    "maximum": 20
+                  },
+                  "voter_model": {
+                    "type": "string",
+                    "description": "Model used to adjudicate the final vote across debate participants.",
+                    "enum": ["grok-4", "grok-3", "grok-3-mini"]
+                  },
+                  "quorum": {
+                    "type": "number",
+                    "description": "Fraction of voters that must agree for a motion to pass.",
+                    "minimum": 0.5,
+                    "maximum": 1.0,
+                    "default": 0.66
+                  }
+                }
+              },
+              "memory": {
+                "type": "object",
+                "description": "Shared memory configuration for the orchestrated agents.",
+                "required": ["type"],
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Memory backend class used across the orchestration.",
+                    "enum": ["ephemeral", "session", "long_term", "vector"]
+                  },
+                  "persist": {
+                    "type": "boolean",
+                    "description": "Persist memory contents across workflow runs. Only meaningful when type is 'long_term' or 'vector'.",
+                    "default": false
+                  },
+                  "vector_store": {
+                    "type": "string",
+                    "description": "Vector database provider. Required when type is 'vector'.",
+                    "enum": ["pinecone", "weaviate", "chroma", "qdrant", "pgvector"]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "type": { "const": "vector" }
+                  }
+                },
+                "then": {
+                  "required": ["vector_store"]
+                }
+              }
+            }
+          },
+          "steps": {
+            "type": "array",
+            "description": "Ordered sequence of actions executed top-to-bottom. Steps share a runtime context and can reference previous step outputs.",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "description": "A single workflow step.",
+              "required": ["name", "action"],
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Short display name for this step shown in workflow progress output.",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "action": {
+                  "type": "string",
+                  "description": "Action to execute. Can be a grok spec name (e.g. 'grok-test'), a tool identifier, or a prompt library key.",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "input": {
+                  "type": "string",
+                  "description": "Static input string passed to the action (e.g. 'all' for grok-test).",
+                  "maxLength": 1000
+                },
+                "template": {
+                  "type": "string",
+                  "description": "Prompt library key to use when the action is 'grok-prompts' or 'publish_thread'.",
+                  "pattern": "^[a-z_][a-z0-9_]*$"
+                },
+                "prompt": {
+                  "type": "string",
+                  "description": "Prompt library key to use when action is 'grok-prompts'.",
+                  "pattern": "^[a-z_][a-z0-9_]*$"
+                },
+                "condition": {
+                  "type": "string",
+                  "description": "JavaScript-style boolean expression evaluated against previous step outputs. Step is skipped when false.",
+                  "maxLength": 500,
+                  "examples": ["steps.RunTests.exit_code === 0", "steps.SecurityScan.alerts.length === 0"]
+                },
+                "on_error": {
+                  "type": "string",
+                  "description": "Error handling strategy for this specific step. Overrides the workflow-level on_failure setting.",
+                  "enum": ["stop", "continue", "retry", "notify"]
+                },
+                "retry_count": {
+                  "type": "integer",
+                  "description": "Number of automatic retries on transient failure before triggering on_error. Only used when on_error is 'retry'.",
+                  "minimum": 1,
+                  "maximum": 5,
+                  "default": 3
+                },
+                "timeout_minutes": {
+                  "type": "integer",
+                  "description": "Per-step timeout in minutes. Overrides the workflow-level timeout for this step.",
+                  "minimum": 1,
+                  "maximum": 120
+                },
+                "env": {
+                  "type": "object",
+                  "description": "Environment variables made available to this step's action.",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

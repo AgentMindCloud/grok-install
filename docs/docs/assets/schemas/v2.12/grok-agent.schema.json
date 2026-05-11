@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentmindcloud.github.io/grok-docs/assets/schemas/v2.12/grok-agent.schema.json",
+  "title": "grok-agent.yaml",
+  "description": "Defines one or more agents that share a runtime.",
+  "type": "object",
+  "required": ["agents"],
+  "additionalProperties": false,
+  "properties": {
+    "agents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "model", "prompt_ref"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "Unique identifier (snake_case)"
+          },
+          "model": {
+            "type": "string",
+            "examples": ["grok-4", "grok-4-mini"]
+          },
+          "prompt_ref": {
+            "type": "string",
+            "description": "Key in grok-prompts.yaml under `prompts:`"
+          },
+          "tools": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "max_turns": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2
+          }
+        }
+      }
+    }
+  }
+}

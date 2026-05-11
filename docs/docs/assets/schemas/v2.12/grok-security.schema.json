@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentmindcloud.github.io/grok-docs/assets/schemas/v2.12/grok-security.schema.json",
+  "title": "grok-security.yaml",
+  "description": "Safety profile, permissions, and rate limits for an agent.",
+  "type": "object",
+  "required": ["safety_profile", "permissions"],
+  "additionalProperties": false,
+  "properties": {
+    "safety_profile": {
+      "type": "string",
+      "enum": ["standard", "strict"],
+      "description": "standard = research-friendly; strict = requires human approval for side effects"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(tool|network|filesystem|env):.+"
+      },
+      "uniqueItems": true,
+      "description": "Scoped permissions. Format: scope:target (e.g. tool:web_search, network:*.arxiv.org)"
+    },
+    "requires_approval": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tool names that must be confirmed by a human before execution"
+    },
+    "rate_limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tool_calls_per_minute": { "type": "integer", "minimum": 1 },
+        "web_fetches_per_run": { "type": "integer", "minimum": 0 },
+        "total_tokens_per_run": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-voice.json",
+  "title": "grok-voice.yaml",
+  "description": "Official JSON Schema for grok-voice.yaml — defines a full voice interaction pipeline (STT → intent → agent → TTS) with input source, output provider, latency budget, fallback behaviour, and explicit audio/transcript privacy controls. Introduced in grok-yaml-standards@2.0. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "voice"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this voice configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the voice config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "voice": {
+      "type": "object",
+      "description": "Top-level voice interface definition.",
+      "required": ["id", "name", "version", "input", "output", "pipeline"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable machine identifier for this voice interface.",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name shown in dashboards.",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "version": {
+          "type": "string",
+          "description": "Semver of the voice definition itself.",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "input": {
+          "type": "object",
+          "description": "Audio input configuration.",
+          "required": ["source", "format", "language"],
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "Audio input source.",
+              "enum": ["mic", "stream", "file"]
+            },
+            "format": {
+              "type": "string",
+              "description": "Audio container or codec for the input stream.",
+              "enum": ["wav", "mp3", "ogg", "flac", "webm", "pcm"]
+            },
+            "language": {
+              "type": "string",
+              "description": "BCP-47 language code for speech recognition (e.g. 'en-US', 'fr-FR').",
+              "pattern": "^[a-z]{2}(-[A-Z]{2,4})?$"
+            },
+            "vad": {
+              "type": "string",
+              "description": "Voice activity detection backend.",
+              "enum": ["webrtc", "silero", "none"],
+              "default": "webrtc"
+            },
+            "sample_rate_hz": {
+              "type": "integer",
+              "description": "Sample rate in Hz for mic and stream sources.",
+              "enum": [8000, 16000, 22050, 24000, 44100, 48000]
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "description": "Text-to-speech output configuration.",
+          "required": ["tts_provider", "voice_id", "format"],
+          "additionalProperties": false,
+          "properties": {
+            "tts_provider": {
+              "type": "string",
+              "description": "TTS provider.",
+              "enum": ["elevenlabs", "openai", "azure", "polly", "google", "coqui", "custom"]
+            },
+            "voice_id": {
+              "type": "string",
+              "description": "Provider-specific voice identifier.",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "format": {
+              "type": "string",
+              "description": "Output audio format.",
+              "enum": ["mp3", "wav", "ogg", "opus", "pcm"]
+            },
+            "speed": {
+              "type": "number",
+              "description": "Playback speed multiplier.",
+              "minimum": 0.5,
+              "maximum": 2.0,
+              "default": 1.0
+            }
+          }
+        },
+        "pipeline": {
+          "type": "array",
+          "description": "Ordered pipeline stages. Typical shape: stt → intent → agent → tts.",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "description": "A single pipeline stage.",
+            "required": ["step"],
+            "additionalProperties": false,
+            "properties": {
+              "step": {
+                "type": "string",
+                "description": "Pipeline stage type.",
+                "enum": ["stt", "intent", "agent", "tts", "filter"]
+              },
+              "provider": {
+                "type": "string",
+                "description": "Provider implementing this stage.",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "agent_id": {
+                "type": "string",
+                "description": "Agent to invoke when step is 'agent'. Must match an id in grok-agent.yaml.",
+                "minLength": 1,
+                "maxLength": 100
+              }
+            }
+          }
+        },
+        "latency_budget_ms": {
+          "type": "integer",
+          "description": "End-to-end latency target in milliseconds. Runtime may degrade quality to stay under this.",
+          "minimum": 100,
+          "maximum": 30000
+        },
+        "fallback": {
+          "type": "object",
+          "description": "Failure-handling policy for STT, TTS, and timeouts.",
+          "additionalProperties": false,
+          "properties": {
+            "on_stt_failure": {
+              "type": "string",
+              "description": "Behaviour when speech-to-text fails.",
+              "enum": ["prompt_user", "text_fallback", "abort"],
+              "default": "prompt_user"
+            },
+            "on_tts_failure": {
+              "type": "string",
+              "description": "Behaviour when text-to-speech fails.",
+              "enum": ["text_response", "cached_audio", "silent", "abort"],
+              "default": "text_response"
+            },
+            "on_timeout": {
+              "type": "string",
+              "description": "Behaviour when the latency budget is exceeded.",
+              "enum": ["abort", "degrade", "retry"],
+              "default": "degrade"
+            },
+            "max_retries": {
+              "type": "integer",
+              "description": "Maximum retry attempts per stage.",
+              "minimum": 0,
+              "maximum": 10,
+              "default": 1
+            }
+          }
+        },
+        "privacy": {
+          "type": "object",
+          "description": "Audio and transcript retention controls.",
+          "required": ["retain_audio", "retain_transcript"],
+          "additionalProperties": false,
+          "properties": {
+            "retain_audio": {
+              "type": "boolean",
+              "description": "Persist raw audio after the session ends. Defaults to false for privacy.",
+              "default": false
+            },
+            "retain_transcript": {
+              "type": "boolean",
+              "description": "Persist the text transcript after the session ends.",
+              "default": false
+            },
+            "transcript_retention_days": {
+              "type": "integer",
+              "description": "Days to keep transcripts when retain_transcript is true.",
+              "minimum": 1,
+              "maximum": 3650
+            },
+            "audio_retention_days": {
+              "type": "integer",
+              "description": "Days to keep audio when retain_audio is true.",
+              "minimum": 1,
+              "maximum": 3650
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Free-form map of tags, owners, lineage. Values may be strings, numbers, booleans, or arrays of those.",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

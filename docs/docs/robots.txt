@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://agentmindcloud.github.io/grok-docs/sitemap.xml

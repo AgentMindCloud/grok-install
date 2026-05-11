@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-prompts.json",
+  "title": "grok-prompts.yaml",
+  "description": "Official JSON Schema for grok-prompts.yaml — defines a reusable, versioned prompt library with variable interpolation, per-prompt model overrides, and tagging. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "prompt_library"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this prompt library file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the library maintainer, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$",
+      "examples": ["@JanSol0s"]
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "prompt_library": {
+      "type": "object",
+      "description": "Named collection of reusable prompt templates. Each key becomes the prompt identifier used in '@grok use prompts:<id>' triggers.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "description": "A single reusable prompt definition.",
+        "required": ["template"],
+        "additionalProperties": false,
+        "properties": {
+          "template": {
+            "type": "string",
+            "description": "The prompt text. Use {variable_name} placeholders for runtime interpolation.",
+            "minLength": 10,
+            "maxLength": 8000
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable explanation of what this prompt does and when to use it.",
+            "maxLength": 500
+          },
+          "variables": {
+            "type": "array",
+            "description": "List of required variable names that must be supplied when invoking this prompt. Must match placeholders used in the template.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "description": "Variable name without curly braces (e.g. 'topic', 'language').",
+              "pattern": "^[a-z_][a-z0-9_]*$"
+            }
+          },
+          "optional_variables": {
+            "type": "array",
+            "description": "Variable names that may optionally be supplied to enrich the prompt.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z_][a-z0-9_]*$"
+            }
+          },
+          "temperature": {
+            "type": "number",
+            "description": "Per-prompt sampling temperature override. Overrides the global grok.temperature setting.",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "max_tokens": {
+            "type": "integer",
+            "description": "Per-prompt token cap override. Useful for prompts that need longer or shorter outputs.",
+            "minimum": 1,
+            "maximum": 131072
+          },
+          "model": {
+            "type": "string",
+            "description": "Per-prompt model override. Use when this prompt requires a specific model capability.",
+            "enum": ["grok-4", "grok-3", "grok-3-mini", "grok-3-fast", "grok-2", "grok-1"]
+          },
+          "tags": {
+            "type": "array",
+            "description": "Categorisation tags for filtering and discovery (e.g. 'social', 'code', 'marketing').",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "output_format": {
+            "type": "string",
+            "description": "Expected structure of the prompt output.",
+            "enum": ["plain", "markdown", "json", "yaml", "thread", "bullet_list", "table"]
+          },
+          "cache_responses": {
+            "type": "boolean",
+            "description": "Cache the response for identical variable combinations to reduce latency and cost.",
+            "default": false
+          }
+        }
+      }
+    }
+  }
+}

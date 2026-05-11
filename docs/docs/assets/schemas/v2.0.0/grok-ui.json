@@ -1,0 +1,243 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-ui.json",
+  "title": "grok-ui.yaml",
+  "description": "Official JSON Schema for grok-ui.yaml — configures voice commands, a live dashboard with typed widgets, keyboard shortcuts, themes, and locale settings. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "ui"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this UI configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the UI config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "ui": {
+      "type": "object",
+      "description": "Grok UI personalisation and extension settings.",
+      "additionalProperties": false,
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "Colour theme applied to the Grok IDE extension and dashboard.",
+          "enum": ["dark", "light", "system", "high-contrast"],
+          "default": "system"
+        },
+        "locale": {
+          "type": "string",
+          "description": "BCP-47 locale code for UI text and number formatting.",
+          "pattern": "^[a-z]{2}(-[A-Z]{2,4})?$",
+          "default": "en-US"
+        },
+        "voice_commands": {
+          "type": "object",
+          "description": "Voice command configuration. Requires microphone permission.",
+          "required": ["enabled"],
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Activate voice command listening. Triggers a microphone permission request.",
+              "default": false
+            },
+            "language": {
+              "type": "string",
+              "description": "BCP-47 language code for speech recognition (e.g. 'en-US', 'fr-FR').",
+              "pattern": "^[a-z]{2}(-[A-Z]{2,4})?$",
+              "default": "en-US"
+            },
+            "wake_phrase": {
+              "type": "string",
+              "description": "Phrase that activates the voice command listener. Case-insensitive.",
+              "minLength": 2,
+              "maxLength": 50,
+              "default": "hey grok"
+            },
+            "commands": {
+              "type": "array",
+              "description": "Voice command bindings. Each phrase maps to a Grok action.",
+              "items": {
+                "type": "object",
+                "description": "A single voice command definition.",
+                "required": ["phrase", "action"],
+                "additionalProperties": true,
+                "properties": {
+                  "phrase": {
+                    "type": "string",
+                    "description": "Spoken phrase (after the wake phrase) that triggers this command.",
+                    "minLength": 2,
+                    "maxLength": 100
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "Grok spec or built-in action to execute.",
+                    "enum": [
+                      "grok-test",
+                      "grok-deploy",
+                      "grok-security",
+                      "grok-docs",
+                      "grok-workflow",
+                      "grok-agent",
+                      "grok-update",
+                      "grok-prompts",
+                      "grok-ui"
+                    ]
+                  },
+                  "suite": {
+                    "type": "string",
+                    "description": "Test suite identifier when action is 'grok-test'."
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "Deploy target or docs target identifier."
+                  },
+                  "scan": {
+                    "type": "string",
+                    "description": "Security scan identifier when action is 'grok-security'."
+                  },
+                  "command": {
+                    "type": "string",
+                    "description": "Sub-command for built-in UI actions."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dashboard": {
+          "type": "object",
+          "description": "Live dashboard configuration. Widgets update automatically at the configured refresh interval.",
+          "required": ["enabled"],
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Show the Grok dashboard panel in the IDE extension.",
+              "default": false
+            },
+            "refresh_seconds": {
+              "type": "integer",
+              "description": "Default data refresh interval for all widgets in seconds.",
+              "minimum": 5,
+              "maximum": 3600,
+              "default": 30
+            },
+            "widgets": {
+              "type": "array",
+              "description": "Ordered list of dashboard widgets displayed top-to-bottom.",
+              "items": {
+                "type": "object",
+                "description": "A single dashboard widget definition.",
+                "required": ["type"],
+                "additionalProperties": true,
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Widget type that determines what data is fetched and how it is rendered.",
+                    "enum": [
+                      "agent_status",
+                      "test_results",
+                      "deployment_history",
+                      "security_summary",
+                      "analytics_pulse",
+                      "custom"
+                    ]
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Display title shown in the widget header.",
+                    "maxLength": 100
+                  },
+                  "refresh_seconds": {
+                    "type": "integer",
+                    "description": "Per-widget refresh interval override.",
+                    "minimum": 5,
+                    "maximum": 3600
+                  },
+                  "show_last_n": {
+                    "type": "integer",
+                    "description": "Number of most recent items to display in list-style widgets.",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "suite": {
+                    "type": "string",
+                    "description": "Test suite filter for test_results widgets."
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "Deploy target filter for deployment_history widgets."
+                  },
+                  "alert_level": {
+                    "type": "string",
+                    "description": "Minimum alert level to show in security_summary widgets.",
+                    "enum": ["info", "warning", "high", "critical"]
+                  },
+                  "time_window_hours": {
+                    "type": "integer",
+                    "description": "Time window in hours for analytics_pulse widgets.",
+                    "minimum": 1,
+                    "maximum": 8760
+                  }
+                }
+              }
+            }
+          }
+        },
+        "shortcuts": {
+          "type": "object",
+          "description": "Keyboard shortcut bindings.",
+          "additionalProperties": false,
+          "properties": {
+            "keyboard": {
+              "type": "array",
+              "description": "List of keyboard shortcut definitions.",
+              "items": {
+                "type": "object",
+                "description": "A single keyboard shortcut binding.",
+                "required": ["key", "action"],
+                "additionalProperties": true,
+                "properties": {
+                  "key": {
+                    "type": "string",
+                    "description": "Key combination string (e.g. 'ctrl+shift+g', 'cmd+k'). Use 'ctrl' for Windows/Linux, 'cmd' for macOS.",
+                    "minLength": 1,
+                    "maxLength": 50,
+                    "pattern": "^(ctrl|cmd|alt|shift|meta)(\\+(ctrl|cmd|alt|shift|meta|[a-z0-9]))+$"
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "Grok spec or built-in action to invoke.",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Human-readable description shown in the shortcut help panel.",
+                    "maxLength": 200
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

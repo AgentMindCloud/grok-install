@@ -1,0 +1,208 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-tools.json",
+  "title": "grok-tools.yaml",
+  "description": "Official JSON Schema for grok-tools.yaml — the dedicated tools registry that gives every Grok tool a fully-typed signature with input/output schemas, permission declarations, and rate limits. Referenced by grok-agent.yaml and grok-workflow.yaml. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "tools"],
+  "additionalProperties": false,
+  "definitions": {
+    "parameterSchema": {
+      "type": "object",
+      "description": "JSON Schema-style definition for a single tool parameter.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Data type of the parameter.",
+          "enum": ["string", "integer", "number", "boolean", "array", "object"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable explanation of this parameter.",
+          "maxLength": 500
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether the caller must supply this parameter.",
+          "default": false
+        },
+        "default": {
+          "description": "Value used when the parameter is not supplied by the caller."
+        },
+        "enum": {
+          "type": "array",
+          "description": "Restricts the value to one of the listed options.",
+          "minItems": 1
+        },
+        "format": {
+          "type": "string",
+          "description": "JSON Schema format hint (e.g. 'date-time', 'email', 'uri').",
+          "enum": ["date-time", "date", "time", "email", "uri", "uuid", "ipv4", "ipv6"]
+        },
+        "minimum": {
+          "type": "number",
+          "description": "Minimum numeric value (inclusive)."
+        },
+        "maximum": {
+          "type": "number",
+          "description": "Maximum numeric value (inclusive)."
+        },
+        "minLength": {
+          "type": "integer",
+          "description": "Minimum string length.",
+          "minimum": 0
+        },
+        "maxLength": {
+          "type": "integer",
+          "description": "Maximum string length.",
+          "minimum": 0
+        },
+        "pattern": {
+          "type": "string",
+          "description": "Regular expression the string value must match."
+        },
+        "items": {
+          "type": "object",
+          "description": "Schema for elements of an array-type parameter.",
+          "properties": {
+            "type": { "type": "string" },
+            "maxLength": { "type": "integer" }
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this tools registry file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the registry maintainer, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "tools": {
+      "type": "object",
+      "description": "Named tool definitions. Each key is the tool identifier referenced in grok-agent.yaml 'tools' arrays and grok-workflow.yaml step 'action' fields.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "description": "A single tool definition with a typed signature.",
+        "required": ["description", "category"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "One-sentence explanation of what this tool does.",
+            "minLength": 10,
+            "maxLength": 300
+          },
+          "category": {
+            "type": "string",
+            "description": "Functional category grouping related tools together.",
+            "enum": [
+              "file_system",
+              "code",
+              "web",
+              "social",
+              "ai",
+              "data",
+              "notification",
+              "deployment",
+              "testing"
+            ]
+          },
+          "inputs": {
+            "type": "object",
+            "description": "Map of input parameter names to their schemas. Parameters marked required: true must be supplied by the caller.",
+            "additionalProperties": {
+              "$ref": "#/definitions/parameterSchema"
+            }
+          },
+          "outputs": {
+            "type": "object",
+            "description": "Map of output field names to their schemas. Documents what the tool returns on success.",
+            "additionalProperties": {
+              "$ref": "#/definitions/parameterSchema"
+            }
+          },
+          "permissions": {
+            "type": "array",
+            "description": "Capability grants required to invoke this tool. Agents must hold all listed permissions.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "execute",
+                "network",
+                "publish",
+                "deploy",
+                "admin"
+              ]
+            }
+          },
+          "requires_auth": {
+            "type": "boolean",
+            "description": "Whether the tool requires OAuth or API-key authentication at runtime.",
+            "default": false
+          },
+          "auth_provider": {
+            "type": "string",
+            "description": "Authentication provider identifier when requires_auth is true.",
+            "enum": [
+              "github",
+              "x_oauth2",
+              "google",
+              "slack",
+              "stripe",
+              "aws",
+              "gcp",
+              "azure",
+              "custom"
+            ]
+          },
+          "rate_limit": {
+            "type": "object",
+            "description": "Request throttling limits for this tool.",
+            "additionalProperties": false,
+            "properties": {
+              "requests_per_minute": {
+                "type": "integer",
+                "description": "Maximum invocations per 60-second window.",
+                "minimum": 1,
+                "maximum": 6000
+              },
+              "requests_per_day": {
+                "type": "integer",
+                "description": "Maximum invocations per calendar day.",
+                "minimum": 1,
+                "maximum": 1000000
+              }
+            }
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether this tool is available for use. Set to false to disable without removing the definition.",
+            "default": true
+          }
+        }
+      }
+    }
+  }
+}

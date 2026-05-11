@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-swarm.json",
+  "title": "grok-swarm.yaml",
+  "description": "Official JSON Schema for grok-swarm.yaml — defines a coordinated multi-agent swarm with named members, a coordinator (or peer mode), communication topology, consensus rule, and explicit fallback behaviour. Introduced in grok-yaml-standards@2.0. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "swarm"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this swarm configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the swarm config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "swarm": {
+      "type": "object",
+      "description": "Top-level swarm definition.",
+      "required": ["id", "name", "version", "members", "coordinator", "communication"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable machine identifier used in '@grok spawn swarm:<id>' triggers.",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable swarm name shown in dashboards and logs.",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "version": {
+          "type": "string",
+          "description": "Semver of the swarm definition itself (independent of the file version).",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "description": {
+          "type": "string",
+          "description": "One- or two-sentence summary of the swarm's purpose.",
+          "minLength": 10,
+          "maxLength": 500
+        },
+        "members": {
+          "type": "array",
+          "description": "Ordered list of agent members. Each member references an agent defined in grok-agent.yaml.",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "description": "A single swarm member.",
+            "required": ["agent_id", "role"],
+            "additionalProperties": false,
+            "properties": {
+              "agent_id": {
+                "type": "string",
+                "description": "Identifier of an agent defined in grok-agent.yaml.",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "role": {
+                "type": "string",
+                "description": "Swarm role played by this member.",
+                "enum": ["leader", "worker", "specialist", "observer", "router"]
+              },
+              "priority": {
+                "type": "integer",
+                "description": "Tiebreaker weight when electing a new coordinator. Higher wins.",
+                "minimum": 0,
+                "maximum": 100,
+                "default": 50
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Whether this member participates. Set to false to disable without removing the entry.",
+                "default": true
+              }
+            }
+          }
+        },
+        "coordinator": {
+          "type": "string",
+          "description": "agent_id of the lead agent, or the literal 'none' for peer swarms.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "communication": {
+          "type": "string",
+          "description": "Message-passing topology used between swarm members.",
+          "enum": ["direct", "broadcast", "pubsub"]
+        },
+        "consensus": {
+          "type": "string",
+          "description": "Decision rule when members disagree on a shared action.",
+          "enum": ["none", "majority", "unanimous"],
+          "default": "none"
+        },
+        "fallback": {
+          "type": "object",
+          "description": "Failure-handling policy for member and coordinator failures.",
+          "required": ["strategy"],
+          "additionalProperties": false,
+          "properties": {
+            "strategy": {
+              "type": "string",
+              "description": "What to do when a member fails.",
+              "enum": ["reassign", "degrade", "halt", "retry"]
+            },
+            "reassign_to": {
+              "type": "string",
+              "description": "agent_id to take over when strategy is 'reassign'.",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "on_coordinator_loss": {
+              "type": "string",
+              "description": "Behaviour when the coordinator drops.",
+              "enum": ["elect_highest_priority", "halt", "rotate"],
+              "default": "elect_highest_priority"
+            },
+            "max_retries": {
+              "type": "integer",
+              "description": "Maximum retry attempts before escalating.",
+              "minimum": 0,
+              "maximum": 100,
+              "default": 1
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Free-form map of tags, owners, lineage. Values may be strings, numbers, booleans, or arrays of those.",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

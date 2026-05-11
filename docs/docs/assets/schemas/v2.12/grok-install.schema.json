@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentmindcloud.github.io/grok-docs/assets/schemas/v2.12/grok-install.schema.json",
+  "title": "grok-install.yaml",
+  "description": "Root config for an installable Grok agent. One per repo.",
+  "type": "object",
+  "required": ["spec", "name", "description"],
+  "additionalProperties": true,
+  "properties": {
+    "spec": {
+      "type": "string",
+      "pattern": "^grok-install/v\\d+\\.\\d+$",
+      "description": "Spec version identifier, e.g. grok-install/v2.12"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "Agent name (kebab-case recommended)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 200
+    },
+    "entrypoint": {
+      "type": "string",
+      "description": "Path to the agent or workflow definition",
+      "examples": [".grok/grok-agent.yaml", ".grok/grok-workflow.yaml"]
+    },
+    "model": {
+      "type": "string",
+      "examples": ["grok-4", "grok-4-mini"]
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "python": { "type": "string", "examples": [">=3.11"] },
+        "node": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "env": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+      "uniqueItems": true
+    },
+    "schedule": {
+      "type": "object",
+      "properties": {
+        "interval": {
+          "type": "string",
+          "pattern": "^\\d+(s|m|h|d)$"
+        },
+        "cron": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "category": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "featured": { "type": "boolean" }
+  }
+}

@@ -1,1 +1,216 @@
-site_name: grok-install
+site_name: grok-install docs
+site_description: The open standard to make any AI agent installable with one click on X using Grok. Full YAML spec reference, CLI guide, live validator, and multi-agent orchestration patterns.
+site_url: https://agentmindcloud.github.io/grok-install-v2/
+site_author: AgentMindCloud
+repo_url: https://github.com/AgentMindCloud/grok-install-v2
+repo_name: AgentMindCloud/grok-install-v2
+edit_uri: edit/main/docs/docs/
+copyright: Copyright &copy; 2026 AgentMindCloud. Apache 2.0 licensed.
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: en
+  logo: assets/img/logo.svg
+  favicon: assets/img/favicon.svg
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+  palette:
+    - media: "(prefers-color-scheme)"
+      scheme: slate
+      primary: black
+      accent: cyan
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+    - content.action.view
+    - content.tooltips
+    - header.autohide
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/AgentMindCloud
+      name: AgentMindCloud on GitHub
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/JanSol0s
+      name: Follow on X
+  version:
+    provider: mike
+    default: latest
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      htmlmin_opts:
+        remove_comments: true
+      cache_safe: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: date
+      fallback_to_build_date: true
+      strict: false
+  - redirects:
+      redirect_maps:
+        spec/index.md: v2.12/spec/index.md
+        spec/grok-install-yaml.md: v2.12/spec/grok-install-yaml.md
+        spec/grok-agent-yaml.md: v2.12/spec/grok-agent-yaml.md
+        spec/grok-workflow-yaml.md: v2.12/spec/grok-workflow-yaml.md
+        spec/grok-security-yaml.md: v2.12/spec/grok-security-yaml.md
+        spec/grok-prompts-yaml.md: v2.12/spec/grok-prompts-yaml.md
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Link to this section
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.details
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      auto_title: false
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - getting-started/index.md
+      - Install the CLI: getting-started/installation.md
+      - Your first agent: getting-started/first-agent.md
+      - Deploy to production: getting-started/deploy.md
+  - v2.14 (latest):
+      - v2.14/index.md
+      - Visuals reference: v2.14/visuals.md
+      - Migration from v2.13: v2.14/migration.md
+      - Accessibility (WCAG 2.2 AA): v2.14/accessibility.md
+  - v2.13:
+      - v2.13/index.md
+      - Release notes: v2.13/release-notes.md
+      - Migration from v2.12: v2.13/migration-from-v2.12.md
+      - Spec:
+          - v2.13/spec/index.md
+          - grok-agent.yaml: v2.13/spec/grok-agent-yaml.md
+          - grok-analytics.yaml: v2.13/spec/grok-analytics-yaml.md
+          - grok-config.yaml: v2.13/spec/grok-config-yaml.md
+          - grok-deploy.yaml: v2.13/spec/grok-deploy-yaml.md
+          - grok-docs.yaml: v2.13/spec/grok-docs-yaml.md
+          - grok-prompts.yaml: v2.13/spec/grok-prompts-yaml.md
+          - grok-security.yaml: v2.13/spec/grok-security-yaml.md
+          - grok-test.yaml: v2.13/spec/grok-test-yaml.md
+          - grok-tools.yaml: v2.13/spec/grok-tools-yaml.md
+          - grok-ui.yaml: v2.13/spec/grok-ui-yaml.md
+          - grok-update.yaml: v2.13/spec/grok-update-yaml.md
+          - grok-workflow.yaml: v2.13/spec/grok-workflow-yaml.md
+  - v2.12 (pinned):
+      - v2.12/index.md
+      - Spec:
+          - v2.12/spec/index.md
+          - grok-install.yaml: v2.12/spec/grok-install-yaml.md
+          - grok-agent.yaml: v2.12/spec/grok-agent-yaml.md
+          - grok-workflow.yaml: v2.12/spec/grok-workflow-yaml.md
+          - grok-security.yaml: v2.12/spec/grok-security-yaml.md
+          - grok-prompts.yaml: v2.12/spec/grok-prompts-yaml.md
+  - Guides:
+      - guides/index.md
+      - Multi-agent swarms: guides/multi-agent-swarms.md
+      - Tool schemas: guides/tool-schemas.md
+      - Safety profiles: guides/safety-profiles.md
+      - Deployment: guides/deployment.md
+      - X integration: guides/x-integration.md
+  - CLI:
+      - cli/reference.md
+  - Gallery:
+      - gallery/index.md
+      - Single-agent: gallery/single-agent.md
+      - Multi-step: gallery/multi-step.md
+      - Swarm: gallery/swarm.md
+  - Playground:
+      - playground/index.md
+      - v2.14 visuals: playground/v2.14.md
+  - Ecosystem:
+      - ecosystem/index.md
+      - xAI SDK: ecosystem/xai-sdk.md
+      - LiteLLM: ecosystem/litellm.md
+      - Semantic Kernel: ecosystem/semantic-kernel.md
+  - For xAI: for-xai/adoption-guide.md
+  - Contributing: contributing.md

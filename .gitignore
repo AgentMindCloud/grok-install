@@ -79,3 +79,6 @@ desktop.ini
 # Logs / artifacts
 *.log
 coverage/
+
+# MkDocs build output
+docs/site/

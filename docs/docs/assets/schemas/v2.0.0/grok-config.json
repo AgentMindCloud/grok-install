@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-config.json",
+  "title": "grok-config.yaml",
+  "description": "Official JSON Schema for grok-config.yaml — centralizes all Grok model settings, context injection, privacy controls, and keyboard shortcuts. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the file owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$",
+      "examples": ["@JanSol0s"]
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "description": "Spec identifier with minimum version suffix, e.g. 'grok-install.yaml@1.0+'.",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      },
+      "examples": [["grok-install.yaml@1.0+", "grok@2026.4+", "grok-yaml-standards@2.0+"]]
+    },
+    "grok": {
+      "type": "object",
+      "description": "Global Grok model behavior settings applied to every interaction unless overridden per-prompt.",
+      "additionalProperties": false,
+      "properties": {
+        "default_model": {
+          "type": "string",
+          "description": "Grok model identifier to use for all requests unless overridden.",
+          "enum": ["grok-4", "grok-3", "grok-3-mini", "grok-3-fast", "grok-2", "grok-1"],
+          "default": "grok-4"
+        },
+        "temperature": {
+          "type": "number",
+          "description": "Sampling temperature controlling output randomness. 0 = fully deterministic, 2 = highly creative.",
+          "minimum": 0,
+          "maximum": 2,
+          "default": 0.7
+        },
+        "max_tokens": {
+          "type": "integer",
+          "description": "Hard cap on tokens per response. Must not exceed the model's context limit (131072 for grok-4).",
+          "minimum": 1,
+          "maximum": 131072,
+          "default": 16384
+        },
+        "response_language": {
+          "type": "string",
+          "description": "BCP-47 language tag for response language (e.g. 'en', 'fr', 'de', 'es', 'zh-CN').",
+          "pattern": "^[a-z]{2}(-[A-Z]{2,4})?$",
+          "default": "en"
+        },
+        "personality": {
+          "type": "string",
+          "description": "Named personality preset shaping Grok's tone and verbosity across all responses.",
+          "enum": [
+            "helpful-maximalist",
+            "concise",
+            "creative",
+            "technical",
+            "balanced",
+            "socratic",
+            "executive"
+          ],
+          "default": "helpful-maximalist"
+        },
+        "reasoning_depth": {
+          "type": "string",
+          "description": "Depth of internal reasoning before producing output. Higher depth improves quality but increases latency.",
+          "enum": ["low", "medium", "high", "ultra"],
+          "default": "high"
+        },
+        "stream_responses": {
+          "type": "boolean",
+          "description": "Stream tokens to the UI as they are generated rather than waiting for the full response.",
+          "default": true
+        },
+        "fallback_model": {
+          "type": "string",
+          "description": "Model to fall back to if the primary model is unavailable or rate-limited.",
+          "enum": ["grok-4", "grok-3", "grok-3-mini", "grok-3-fast", "grok-2", "grok-1"]
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Static context automatically prepended to every Grok conversation to anchor situational awareness.",
+      "additionalProperties": false,
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Project or organisation name injected for situational awareness.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "audience": {
+          "type": "string",
+          "description": "Who will read the responses (e.g. 'X power users & developers').",
+          "maxLength": 200
+        },
+        "tone": {
+          "type": "string",
+          "description": "Prose style guidance applied to all responses (e.g. 'clear, witty, actionable').",
+          "maxLength": 200
+        },
+        "key_constraints": {
+          "type": "array",
+          "description": "Hard rules Grok must respect in every single response.",
+          "uniqueItems": true,
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "domain_knowledge": {
+          "type": "array",
+          "description": "File paths or URLs to inject as background knowledge into every conversation.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "description": "Data-handling, retention, and telemetry controls. Defaults to the most restrictive setting when omitted.",
+      "additionalProperties": false,
+      "properties": {
+        "allow_telemetry": {
+          "type": "boolean",
+          "description": "Allow xAI to collect usage telemetry to improve the product. Defaults to false.",
+          "default": false
+        },
+        "share_anonymous_usage": {
+          "type": "boolean",
+          "description": "Share anonymised aggregate usage statistics with the open-source community. Defaults to false.",
+          "default": false
+        },
+        "never_share": {
+          "type": "array",
+          "description": "Categories of data that must never leave the local environment, even in context.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "api_keys",
+              "secrets",
+              "personal_data",
+              "passwords",
+              "tokens",
+              "env_vars",
+              "credentials",
+              "private_keys"
+            ]
+          }
+        },
+        "data_retention_days": {
+          "type": "integer",
+          "description": "Number of days Grok retains conversation history. 0 means no retention.",
+          "minimum": 0,
+          "maximum": 365,
+          "default": 30
+        },
+        "redact_patterns": {
+          "type": "array",
+          "description": "Regular-expression patterns whose matches are redacted from prompts before sending to xAI.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "shortcuts": {
+      "type": "object",
+      "description": "Trigger keyword → expansion prompt map. Invoke with '@grok <keyword>' in any issue, PR, or thread.",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 500
+      }
+    }
+  }
+}
