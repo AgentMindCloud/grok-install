@@ -10,8 +10,7 @@ name: release
 #   5. attach-to-release  — creates/updates the GitHub Release and attaches wheels + .vsix.
 #
 # NO PyPI publish here. The validator is consumed as a Git dependency or as the
-# wheel attached to the GitHub Release. (A separate pre-existing publish-pypi.yml
-# workflow exists in this repo; see PR body and RELEASING.md for guidance.)
+# wheel attached to the GitHub Release.
 #
 # Required repository secrets (Settings → Secrets and variables → Actions):
 #   VSCE_PAT                — VSCode Marketplace PAT (publish-vsix skips if unset)
