@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install-v2/main/spec/v2.14/schema.json
+#
+# grok-install.yaml — canonical example manifest for spec v2.14.
+#
+# Validates against ../schema.json. The shape below illustrates every
+# top-level required field plus a representative extensions: block.
+# Larger agents compose multiple "magic YAML" files documented under
+# standards/; this file is the single-manifest reference.
+
+version: "2.14"
+
+name: "hello-grok"
+description: "Minimal example agent — replies 'hello' to X mentions. Reference manifest exercising every required v2.14 field plus two extension blocks (constitution and provenance)."
+
+runtime:
+  engine: grok
+  model: grok-4
+
+deploy:
+  targets:
+    - worker
+
+inputs:
+  type: object
+  required: [mention_id]
+  properties:
+    mention_id:
+      type: string
+      description: "ID of the X mention to reply to."
+
+outputs:
+  type: object
+  required: [reply_text]
+  properties:
+    reply_text:
+      type: string
+      maxLength: 280
+      description: "The hello reply, capped at 280 chars."
+
+tools:
+  - name: reply_to_mention
+    version: "1.0"
+
+extensions:
+  constitution:
+    - "A1: Owner approval required for outbound posts."
+    - "A2: No tax / legal / medical advice without a disclaimer."
+
+  provenance:
+    cite_sources: true
+    confidence_threshold: 0.7
