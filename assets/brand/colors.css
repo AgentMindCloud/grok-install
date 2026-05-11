@@ -1,8 +1,11 @@
 :root {
-  --color-background: #0A0A0A;
-  --color-primary: #00F0FF;
-  --color-secondary: #00FF9D;
-  /* --color-experimental: #FF2D55 — RESERVED for xlOS only */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --bg:         #0a0706;
+  --bone:       #ead5bd;
+  --bone-dim:   #baa590;
+  --bone-faint: #7c6c5f;
+  --grid:       #f5e8d8;
+  --accent:     #d44936;
+
+  --font-serif: 'Instrument Serif', 'Playfair Display', 'EB Garamond', Georgia, serif;
+  --font-mono:  'IBM Plex Mono', 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
 }

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" role="img" aria-label="grok-install">
-  <rect width="1280" height="320" fill="#0A0A0A"/>
-  <text x="640" y="170" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="120" fill="#00F0FF">grok-install</text>
-  <line x1="380" y1="200" x2="900" y2="200" stroke="#00F0FF" stroke-width="4"/>
-  <text x="640" y="250" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="400" font-size="22" fill="#00FF9D">v1.0 preview</text>
+  <rect width="1280" height="320" fill="#0a0706"/>
+  <text x="640" y="170" text-anchor="middle" font-family="'Instrument Serif','Playfair Display','EB Garamond',Georgia,serif" font-style="italic" font-size="120" fill="#ead5bd">grok-install</text>
+  <line x1="380" y1="200" x2="900" y2="200" stroke="#d44936" stroke-width="4"/>
+  <text x="640" y="250" text-anchor="middle" font-family="'IBM Plex Mono','JetBrains Mono',Menlo,Monaco,'Courier New',monospace" font-weight="bold" font-size="22" fill="#baa590" letter-spacing="3">v1.0 preview</text>
 </svg>
