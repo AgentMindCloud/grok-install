@@ -1,0 +1,36 @@
+# .grok/grok-workflow.yaml
+version: "2.0.0"
+author: "@JanSol0s"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+workflows:
+  ReleasePipeline:
+    description: "One-click release from PR to X announcement"
+    trigger: "@grok run workflow:ReleasePipeline"
+    steps:
+      - name: "Run Tests"
+        action: "grok-test"
+        input: "all"
+      - name: "Generate Docs"
+        action: "grok-docs"
+      - name: "Create Release Notes"
+        action: "summarize_changes"
+      - name: "Post to X"
+        action: "publish_thread"
+        template: "viral_thread"
+
+  ContentPipeline:
+    description: "Turn idea → viral X thread in one command"
+    trigger: "@grok run workflow:ContentPipeline"
+    steps:
+      - name: "Brainstorm"
+        action: "grok-prompts"
+        prompt: "product_idea"
+      - name: "Write Thread"
+        action: "grok-prompts"
+        prompt: "viral_thread"
+      - name: "Schedule"
+        action: "post_thread"

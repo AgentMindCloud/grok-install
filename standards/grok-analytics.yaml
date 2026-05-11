@@ -1,0 +1,41 @@
+# .grok/grok-analytics.yaml
+# Compatible with: grok-install.yaml@1.0+, grok@2026.4+, grok-yaml-standards@2.0+
+version: "2.0.0"
+author: "@yourhandle"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+analytics:
+  enabled: true
+  provider: "posthog"
+  provider_config:
+    api_key_secret: "POSTHOG_API_KEY"
+    host: "https://app.posthog.com"
+
+  events:
+    - name: "grok_invoked"
+      description: "Fires every time a @grok trigger is processed."
+      properties: ["spec", "trigger", "repo"]
+      pii_safe: true
+
+    - name: "workflow_completed"
+      description: "Fires when a grok-workflow finishes."
+      properties: ["workflow_name", "steps_completed", "duration_ms", "status"]
+      pii_safe: true
+
+    - name: "agent_session_ended"
+      description: "Fires when a grok-agent session closes."
+      properties: ["agent_name", "turns", "memory_mode", "duration_ms"]
+      pii_safe: true
+
+    - name: "security_finding"
+      description: "Fires when a security scan produces a finding."
+      properties: ["scan_type", "alert_level"]
+      pii_safe: true
+
+  sampling_rate: 1.0
+  anonymize_user_ids: true
+  data_retention_days: 90
+  opt_out_roles: ["guest", "bot"]

@@ -1,0 +1,29 @@
+# .grok/grok-agent.yaml
+version: "2.0.0"
+author: "@JanSol0s"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+agents:
+  CodePartner:
+    description: "Persistent senior engineer that remembers the entire codebase"
+    tools:
+      - read_file
+      - write_file
+      - run_command
+      - search_code
+      - create_pr
+    memory: "long_term"
+    max_turns_per_session: 100
+    auto_save_state: true
+
+  SocialManager:
+    description: "X growth agent that drafts, schedules, and replies to threads"
+    tools:
+      - post_thread
+      - analyze_engagement
+      - reply_to_mentions
+    memory: "session_only"
+    max_turns_per_session: 50

@@ -1,0 +1,84 @@
+# .grok/grok-tools.yaml
+# Compatible with: grok-install.yaml@1.0+, grok@2026.4+, grok-yaml-standards@2.0+
+version: "2.0.0"
+author: "@yourhandle"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+tools:
+  read_file:
+    description: "Read the contents of a file from the repository by path."
+    category: "file_system"
+    inputs:
+      path:
+        type: "string"
+        description: "File path relative to repository root."
+        required: true
+      encoding:
+        type: "string"
+        enum: ["utf-8", "binary", "base64"]
+        default: "utf-8"
+    outputs:
+      content:
+        type: "string"
+      size_bytes:
+        type: "integer"
+    permissions: ["read"]
+    requires_auth: false
+
+  write_file:
+    description: "Write or overwrite a file in the repository at the given path."
+    category: "file_system"
+    inputs:
+      path:
+        type: "string"
+        required: true
+      content:
+        type: "string"
+        required: true
+      create_dirs:
+        type: "boolean"
+        default: true
+    outputs:
+      bytes_written:
+        type: "integer"
+    permissions: ["write"]
+    requires_auth: false
+
+  run_command:
+    description: "Execute a shell command in the repository root and capture output."
+    category: "code"
+    inputs:
+      command:
+        type: "string"
+        required: true
+      timeout_seconds:
+        type: "integer"
+        default: 120
+    outputs:
+      stdout:
+        type: "string"
+      exit_code:
+        type: "integer"
+    permissions: ["execute"]
+    rate_limit:
+      requests_per_minute: 10
+
+  web_search:
+    description: "Search the open web and return ranked results with titles and snippets."
+    category: "web"
+    inputs:
+      query:
+        type: "string"
+        required: true
+      num_results:
+        type: "integer"
+        default: 5
+    outputs:
+      results:
+        type: "array"
+    permissions: ["network"]
+    rate_limit:
+      requests_per_minute: 20
