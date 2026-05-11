@@ -1,10 +1,10 @@
-"""Tests for cli.validate."""
+"""Tests for grok_install.validate."""
 
 import pathlib
 import shutil
 
-from cli._utils import find_schema_path
-from cli.validate import run_validate, validate_manifest
+from grok_install._utils import find_schema_path
+from grok_install.validate import run_validate, validate_manifest
 
 
 def test_find_schema_path() -> None:

@@ -6,8 +6,8 @@ import pathlib
 
 import click
 
-from cli import __version__
-from cli.validate import run_validate
+from grok_install import __version__
+from grok_install.validate import run_validate
 
 
 @click.group(name="grok-install")

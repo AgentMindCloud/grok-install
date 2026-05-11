@@ -2,8 +2,8 @@
 
 import pathlib
 
-from cli._utils import find_agent_manifests
-from cli.validate import validate_manifest
+from grok_install._utils import find_agent_manifests
+from grok_install.validate import validate_manifest
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = REPO_ROOT / "templates"

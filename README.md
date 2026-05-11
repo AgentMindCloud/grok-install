@@ -49,7 +49,7 @@ The validator emits JSON-Pointer error paths and rich-coloured diagnostics. Pass
 graph TD
     root[grok-install]
     root --> spec[spec/]
-    root --> cli[cli/]
+    root --> grok_install[src/grok_install/]
     root --> action[action/]
     root --> ide[ide/]
     root --> templates[templates/]
