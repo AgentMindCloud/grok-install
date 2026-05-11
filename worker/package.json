@@ -1,0 +1,14 @@
+{
+  "name": "grok-install-worker",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Cloudflare Worker for the hosted grok-install mint flow.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.86.0"
+  }
+}
