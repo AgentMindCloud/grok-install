@@ -529,11 +529,25 @@ button {
   margin: 0;
 }
 
+.std-list .std-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .std-list .std-name {
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.05em;
+  color: var(--bone);
+}
+
+.std-list .std-desc {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
   color: var(--bone);
 }
 

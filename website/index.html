@@ -1,34 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>grok-install — open standard for Grok agents on X</title>
-<meta name="description" content="Open standard to make any AI agent installable with one click on X using Grok.">
+<meta name="description" content="A YAML manifest spec, Python validator, and GitHub Action that turn any AI agent into a one-click install on X. Eighteen ready-to-fork templates.">
 <link rel="stylesheet" href="style.css">
+<link rel="preload" href="fonts/InstrumentSerif-Italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/IBMPlexMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="assets/banner.svg" type="image/svg+xml">
 </head>
 <body>
-<header>
-  <nav>
-    <a class="home" href="index.html">grok-install</a>
-    <a href="standard.html">Standard</a>
-    <a href="templates.html">Templates</a>
-    <a href="docs/">Docs</a>
-    <a href="https://github.com/AgentMindCloud/grok-install-v2">GitHub</a>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<svg class="bg-canvas" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 1440 900">
+  <defs>
+    <pattern id="grid" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M 120 0 L 0 0 0 120" fill="none" stroke="#f5e8d8" stroke-width="1" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+  <g opacity="0.10" stroke="#ead5bd" stroke-width="2" fill="none">
+    <path class="curve curve-1" d="M 0,300 Q 360,200 720,300 T 1440,300"/>
+    <path class="curve curve-2" d="M 0,500 Q 360,420 720,500 T 1440,500"/>
+    <path class="curve curve-3" d="M 0,700 Q 360,620 720,700 T 1440,700"/>
+  </g>
+</svg>
+
+<div class="page-frame">
+  <span class="registration-cross top-left" aria-hidden="true"></span>
+  <span class="registration-cross top-right" aria-hidden="true"></span>
+  <span class="registration-cross bottom-left" aria-hidden="true"></span>
+  <span class="registration-cross bottom-right" aria-hidden="true"></span>
+
+  <nav class="site-nav" aria-label="Primary">
+    <a href="index.html">grok-install</a>
+    <a href="standard.html">the standard</a>
+    <a href="templates.html">templates</a>
+    <a href="https://github.com/AgentMindCloud/grok-install-v2" rel="external">github</a>
   </nav>
-</header>
-<main class="container">
-  <img class="banner" src="assets/banner.svg" alt="grok-install — open standard for Grok agents on X">
 
-  <h1>The open standard for Grok agents on X.</h1>
-  <p class="tagline">A YAML manifest spec and validator that turns any AI agent into a one-click install on X.</p>
+  <header class="header-strip">
+    <span>OBSERVATIONAL STUDY &mdash; GROK AGENT STANDARD</span>
+    <span>GROK-INSTALL &middot; PLATE N&deg; 01</span>
+  </header>
+  <hr class="header-divider">
 
-  <p>One declarative <code>grok-install.yaml</code> file describes an agent's runtime, prompts, tools, safety profile, and X integration. A small Python CLI validates manifests against the v2.14 schema and a GitHub Action gates them in CI. Eighteen ready-to-fork templates cover everything from a daily brief bot to a multi-agent research swarm.</p>
+  <div class="title-block">
+    <h1><span class="plate-no">N&deg; 01</span> grok-install</h1>
+    <hr class="title-divider">
+    <p class="subtitle">OPEN STANDARD FOR GROK AGENTS ON X</p>
+  </div>
 
-  <a class="cta" href="templates.html">Browse templates &rarr;</a>
-</main>
-<footer>
-  Apache-2.0 licensed. Source on <a href="https://github.com/AgentMindCloud/grok-install-v2">GitHub</a>.
-</footer>
+  <main id="main" class="plate-body">
+    <img src="assets/banner.svg" alt="grok-install — open standard for Grok agents on X" class="hero-banner">
+
+    <p>grok-install is a YAML manifest spec, a Python validator, and a GitHub Action that turn any AI agent into a one-click install on X. One declarative <code>grok-install.yaml</code> file describes the agent's runtime, prompts, tools, safety profile, and X integration. The v2.14 schema is locked; eighteen ready-to-fork templates cover everything from a daily brief bot to a multi-agent research swarm.</p>
+
+    <h2>Quickstart (60 seconds)</h2>
+    <pre><code># 1. Install the validator
+pip install grok-install
+
+# 2. Validate a manifest
+grok-install validate path/to/grok-install.yaml
+
+# 3. Install with the cross-platform runtime
+#    See xlOS: https://github.com/AgentMindCloud/xlOS</code></pre>
+
+    <div class="cta-wrap">
+      <button type="button" data-mint-cta class="cta-mint" aria-label="Copy install command to clipboard">MINT YOUR AGENT</button>
+    </div>
+
+    <h2>Three Ways In</h2>
+    <div class="card-grid">
+      <a href="standard.html" class="card">
+        <h3 class="card-title">The Standard</h3>
+        <p>The v2.14 manifest schema and the fourteen sibling standards that describe reusable agent components.</p>
+        <span class="view-link">read the spec &rarr;</span>
+      </a>
+      <a href="templates.html" class="card">
+        <h3 class="card-title">The Templates</h3>
+        <p>Eight production-ready core templates and ten curated community examples. Fork, edit, ship.</p>
+        <span class="view-link">browse templates &rarr;</span>
+      </a>
+      <a href="https://github.com/AgentMindCloud/xlOS" class="card" rel="external">
+        <h3 class="card-title">The Runtime</h3>
+        <p>xlOS &mdash; the cross-platform installer that turns a validated manifest into a running agent on macOS, Linux, or Windows.</p>
+        <span class="view-link">open xlos &rarr;</span>
+      </a>
+    </div>
+  </main>
+
+  <hr class="footer-divider">
+  <footer class="site-footer">
+    <div class="caption">
+      The standard is the agent.<br>
+      The agent is the post.
+    </div>
+    <div class="tech-stack">
+      PYTHON &middot; APACHE 2.0<br>
+      GROK-INSTALL &middot; V2.14
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var btn = document.querySelector('[data-mint-cta]');
+  if (!btn) return;
+  var CMD = '$ pip install xlos && xlos install templates/core/AlphaSignalBot.yaml';
+  var LABEL = 'MINT YOUR AGENT';
+  var mode = 'default';
+
+  function showTerminal() {
+    if (mode === 'copied') return;
+    mode = 'terminal';
+    btn.classList.add('terminal');
+    btn.textContent = '';
+    var cmdSpan = document.createElement('span');
+    cmdSpan.className = 'cmd';
+    cmdSpan.textContent = CMD;
+    var cursorSpan = document.createElement('span');
+    cursorSpan.className = 'cursor';
+    cursorSpan.setAttribute('aria-hidden', 'true');
+    btn.appendChild(cmdSpan);
+    btn.appendChild(cursorSpan);
+  }
+  function showDefault() {
+    if (mode === 'copied') return;
+    mode = 'default';
+    btn.classList.remove('terminal');
+    btn.textContent = LABEL;
+  }
+  function flashCopied() {
+    mode = 'copied';
+    btn.classList.add('copied');
+    btn.classList.remove('terminal');
+    btn.textContent = 'COPIED';
+    setTimeout(function(){
+      btn.classList.remove('copied');
+      mode = 'default';
+      if (btn.matches(':hover') || btn === document.activeElement) showTerminal();
+      else showDefault();
+    }, 1500);
+  }
+
+  btn.addEventListener('mouseenter', showTerminal);
+  btn.addEventListener('mouseleave', showDefault);
+  btn.addEventListener('focus', showTerminal);
+  btn.addEventListener('blur', showDefault);
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(CMD).then(flashCopied, fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  });
+
+  function fallbackCopy() {
+    var tmp = document.createElement('textarea');
+    tmp.value = CMD;
+    tmp.setAttribute('readonly', '');
+    tmp.style.position = 'absolute';
+    tmp.style.left = '-9999px';
+    document.body.appendChild(tmp);
+    tmp.select();
+    try { document.execCommand('copy'); } catch (_) {}
+    tmp.remove();
+    flashCopied();
+  }
+
+  if (window.matchMedia && window.matchMedia('(hover: none)').matches) {
+    showTerminal();
+  }
+})();
+</script>
 </body>
 </html>
