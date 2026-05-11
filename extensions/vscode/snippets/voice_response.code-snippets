@@ -1,0 +1,21 @@
+{
+  "Grok: voice_response block": {
+    "scope": "yaml",
+    "prefix": "grok:voice",
+    "description": "Expands a voice-response block for grok-voice.yaml.",
+    "body": [
+      "spec_version: 2.0.0",
+      "voice_profile:",
+      "  voice_id: \"${1:grok-primary-en}\"",
+      "  tone: ${2|neutral,warm,confident,playful,deadpan|}",
+      "  rate: ${3:1.0}",
+      "  pitch: ${4:0.0}",
+      "response:",
+      "  max_duration_seconds: ${5:30}",
+      "  wake_phrases:",
+      "    - \"${6:hey grok}\"",
+      "  fallback_text: \"${7:Sorry, I didn't catch that.}\"",
+      "$0"
+    ]
+  }
+}

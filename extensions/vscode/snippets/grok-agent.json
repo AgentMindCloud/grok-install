@@ -1,0 +1,56 @@
+{
+  "Grok Agent — full document": {
+    "prefix": ["grok-agent", "agent"],
+    "scope": "yaml",
+    "description": "Skeleton for a Grok Agent document (spec v2.14).",
+    "body": [
+      "# yaml-language-server: $schema=https://schemas.grokinstall.dev/v2.14/agent.json",
+      "apiVersion: grokinstall.dev/v2.14",
+      "kind: Agent",
+      "metadata:",
+      "  name: ${1:my-agent}",
+      "  description: ${2:What this agent does, in one sentence.}",
+      "spec:",
+      "  model: ${3|grok-1,grok-2,grok-3|}",
+      "  system: |",
+      "    ${4:You are a helpful assistant specialised in ...}",
+      "  tools:",
+      "    - ref: ./tools/${5:search}.tool.yaml",
+      "  policies:",
+      "    - ref: ./policies/${6:default}.policy.yaml",
+      "  memory:",
+      "    enabled: ${7|true,false|}",
+      "    window: ${8:20}",
+      "$0"
+    ]
+  },
+
+  "Agent — tool reference": {
+    "prefix": ["agent-tool-ref", "tool-ref"],
+    "scope": "yaml",
+    "description": "A single tool reference item inside `spec.tools`.",
+    "body": [
+      "- ref: ./tools/${1:tool-name}.tool.yaml",
+      "  alias: ${2:$1}",
+      "$0"
+    ]
+  },
+
+  "Agent — inline tool": {
+    "prefix": ["agent-tool-inline"],
+    "scope": "yaml",
+    "description": "Inline tool definition (no separate file).",
+    "body": [
+      "- name: ${1:search_docs}",
+      "  description: ${2:Search the project documentation for a keyword.}",
+      "  parameters:",
+      "    type: object",
+      "    properties:",
+      "      query:",
+      "        type: string",
+      "        description: ${3:Search query.}",
+      "    required: [query]",
+      "$0"
+    ]
+  }
+}

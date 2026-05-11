@@ -1,0 +1,41 @@
+{
+  "Grok Config — full document": {
+    "prefix": ["grok-config", "config", "grokrc"],
+    "scope": "yaml",
+    "description": "Skeleton for `grok.config.yaml` / `.grokrc.yaml` (spec v2.14).",
+    "body": [
+      "# yaml-language-server: $schema=https://schemas.grokinstall.dev/v2.14/config.json",
+      "apiVersion: grokinstall.dev/v2.14",
+      "kind: Config",
+      "metadata:",
+      "  name: ${1:project-config}",
+      "spec:",
+      "  project:",
+      "    id: ${2:acme/${TM_DIRECTORY/.*\\///}}",
+      "    description: ${3:One-line project description.}",
+      "  defaults:",
+      "    model: ${4|grok-1,grok-2,grok-3|}",
+      "    region: ${5|us-east-1,us-west-2,eu-west-1|}",
+      "  auth:",
+      "    provider: ${6|env,vault,oauth|}",
+      "    envVar: ${7:GROK_API_KEY}",
+      "  telemetry:",
+      "    enabled: ${8|true,false|}",
+      "$0"
+    ]
+  },
+
+  "Config — defaults block": {
+    "prefix": ["config-defaults"],
+    "scope": "yaml",
+    "description": "The `spec.defaults` sub-block.",
+    "body": [
+      "defaults:",
+      "  model: ${1|grok-1,grok-2,grok-3|}",
+      "  region: ${2|us-east-1,us-west-2,eu-west-1|}",
+      "  temperature: ${3:0.2}",
+      "  maxTokens: ${4:4096}",
+      "$0"
+    ]
+  }
+}
