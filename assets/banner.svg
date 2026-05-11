@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" role="img" aria-labelledby="title desc">
+  <title id="title">grok-install</title>
+  <desc id="desc">grok-install — open standard for grok agents on X.</desc>
+
+  <rect width="1280" height="320" fill="#0A0A0A"/>
+
+  <g opacity="0.9">
+    <rect x="120" y="148" width="24" height="24" fill="#00F0FF"/>
+    <rect x="156" y="148" width="24" height="24" fill="#00F0FF" opacity="0.6"/>
+    <rect x="192" y="148" width="24" height="24" fill="#00F0FF" opacity="0.3"/>
+    <rect x="1064" y="148" width="24" height="24" fill="#00FF9D" opacity="0.3"/>
+    <rect x="1100" y="148" width="24" height="24" fill="#00FF9D" opacity="0.6"/>
+    <rect x="1136" y="148" width="24" height="24" fill="#00FF9D"/>
+  </g>
+
+  <text x="640" y="172"
+        text-anchor="middle"
+        font-family="'Inter','SF Pro Display','Segoe UI',system-ui,sans-serif"
+        font-size="88"
+        font-weight="700"
+        fill="#FFFFFF"
+        letter-spacing="-2">grok-install</text>
+
+  <text x="640" y="212"
+        text-anchor="middle"
+        font-family="'JetBrains Mono','Fira Code','Menlo','Consolas',monospace"
+        font-size="18"
+        fill="#FFFFFF"
+        opacity="0.7"
+        letter-spacing="2">open standard for grok agents on x</text>
+</svg>
