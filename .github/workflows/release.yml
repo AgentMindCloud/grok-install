@@ -1,0 +1,236 @@
+name: release
+
+# Tag-only trigger. release.yml never runs on PR or push-to-main.
+#
+# What this workflow does on a v*.*.* tag push:
+#   1. build-wheels       — builds the grok-install wheel on Python 3.11 and 3.12.
+#   2. build-vsix         — packages the VSCode extension into a .vsix file.
+#   3. publish-vsix       — publishes the .vsix to the VSCode Marketplace (skip-if-absent).
+#   4. deploy-worker      — deploys the Cloudflare Worker via wrangler (skip-if-absent).
+#   5. attach-to-release  — creates/updates the GitHub Release and attaches wheels + .vsix.
+#
+# NO PyPI publish here. The validator is consumed as a Git dependency or as the
+# wheel attached to the GitHub Release.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   VSCE_PAT                — VSCode Marketplace PAT (publish-vsix skips if unset)
+#   CLOUDFLARE_API_TOKEN    — Cloudflare API token (deploy-worker skips if unset)
+#   CLOUDFLARE_ACCOUNT_ID   — Cloudflare account id (deploy-worker skips if unset;
+#                             required because worker/wrangler.toml does not pin account_id)
+#
+# Skip-if-absent pattern: publish-vsix and deploy-worker both check for their
+# required secret(s) at runtime and log a skip message if not configured, so a
+# tag can be pushed for a partial release (e.g. wheel + GitHub Release only).
+#
+# See RELEASING.md for the full release process and pre-launch checklist.
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+
+jobs:
+  build-wheels:
+    name: Build wheel (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build toolchain
+        run: python -m pip install --upgrade pip build
+
+      - name: Build wheel + sdist
+        run: python -m build
+
+      - name: List built artifacts
+        run: ls -la dist/
+
+      - name: Smoke install
+        run: python -m pip install dist/*.whl
+
+      - name: Smoke run — grok-install --help
+        run: grok-install --help
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-py${{ matrix.python-version }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
+
+  build-vsix:
+    name: Build VSCode extension VSIX
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install extension dependencies
+        working-directory: extensions/vscode
+        run: npm install
+
+      - name: Package VSIX
+        working-directory: extensions/vscode
+        run: npx --yes @vscode/vsce package
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: extensions/vscode/*.vsix
+          if-no-files-found: error
+          retention-days: 30
+
+  publish-vsix:
+    name: Publish VSIX to VSCode Marketplace
+    needs: build-vsix
+    runs-on: ubuntu-latest
+    # Belt-and-suspenders: trigger config already enforces tag-only, but assert
+    # here too so accidental future-edits cannot silently broaden the scope.
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    environment:
+      name: vscode-marketplace
+    steps:
+      # GitHub Actions cannot reference `secrets.*` in a job-level `if:`.
+      # Use an env-presence step output so the workflow skips cleanly when
+      # VSCE_PAT is not configured.
+      - name: Check VSCE_PAT availability
+        id: token
+        run: |
+          if [ -n "${VSCE_PAT}" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "VSCE_PAT secret not configured — skipping VSCode Marketplace publish."
+          fi
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Download VSIX artifact
+        if: steps.token.outputs.available == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: vsix
+          path: vsix/
+
+      - name: Set up Node.js
+        if: steps.token.outputs.available == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Publish VSIX
+        if: steps.token.outputs.available == 'true'
+        run: npx --yes @vscode/vsce publish --packagePath vsix/*.vsix --pat "${VSCE_PAT}"
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+  deploy-worker:
+    name: Deploy Cloudflare Worker
+    runs-on: ubuntu-latest
+    # Belt-and-suspenders tag-only guard.
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    environment:
+      name: cloudflare-production
+    steps:
+      # worker/wrangler.toml does not pin account_id, so both the API token
+      # AND the account id must be present for a deploy. Skip cleanly if
+      # either is missing.
+      - name: Check Cloudflare secrets availability
+        id: secrets
+        run: |
+          if [ -n "${CLOUDFLARE_API_TOKEN}" ] && [ -n "${CLOUDFLARE_ACCOUNT_ID}" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID not configured — skipping Worker deploy."
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Checkout
+        if: steps.secrets.outputs.available == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        if: steps.secrets.outputs.available == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install worker dependencies
+        if: steps.secrets.outputs.available == 'true'
+        working-directory: worker
+        run: npm install
+
+      - name: Deploy worker
+        if: steps.secrets.outputs.available == 'true'
+        working-directory: worker
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  attach-to-release:
+    name: Attach artifacts to GitHub Release
+    needs: [build-wheels, build-vsix]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download wheel artifacts (py3.11)
+        uses: actions/download-artifact@v4
+        with:
+          name: wheels-py3.11
+          path: wheels-py3.11/
+
+      - name: Download wheel artifacts (py3.12)
+        uses: actions/download-artifact@v4
+        with:
+          name: wheels-py3.12
+          path: wheels-py3.12/
+
+      - name: Download VSIX artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vsix
+          path: vsix/
+
+      - name: Create GitHub Release (if missing) and upload artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -e
+          # Create the release if it does not yet exist; ignore "already exists".
+          gh release create "$TAG" --generate-notes --title "$TAG" \
+            || echo "Release $TAG already exists — continuing to upload artifacts."
+          # Upload wheel + sdist + vsix files. --clobber overwrites if rerun.
+          gh release upload "$TAG" \
+            wheels-py3.11/* \
+            wheels-py3.12/* \
+            vsix/*.vsix \
+            --clobber
