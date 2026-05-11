@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The standard — grok-install</title>
+<meta name="description" content="Overview of the grok-install v2.14 manifest standard and its sibling YAML standards.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <nav>
+    <a class="home" href="index.html">grok-install</a>
+    <a href="standard.html">Standard</a>
+    <a href="templates.html">Templates</a>
+    <a href="docs/">Docs</a>
+    <a href="https://github.com/AgentMindCloud/grok-install-v2">GitHub</a>
+  </nav>
+</header>
+<main class="container">
+  <h1>The standard</h1>
+  <p class="tagline">v2.14 &mdash; locked.</p>
+
+  <section class="section">
+    <h2>Manifest schema</h2>
+    <p>The canonical schema for a <code>grok-install.yaml</code> manifest is a JSON Schema 2020-12 document. Conformant parsers accept unknown top-level keys and unknown <code>extensions:</code> sub-keys per the backward-compatibility policy in <code>DECISIONS.md</code> D5.</p>
+    <ul>
+      <li><a href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/spec/v2.14/schema.json">spec/v2.14/schema.json</a> &mdash; the canonical schema</li>
+      <li><a href="https://github.com/AgentMindCloud/grok-install-v2/tree/main/spec/v2.14/extensions">spec/v2.14/extensions/</a> &mdash; extension blocks reference</li>
+      <li><a href="docs/v2.14/">v2.14 docs</a> &mdash; human-readable spec walkthrough</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Sibling standards</h2>
+    <p>Fourteen sibling YAMLs under <a href="https://github.com/AgentMindCloud/grok-install-v2/tree/main/standards"><code>standards/</code></a> declare reusable agent components: agents, tools, prompts, workflows, swarms, voice profiles, safety policies, deployment targets, and more.</p>
+    <div class="cards">
+      <div class="card"><h3>grok-agent.yaml</h3><p>Single-agent definition.</p></div>
+      <div class="card"><h3>grok-workflow.yaml</h3><p>Multi-step pipeline.</p></div>
+      <div class="card"><h3>grok-swarm.yaml</h3><p>Multi-agent orchestration.</p></div>
+      <div class="card"><h3>grok-tools.yaml</h3><p>Tool schemas.</p></div>
+      <div class="card"><h3>grok-prompts.yaml</h3><p>Prompt templates.</p></div>
+      <div class="card"><h3>grok-voice.yaml</h3><p>Voice profile.</p></div>
+      <div class="card"><h3>grok-security.yaml</h3><p>Safety profile.</p></div>
+      <div class="card"><h3>grok-deploy.yaml</h3><p>Deployment targets.</p></div>
+      <div class="card"><h3>grok-config.yaml</h3><p>Agent configuration.</p></div>
+      <div class="card"><h3>grok-test.yaml</h3><p>Test suite definition.</p></div>
+      <div class="card"><h3>grok-update.yaml</h3><p>Update channel + cadence.</p></div>
+      <div class="card"><h3>grok-docs.yaml</h3><p>Documentation pointers.</p></div>
+      <div class="card"><h3>grok-analytics.yaml</h3><p>Analytics + reporting.</p></div>
+      <div class="card"><h3>grok-ui.yaml</h3><p>UI surface description.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Validate locally</h2>
+    <pre><code>pip install grok-install
+grok-install validate path/to/grok-install.yaml</code></pre>
+    <p>Or gate manifests in CI with the <a href="https://github.com/AgentMindCloud/grok-install-v2/tree/main/action">GitHub Action</a>.</p>
+  </section>
+</main>
+<footer>
+  Apache-2.0 licensed. Source on <a href="https://github.com/AgentMindCloud/grok-install-v2">GitHub</a>.
+</footer>
+</body>
+</html>
