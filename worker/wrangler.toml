@@ -1,0 +1,27 @@
+# Cloudflare Worker for grok-install (folded in from legacy AgentMindCloud/grok-install
+# per Phase 2a Step 7). Service name "grok-install" matches the canonical production
+# Cloudflare service. GitHub URL refs target grok-install-v2 during the temp-in-v2 state;
+# Phase 6 will swap back to grok-install after the legacy/v2 repo rename.
+
+name = "grok-install"
+main = "src/index.js"
+compatibility_date = "2026-04-28"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+PRODUCT_NAME = "grok-install"
+GITHUB_OWNER_ORG = "AgentMindCloud"
+PUBLIC_BASE_URL = "https://agentmindcloud.github.io/grok-install-v2"
+
+[[kv_namespaces]]
+binding = "GROK_INSTALL_KV"
+# Set via `wrangler secret put NAME` or repo Settings → Secrets
+# (Run `npx wrangler kv namespace create GROK_INSTALL_KV` to provision and paste the returned id.)
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Secrets required (set via `npx wrangler secret put NAME`):
+#   XAI_API_KEY      — Bearer token for xAI API (Grok)
+#   X_CLIENT_ID      — X/Twitter OAuth 2.0 client id
+#   X_CLIENT_SECRET  — X/Twitter OAuth 2.0 client secret
+# GitHub App credentials are NOT wrangler secrets — they are provisioned at runtime
+# via the /setup-app endpoint and stored in KV under `gh-app:credentials`.
