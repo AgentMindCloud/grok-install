@@ -6,7 +6,7 @@ runtime:
   model: grok-3
 deploy:
   targets:
-    - cli
+    - worker
 extensions:
   future_block:
     placeholder: true

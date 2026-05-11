@@ -4,7 +4,7 @@
 
 ## What is grok-install?
 
-grok-install is the unified Grok-native agent ecosystem — a single repository housing the YAML agent spec, command-line installer, GitHub Action, IDE extension, web marketplace, and constitution-based safety scanner. Author an agent once and run it through any surface.
+grok-install is the home of the Grok-native agent manifest standard: the v2.14 YAML spec, a lightweight validator, bundled templates, the GitHub Action and VSCode extension surfaces, the worker and website surfaces, and the brand kit.
 
 ## Install
 
@@ -34,20 +34,16 @@ runtime:
   model: grok-3
 deploy:
   targets:
-    - cli
+    - worker
 ```
 
 ```bash
 grok-install validate manifest.yaml
 ```
 
-The validator emits JSON-Pointer error paths and rich-coloured diagnostics. Pass a directory to validate every `grok-install.yaml` underneath it.
+The validator emits JSON-Pointer error paths and rich-coloured diagnostics. Pass a directory to validate every `.yaml` underneath it.
 
-## Features
-
-grok-install ships six interoperable surfaces around one schema: a versioned YAML **spec** for agents, a cross-platform **CLI** for install/run workflows, a **GitHub Action** for CI-side agent execution, an **IDE extension** providing schema-aware completion and validation, a **marketplace** for discovering and sharing agents, and a **safety scanner** that lints manifests against constitution rules.
-
-## Architecture
+## Layout
 
 ```mermaid
 graph TD
@@ -56,22 +52,21 @@ graph TD
     root --> cli[cli/]
     root --> action[action/]
     root --> ide[ide/]
-    root --> marketplace[marketplace/]
+    root --> templates[templates/]
     root --> safety[safety/]
-    root --> agents[agents/]
     root --> tools[tools/]
     root --> packages[packages/]
     root --> docs[docs/]
     root --> brand[brand/]
 ```
 
-## Agents
+## Templates
 
-Browse the bundled catalog with `grok-install list-agents agents/`. The Next.js storefront under [`marketplace/`](marketplace/) renders the same catalog as a browsable web UI; see [`marketplace/README.md`](marketplace/README.md) for local dev. A hosted instance launches with v1.0.
+Bundled manifests live under [`templates/`](templates/). The community-contributed templates carried over from awesome-grok-agents are in [`templates/community/`](templates/community/). Validate the whole set with `grok-install validate templates/`.
 
 ## Spec
 
-The current agent manifest schema lives under [`spec/v2.14/`](spec/v2.14/).
+The current agent manifest schema lives at [`spec/v2.14/schema.json`](spec/v2.14/schema.json). The accepted `deploy.targets` values are `action`, `ide`, `worker`, and `web`.
 
 ## Contributing
 

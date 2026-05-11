@@ -1,5 +1,10 @@
-# cli/
+## cli/
 
-The grok-install Python CLI (Click + platformdirs + filelock + rich + colorama) — Phase 2b.
+Lightweight Python helper that ships one command, `grok-install validate`, which checks an agent manifest (or a directory of manifests) against [`spec/v2.14/schema.json`](../spec/v2.14/schema.json).
 
-Status: PLACEHOLDER (Phase 2b)
+```bash
+grok-install validate path/to/manifest.yaml
+grok-install validate templates/
+```
+
+Exit codes: `0` on success, `1` on validation failure, `2` on read error.

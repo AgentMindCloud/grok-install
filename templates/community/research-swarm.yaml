@@ -1,0 +1,15 @@
+version: "2.14"
+name: research-swarm
+description: Researcher + critic + publisher multi-agent swarm.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - worker
+updated_at: "2026-05-10"
+entrypoint: .grok/grok-workflow.yaml
+python_version: ">=3.11"
+env:
+  - XAI_API_KEY
+  - TAVILY_API_KEY

@@ -25,25 +25,3 @@ def test_validate_invalid_file(fixtures_dir: pathlib.Path) -> None:
     runner = CliRunner()
     result = runner.invoke(cli, ["validate", str(fixtures_dir / "invalid_missing_version.yaml")])
     assert result.exit_code == 1
-
-
-def test_init_stub() -> None:
-    runner = CliRunner()
-    result = runner.invoke(cli, ["init"])
-    assert result.exit_code == 0
-    assert "Not yet implemented" in result.output
-
-
-def test_scan_stub() -> None:
-    runner = CliRunner()
-    result = runner.invoke(cli, ["scan"])
-    assert result.exit_code == 0
-    assert "Not yet implemented" in result.output
-
-
-def test_scan_with_lucas_flag() -> None:
-    runner = CliRunner()
-    result = runner.invoke(cli, ["scan", "--lucas-via", "xlos"])
-    assert result.exit_code == 0
-    assert "Not yet implemented" in result.output
-    assert "xlos" in result.output.lower() or "lucas" in result.output.lower()

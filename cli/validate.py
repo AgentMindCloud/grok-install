@@ -124,7 +124,7 @@ def run_validate(target: pathlib.Path) -> int:
     if not manifests:
         if target.is_dir():
             console().print(
-                f"[yellow]No grok-install.yaml files found under[/yellow] {target}",
+                f"[yellow]No manifest files found under[/yellow] {target}",
             )
             return 0
         manifests = [target]
