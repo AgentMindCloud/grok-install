@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-analytics.json",
+  "title": "grok-analytics.yaml",
+  "description": "Official JSON Schema for grok-analytics.yaml — opt-in telemetry configuration with fine-grained event control, PII safety declarations, provider abstraction, and GDPR-friendly retention settings. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "analytics"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this analytics configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the analytics config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "analytics": {
+      "type": "object",
+      "description": "Analytics configuration. No data is collected unless enabled is explicitly set to true.",
+      "required": ["enabled", "provider"],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Master switch for all analytics collection. Defaults to false — must be explicitly set to true to activate.",
+          "default": false
+        },
+        "provider": {
+          "type": "string",
+          "description": "Analytics backend that receives event data.",
+          "enum": [
+            "posthog",
+            "mixpanel",
+            "amplitude",
+            "segment",
+            "datadog",
+            "custom"
+          ]
+        },
+        "provider_config": {
+          "type": "object",
+          "description": "Provider-specific connection settings. API keys must use secret references, not literal values.",
+          "additionalProperties": false,
+          "properties": {
+            "api_key_secret": {
+              "type": "string",
+              "description": "Repository secret key holding the provider API key. Never use a literal key value here.",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "host": {
+              "type": "string",
+              "description": "Provider API endpoint URL. Required for self-hosted PostHog/Segment instances.",
+              "format": "uri"
+            },
+            "project_id": {
+              "type": "string",
+              "description": "Provider project or workspace identifier.",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "webhook_url_secret": {
+              "type": "string",
+              "description": "Repository secret key for a custom webhook endpoint when provider is 'custom'.",
+              "minLength": 1
+            }
+          }
+        },
+        "events": {
+          "type": "array",
+          "description": "Opt-in event definitions. Only listed events are tracked; all others are silently dropped.",
+          "items": {
+            "type": "object",
+            "description": "A single tracked event definition.",
+            "required": ["name", "pii_safe"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Event name in snake_case used as the event identifier in the analytics provider.",
+                "pattern": "^[a-z][a-z0-9_]*$",
+                "minLength": 3,
+                "maxLength": 100
+              },
+              "description": {
+                "type": "string",
+                "description": "Human-readable explanation of when this event fires and what it measures.",
+                "maxLength": 500
+              },
+              "properties": {
+                "type": "array",
+                "description": "List of property names collected alongside this event. Only listed properties are captured.",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$",
+                  "minLength": 1,
+                  "maxLength": 100
+                }
+              },
+              "pii_safe": {
+                "type": "boolean",
+                "description": "Explicit declaration that no property in this event contains personally identifiable information. Events with pii_safe: false require a security review before enabling."
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Set to false to stop collecting this event without removing its definition.",
+                "default": true
+              }
+            }
+          }
+        },
+        "sampling_rate": {
+          "type": "number",
+          "description": "Fraction of events to capture and send. 1.0 = 100%, 0.1 = 10%. Reduce for high-volume repos to manage costs.",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 1.0
+        },
+        "anonymize_user_ids": {
+          "type": "boolean",
+          "description": "Hash all user identifiers (GitHub usernames, X handles) with a one-way function before sending to the provider.",
+          "default": true
+        },
+        "data_retention_days": {
+          "type": "integer",
+          "description": "Number of days the analytics provider retains event data. Align with your legal jurisdiction's requirements (GDPR recommends minimum necessary; typical 30–365).",
+          "minimum": 1,
+          "maximum": 730,
+          "default": 90
+        },
+        "opt_out_roles": {
+          "type": "array",
+          "description": "User roles excluded from all analytics tracking. 'bot' and CI service accounts should always be included.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      }
+    }
+  }
+}

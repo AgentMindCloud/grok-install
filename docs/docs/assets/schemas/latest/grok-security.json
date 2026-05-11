@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-security.json",
+  "title": "grok-security.yaml",
+  "description": "Official JSON Schema for grok-security.yaml — defines real-time security and compliance scans, PR blocking rules, and multi-channel notifications. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "security"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this security configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the security config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "security": {
+      "type": "object",
+      "description": "Top-level security configuration containing scan definitions and global notification settings.",
+      "required": ["scans"],
+      "additionalProperties": false,
+      "properties": {
+        "scans": {
+          "type": "object",
+          "description": "Named scan definitions. Each key is the scan identifier used in '@grok security scan:<Name>' triggers.",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "description": "A single security scan definition.",
+            "required": ["type"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Category of security check to perform.",
+                "enum": [
+                  "secrets",
+                  "dependencies",
+                  "license_gdpr",
+                  "sast",
+                  "dast",
+                  "sca",
+                  "container",
+                  "iac",
+                  "api_security"
+                ]
+              },
+              "files": {
+                "type": "array",
+                "description": "Glob patterns selecting files in scope for this scan. Defaults to all files ('**/*') when omitted.",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "exclude_files": {
+                "type": "array",
+                "description": "Glob patterns for files to exclude from scan scope.",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "alert_level": {
+                "type": "string",
+                "description": "Minimum severity at which this scan raises an alert.",
+                "enum": ["info", "warning", "high", "critical"],
+                "default": "high"
+              },
+              "frequency": {
+                "type": "string",
+                "description": "How often this scan runs automatically.",
+                "enum": ["on_commit", "on_pr", "hourly", "daily", "weekly"],
+                "default": "on_pr"
+              },
+              "severity_threshold": {
+                "type": "string",
+                "description": "CVSS score or severity band below which findings are suppressed.",
+                "enum": ["critical", "high", "medium", "low"],
+                "default": "medium"
+              },
+              "fail_on_finding": {
+                "type": "boolean",
+                "description": "Mark this scan as failed when any finding meets or exceeds the alert_level.",
+                "default": true
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Whether this scan is active.",
+                "default": true
+              }
+            }
+          }
+        },
+        "auto_block_prs": {
+          "type": "boolean",
+          "description": "Automatically block PR merges when any critical-level scan finding is detected.",
+          "default": false
+        },
+        "notify_on_slack": {
+          "type": "boolean",
+          "description": "Send Slack notifications when scans detect findings at or above the configured alert_level.",
+          "default": false
+        },
+        "notify_on_x": {
+          "type": "boolean",
+          "description": "Post X (Twitter) notifications when scans detect findings at or above the configured alert_level.",
+          "default": false
+        },
+        "notify_email": {
+          "type": "string",
+          "description": "Email address to notify on critical findings. Must be a valid email format.",
+          "format": "email"
+        },
+        "compliance_standards": {
+          "type": "array",
+          "description": "Compliance frameworks to validate against during license_gdpr and related scans.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "GDPR",
+              "PCI-DSS",
+              "HIPAA",
+              "SOC2",
+              "ISO-27001",
+              "NIST",
+              "OWASP-Top10",
+              "CIS"
+            ]
+          }
+        },
+        "allowed_licenses": {
+          "type": "array",
+          "description": "SPDX license identifiers approved for use in this repository's dependencies.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "examples": ["MIT", "Apache-2.0", "BSD-3-Clause", "ISC"]
+          }
+        }
+      }
+    }
+  }
+}

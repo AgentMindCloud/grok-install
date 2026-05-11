@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentmindcloud.github.io/grok-docs/assets/schemas/v2.14/grok-visuals.schema.json",
+  "title": "grok-visuals.yaml",
+  "description": "Official JSON Schema for the v2.14 grok-visuals block. Declarative install-card media with first-class accessibility. Additive over v2.13 — validators ignore the block for v2.13-only repos.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "visuals"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this visuals configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["1.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the visuals config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with. Must include grok-install.yaml@2.14+ or later.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "visuals": {
+      "type": "object",
+      "description": "The visuals block. Powers the install-card preview shown in galleries, docs, and the playground.",
+      "required": ["type", "src", "alt"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Media type rendered by the preview card.",
+          "enum": ["image", "video", "gif", "carousel"]
+        },
+        "src": {
+          "type": "string",
+          "description": "Absolute or repo-relative URL to the primary media asset.",
+          "format": "uri-reference",
+          "minLength": 1
+        },
+        "srcset": {
+          "type": "array",
+          "description": "Optional responsive sources (DPI or width variants) that the renderer may pick from.",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "required": ["src"],
+            "additionalProperties": false,
+            "properties": {
+              "src": {
+                "type": "string",
+                "format": "uri-reference",
+                "minLength": 1
+              },
+              "width": {
+                "type": "integer",
+                "description": "Intrinsic width of this variant in CSS pixels.",
+                "minimum": 1,
+                "maximum": 8192
+              },
+              "density": {
+                "type": "number",
+                "description": "Device-pixel-ratio this variant is optimized for (e.g. 1, 2, 3).",
+                "minimum": 0.5,
+                "maximum": 5
+              }
+            }
+          }
+        },
+        "poster": {
+          "type": "string",
+          "description": "Poster frame URL shown before video playback. Ignored when type is not 'video'.",
+          "format": "uri-reference"
+        },
+        "alt": {
+          "type": "string",
+          "description": "Required text alternative describing the media content. Must be non-empty for WCAG 2.2 AA compliance.",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "title": {
+          "type": "string",
+          "description": "Short headline rendered above the media in the preview card.",
+          "maxLength": 100
+        },
+        "caption": {
+          "type": "string",
+          "description": "Optional one-line caption rendered below the media.",
+          "maxLength": 300
+        },
+        "description": {
+          "type": "string",
+          "description": "Longer paragraph used for hover tooltips and search indexing.",
+          "maxLength": 1000
+        },
+        "theme": {
+          "type": "string",
+          "description": "Card colour treatment. 'auto' follows the viewer's prefers-color-scheme.",
+          "enum": ["auto", "light", "dark"],
+          "default": "auto"
+        },
+        "layout": {
+          "type": "string",
+          "description": "Card layout variant rendered by the playground and galleries.",
+          "enum": ["card", "banner", "inline"],
+          "default": "card"
+        },
+        "accessibility": {
+          "type": "object",
+          "description": "Declarations used by the preview renderer to honour WCAG 2.2 AA.",
+          "additionalProperties": false,
+          "properties": {
+            "reduced_motion": {
+              "type": "boolean",
+              "description": "When true, the renderer swaps animated media for the poster frame if the viewer prefers reduced motion.",
+              "default": true
+            },
+            "contrast_ratio": {
+              "type": "number",
+              "description": "Declared minimum contrast ratio of overlaid text on the media. Must be at least 4.5 for WCAG 2.2 AA body text.",
+              "minimum": 4.5,
+              "maximum": 21
+            },
+            "captions": {
+              "type": "boolean",
+              "description": "True if closed captions are embedded or sidecar.",
+              "default": false
+            },
+            "transcript": {
+              "type": "string",
+              "description": "URL to a full text transcript of the media.",
+              "format": "uri-reference"
+            }
+          }
+        },
+        "cta": {
+          "type": "object",
+          "description": "Optional call-to-action button rendered below the caption.",
+          "required": ["label", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Button label. Keep under 24 characters.",
+              "minLength": 1,
+              "maxLength": 24
+            },
+            "url": {
+              "type": "string",
+              "description": "Target URL. Use https for external destinations.",
+              "format": "uri-reference",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

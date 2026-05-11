@@ -1,0 +1,224 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-deploy.json",
+  "title": "grok-deploy.yaml",
+  "description": "Official JSON Schema for grok-deploy.yaml — defines deployment targets, environment variable resolution, resource limits, health checks, and rollback rules. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "deploy"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this deploy configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the deploy config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "deploy": {
+      "type": "object",
+      "description": "Top-level deployment configuration.",
+      "required": ["targets"],
+      "additionalProperties": false,
+      "properties": {
+        "targets": {
+          "type": "object",
+          "description": "Named deployment target definitions. Each key is the target identifier used in '@grok deploy <name>' triggers.",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "description": "A single deployment target.",
+            "required": ["provider", "branch"],
+            "additionalProperties": false,
+            "properties": {
+              "provider": {
+                "type": "string",
+                "description": "Hosting or deployment provider for this target.",
+                "enum": [
+                  "vercel",
+                  "aws",
+                  "gcp",
+                  "azure",
+                  "fly",
+                  "railway",
+                  "render",
+                  "heroku",
+                  "docker",
+                  "custom"
+                ]
+              },
+              "branch": {
+                "type": "string",
+                "description": "Git branch to deploy from.",
+                "pattern": "^[a-zA-Z0-9/_.-]+$"
+              },
+              "require_approval": {
+                "type": "boolean",
+                "description": "Require an approval comment from a listed approver before the deploy proceeds.",
+                "default": true
+              },
+              "approval_from": {
+                "type": "array",
+                "description": "X handles of users whose approval comment unblocks the deploy. Only used when require_approval is true.",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^@[A-Za-z0-9_]{1,50}$"
+                }
+              },
+              "env_vars": {
+                "type": "array",
+                "description": "Environment variables injected into the deployment runtime.",
+                "items": {
+                  "type": "object",
+                  "required": ["name", "source"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Environment variable name. UPPER_SNAKE_CASE recommended.",
+                      "pattern": "^[A-Z_][A-Z0-9_]*$",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "source": {
+                      "type": "string",
+                      "description": "How to resolve the variable's value at deploy time.",
+                      "enum": ["secret", "literal", "env"]
+                    },
+                    "secret_key": {
+                      "type": "string",
+                      "description": "Repository secret identifier to read when source is 'secret'.",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "Hardcoded value when source is 'literal'. Never use for sensitive data.",
+                      "maxLength": 1000
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "description": "Fail the deploy if this variable cannot be resolved.",
+                      "default": true
+                    }
+                  }
+                }
+              },
+              "resource_limits": {
+                "type": "object",
+                "description": "Cloud resource caps applied to this deployment target.",
+                "additionalProperties": false,
+                "properties": {
+                  "memory_mb": {
+                    "type": "integer",
+                    "description": "Maximum memory allocation in megabytes.",
+                    "minimum": 64,
+                    "maximum": 262144
+                  },
+                  "cpu_cores": {
+                    "type": "number",
+                    "description": "vCPU allocation. Supports fractional values (e.g. 0.5).",
+                    "minimum": 0.1,
+                    "maximum": 256
+                  },
+                  "timeout_seconds": {
+                    "type": "integer",
+                    "description": "Maximum request or function execution time before a timeout error.",
+                    "minimum": 1,
+                    "maximum": 3600
+                  },
+                  "max_instances": {
+                    "type": "integer",
+                    "description": "Maximum number of concurrent service instances.",
+                    "minimum": 1,
+                    "maximum": 10000
+                  }
+                }
+              },
+              "health_check": {
+                "type": "object",
+                "description": "Post-deploy liveness probe. Grok polls this endpoint and reports the result before posting a success notification.",
+                "required": ["path"],
+                "additionalProperties": false,
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "description": "HTTP path to poll (e.g. '/health', '/api/status').",
+                    "pattern": "^/.*"
+                  },
+                  "interval_seconds": {
+                    "type": "integer",
+                    "description": "Seconds between probe attempts.",
+                    "minimum": 5,
+                    "maximum": 300,
+                    "default": 30
+                  },
+                  "timeout_seconds": {
+                    "type": "integer",
+                    "description": "Seconds before a single probe attempt is considered failed.",
+                    "minimum": 1,
+                    "maximum": 60,
+                    "default": 10
+                  },
+                  "healthy_threshold": {
+                    "type": "integer",
+                    "description": "Consecutive successful probes required to declare the target healthy.",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "default": 2
+                  },
+                  "unhealthy_threshold": {
+                    "type": "integer",
+                    "description": "Consecutive failed probes required to declare the target unhealthy.",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "default": 3
+                  }
+                }
+              },
+              "rollback_on_unhealthy": {
+                "type": "boolean",
+                "description": "Automatically re-deploy the previous successful build when the health check declares unhealthy.",
+                "default": false
+              },
+              "notify_on_success": {
+                "type": "boolean",
+                "description": "Post a notification when the deploy succeeds.",
+                "default": false
+              },
+              "notify_on_failure": {
+                "type": "boolean",
+                "description": "Post a notification when the deploy fails.",
+                "default": true
+              },
+              "notify_on_x": {
+                "type": "boolean",
+                "description": "Post the deploy result as an X tweet.",
+                "default": false
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Whether this target is active. Set to false to disable without removing the definition.",
+                "default": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

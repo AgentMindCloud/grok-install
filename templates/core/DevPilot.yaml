@@ -1,0 +1,98 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install-v2/main/spec/v2.14/schema.json
+# DevPilot.yaml — grok-install template (v2.14)
+# This is the reference template every minted agent's YAML follows.
+
+version: "2.14"
+name: "dev-pilot"
+description: "Answers API questions, posts coding tips, helps developers ship faster. Open-source friendly."
+repository: "https://github.com/AgentMindCloud/grok-install"
+category: "x-native"
+tags: ["developer", "programming", "api", "x-native"]
+
+runtime:
+  engine: grok
+  model: grok-4
+
+deploy:
+  targets:
+    - worker
+
+llm:
+  provider: "xai"
+  model: "grok-4"
+  api_key_env: "GROK_API_KEY"
+
+tools:
+  - name: "reply_to_mention"
+    description: "Replies to a specific X mention with a contextual response in the owner's voice"
+    parameters:
+      type: "object"
+      properties:
+        mention_id:
+          type: "string"
+        reply_text:
+          type: "string"
+          maxLength: 280
+      required: ["mention_id", "reply_text"]
+    returns:
+      type: "object"
+      properties:
+        reply_url:
+          type: "string"
+        posted_at:
+          type: "string"
+          format: "date-time"
+
+  - name: "post_thread"
+    description: "Posts a thread to X after explicit owner approval"
+    parameters:
+      type: "object"
+      properties:
+        tweets:
+          type: "array"
+          items:
+            type: "string"
+            maxLength: 280
+          minItems: 1
+          maxItems: 10
+        require_approval:
+          type: "boolean"
+          default: true
+      required: ["tweets"]
+    returns:
+      type: "object"
+      properties:
+        thread_url:
+          type: "string"
+        posted_at:
+          type: "string"
+          format: "date-time"
+
+safety:
+  pre_install_scan: true
+  verified_by_grok: true
+  scan_summary_visible: true
+  minimum_keys_only: true
+
+rate_limits:
+  reply_to_mention:
+    qps: 0.5
+    daily_cap: 200
+    burst: 5
+  post_thread:
+    qps: 0.1
+    daily_cap: 20
+    burst: 2
+
+cost_limits:
+  daily_usd: 3.00
+  monthly_usd: 50.00
+  per_request_usd: 0.08
+  on_limit: "block"
+
+x_native_runtime:
+  type: "reply-bot"
+  permissions: ["tweet.read", "tweet.write"]
+  grok_orchestrator: true
+  one_click_x_deploy: true

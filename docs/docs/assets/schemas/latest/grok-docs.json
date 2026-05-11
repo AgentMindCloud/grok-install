@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-docs.json",
+  "title": "grok-docs.yaml",
+  "description": "Official JSON Schema for grok-docs.yaml — defines auto-generated documentation targets with section composition, style presets, and update triggers. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "docs"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this docs configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the docs config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "docs": {
+      "type": "object",
+      "description": "Named documentation target definitions. Each key is the target identifier used in '@grok docs <Name>' triggers.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "description": "A single documentation generation target.",
+        "required": ["target", "sections"],
+        "additionalProperties": false,
+        "properties": {
+          "target": {
+            "type": "string",
+            "description": "Output file path relative to the repository root where the generated document is written.",
+            "pattern": "^[a-zA-Z0-9_./-]+\\.(md|rst|txt|html)$",
+            "examples": ["README.md", "docs/API.md", "docs/GUIDE.rst"]
+          },
+          "sections": {
+            "type": "array",
+            "description": "Ordered list of document sections to generate. Sections are composed top-to-bottom.",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "description": "Section identifier.",
+              "enum": [
+                "hero",
+                "features",
+                "installation",
+                "quickstart",
+                "magic_triggers",
+                "configuration",
+                "api_reference",
+                "examples",
+                "auth",
+                "endpoints",
+                "changelog",
+                "contributing",
+                "license",
+                "faq",
+                "troubleshooting",
+                "architecture",
+                "deployment",
+                "security"
+              ]
+            }
+          },
+          "style": {
+            "type": "string",
+            "description": "Writing style preset applied to the entire document.",
+            "enum": [
+              "technical-clean",
+              "exciting-professional",
+              "minimal",
+              "comprehensive",
+              "tutorial",
+              "reference"
+            ],
+            "default": "technical-clean"
+          },
+          "update_on": {
+            "type": "array",
+            "description": "Events that trigger an automatic re-generation of this document.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": ["push", "pr_merged", "release", "manual", "schedule", "on_tag"]
+            }
+          },
+          "include_code_samples": {
+            "type": "boolean",
+            "description": "Include fenced code examples in API reference and quickstart sections.",
+            "default": false
+          },
+          "source_files": {
+            "type": "array",
+            "description": "Glob patterns selecting source files Grok analyses to generate content. Defaults to entire repository.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "language": {
+            "type": "string",
+            "description": "BCP-47 language tag for the generated document output.",
+            "pattern": "^[a-z]{2}(-[A-Z]{2,4})?$",
+            "default": "en"
+          },
+          "table_of_contents": {
+            "type": "boolean",
+            "description": "Prepend an auto-generated table of contents to the document.",
+            "default": false
+          },
+          "max_length_words": {
+            "type": "integer",
+            "description": "Soft word-count limit for the generated document. Grok will summarise sections to stay within budget.",
+            "minimum": 100,
+            "maximum": 50000
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether this doc target is active. Set to false to disable without removing the definition.",
+            "default": true
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+# .grok/grok-update.yaml
+version: "2.0.0"
+author: "@JanSol0s"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+updates:
+  KnowledgeBase:
+    description: "Keep project knowledge fresh"
+    sources:
+      - "README.md"
+      - "docs/"
+      - "CHANGELOG.md"
+    frequency: "weekly"
+    auto_commit: false
+    actions:
+      - "refresh_links"
+      - "update_stats"
+      - "pull_latest_research"
+
+  DependencyCheck:
+    description: "Auto-update dependencies & security patches"
+    sources:
+      - "package.json"
+      - "requirements.txt"
+    frequency: "daily"
+    auto_commit: true
+    require_approval: true

@@ -1,0 +1,62 @@
+# .grok/grok-ui.yaml
+# Compatible with: grok-install.yaml@1.0+, grok@2026.4+, grok-yaml-standards@2.0+
+version: "2.0.0"
+author: "@yourhandle"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+ui:
+  theme: "dark"
+  locale: "en-US"
+
+  voice_commands:
+    enabled: false
+    language: "en-US"
+    wake_phrase: "hey grok"
+    commands:
+      - phrase: "run tests"
+        action: "grok-test"
+        suite: "CodeQuality"
+      - phrase: "deploy staging"
+        action: "grok-deploy"
+        target: "staging"
+      - phrase: "security scan"
+        action: "grok-security"
+        scan: "SecretsScan"
+      - phrase: "generate docs"
+        action: "grok-docs"
+        target: "AutoREADME"
+
+  dashboard:
+    enabled: true
+    refresh_seconds: 30
+    widgets:
+      - type: "agent_status"
+        title: "Active Agents"
+        refresh_seconds: 15
+      - type: "test_results"
+        title: "Last Test Run"
+        show_last_n: 5
+      - type: "deployment_history"
+        title: "Deployments"
+        show_last_n: 10
+      - type: "security_summary"
+        title: "Security Findings"
+        show_last_n: 20
+        alert_level: "high"
+
+  shortcuts:
+    keyboard:
+      - key: "ctrl+shift+g"
+        action: "open_grok_panel"
+        description: "Open the Grok command panel"
+      - key: "ctrl+shift+t"
+        action: "grok-test"
+        suite: "CodeQuality"
+        description: "Run code quality tests"
+      - key: "ctrl+shift+s"
+        action: "grok-security"
+        scan: "all"
+        description: "Run full security scan"

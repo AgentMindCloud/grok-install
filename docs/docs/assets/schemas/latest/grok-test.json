@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-test.json",
+  "title": "grok-test.yaml",
+  "description": "Official JSON Schema for grok-test.yaml — defines AI-powered test suites for code quality, security, accessibility, and performance audits triggered via @grok. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "test_suites"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this test configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the test config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "test_suites": {
+      "type": "object",
+      "description": "Named test suite definitions. Each key is the suite identifier used in '@grok test <Name>' triggers. Use 'all' as the key to run all suites.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "description": "A single AI-powered test suite.",
+        "required": ["description", "prompt"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Human-readable explanation of what this test suite evaluates.",
+            "minLength": 5,
+            "maxLength": 500
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Instruction prompt sent to Grok as the evaluation directive. Be specific about what constitutes a pass or fail.",
+            "minLength": 10,
+            "maxLength": 2000
+          },
+          "files": {
+            "type": "array",
+            "description": "Glob patterns selecting files to include in this test suite's scope. Omit to test the entire repository.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "description": "Glob pattern (e.g. '**/*.py', 'src/**/*.ts', '**/*.html').",
+              "minLength": 1
+            }
+          },
+          "exclude_files": {
+            "type": "array",
+            "description": "Glob patterns for files to exclude from the suite scope even if matched by the files patterns.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "temperature": {
+            "type": "number",
+            "description": "Sampling temperature for evaluation responses. Low values (0.1–0.3) produce more consistent, deterministic reviews.",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0.2
+          },
+          "alert_level": {
+            "type": "string",
+            "description": "Minimum severity level at which Grok should raise an alert or fail the suite.",
+            "enum": ["info", "warning", "high", "critical"],
+            "default": "warning"
+          },
+          "fail_on": {
+            "type": "string",
+            "description": "Severity threshold at or above which the suite is marked as failed. 'error' only fails on critical issues; 'warning' is stricter.",
+            "enum": ["error", "warning", "all"],
+            "default": "error"
+          },
+          "max_findings": {
+            "type": "integer",
+            "description": "Maximum number of findings to report per run. Useful for high-noise suites in large codebases.",
+            "minimum": 1,
+            "maximum": 500
+          },
+          "categories": {
+            "type": "array",
+            "description": "Test categories applied by this suite. Used for filtering and reporting.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "security",
+                "performance",
+                "accessibility",
+                "code_quality",
+                "documentation",
+                "testing",
+                "dependencies",
+                "compliance"
+              ]
+            }
+          },
+          "block_merge_on_fail": {
+            "type": "boolean",
+            "description": "When true, a failing suite will block PR merges until issues are resolved.",
+            "default": false
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether this suite is active. Set to false to disable without removing the definition.",
+            "default": true
+          }
+        }
+      }
+    }
+  }
+}

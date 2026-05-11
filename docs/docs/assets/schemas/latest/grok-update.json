@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-update.json",
+  "title": "grok-update.yaml",
+  "description": "Official JSON Schema for grok-update.yaml — defines scheduled smart update jobs that keep documentation, dependencies, and knowledge bases fresh. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "updates"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this update configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the update config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "updates": {
+      "type": "object",
+      "description": "Named update job definitions. Each key is the job identifier used in '@grok update <Name>' triggers.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "description": "A single scheduled update job.",
+        "required": ["description", "sources", "frequency"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Human-readable explanation of what this update job refreshes and why.",
+            "minLength": 5,
+            "maxLength": 500
+          },
+          "sources": {
+            "type": "array",
+            "description": "File paths, directory globs, or URLs that this job reads and refreshes. Glob patterns are supported (e.g. 'docs/**/*.md').",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "frequency": {
+            "type": "string",
+            "description": "How often this job runs automatically in the background.",
+            "enum": ["hourly", "daily", "weekly", "monthly", "on_commit", "on_pr", "manual"],
+            "default": "weekly"
+          },
+          "auto_commit": {
+            "type": "boolean",
+            "description": "Automatically commit changes produced by this job without human review. Use with caution.",
+            "default": false
+          },
+          "require_approval": {
+            "type": "boolean",
+            "description": "Open a PR for human review before merging changes. Takes precedence over auto_commit.",
+            "default": true
+          },
+          "actions": {
+            "type": "array",
+            "description": "Ordered list of named actions to perform on each source during the update run.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "refresh_links",
+                "update_stats",
+                "pull_latest_research",
+                "update_dependencies",
+                "security_patch",
+                "regenerate_docs",
+                "sync_translations",
+                "archive_stale",
+                "notify_maintainers"
+              ]
+            }
+          },
+          "notify_on_change": {
+            "type": "boolean",
+            "description": "Post an X notification when this job produces changes.",
+            "default": false
+          },
+          "branch": {
+            "type": "string",
+            "description": "Target branch for auto-committed or PR-based changes. Defaults to the repository default branch.",
+            "pattern": "^[a-zA-Z0-9/_.-]+$"
+          },
+          "schedule_cron": {
+            "type": "string",
+            "description": "Cron expression for precise scheduling. Overrides the frequency field when provided. Format: '0 9 * * 1' = every Monday at 09:00 UTC.",
+            "pattern": "^(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(((\\*|[0-9,/-]+)\\s){4}(\\*|[0-9,/-]+))$"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether this update job is active. Set to false to pause without removing the definition.",
+            "default": true
+          }
+        }
+      }
+    }
+  }
+}

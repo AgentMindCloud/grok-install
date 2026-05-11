@@ -1,0 +1,61 @@
+# .grok/grok-deploy.yaml
+# Compatible with: grok-install.yaml@1.0+, grok@2026.4+, grok-yaml-standards@2.0+
+version: "2.0.0"
+author: "@yourhandle"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+deploy:
+  targets:
+    staging:
+      provider: "vercel"
+      branch: "main"
+      require_approval: false
+      env_vars:
+        - name: "DATABASE_URL"
+          source: "secret"
+          secret_key: "STAGING_DATABASE_URL"
+          required: true
+        - name: "NODE_ENV"
+          source: "literal"
+          value: "staging"
+      resource_limits:
+        memory_mb: 512
+        cpu_cores: 1
+        timeout_seconds: 30
+        max_instances: 3
+      health_check:
+        path: "/health"
+        interval_seconds: 10
+        timeout_seconds: 5
+      notify_on_failure: true
+
+    production:
+      provider: "vercel"
+      branch: "main"
+      require_approval: true
+      approval_from: ["@yourhandle"]
+      env_vars:
+        - name: "DATABASE_URL"
+          source: "secret"
+          secret_key: "PROD_DATABASE_URL"
+          required: true
+        - name: "NODE_ENV"
+          source: "literal"
+          value: "production"
+      resource_limits:
+        memory_mb: 2048
+        cpu_cores: 4
+        timeout_seconds: 30
+        max_instances: 20
+      health_check:
+        path: "/health"
+        interval_seconds: 30
+        timeout_seconds: 10
+        healthy_threshold: 3
+        unhealthy_threshold: 2
+      rollback_on_unhealthy: true
+      notify_on_success: true
+      notify_on_failure: true

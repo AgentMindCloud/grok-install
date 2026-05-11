@@ -1,0 +1,275 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentmindcloud/grok-yaml-standards/schemas/grok-agent.json",
+  "title": "grok-agent.yaml",
+  "description": "Official JSON Schema for grok-agent.yaml — defines persistent, stateful Grok agents with tool access, memory modes, and session limits. Compatible with grok-install.yaml@1.0+ and grok@2026.4+.",
+  "type": "object",
+  "required": ["version", "author", "compatibility", "agents"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this agent configuration file.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["2.0.0"]
+    },
+    "author": {
+      "type": "string",
+      "description": "X handle of the agent config owner, prefixed with '@'.",
+      "pattern": "^@[A-Za-z0-9_]{1,50}$"
+    },
+    "compatibility": {
+      "type": "array",
+      "description": "Platform specs this file is tested and compatible with.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9._-]+@[0-9]+\\.[0-9]+(\\+|\\.[0-9]+)?$"
+      }
+    },
+    "agents": {
+      "type": "object",
+      "description": "Named agent definitions. Each key is the agent identifier used in '@grok spawn agent:<Name>' triggers.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "description": "A single persistent Grok agent definition.",
+        "required": ["description"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Human-readable explanation of the agent's purpose and domain expertise.",
+            "minLength": 10,
+            "maxLength": 500
+          },
+          "tools": {
+            "type": "array",
+            "description": "List of tool identifiers the agent is permitted to invoke. Tool definitions live in grok-tools.yaml.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "description": "Tool identifier matching a key in the grok-tools.yaml tools registry.",
+              "enum": [
+                "read_file",
+                "write_file",
+                "run_command",
+                "search_code",
+                "create_pr",
+                "post_thread",
+                "analyze_engagement",
+                "reply_to_mentions",
+                "web_search",
+                "web_fetch",
+                "run_tests",
+                "deploy",
+                "send_notification",
+                "read_database",
+                "write_database",
+                "call_api",
+                "list_files",
+                "delete_file",
+                "create_branch",
+                "merge_pr"
+              ]
+            }
+          },
+          "memory": {
+            "type": "string",
+            "description": "Memory persistence strategy for this agent across sessions.",
+            "enum": ["long_term", "session_only", "none"],
+            "default": "session_only"
+          },
+          "max_turns_per_session": {
+            "type": "integer",
+            "description": "Maximum number of back-and-forth turns per session before the agent requires re-spawning.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 50
+          },
+          "auto_save_state": {
+            "type": "boolean",
+            "description": "Automatically persist agent state to disk after every session. Only meaningful when memory is 'long_term'.",
+            "default": false
+          },
+          "personality": {
+            "type": "string",
+            "description": "Agent-level personality override. Overrides the global grok.personality setting.",
+            "enum": [
+              "helpful-maximalist",
+              "concise",
+              "creative",
+              "technical",
+              "balanced",
+              "socratic",
+              "executive"
+            ]
+          },
+          "system_prompt": {
+            "type": "string",
+            "description": "Custom system prompt prepended to every agent session. Defines the agent's persona and operating rules.",
+            "minLength": 10,
+            "maxLength": 4000
+          },
+          "permissions": {
+            "type": "array",
+            "description": "Explicit capability grants required beyond standard read access.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "execute",
+                "network",
+                "publish",
+                "deploy",
+                "admin"
+              ]
+            }
+          },
+          "rate_limit": {
+            "type": "object",
+            "description": "Per-agent request throttling to prevent runaway automation.",
+            "additionalProperties": false,
+            "properties": {
+              "requests_per_minute": {
+                "type": "integer",
+                "description": "Maximum tool invocations per minute.",
+                "minimum": 1,
+                "maximum": 600
+              },
+              "requests_per_day": {
+                "type": "integer",
+                "description": "Maximum tool invocations per calendar day.",
+                "minimum": 1,
+                "maximum": 100000
+              }
+            }
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether this agent is active. Set to false to disable without removing the definition.",
+            "default": true
+          },
+          "hub_card": {
+            "type": "object",
+            "description": "Optional GrokHub registry metadata. When present and 'publish' is true, the agent is discoverable in the public GrokHub registry.",
+            "additionalProperties": false,
+            "properties": {
+              "publish": {
+                "type": "boolean",
+                "description": "Master switch. When false, the agent is private and not exposed by the GrokHub registry.",
+                "default": false
+              },
+              "registry_name": {
+                "type": "string",
+                "description": "Display name shown in the GrokHub registry listing.",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "model": {
+                "type": "string",
+                "description": "Underlying Grok model the agent runs on.",
+                "enum": ["grok-4", "grok-3", "grok-3-mini", "grok-3-fast", "grok-2", "grok-1"]
+              },
+              "github": {
+                "type": "string",
+                "description": "Canonical source repository URL for this agent.",
+                "format": "uri"
+              },
+              "tags": {
+                "type": "array",
+                "description": "Discoverability tags shown on the GrokHub listing. Lowercase, hyphen/underscore allowed.",
+                "uniqueItems": true,
+                "maxItems": 20,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_-]+$"
+                }
+              },
+              "safety_profile": {
+                "type": "string",
+                "description": "Declared safety posture used for sandboxing and review routing.",
+                "enum": ["strict", "balanced", "permissive"]
+              },
+              "permission_scopes": {
+                "type": "array",
+                "description": "Capability grants the agent advertises to potential installers. Reuses the canonical permission enum.",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "execute",
+                    "network",
+                    "publish",
+                    "deploy",
+                    "admin"
+                  ]
+                }
+              },
+              "install_command": {
+                "type": "string",
+                "description": "Single-line command an end user runs to install this agent.",
+                "maxLength": 500
+              },
+              "deploy_command": {
+                "type": "string",
+                "description": "Single-line command an end user runs to deploy this agent.",
+                "maxLength": 500
+              },
+              "stats": {
+                "type": "object",
+                "description": "Public counters surfaced on the GrokHub listing.",
+                "additionalProperties": false,
+                "properties": {
+                  "downloads": {
+                    "type": "integer",
+                    "description": "Total install count across all versions.",
+                    "minimum": 0
+                  },
+                  "stars": {
+                    "type": "integer",
+                    "description": "Total star count from GrokHub users.",
+                    "minimum": 0
+                  },
+                  "forks": {
+                    "type": "integer",
+                    "description": "Total fork count from GrokHub users.",
+                    "minimum": 0
+                  }
+                }
+              },
+              "x_native_features": {
+                "type": "array",
+                "description": "X-platform native capabilities this agent invokes.",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "thread_post",
+                    "reply",
+                    "search",
+                    "spaces",
+                    "dm",
+                    "media_analysis",
+                    "grok_imagine"
+                  ]
+                }
+              },
+              "leaderboard_score": {
+                "type": "number",
+                "description": "Composite GrokHub leaderboard score, 0–100.",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+# .grok/grok-security.yaml
+version: "2.0.0"
+author: "@JanSol0s"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+security:
+  scans:
+    SecretsScan:
+      type: "secrets"
+      files: ["**/*"]
+      alert_level: "critical"
+    VulnerabilityScan:
+      type: "dependencies"
+      frequency: "daily"
+    ComplianceScan:
+      type: "license_gdpr"
+      alert_level: "high"
+  auto_block_prs: true
+  notify_on_slack: true
+  notify_on_x: true

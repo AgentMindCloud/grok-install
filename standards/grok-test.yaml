@@ -1,0 +1,25 @@
+# .grok/grok-test.yaml
+version: "2.0.0"
+author: "@JanSol0s"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+test_suites:
+  CodeQuality:
+    description: "Full senior dev code review"
+    prompt: "Perform a senior-level review focusing on bugs, security, performance, and readability"
+    files: ["**/*.py", "**/*.js", "**/*.ts"]
+    temperature: 0.2
+
+  SecuritySmokeTest:
+    description: "Quick security & secret scan"
+    prompt: "Scan for secrets, vulnerabilities, and license issues"
+    files: ["**/*"]
+    alert_level: "high"
+
+  AccessibilityCheck:
+    description: "Ensure web components meet a11y standards"
+    prompt: "Check this UI code for accessibility issues (WCAG 2.2)"
+    files: ["**/*.html", "**/*.tsx"]

@@ -1,0 +1,52 @@
+# .grok/grok-voice.yaml
+# Compatible with: grok-install.yaml@1.0+, grok@2026.4+, grok-yaml-standards@2.0+
+version: "2.0.0"
+author: "@yourhandle"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+voice:
+  id: "primary-voice"
+  name: "Primary Voice Interface"
+  version: "2.0.0"
+
+  input:
+    source: "mic"
+    format: "wav"
+    language: "en-US"
+    vad: "webrtc"
+
+  output:
+    tts_provider: "elevenlabs"
+    voice_id: "rachel"
+    format: "mp3"
+    speed: 1.0
+
+  pipeline:
+    - step: "stt"
+      provider: "whisper"
+    - step: "intent"
+      provider: "grok"
+    - step: "agent"
+      agent_id: "CodePartner"
+    - step: "tts"
+      provider: "elevenlabs"
+
+  latency_budget_ms: 1500
+
+  fallback:
+    on_stt_failure: "prompt_user"
+    on_tts_failure: "text_response"
+    on_timeout: "abort"
+    max_retries: 2
+
+  privacy:
+    retain_audio: false
+    retain_transcript: true
+    transcript_retention_days: 30
+
+  metadata:
+    owner_team: "platform"
+    use_case: "hands-free-coding"

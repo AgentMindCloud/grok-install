@@ -1,0 +1,46 @@
+# .grok/grok-swarm.yaml
+# Compatible with: grok-install.yaml@1.0+, grok@2026.4+, grok-yaml-standards@2.0+
+version: "2.0.0"
+author: "@yourhandle"
+compatibility:
+  - "grok-install.yaml@1.0+"
+  - "grok@2026.4+"
+  - "grok-yaml-standards@2.0+"
+
+swarm:
+  id: "ship-it-swarm"
+  name: "Ship It Swarm"
+  version: "2.0.0"
+  description: "Coordinated multi-agent swarm that turns an approved PR into a shipped release."
+
+  members:
+    - agent_id: "CodePartner"
+      role: "leader"
+      priority: 100
+    - agent_id: "TestRunner"
+      role: "worker"
+      priority: 80
+    - agent_id: "DocsWriter"
+      role: "worker"
+      priority: 60
+    - agent_id: "ReleaseNotes"
+      role: "specialist"
+      priority: 50
+    - agent_id: "SocialManager"
+      role: "observer"
+      priority: 20
+
+  coordinator: "CodePartner"
+  communication: "broadcast"
+  consensus: "majority"
+
+  fallback:
+    strategy: "reassign"
+    reassign_to: "CodePartner"
+    on_coordinator_loss: "elect_highest_priority"
+    max_retries: 3
+
+  metadata:
+    owner_team: "platform"
+    created_on: "2026-04-19"
+    tags: ["release", "automation"]
