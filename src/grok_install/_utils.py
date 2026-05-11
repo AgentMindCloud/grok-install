@@ -24,15 +24,15 @@ def console() -> Console:
 def find_schema_path() -> pathlib.Path:
     """Return the filesystem path to the bundled v2.14 schema.json.
 
-    Wheel installs find the schema at ``cli/schema.json`` via
+    Wheel installs find the schema at ``grok_install/schema.json`` via
     ``importlib.resources`` (placed there by hatch's ``force-include`` at
     wheel-build time). Editable / dev installs fall back to the canonical
     source location under ``spec/v2.14/``.
     """
-    resource = importlib.resources.files("cli") / _SCHEMA_FILENAME
+    resource = importlib.resources.files("grok_install") / _SCHEMA_FILENAME
     if resource.is_file():
         return pathlib.Path(str(resource))
-    src_root = pathlib.Path(__file__).resolve().parent.parent
+    src_root = pathlib.Path(__file__).resolve().parent.parent.parent
     candidate = src_root / "spec" / "v2.14" / _SCHEMA_FILENAME
     if candidate.is_file():
         return candidate

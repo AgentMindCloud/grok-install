@@ -15,7 +15,7 @@ uv sync
 ```bash
 ruff check .
 black --check .
-mypy --strict cli
+mypy --strict src/grok_install
 pytest tests/
 ```
 

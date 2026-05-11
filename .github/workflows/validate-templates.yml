@@ -5,7 +5,7 @@ on:
     paths:
       - 'templates/**'
       - 'spec/**'
-      - 'cli/**'
+      - 'src/grok_install/**'
 
 jobs:
   validate-templates:

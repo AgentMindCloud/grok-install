@@ -20,4 +20,4 @@ jobs:
       - name: black
         run: black --check .
       - name: mypy
-        run: mypy --strict cli
+        run: mypy --strict src/grok_install

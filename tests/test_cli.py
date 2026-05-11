@@ -4,7 +4,7 @@ import pathlib
 
 from click.testing import CliRunner
 
-from cli.main import cli
+from grok_install.main import cli
 
 
 def test_version() -> None:

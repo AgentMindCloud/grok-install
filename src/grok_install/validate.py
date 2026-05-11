@@ -11,7 +11,7 @@ import yaml
 from jsonschema import Draft202012Validator
 from rich.table import Table
 
-from cli._utils import console, find_agent_manifests, find_schema_path
+from grok_install._utils import console, find_agent_manifests, find_schema_path
 
 Severity = Literal["error", "warning"]
 
