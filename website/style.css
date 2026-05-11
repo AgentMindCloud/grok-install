@@ -1,196 +1,629 @@
-:root {
-  --color-background: #0A0A0A;
-  --color-primary: #00F0FF;
-  --color-secondary: #00FF9D;
-  --color-text: #FFFFFF;
-  --color-text-muted: rgba(255, 255, 255, 0.72);
-  --color-text-faint: rgba(255, 255, 255, 0.5);
-  --color-surface: rgba(255, 255, 255, 0.04);
-  --color-border: rgba(255, 255, 255, 0.1);
+/* =============================================================================
+   Residual Frequencies — grok-install
+   Cinnabar palette · Instrument Serif Italic + IBM Plex Mono
+   Phase 2.5 landing system. Tokens locked; do not modify.
+   ============================================================================= */
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace;
+/* ---- 1. Self-hosted fonts (latin subset, woff2) --------------------------- */
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/InstrumentSerif-Italic.woff2') format('woff2');
 }
 
-* { box-sizing: border-box; }
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/IBMPlexMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/IBMPlexMono-Bold.woff2') format('woff2');
+}
+
+/* ---- 2. Tokens ------------------------------------------------------------ */
+
+:root {
+  --bg:         #0a0706;
+  --bone:       #ead5bd;
+  --bone-dim:   #baa590;
+  --bone-faint: #7c6c5f;
+  --grid:       #f5e8d8;
+  --accent:     #d44936;
+
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono:  'IBM Plex Mono', 'Courier New', monospace;
+}
+
+/* ---- 3. Reset ------------------------------------------------------------- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
 
 html, body { margin: 0; padding: 0; }
 
 body {
-  background: var(--color-background);
-  color: var(--color-text);
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.6;
+  background: var(--bg);
+  color: var(--bone);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
+img, svg { display: block; max-width: 100%; }
 
 a {
-  color: var(--color-primary);
+  color: var(--bone);
   text-decoration: none;
+  border-bottom: 1px solid var(--bone-faint);
+  transition: color 200ms ease, border-color 200ms ease;
 }
-a:hover { text-decoration: underline; }
 
-code, pre {
+a:hover,
+a:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+button {
+  font: inherit;
+  background: transparent;
+  color: inherit;
+}
+
+.skip-link {
+  position: absolute;
+  top: -200px;
+  left: 0;
+  padding: 12px 18px;
+  background: var(--accent);
+  color: var(--bg);
+  border: 0;
   font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 13px;
+  z-index: 100;
 }
 
-code {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 0.9em;
+.skip-link:focus { top: 0; }
+
+/* ---- 4. Living background ------------------------------------------------- */
+
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
 }
 
-pre {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  padding: 16px;
-  overflow-x: auto;
+.curve-1 { animation: drift1 55s linear infinite; }
+.curve-2 { animation: drift2 70s linear infinite; }
+.curve-3 { animation: drift3 45s linear infinite; }
+
+@keyframes drift1 {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-360px); }
+}
+@keyframes drift2 {
+  from { transform: translateX(0); }
+  to   { transform: translateX(360px); }
+}
+@keyframes drift3 {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-240px); }
 }
 
-pre code {
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: 0.95em;
-}
+/* ---- 5. Page frame -------------------------------------------------------- */
 
-header {
-  border-bottom: 1px solid var(--color-border);
-}
-
-header nav {
-  max-width: 1024px;
+.page-frame {
+  position: relative;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 16px 24px;
+  padding: 44px;
+  min-height: 100vh;
+}
+
+/* ---- 6. Registration crosses --------------------------------------------- */
+
+.registration-cross {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  opacity: 0.9;
+  animation: pulse 8s ease-in-out infinite;
+}
+
+.registration-cross::before,
+.registration-cross::after {
+  content: '';
+  position: absolute;
+  background: var(--bone);
+}
+
+.registration-cross::before {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  transform: translateY(-50%);
+}
+
+.registration-cross::after {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  transform: translateX(-50%);
+}
+
+.registration-cross.top-left     { top: 16px;    left: 16px; }
+.registration-cross.top-right    { top: 16px;    right: 16px; }
+.registration-cross.bottom-left  { bottom: 16px; left: 16px; }
+.registration-cross.bottom-right { bottom: 16px; right: 16px; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 0.9; }
+}
+
+/* ---- 7. Nav -------------------------------------------------------------- */
+
+.site-nav {
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
-  align-items: center;
-}
-
-header nav a {
-  color: var(--color-text);
-  font-weight: 500;
-}
-
-header nav a.home {
-  color: var(--color-primary);
+  padding: 0 0 28px 0;
   font-family: var(--font-mono);
+  font-size: 13px;
   font-weight: 700;
-  margin-right: auto;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
-main.container {
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 32px 24px 48px;
+.site-nav a {
+  color: var(--bone);
+  border-bottom: 0;
 }
 
-.banner {
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--accent);
+}
+
+/* ---- 8. Header strip + dividers ------------------------------------------ */
+
+.header-strip {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone);
+}
+
+.header-divider,
+.title-divider,
+.footer-divider {
+  border: 0;
+  border-top: 1px solid var(--bone-faint);
+  opacity: 0.65;
+  margin: 16px 0;
+}
+
+.title-divider {
+  border-top-width: 1.5px;
+  margin: 28px 0 18px 0;
+}
+
+.footer-divider {
+  border-top-width: 1.5px;
+  margin: 48px 0 24px 0;
+}
+
+/* ---- 9. Title block ------------------------------------------------------ */
+
+.title-block {
+  margin: 36px 0 8px 0;
+}
+
+.title-block h1 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(56px, 8vw, 96px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 24px;
+}
+
+.title-block .plate-no {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(40px, 6vw, 86px);
+  letter-spacing: -0.01em;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* ---- 10. Subtitle -------------------------------------------------------- */
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone);
+  margin: 0;
+}
+
+/* ---- 11. Plate body ------------------------------------------------------ */
+
+.plate-body {
+  max-width: 1200px;
+  margin: 48px auto 0 auto;
+}
+
+.plate-body h2 {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone);
+  margin: 56px 0 20px 0;
+}
+
+.plate-body h2:first-child { margin-top: 0; }
+
+.plate-body p {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  color: var(--bone);
+  margin: 0 0 20px 0;
+  max-width: 72ch;
+}
+
+.plate-body ul,
+.plate-body ol {
+  padding-left: 22px;
+  margin: 0 0 20px 0;
+}
+
+.plate-body li {
+  margin: 0 0 8px 0;
+  color: var(--bone);
+}
+
+.plate-body code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--bone);
+  background: rgba(245, 232, 216, 0.06);
+  border: 1px solid rgba(124, 108, 95, 0.4);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.plate-body pre {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--bone);
+  background: #100a08;
+  border: 1.5px solid rgba(124, 108, 95, 0.55);
+  padding: 24px;
+  margin: 0 0 24px 0;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+
+.plate-body pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+.hero-banner {
   display: block;
   width: 100%;
-  height: auto;
-  margin: 0 0 32px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
+  margin: 32px 0;
+  border: 1.5px solid rgba(124, 108, 95, 0.55);
 }
 
-h1, h2, h3 {
-  color: var(--color-text);
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
+/* ---- 12. Card grid ------------------------------------------------------- */
 
-h1 { font-size: 2.5rem; margin: 0 0 16px; }
-h2 { font-size: 1.75rem; margin: 32px 0 16px; }
-h3 { font-size: 1.125rem; margin: 24px 0 12px; }
-
-p { margin: 0 0 16px; }
-
-.tagline {
-  font-size: 1.25rem;
-  color: var(--color-text-muted);
-  margin-bottom: 24px;
-}
-
-.cta {
-  display: inline-block;
-  background: var(--color-primary);
-  color: var(--color-background);
-  font-weight: 700;
-  padding: 12px 24px;
-  border-radius: 4px;
-  margin-top: 16px;
-  font-family: var(--font-mono);
-}
-
-.cta:hover {
-  background: var(--color-secondary);
-  text-decoration: none;
-}
-
-.cards {
+.card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-  margin-top: 24px;
+  gap: 24px;
+  margin: 16px 0 28px 0;
 }
 
 .card {
-  display: block;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 20px;
-  color: var(--color-text);
-}
-
-.card:hover {
-  border-color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border: 1.5px solid rgba(124, 108, 95, 0.55);
+  background: transparent;
+  transition: border-color 200ms ease, transform 200ms ease;
+  color: var(--bone);
   text-decoration: none;
 }
 
-.card h3 {
-  margin: 0 0 8px;
+.card:hover,
+.card:focus-within {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.card .card-title {
   font-family: var(--font-mono);
-  font-size: 1rem;
-  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone);
+  margin: 0;
 }
 
 .card p {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--bone);
   margin: 0;
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
+  max-width: none;
 }
 
-.section + .section {
-  border-top: 1px solid var(--color-border);
-  padding-top: 32px;
-  margin-top: 32px;
+.card .card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: auto 0 0 0;
 }
 
-ul {
-  padding-left: 24px;
+.card .chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  border: 1px solid var(--bone-faint);
+  padding: 3px 8px;
 }
 
-li {
-  margin-bottom: 6px;
+.card .view-link {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+  align-self: flex-start;
+  margin-top: 4px;
 }
 
-footer {
-  border-top: 1px solid var(--color-border);
-  padding: 24px;
-  margin-top: 48px;
-  color: var(--color-text-faint);
-  font-size: 0.875rem;
-  text-align: center;
+/* ---- 13. Mint CTA -------------------------------------------------------- */
+
+.cta-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 48px 0;
 }
 
-@media (max-width: 600px) {
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.5rem; }
-  main.container { padding: 24px 16px 32px; }
+.cta-mint {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone);
+  background: transparent;
+  border: 1.5px solid rgba(234, 213, 189, 0.7);
+  padding: 20px 36px;
+  cursor: pointer;
+  transition: border-color 250ms ease, padding 250ms ease, font-size 250ms ease,
+              letter-spacing 250ms ease, color 250ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cta-mint:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.cta-mint.terminal {
+  border-color: var(--accent);
+  padding: 14px 24px;
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cta-mint.terminal .cmd { color: var(--bone); }
+
+.cta-mint.terminal .cursor {
+  display: inline-block;
+  width: 10px;
+  height: 14px;
+  background: var(--accent);
+  margin-left: 6px;
+  vertical-align: middle;
+  animation: blink 1s steps(2) infinite;
+}
+
+.cta-mint.copied {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ---- 14. Standards list (standard.html) ---------------------------------- */
+
+.std-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  border-top: 1px solid rgba(124, 108, 95, 0.4);
+}
+
+.std-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(124, 108, 95, 0.4);
+  margin: 0;
+}
+
+.std-list .std-name {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--bone);
+}
+
+.std-list .std-view {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+}
+
+/* ---- 15. Footer ---------------------------------------------------------- */
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 0 0 16px 0;
+}
+
+.site-footer .caption {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--bone);
+  max-width: 50%;
+}
+
+.site-footer .tech-stack {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone);
+  line-height: 1.7;
+  text-align: right;
+}
+
+/* ---- 16. Reduced motion -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+  }
+  .curve-1,
+  .curve-2,
+  .curve-3,
+  .registration-cross,
+  .cta-mint .cursor {
+    animation: none !important;
+  }
+  .registration-cross { opacity: 0.75; }
+}
+
+/* ---- 17. Mobile ---------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .page-frame { padding: 24px; }
+
+  .registration-cross { width: 18px; height: 18px; }
+  .registration-cross.top-left     { top: 12px;    left: 12px; }
+  .registration-cross.top-right    { top: 12px;    right: 12px; }
+  .registration-cross.bottom-left  { bottom: 12px; left: 12px; }
+  .registration-cross.bottom-right { bottom: 12px; right: 12px; }
+
+  .title-block h1 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .header-strip { font-size: 12px; letter-spacing: 0.14em; }
+  .site-footer { flex-direction: column; }
+  .site-footer .caption { max-width: 100%; font-size: 19px; }
+  .site-footer .tech-stack { text-align: left; }
+  .card-grid { grid-template-columns: 1fr; }
+  .std-list li { flex-direction: column; gap: 6px; align-items: flex-start; }
+  .cta-mint.terminal {
+    white-space: normal;
+    word-break: break-all;
+    text-align: left;
+  }
+  .plate-body pre { padding: 16px; font-size: 13px; }
 }
