@@ -1,0 +1,27 @@
+{
+  "Grok: swarm orchestrator stanza": {
+    "scope": "yaml",
+    "prefix": "grok:swarm",
+    "description": "Expands an orchestrator + agents array for grok-swarm.yaml.",
+    "body": [
+      "spec_version: 2.0.0",
+      "orchestrator:",
+      "  strategy: ${1|round-robin,leader-follower,consensus,router|}",
+      "  max_concurrent: ${2:3}",
+      "  timeout_seconds: ${3:20}",
+      "agents:",
+      "  - id: \"${4:lead}\"",
+      "    role: \"${5:primary}\"",
+      "    spec: \"./agents/${6:lead}.yaml\"",
+      "    weight: ${7:0.6}",
+      "  - id: \"${8:support}\"",
+      "    role: \"${9:backup}\"",
+      "    spec: \"./agents/${10:support}.yaml\"",
+      "    weight: ${11:0.4}",
+      "fallback:",
+      "  agent_id: \"${12:lead}\"",
+      "  message: \"${13:I'll have a teammate pick this up.}\"",
+      "$0"
+    ]
+  }
+}

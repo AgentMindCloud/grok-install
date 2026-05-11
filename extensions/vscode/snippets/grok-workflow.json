@@ -1,0 +1,63 @@
+{
+  "Grok Workflow — full document": {
+    "prefix": ["grok-workflow", "workflow"],
+    "scope": "yaml",
+    "description": "Skeleton for a Grok Workflow document (spec v2.14).",
+    "body": [
+      "# yaml-language-server: $schema=https://schemas.grokinstall.dev/v2.14/workflow.json",
+      "apiVersion: grokinstall.dev/v2.14",
+      "kind: Workflow",
+      "metadata:",
+      "  name: ${1:my-workflow}",
+      "  description: ${2:What this workflow accomplishes, end to end.}",
+      "spec:",
+      "  trigger:",
+      "    type: ${3|manual,schedule,event|}",
+      "  inputs:",
+      "    - name: ${4:topic}",
+      "      type: string",
+      "      required: true",
+      "  steps:",
+      "    - id: ${5:step-1}",
+      "      agent: ./agents/${6:primary}.agent.yaml",
+      "      input: |",
+      "        \\${{ inputs.${4:topic} }}",
+      "    - id: ${7:step-2}",
+      "      agent: ./agents/${8:writer}.agent.yaml",
+      "      input: |",
+      "        \\${{ steps.${5:step-1}.output }}",
+      "  output:",
+      "    value: \\${{ steps.${7:step-2}.output }}",
+      "$0"
+    ]
+  },
+
+  "Workflow — single step": {
+    "prefix": ["workflow-step", "step"],
+    "scope": "yaml",
+    "description": "A single workflow step item.",
+    "body": [
+      "- id: ${1:step-id}",
+      "  agent: ./agents/${2:agent-name}.agent.yaml",
+      "  input: |",
+      "    ${3:Prompt text or \\${{ expression }}}",
+      "  retry:",
+      "    maxAttempts: ${4:3}",
+      "    backoff: ${5|fixed,exponential|}",
+      "$0"
+    ]
+  },
+
+  "Workflow — schedule trigger": {
+    "prefix": ["workflow-schedule", "schedule"],
+    "scope": "yaml",
+    "description": "Cron-schedule trigger block.",
+    "body": [
+      "trigger:",
+      "  type: schedule",
+      "  cron: \"${1:0 */6 * * *}\"",
+      "  timezone: ${2:UTC}",
+      "$0"
+    ]
+  }
+}

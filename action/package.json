@@ -1,0 +1,28 @@
+{
+  "name": "grok-install-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Composite GitHub Action — validate .grok/ agents, run the safety scanner, annotate PRs, and generate Grok-Native Certified badges.",
+  "homepage": "https://grokagents.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AgentMindCloud/grok-install-action.git"
+  },
+  "author": "AgentMindCloud",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node tests/unit.test.js"
+  },
+  "dependencies": {
+    "@actions/core": "1.11.1",
+    "@actions/github": "6.0.1",
+    "@octokit/rest": "20.1.2"
+  },
+  "overrides": {
+    "@actions/http-client": "3.0.2",
+    "undici": "6.25.0"
+  }
+}

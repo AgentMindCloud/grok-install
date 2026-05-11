@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Grok YAML",
+  "scopeName": "source.yaml.grok",
+  "patterns": [
+    { "include": "source.yaml" },
+    { "include": "#grok-keywords" }
+  ],
+  "repository": {
+    "grok-keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.grok",
+          "match": "^\\s*(apiVersion|kind|metadata|spec):"
+        },
+        {
+          "name": "support.type.grok",
+          "match": "\\b(Agent|Workflow|Tool|Prompt|Model|Memory|MCPServer|Task|Pipeline|Policy|Dataset|Evaluation|Environment|Deployment)\\b"
+        }
+      ]
+    }
+  }
+}

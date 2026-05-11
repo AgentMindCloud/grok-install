@@ -1,6 +1,156 @@
-name: 'grok-install'
-description: 'Install and run Grok-native agents in CI.'
+name: 'GrokInstall Validate & Scan'
+description: 'Validate .grok/ agents, run the safety scanner, surface results as Check annotations + PR comments, and generate a Grok-Native Certified badge.'
+author: 'AgentMindCloud'
+
 branding:
-  icon: 'play-circle'
+  icon: 'shield'
   color: 'blue'
-# `runs:` spec lands in Phase 2b.
+
+inputs:
+  working-directory:
+    description: 'Path to the repository root that contains .grok/ (or a subdirectory).'
+    required: false
+    default: '.'
+  mode:
+    description: 'strict (fail on errors) or warn (annotate only, never fail).'
+    required: false
+    default: 'strict'
+  cli-version:
+    description: >
+      Version of grok-install-cli to install. Accepts any npm dist-tag or semver
+      (e.g. "2.14.0", "latest", "2"). Pinned to an exact version by default for
+      supply-chain reproducibility — see docs/cli-version-pinning.md.
+    required: false
+    default: '2.14.0'
+  visuals-preview:
+    description: >
+      When true, ask the CLI to render an HTML visuals preview for each agent
+      and include the URL in the PR comment + visuals-preview-url output.
+      Requires cli-version >= 2.14.0.
+    required: false
+    default: 'false'
+  update-badge:
+    description: 'Generate /badges/grok-native-certified.svg and commit it on main-branch pushes.'
+    required: false
+    default: 'true'
+  comment-on-pr:
+    description: 'Post (or update) a PR comment with the validation + scan report.'
+    required: false
+    default: 'true'
+  github-token:
+    description: >
+      Token used to post PR comments and commit the badge. Leave empty to fall
+      back to the workflow-provided github.token.
+    required: false
+    default: ''
+
+outputs:
+  passed:
+    description: 'true when validate + scan both succeeded under the selected mode.'
+    value: ${{ steps.run.outputs.passed }}
+  safety-score:
+    description: 'Numeric safety score 0-100 from the CLI scanner.'
+    value: ${{ steps.run.outputs.safety-score }}
+  report-path:
+    description: 'Absolute path to the generated report.json.'
+    value: ${{ steps.run.outputs.report-path }}
+  badge-path:
+    description: 'Path to the generated SVG badge (relative to working-directory).'
+    value: ${{ steps.badge.outputs.badge-path }}
+  visuals-preview-url:
+    description: >
+      URL of the rendered visuals preview when visuals-preview:true and
+      cli-version >= 2.14.0. Empty string otherwise.
+    value: ${{ steps.run.outputs.visuals-preview-url }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install action dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm ci --omit=dev --no-audit --no-fund
+
+    - name: Install grok-install-cli
+      shell: bash
+      # Tolerate install failure so `run.sh` can still produce a structured
+      # report.json that surfaces the missing CLI as a finding. Strict mode
+      # will still fail at the final enforcement step; warn mode keeps going.
+      env:
+        CLI_VERSION: ${{ inputs.cli-version }}
+      run: |
+        if ! npm install -g "grok-install-cli@${CLI_VERSION}"; then
+          echo "::warning title=GrokInstall::Could not install grok-install-cli@${CLI_VERSION} from the npm registry. The action will continue and surface this as a finding in the report; in strict mode the run will still fail at the final enforcement step."
+        fi
+
+    - name: Run validate + scan
+      id: run
+      shell: bash
+      env:
+        INPUT_WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        INPUT_MODE: ${{ inputs.mode }}
+        INPUT_VISUALS_PREVIEW: ${{ inputs.visuals-preview }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: bash "${{ github.action_path }}/scripts/run.sh"
+
+    - name: Write GitHub annotations
+      if: always() && steps.run.outputs.report-path != ''
+      shell: bash
+      env:
+        REPORT_PATH: ${{ steps.run.outputs.report-path }}
+        INPUT_MODE: ${{ inputs.mode }}
+      run: node "${{ github.action_path }}/scripts/annotations.js"
+
+    - name: Post PR comment
+      if: always() && inputs.comment-on-pr == 'true' && github.event_name == 'pull_request' && steps.run.outputs.report-path != ''
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token != '' && inputs.github-token || github.token }}
+        REPORT_PATH: ${{ steps.run.outputs.report-path }}
+        PASSED: ${{ steps.run.outputs.passed }}
+        SAFETY_SCORE: ${{ steps.run.outputs.safety-score }}
+        INPUT_MODE: ${{ inputs.mode }}
+        VISUALS_PREVIEW_URL: ${{ steps.run.outputs.visuals-preview-url }}
+      run: node "${{ github.action_path }}/scripts/comment.js"
+
+    - name: Generate badge
+      id: badge
+      if: always() && inputs.update-badge == 'true' && steps.run.outputs.report-path != ''
+      shell: bash
+      env:
+        REPORT_PATH: ${{ steps.run.outputs.report-path }}
+        PASSED: ${{ steps.run.outputs.passed }}
+        SAFETY_SCORE: ${{ steps.run.outputs.safety-score }}
+        WORKING_DIRECTORY: ${{ inputs.working-directory }}
+      run: node "${{ github.action_path }}/scripts/badge.js"
+
+    - name: Commit badge on main
+      if: always() && inputs.update-badge == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.badge.outputs.badge-path != ''
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token != '' && inputs.github-token || github.token }}
+        BADGE_PATH: ${{ steps.badge.outputs.badge-path }}
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -e
+        if git diff --quiet -- "$BADGE_PATH"; then
+          echo "Badge unchanged — skipping commit."
+          exit 0
+        fi
+        git config user.name  "grokinstall-bot"
+        git config user.email "bot@grokagents.dev"
+        git add "$BADGE_PATH"
+        git commit -m "chore(badge): update Grok-Native Certified badge [skip ci]"
+        git push origin HEAD:${GITHUB_REF#refs/heads/}
+
+    - name: Enforce strict mode
+      if: always() && inputs.mode == 'strict' && steps.run.outputs.passed != 'true'
+      shell: bash
+      run: |
+        echo "::error title=GrokInstall::Validation or safety scan failed in strict mode."
+        exit 1

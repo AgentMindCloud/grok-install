@@ -1,0 +1,65 @@
+{
+  "Grok Install — full document (v2.14)": {
+    "prefix": ["grok-install", "install", "grokinstall"],
+    "scope": "yaml",
+    "description": "Skeleton for a complete Grok install document targeting spec v2.14.",
+    "body": [
+      "# yaml-language-server: $schema=https://schemas.grokinstall.dev/v2.14/install.json",
+      "apiVersion: grokinstall.dev/v2.14",
+      "kind: Install",
+      "metadata:",
+      "  name: ${1:my-grok-install}",
+      "  version: ${2:0.1.0}",
+      "  description: ${3:Short human-readable description}",
+      "spec:",
+      "  runtime:",
+      "    engine: ${4|grok-1,grok-2,grok-3|}",
+      "    region: ${5|us-east-1,us-west-2,eu-west-1|}",
+      "  agents:",
+      "    - name: ${6:primary}",
+      "      ref: ./agents/${6:primary}.agent.yaml",
+      "  workflows:",
+      "    - name: ${7:main}",
+      "      ref: ./workflows/${7:main}.workflow.yaml",
+      "  visuals:",
+      "    theme: ${8|dark,light|}",
+      "    brand:",
+      "      background: \"#0A0A0A\"",
+      "      primary: \"#00F0FF\"",
+      "      success: \"#00FF9D\"",
+      "$0"
+    ]
+  },
+
+  "Grok Install — minimal": {
+    "prefix": ["grok-install-min", "install-min"],
+    "scope": "yaml",
+    "description": "Bare-minimum Grok install document.",
+    "body": [
+      "# yaml-language-server: $schema=https://schemas.grokinstall.dev/v2.14/install.json",
+      "apiVersion: grokinstall.dev/v2.14",
+      "kind: Install",
+      "metadata:",
+      "  name: ${1:my-install}",
+      "spec:",
+      "  runtime:",
+      "    engine: ${2|grok-1,grok-2,grok-3|}",
+      "$0"
+    ]
+  },
+
+  "Install — runtime block": {
+    "prefix": ["install-runtime", "grok-runtime"],
+    "scope": "yaml",
+    "description": "`spec.runtime` sub-block for an install document.",
+    "body": [
+      "runtime:",
+      "  engine: ${1|grok-1,grok-2,grok-3|}",
+      "  region: ${2|us-east-1,us-west-2,eu-west-1|}",
+      "  scaling:",
+      "    min: ${3:1}",
+      "    max: ${4:5}",
+      "$0"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "Grok: reply_to_mention capability": {
+    "scope": "yaml",
+    "prefix": "grok:reply",
+    "description": "Expands a reply_to_mention capability block for capabilities.yaml.",
+    "body": [
+      "spec_version: 2.0.0",
+      "capabilities:",
+      "  reply_to_mention:",
+      "    enabled: ${1|true,false|}",
+      "    max_replies_per_hour: ${2:20}",
+      "    cooldown_seconds: ${3:30}",
+      "    tone: \"${4:warm}\"",
+      "$0"
+    ]
+  }
+}

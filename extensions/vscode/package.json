@@ -1,0 +1,63 @@
+{
+  "name": "vscode-grok-yaml",
+  "displayName": "GrokInstall YAML",
+  "description": "Syntax highlighting, language configuration, and snippets for the grok-install.yaml family.",
+  "version": "0.1.0",
+  "publisher": "AgentMindCloud",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AgentMindCloud/grok-install-v2.git",
+    "directory": "extensions/vscode"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "grok",
+    "grokinstall",
+    "yaml",
+    "ai",
+    "agents"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "grok-yaml",
+        "aliases": ["GrokInstall YAML", "grok-yaml"],
+        "filenamePatterns": [
+          "grok-*.yaml",
+          "grok-*.yml",
+          ".grok/**/*.yaml",
+          ".grok/**/*.yml"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "grok-yaml",
+        "scopeName": "source.yaml.grok",
+        "path": "./syntaxes/grok-yaml.tmLanguage.json",
+        "embeddedLanguages": {
+          "source.yaml": "yaml"
+        }
+      }
+    ],
+    "snippets": [
+      { "language": "grok-yaml", "path": "./snippets/grok-install.json" },
+      { "language": "grok-yaml", "path": "./snippets/grok-agent.json" },
+      { "language": "grok-yaml", "path": "./snippets/grok-config.json" },
+      { "language": "grok-yaml", "path": "./snippets/grok-workflow.json" },
+      { "language": "grok-yaml", "path": "./snippets/post_thread.code-snippets" },
+      { "language": "grok-yaml", "path": "./snippets/reply_to_mention.code-snippets" },
+      { "language": "grok-yaml", "path": "./snippets/swarm_orchestrator.code-snippets" },
+      { "language": "grok-yaml", "path": "./snippets/trend_to_thread.code-snippets" },
+      { "language": "grok-yaml", "path": "./snippets/voice_response.code-snippets" }
+    ]
+  }
+}

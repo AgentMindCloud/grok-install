@@ -82,3 +82,6 @@ coverage/
 
 # MkDocs build output
 docs/site/
+
+# Scratch space (transient clones, generators, build helpers — never committed)
+.scratch/

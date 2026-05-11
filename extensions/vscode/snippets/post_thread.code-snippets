@@ -1,0 +1,15 @@
+{
+  "Grok: post_thread stanza": {
+    "scope": "yaml",
+    "prefix": "grok:thread",
+    "description": "Expands a thread-posting stanza for grok-agent.yaml.",
+    "body": [
+      "thread_posting:",
+      "  max_posts: ${1:6}",
+      "  cadence_seconds: ${2:45}",
+      "capabilities:",
+      "  - post_thread",
+      "$0"
+    ]
+  }
+}
