@@ -1,65 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Templates &mdash; grok-install</title>
-<meta name="description" content="Production-ready core templates and community-curated examples for grok-install.">
+<title>Templates — grok-install</title>
+<meta name="description" content="Eight production-ready core templates and ten curated community templates for Grok agents on X. Copy, mint, ship.">
 <link rel="stylesheet" href="style.css">
+<link rel="preload" href="fonts/InstrumentSerif-Italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/IBMPlexMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="assets/banner.svg" type="image/svg+xml">
 </head>
 <body>
-<header>
-  <nav>
-    <a class="home" href="index.html">grok-install</a>
-    <a href="standard.html">Standard</a>
-    <a href="templates.html">Templates</a>
-    <a href="docs/">Docs</a>
-    <a href="https://github.com/AgentMindCloud/grok-install-v2">GitHub</a>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<svg class="bg-canvas" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 1440 900">
+  <defs>
+    <pattern id="grid" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M 120 0 L 0 0 0 120" fill="none" stroke="#f5e8d8" stroke-width="1" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+  <g opacity="0.10" stroke="#ead5bd" stroke-width="2" fill="none">
+    <path class="curve curve-1" d="M 0,300 Q 360,200 720,300 T 1440,300"/>
+    <path class="curve curve-2" d="M 0,500 Q 360,420 720,500 T 1440,500"/>
+    <path class="curve curve-3" d="M 0,700 Q 360,620 720,700 T 1440,700"/>
+  </g>
+</svg>
+
+<div class="page-frame">
+  <span class="registration-cross top-left" aria-hidden="true"></span>
+  <span class="registration-cross top-right" aria-hidden="true"></span>
+  <span class="registration-cross bottom-left" aria-hidden="true"></span>
+  <span class="registration-cross bottom-right" aria-hidden="true"></span>
+
+  <nav class="site-nav" aria-label="Primary">
+    <a href="index.html">grok-install</a>
+    <a href="standard.html">the standard</a>
+    <a href="templates.html">templates</a>
+    <a href="https://github.com/AgentMindCloud/grok-install-v2" rel="external">github</a>
   </nav>
-</header>
-<main class="container">
-  <h1>Templates</h1>
-  <p class="tagline">Eight production templates and ten community-curated examples. Fork, edit, ship.</p>
 
-  <section class="section">
-    <h2>Core (8)</h2>
-    <p>Production templates maintained alongside the spec.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/AlphaSignalBot.yaml"><h3>alpha-signal-bot</h3><p>Posts daily market updates, replies to crypto questions, shares technical analysis. No financial advice.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/AskMe.yaml"><h3>ask-me</h3><p>Answers questions about a topic of your choice. Curates resources, links to authoritative sources.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/DailyBrief.yaml"><h3>daily-brief</h3><p>Posts daily morning summaries on a niche or topic. Replies with relevant facts when @mentioned.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/DevPilot.yaml"><h3>dev-pilot</h3><p>Answers API questions, posts coding tips, helps developers ship faster. Open-source friendly.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/DogeDoughAI.yaml"><h3>doge-dough-ai</h3><p>Friendly AI for restaurants &amp; local brands. Replies to mentions, posts daily specials, answers menu questions.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/ShowNotes.yaml"><h3>show-notes</h3><p>Summarizes podcasts, livestreams, threads. Posts timestamps and key takeaways. Great for creators.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/VibeReply.yaml"><h3>vibe-reply</h3><p>Light, friendly replies in a chosen tone. Compliments, encouragement, witty comebacks. Zero spam.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/VisualForge.yaml"><h3>visual-forge</h3><p>Generates daily AI art, replies to visual prompts, posts themed creative drops. All output watermarked.</p></a>
+  <header class="header-strip">
+    <span>OBSERVATIONAL STUDY &mdash; REFERENCE TEMPLATES</span>
+    <span>GROK-INSTALL &middot; PLATE N&deg; 03</span>
+  </header>
+  <hr class="header-divider">
+
+  <div class="title-block">
+    <h1><span class="plate-no">N&deg; 03</span> Templates</h1>
+    <hr class="title-divider">
+    <p class="subtitle">EIGHT CORE &middot; COMMUNITY CURATED</p>
+  </div>
+
+  <main id="main" class="plate-body">
+    <p>Eighteen ready-to-fork manifests cover the full surface area of the v2.14 standard. Copy a YAML, edit the prompts and tools, run <code>grok-install validate</code>, and mint your agent.</p>
+
+    <h2>Core Templates</h2>
+    <div class="card-grid">
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/AlphaSignalBot.yaml" rel="external">
+        <h3 class="card-title">alpha-signal-bot</h3>
+        <p>Posts daily market updates, replies to crypto questions, shares technical analysis. No financial advice.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/AskMe.yaml" rel="external">
+        <h3 class="card-title">ask-me</h3>
+        <p>Answers questions about a topic of your choice. Curates resources, links to authoritative sources.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/DailyBrief.yaml" rel="external">
+        <h3 class="card-title">daily-brief</h3>
+        <p>Posts daily morning summaries on a niche or topic. Replies with relevant facts when @mentioned.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/DevPilot.yaml" rel="external">
+        <h3 class="card-title">dev-pilot</h3>
+        <p>Answers API questions, posts coding tips, helps developers ship faster. Open-source friendly.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/DogeDoughAI.yaml" rel="external">
+        <h3 class="card-title">doge-dough-ai</h3>
+        <p>Friendly AI for restaurants and local brands. Replies to mentions, posts daily specials, answers menu questions.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/ShowNotes.yaml" rel="external">
+        <h3 class="card-title">show-notes</h3>
+        <p>Summarizes podcasts, livestreams, threads. Posts timestamps and key takeaways. Great for creators.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/VibeReply.yaml" rel="external">
+        <h3 class="card-title">vibe-reply</h3>
+        <p>Light, friendly replies in a chosen tone. Compliments, encouragement, witty comebacks. Zero spam.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/core/VisualForge.yaml" rel="external">
+        <h3 class="card-title">visual-forge</h3>
+        <p>Generates daily AI art, replies to visual prompts, posts themed creative drops. All output watermarked.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
     </div>
-  </section>
 
-  <section class="section">
-    <h2>Community (10)</h2>
-    <p>Examples curated from the community for inspiration and remixing.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/code-reviewer.yaml"><h3>code-reviewer</h3><p>Reviews GitHub PRs with Grok reasoning. Posts inline comments behind approval.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/hello-grok.yaml"><h3>hello-grok</h3><p>The simplest possible Grok agent. Single agent, single tool.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/live-event-commentator.yaml"><h3>live-event-commentator</h3><p>Real-time X commentary on a live event with strict rate limits and a kill switch.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/personal-knowledge.yaml"><h3>personal-knowledge</h3><p>Persistent, searchable memory of your X history. Ask questions about your own posts.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/reply-engagement-bot.yaml"><h3>reply-engagement-bot</h3><p>Watches X mentions and drafts thoughtful replies behind an approval gate.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/research-swarm.yaml"><h3>research-swarm</h3><p>Researcher + critic + publisher multi-agent swarm.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/scientific-discovery.yaml"><h3>scientific-discovery</h3><p>Daily brief of new arXiv papers and the X discussion around them.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/thread-ghostwriter.yaml"><h3>thread-ghostwriter</h3><p>Turns a rough idea into a polished X thread, matched to your voice.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/trend-to-thread.yaml"><h3>trend-to-thread</h3><p>Monitors X trends and drafts a full thread on topics you care about.</p></a>
-      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/voice-agent-x.yaml"><h3>voice-agent-x</h3><p>Speak a post, review the transcript, approve, publish.</p></a>
+    <h2>Community Templates</h2>
+    <div class="card-grid">
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/code-reviewer.yaml" rel="external">
+        <h3 class="card-title">code-reviewer</h3>
+        <p>Reviews GitHub PRs with Grok reasoning. Posts inline comments behind approval.</p>
+        <div class="card-meta"><span class="chip">action</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/hello-grok.yaml" rel="external">
+        <h3 class="card-title">hello-grok</h3>
+        <p>The simplest possible Grok agent. Single agent, single tool.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/live-event-commentator.yaml" rel="external">
+        <h3 class="card-title">live-event-commentator</h3>
+        <p>Real-time X commentary on a live event with strict rate limits and a kill switch.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/personal-knowledge.yaml" rel="external">
+        <h3 class="card-title">personal-knowledge</h3>
+        <p>Persistent, searchable memory of your X history. Ask questions about your own posts.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/reply-engagement-bot.yaml" rel="external">
+        <h3 class="card-title">reply-engagement-bot</h3>
+        <p>Watches X mentions and drafts thoughtful replies behind an approval gate.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/research-swarm.yaml" rel="external">
+        <h3 class="card-title">research-swarm</h3>
+        <p>Researcher + critic + publisher multi-agent swarm.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/scientific-discovery.yaml" rel="external">
+        <h3 class="card-title">scientific-discovery</h3>
+        <p>Daily brief of new arXiv papers and the X discussion around them.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/thread-ghostwriter.yaml" rel="external">
+        <h3 class="card-title">thread-ghostwriter</h3>
+        <p>Turns a rough idea into a polished X thread, matched to your voice.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/trend-to-thread.yaml" rel="external">
+        <h3 class="card-title">trend-to-thread</h3>
+        <p>Monitors X trends and drafts a full thread on topics you care about.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
+      <a class="card" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/templates/community/voice-agent-x.yaml" rel="external">
+        <h3 class="card-title">voice-agent-x</h3>
+        <p>Speak a post, review the transcript, approve, publish.</p>
+        <div class="card-meta"><span class="chip">worker</span></div>
+        <span class="view-link">view yaml &rarr;</span>
+      </a>
     </div>
-  </section>
+  </main>
 
-  <section class="section">
-    <h2>Want to contribute one?</h2>
-    <p>See <a href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>. Community templates land via PR with a passing <code>grok-install validate</code> check and a one-line description.</p>
-  </section>
-</main>
-<footer>
-  Apache-2.0 licensed. Source on <a href="https://github.com/AgentMindCloud/grok-install-v2">GitHub</a>.
-</footer>
+  <hr class="footer-divider">
+  <footer class="site-footer">
+    <div class="caption">
+      Every signal is a template.<br>
+      Every template is a signal.
+    </div>
+    <div class="tech-stack">
+      8 CORE &middot; 10 COMMUNITY<br>
+      APACHE 2.0
+    </div>
+  </footer>
+</div>
 </body>
 </html>
