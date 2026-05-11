@@ -1,0 +1,54 @@
+version: "2.14"
+name: thread-ghostwriter
+description: Turns a rough idea into a polished X thread, matched to your voice.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - worker
+updated_at: "2026-05-10"
+entrypoint: .grok/grok-workflow.yaml
+python_version: ">=3.11"
+env:
+  - XAI_API_KEY
+  - X_BEARER_TOKEN
+  - X_ACCESS_TOKEN
+  - X_ACCESS_SECRET
+visuals:
+  accent_color: "#a78bfa"
+  theme: premium
+  palette:
+    bg: "#0b0f17"
+    panel: "#141123"
+    accent: "#a78bfa"
+    accent_soft: "#2a1f55"
+    text: "#f2ecff"
+    muted: "#a89ec7"
+    trim: "#d4af37"
+  typography:
+    heading_family: "serif"
+    body_family: "sans-serif"
+    heading_weight: 600
+    letter_spacing: "0.01em"
+  preview_card:
+    style: premium
+    title: thread-ghostwriter
+    subtitle: Ideas in. Tone-matched threads out.
+    poster: docs/posters/thread-ghostwriter.svg
+    gradient:
+      from: "#141123"
+      to: "#2a1f55"
+      angle: 110
+    trim:
+      color: "#d4af37"
+      width_px: 1
+      corners: rounded
+    glow:
+      enabled: true
+      color: "#a78bfa"
+      intensity: 0.25
+    animation:
+      type: fade
+      duration_ms: 1200
+      respect_reduced_motion: true

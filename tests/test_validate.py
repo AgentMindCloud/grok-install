@@ -10,7 +10,7 @@ from cli.validate import run_validate, validate_manifest
 def test_find_schema_path() -> None:
     path = find_schema_path()
     assert path.exists()
-    assert path.name == "bridge.schema.json"
+    assert path.name == "schema.json"
 
 
 def test_valid_minimal(fixtures_dir: pathlib.Path) -> None:

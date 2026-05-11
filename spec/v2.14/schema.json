@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grok-install.dev/spec/v2.14/schema.json",
+  "title": "grok-install agent manifest v2.14",
+  "description": "Canonical schema for grok-install agent manifests at version 2.14. Backward-compat policy per DECISIONS.md D5: unknown top-level keys and unknown `extensions:` sub-keys are accepted by conformant parsers.",
+  "type": "object",
+  "required": ["version", "name", "description", "runtime", "deploy"],
+  "additionalProperties": true,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.14",
+      "description": "Spec version. Locked to '2.14' per DECISIONS.md D5."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}$",
+      "description": "Agent slug. Lowercase alphanumeric and hyphens, 2-63 chars, must start with a letter or digit."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Human-readable agent description, 10-500 chars."
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["engine", "model"],
+      "additionalProperties": false,
+      "properties": {
+        "engine": {
+          "type": "string",
+          "enum": ["grok"],
+          "description": "Runtime engine. v1.0 ships with the `grok` engine only."
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Model identifier passed to the engine (e.g. 'grok-3', 'grok-4')."
+        }
+      }
+    },
+    "deploy": {
+      "type": "object",
+      "required": ["targets"],
+      "additionalProperties": false,
+      "properties": {
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["action", "ide", "worker", "web"]
+          },
+          "description": "Deployment runtime targets: `action` runs as a GitHub Actions workflow step; `ide` runs interactively in the VSCode extension; `worker` runs as a Cloudflare Worker serverless runtime; `web` runs as a browser-resident static HTML page."
+        }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "description": "JSON-Schema-shape describing the agent's input contract.",
+      "additionalProperties": true
+    },
+    "outputs": {
+      "type": "object",
+      "description": "JSON-Schema-shape describing the agent's output contract.",
+      "additionalProperties": true
+    },
+    "tools": {
+      "type": "array",
+      "description": "Tool references this agent depends on.",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "additionalProperties": true,
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "version": { "type": "string" }
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Optional extension blocks per DECISIONS.md D5. Unknown sub-keys are accepted (forward-compat).",
+      "additionalProperties": true,
+      "properties": {
+        "constitution": {
+          "description": "References to constitution rule files (constitution-scanner integration).",
+          "oneOf": [
+            { "type": "object" },
+            { "type": "array" }
+          ]
+        },
+        "multi_agent_roles": {
+          "description": "Role declarations for super-agents that coordinate multiple sub-agents.",
+          "oneOf": [
+            { "type": "object" },
+            { "type": "array" }
+          ]
+        },
+        "provenance": {
+          "type": "object",
+          "description": "Citation and confidence configuration (provenance-trust agent).",
+          "additionalProperties": true
+        },
+        "demo_metadata": {
+          "type": "object",
+          "description": "Video / storyboard URLs and demo metadata for catalog listings.",
+          "additionalProperties": true
+        },
+        "x_money_specific": {
+          "type": "object",
+          "description": "Cost caps and tax disclaimer config for X Money / finance templates.",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

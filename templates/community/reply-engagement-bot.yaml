@@ -1,0 +1,21 @@
+version: "2.14"
+name: reply-engagement-bot
+description: Watches X mentions and drafts thoughtful replies behind an approval gate.
+runtime:
+  engine: grok
+  model: grok-4
+deploy:
+  targets:
+    - worker
+updated_at: "2026-05-10"
+entrypoint: .grok/grok-workflow.yaml
+python_version: ">=3.11"
+env:
+  - XAI_API_KEY
+  - X_BEARER_TOKEN
+  - X_API_KEY
+  - X_API_SECRET
+  - X_ACCESS_TOKEN
+  - X_ACCESS_SECRET
+schedule:
+  interval: 5m

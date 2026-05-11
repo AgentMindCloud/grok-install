@@ -6,9 +6,10 @@ runtime:
   model: grok-4
 deploy:
   targets:
-    - cli
     - action
-    - streamlit
+    - worker
+    - ide
+    - web
 inputs:
   type: object
   properties:

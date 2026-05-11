@@ -1,7 +1,7 @@
 [project]
 name = "grok-install"
 version = "1.0.0a2"
-description = "Unified Grok-native agent ecosystem: spec, CLI, GitHub Action, IDE extension, marketplace, safety scanner."
+description = "Grok-native agent ecosystem: v2.14 manifest spec and lightweight validator."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -17,10 +17,7 @@ classifiers = [
 dependencies = [
   "click>=8.1",
   "jsonschema>=4.21",
-  "platformdirs>=4.0",
-  "filelock>=3.13",
   "rich>=13.7",
-  "colorama>=0.4.6",
   "pyyaml>=6.0",
 ]
 
@@ -51,7 +48,7 @@ build-backend = "hatchling.build"
 packages = ["cli"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"spec/v2.14/schemas/bridge.schema.json" = "cli/bridge.schema.json"
+"spec/v2.14/schema.json" = "cli/schema.json"
 
 [tool.ruff]
 line-length = 100

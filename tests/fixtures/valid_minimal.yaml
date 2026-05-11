@@ -6,4 +6,4 @@ runtime:
   model: grok-3
 deploy:
   targets:
-    - cli
+    - worker

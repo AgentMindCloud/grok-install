@@ -3,7 +3,9 @@ name: validate-templates
 on:
   pull_request:
     paths:
-      - 'agents/**'
+      - 'templates/**'
+      - 'spec/**'
+      - 'cli/**'
 
 jobs:
   validate-templates:
@@ -15,5 +17,5 @@ jobs:
           python-version: '3.11'
       - name: Install
         run: pip install -e ".[dev]"
-      - name: Validate agent manifests
-        run: grok-install validate agents/
+      - name: Validate bundled templates
+        run: grok-install validate templates/

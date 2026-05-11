@@ -25,4 +25,4 @@ We acknowledge reports within **72 hours**. We aim to provide a fix or remediati
 
 ## Scope
 
-The CLI, GitHub Action, IDE extension, marketplace, and safety scanner are all in scope. Third-party dependencies should be reported to their respective maintainers.
+The validator CLI, GitHub Action, IDE extension, worker, and website surfaces are all in scope. Third-party dependencies should be reported to their respective maintainers.
