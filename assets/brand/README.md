@@ -1,4 +1,4 @@
-# brand/
+# assets/brand/
 
 The grok-install visual identity. Per DECISIONS.md D9, the lineage is Apache-2.0, the system is intentionally minimal (no capsule-render banners, no typing-svg, no status-emoji rows), and we share a unified design system with the experimental `xlOS` sibling.
 

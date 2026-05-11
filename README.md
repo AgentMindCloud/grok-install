@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="brand/banner.svg" alt="grok-install" />
+  <img src="assets/brand/banner.svg" alt="grok-install" />
 </p>
 
 ## What is grok-install?
@@ -51,13 +51,9 @@ graph TD
     root --> spec[spec/]
     root --> grok_install[src/grok_install/]
     root --> action[action/]
-    root --> ide[ide/]
     root --> templates[templates/]
-    root --> safety[safety/]
-    root --> tools[tools/]
-    root --> packages[packages/]
     root --> docs[docs/]
-    root --> brand[brand/]
+    root --> assets[assets/brand/]
 ```
 
 ## Templates
