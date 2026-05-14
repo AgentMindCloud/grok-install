@@ -29,7 +29,9 @@ You will also need to know your Cloudflare account id. You can copy it from the 
 
 ## 3. One-time setup on Cloudflare
 
-You must complete every step in this section **before any first deploy**, manual or CI. CI cannot do these for you — it only runs `wrangler deploy`. If you skip section 3, the Worker will deploy successfully but every request will 500 because the KV binding will fail to resolve and the secrets will be undefined.
+> **For the AgentMindCloud production deployment, the KV namespace (§3.2 / §3.3) is already configured in `worker/wrangler.toml`.** The three runtime secrets (§3.4) still need to be set on the target Cloudflare account before the first deploy. The KV sections below are preserved for forks or anyone re-deploying into a different Cloudflare account.
+
+You must complete the remaining steps in this section **before any first deploy** into a new Cloudflare account, manual or CI. CI cannot do these for you — it only runs `wrangler deploy`. If you skip §3.4 the Worker will deploy successfully but every request will 500 because the runtime secrets will be undefined.
 
 If you have done this before for this Cloudflare account, skip to section 4 or 5.
 
@@ -57,7 +59,9 @@ export CLOUDFLARE_ACCOUNT_ID=<your-cloudflare-account-id>
 
 The `CLOUDFLARE_ACCOUNT_ID` is only required if `worker/wrangler.toml` does not pin `account_id` — which is the default in this repo (see section 3.5).
 
-### 3.2. Create the KV namespace
+### 3.2. Create the KV namespace (fork / fresh account only)
+
+> **Already done for the AgentMindCloud production deployment.** The namespace exists in the production Cloudflare account and its id is committed in `worker/wrangler.toml`. Skip to §3.4 unless you are deploying into a different Cloudflare account.
 
 From the repo root:
 
@@ -83,30 +87,21 @@ Add the following to your configuration file in your kv_namespaces array:
 
 > Shortcut: passing `--update-config` to `wrangler kv namespace create` makes wrangler edit your config file for you. The project ships `wrangler.toml`, so wrangler will append a `[[kv_namespaces]]` block at the bottom of the file. You'll still want to move the block into the position shown in section 3.3 (and delete the commented placeholder lines) so the file stays tidy, but it saves you a copy-paste.
 
-### 3.3. Update `worker/wrangler.toml` with the real KV id
+### 3.3. Update `worker/wrangler.toml` with the real KV id (fork / fresh account only)
 
-Open `worker/wrangler.toml`. The relevant block currently looks like this:
+> **Already done for the AgentMindCloud production deployment.** The live binding is committed in `worker/wrangler.toml`.
 
-```toml
-# KV namespace binding — required before first real deploy.
-#   1. Run: npx wrangler kv namespace create GROK_INSTALL_KV
-#   2. Uncomment the block below and paste the returned id.
-# [[kv_namespaces]]
-# binding = "GROK_INSTALL_KV"
-# id = "PASTE_KV_NAMESPACE_ID_HERE"
-```
-
-Replace it with:
+Open `worker/wrangler.toml`. The active binding looks like this:
 
 ```toml
 [[kv_namespaces]]
 binding = "GROK_INSTALL_KV"
-id = "<id-from-step-3.2>"
+id = "11d7541c50c84a83ae02891e9e908726"
 ```
 
-Substitute `<id-from-step-3.2>` with the actual id wrangler printed. Do not include the angle brackets in the final file. Do not commit a real id from someone else's account.
+If you are deploying into your own Cloudflare account, replace the `id` value with the one wrangler printed in §3.2. Do not commit a real id from someone else's account.
 
-Save the file. Commit and push the change so CI uses the same id.
+Save the file. Commit and push the change on your fork so CI uses the same id.
 
 ### 3.4. Set the three runtime secrets
 
@@ -241,7 +236,7 @@ The `deploy-worker` job uses a skip-if-absent pattern:
 - If both `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are set, it deploys the Worker.
 - If either is missing, the job runs but logs `CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID not configured — skipping Worker deploy.` and exits cleanly. The rest of the release pipeline (wheels, vsix, GitHub Release) is unaffected.
 
-> **Important — CI does NOT bootstrap your Cloudflare account.** Specifically, CI does **not** create the KV namespace, does **not** edit `wrangler.toml`, and does **not** set the three runtime secrets (`XAI_API_KEY`, `X_CLIENT_ID`, `X_CLIENT_SECRET`). You must complete section 3 before the first tag push. If you skip section 3 and rely only on CI, the deploy will succeed but the live Worker will return 500s on every endpoint that touches KV or calls xAI / X.
+> **Important — CI does NOT bootstrap your Cloudflare account.** The KV namespace binding is already committed in `worker/wrangler.toml`, so CI does not need to create one for the AgentMindCloud production deployment. CI does **not** set the three runtime secrets (`XAI_API_KEY`, `X_CLIENT_ID`, `X_CLIENT_SECRET`) — complete §3.4 on the target Cloudflare account before the first tag push, or the deploy will succeed but the live Worker will return 500s on every endpoint that calls xAI / X. Forks deploying into a fresh Cloudflare account must also complete §3.2 / §3.3.
 
 ## 6. Verification and smoke tests
 

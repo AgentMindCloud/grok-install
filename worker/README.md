@@ -22,7 +22,7 @@ Deployment will be wired in `.github/workflows/release.yml`. Manual deploy:
 
 Set via `npx wrangler secret put <NAME>` or repo Settings → Secrets and variables → Actions.
 
-The Worker also binds a KV namespace as `GROK_INSTALL_KV`; provision with `npx wrangler kv namespace create GROK_INSTALL_KV` and paste the returned id into `wrangler.toml` (replaces the `REPLACE_WITH_KV_NAMESPACE_ID` placeholder). GitHub App credentials are not wrangler secrets — they are provisioned at runtime via the `/setup-app` endpoint and stored in KV.
+The Worker binds a KV namespace as `GROK_INSTALL_KV`; the binding is already configured in `wrangler.toml` for the AgentMindCloud production deployment. For forks or fresh Cloudflare accounts, see [`DEPLOY.md`](./DEPLOY.md) §3 for the one-time namespace setup. GitHub App credentials are not wrangler secrets — they are provisioned at runtime via the `/setup-app` endpoint and stored in KV.
 
 ## Schema reference
 

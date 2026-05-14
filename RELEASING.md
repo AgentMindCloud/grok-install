@@ -78,9 +78,6 @@ One-time, before the first tag push:
 - [ ] `CLOUDFLARE_ACCOUNT_ID` added
 - [ ] `extensions/vscode/package.json` `publisher` field set (already set to
       `AgentMindCloud` at the time of this writing)
-- [ ] `worker/wrangler.toml` `kv_namespaces[].id` replaced from
-      `REPLACE_WITH_KV_NAMESPACE_ID` to the real KV namespace id (and any
-      other binding ids that may have been added)
 - [ ] (Optional) Environments `vscode-marketplace` and `cloudflare-production`
       configured at Settings → Environments with required-reviewer gates if
       manual approval before each publish is desired.

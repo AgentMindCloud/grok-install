@@ -1,6 +1,6 @@
 [project]
 name = "grok-install"
-version = "1.0.0a2"
+version = "1.0.0"
 description = "Grok-native agent ecosystem: v2.14 manifest spec and lightweight validator."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -8,11 +8,13 @@ license = { text = "Apache-2.0" }
 authors = [{ name = "AgentMindCloud" }]
 keywords = ["grok", "xai", "agents", "yaml", "spec", "cli"]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
   "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Operating System :: OS Independent",
 ]
 dependencies = [
   "click>=8.1",
@@ -37,6 +39,7 @@ grok-install = "grok_install.main:cli"
 
 [project.urls]
 Homepage = "https://github.com/AgentMindCloud/grok-install"
+Documentation = "https://agentmindcloud.github.io/grok-install"
 Repository = "https://github.com/AgentMindCloud/grok-install"
 Issues = "https://github.com/AgentMindCloud/grok-install/issues"
 
