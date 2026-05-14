@@ -6,7 +6,8 @@
   "homepage": "https://grokagents.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AgentMindCloud/grok-install-action.git"
+    "url": "https://github.com/AgentMindCloud/grok-install.git",
+    "directory": "action"
   },
   "author": "AgentMindCloud",
   "license": "Apache-2.0",

@@ -17,8 +17,8 @@ theme:
   logo: assets/img/logo.svg
   favicon: assets/img/favicon.svg
   font:
-    text: Inter
-    code: JetBrains Mono
+    text: Instrument Serif
+    code: IBM Plex Mono
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil
