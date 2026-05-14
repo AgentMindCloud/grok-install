@@ -1,9 +1,9 @@
 site_name: grok-install docs
 site_description: The open standard to make any AI agent installable with one click on X using Grok. Full YAML spec reference, CLI guide, live validator, and multi-agent orchestration patterns.
-site_url: https://agentmindcloud.github.io/grok-install-v2/
+site_url: https://agentmindcloud.github.io/grok-install/
 site_author: AgentMindCloud
-repo_url: https://github.com/AgentMindCloud/grok-install-v2
-repo_name: AgentMindCloud/grok-install-v2
+repo_url: https://github.com/AgentMindCloud/grok-install
+repo_name: AgentMindCloud/grok-install
 edit_uri: edit/main/docs/docs/
 copyright: Copyright &copy; 2026 AgentMindCloud. Apache 2.0 licensed.
 
