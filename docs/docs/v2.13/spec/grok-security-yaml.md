@@ -94,7 +94,8 @@ Deeper guide: [Safety profiles →](../../guides/safety-profiles.md)
 - Every tool in `grok-agent.yaml:tools` must appear in `permissions`.
 - Every permission `tool:X` must also appear in `grok-tools.yaml:tools[].id`.
 - `requires_approval` entries must also appear in `permissions`.
-- `network:*` triggers a warning in `grok-install scan`.
+- `network:*` triggers a warning in the X-side pre-install scan that
+  runs when a user replies `@grok install this`.
 
 ## Schema
 

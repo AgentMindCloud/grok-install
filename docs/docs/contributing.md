@@ -63,8 +63,10 @@ Submit to
 using the template submission PR template. Your template will be
 validated by CI — it must:
 
-- Pass `grok-install validate`
-- Pass `grok-install scan` with zero hard errors
+- Pass `grok-install validate` with zero errors
+- Carry a `grok-security.yaml` that would pass the X-side pre-install
+  scan (no `network:*` without justification, no hardcoded secrets,
+  approvals gating destructive tools)
 - Include a `README.md` with a one-paragraph description
 - Include a short demo GIF or screenshot
 

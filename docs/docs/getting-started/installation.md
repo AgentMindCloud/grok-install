@@ -72,8 +72,9 @@ Get a key from <https://x.ai>. Then:
 
 !!! warning "Never commit keys"
     `grok-install` reads keys from the environment — there's no config
-    file. If you put a key in YAML, the pre-install scanner will fail
-    the build.
+    file. If you put a key in YAML, the **X-side pre-install scan**
+    (which runs when a user replies `@grok install this` to a post
+    sharing your repo) rejects the agent and blocks the Install button.
 
 ## Shell completion (optional)
 

@@ -19,7 +19,7 @@ sequenceDiagram
     participant G as grok-install runtime
     U->>X: Sees post with github.com/you/agent link
     X->>R: Fetches grok-install.yaml
-    X->>X: Runs pre-install scan (same as `grok-install scan`)
+    X->>X: Runs pre-install scan (X-side, automatic)
     X->>U: Shows "Install with Grok" button
     U->>X: Taps Install
     X->>U: Prompts for env vars from `env:` list
@@ -61,8 +61,8 @@ Voice commands mirror the text ones on mobile.
 
 ## Pre-install scan
 
-Every install triggers a scan identical to
-`grok-install scan` locally. It reports:
+Every install triggers an automatic X-side pre-install scan. It
+reports:
 
 - Safety profile (`standard` / `strict`)
 - Permission summary (tools, network hosts, filesystem, env)

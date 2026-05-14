@@ -1,5 +1,5 @@
-name: 'GrokInstall Validate & Scan'
-description: 'Validate .grok/ agents, run the safety scanner, surface results as Check annotations + PR comments, and generate a Grok-Native Certified badge.'
+name: 'GrokInstall Validate'
+description: 'Validate .grok/ agents against the v2.14 standard, surface results as Check annotations + PR comments, and generate a Grok-Native Certified badge. The full safety scan runs on X when a user replies `@grok install this`.'
 author: 'AgentMindCloud'
 
 branding:

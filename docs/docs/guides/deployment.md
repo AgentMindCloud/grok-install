@@ -22,7 +22,7 @@ if it sees anything that looks like a key.
 - **Docker**: `--env-file` at run time, or inject via orchestrator
   (Kubernetes secrets, Nomad, ECS task definitions).
 - **CI (GitHub Actions)**: `secrets.XAI_API_KEY` → jobs that call
-  `grok-install scan` or `grok-install test`.
+  `grok-install validate`.
 
 Every key in `grok-install.yaml` → `env:` must resolve at agent boot or
 the runtime refuses to start.

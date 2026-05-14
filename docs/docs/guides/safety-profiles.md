@@ -94,10 +94,13 @@ Format: `<scope>:<target>`.
 
 ## Scan vs validate
 
-- `grok-install validate` enforces the schema (hard errors).
-- `grok-install scan` is **opinionated**: it flags things that are
-  legal but risky (`network:*`, missing approvals on `post_*` tools,
-  unbounded `max_turns`, etc.). Ship-readiness check, not a build gate.
+- `grok-install validate` (local CLI) enforces the schema — hard errors
+  only.
+- The **X-side pre-install scan** is **opinionated**: it flags things
+  that are legal but risky (`network:*`, missing approvals on `post_*`
+  tools, unbounded `max_turns`, etc.) and runs automatically when a
+  user replies `@grok install this`. It's a ship-readiness check, not
+  a build gate — there is no local `grok-install scan` subcommand.
 
 ## Common misconfigurations
 
@@ -106,8 +109,9 @@ Format: `<scope>:<target>`.
     `grok-security.yaml`.
 
 !!! failure "`network:*` with `safety_profile: strict`"
-    Legal, but `grok-install scan` will flag it. Consider narrowing
-    the host list — strict profiles usually shouldn't need the open web.
+    Legal, but the X-side pre-install scan will flag it. Consider
+    narrowing the host list — strict profiles usually shouldn't need
+    the open web.
 
 !!! failure "Approval on a tool that doesn't exist"
     `requires_approval: [post_thread]` + no such tool → validation

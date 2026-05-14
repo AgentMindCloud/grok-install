@@ -95,7 +95,8 @@ Read the deeper guide: [Safety profiles →](../../guides/safety-profiles.md)
 
 - A tool listed in `grok-agent.yaml` that isn't in `permissions` is a
   hard error at `grok-install validate` time.
-- `network:*` is allowed but lights up a warning in `grok-install scan`.
+- `network:*` is allowed but lights up a warning in the X-side
+  pre-install scan that runs when a user replies `@grok install this`.
 - `requires_approval` entries must also appear in `permissions` — you
   can't gate something the agent isn't allowed to touch.
 

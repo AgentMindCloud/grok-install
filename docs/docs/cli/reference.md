@@ -75,20 +75,18 @@ grok-install validate [PATH]
 
 Exit codes: `0` success, `1` validation error, `2` I/O error.
 
-### `grok-install scan`
+### Pre-install scan (X-side, automatic)
 
-Pre-install safety assessment. Inspects tool permissions, network
-grants, bundled secrets, and third-party dependencies. Emits a summary
-matching what Grok itself runs before showing the **Install with Grok**
-button.
+There is no local `grok-install scan` subcommand in the shipped CLI.
+The pre-install safety scan — tool permissions, network grants, bundled
+secrets, and third-party dependencies — runs **on X's side** when a
+user replies `@grok install this` to a post that shares your repo. A
+clean scan reveals the **Install with Grok** button; a failing scan
+blocks it.
 
-```bash
-grok-install scan [PATH] [--format text|json|sarif]
-```
-
-!!! tip "Run it in CI"
-    Add `grok-install scan --format sarif` to your workflow; GitHub
-    Security will surface findings inline on PRs.
+For repo-level CI checks, use the in-tree
+[GitHub Action](https://github.com/AgentMindCloud/grok-install/tree/main/action),
+which today wraps `grok-install validate` against the v2.14 schema.
 
 ### `grok-install run`
 

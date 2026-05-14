@@ -27,8 +27,13 @@ swarm.
    grok-install validate path/to/grok-install.yaml
    ```
 
-3. **Install the manifest** on macOS, Linux, or Windows with the cross-platform
-   runtime — see [xlOS](https://github.com/AgentMindCloud/xlOS).
+3. **Install locally** on macOS, Linux, or Windows with the cross-platform
+   runtime — see [xlOS](https://github.com/AgentMindCloud/xlOS) for `xlos install`.
+
+4. **Or install on X.** Push the repo (with `grok-install.yaml` at the root),
+   share the link in a post, and reply `@grok install this` to trigger the
+   hosted mint + install flow. X runs the pre-install safety scan
+   automatically before the **Install with Grok** button appears.
 
 ## Templates
 

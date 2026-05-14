@@ -111,15 +111,13 @@ Expected:
 ✓ cross-refs: prompt_ref[greeter_system] ✓, tool[now] ✓
 ```
 
-## Step 7 — Scan (5 sec)
+## Step 7 — Pre-install scan (X-side, automatic)
 
-```bash
-grok-install scan .
-```
-
-This is the same pre-install scan Grok runs when a user taps **Install
-with Grok**. You'll see: profile, permission summary, any network
-reach, and verdict.
+There is no local `grok-install scan` step today. The pre-install scan
+that vets profile, permissions, network reach, and verdict runs **on
+X's side** when a user replies `@grok install this` to a post sharing
+your repo. A clean scan reveals the **Install with Grok** button; a
+failing scan blocks it.
 
 ## Step 8 — Run it (2 min)
 
@@ -165,7 +163,10 @@ git commit -m "My first Grok agent"
 gh repo create hello-grok --public --source=. --push
 ```
 
-Post the link on X with a note. Anyone can tap **Install with Grok**.
+Post the link on X with a note, then reply `@grok install this` to your
+own post to trigger the hosted mint + install flow. The X-side
+pre-install scan runs automatically; on a clean scan the **Install with
+Grok** button appears for anyone who sees the thread.
 
 ## Where next
 

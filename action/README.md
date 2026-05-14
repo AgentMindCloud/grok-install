@@ -1,8 +1,10 @@
-# GrokInstall Validate & Scan — GitHub Action
+# GrokInstall Validate — GitHub Action
 
-Validate `.grok/` agent manifests in CI, run the safety scanner, surface results
-as workflow annotations + a pinned PR comment, and generate a Grok-Native
-Certified SVG badge.
+Validate `.grok/` agent manifests in CI against the v2.14 standard, surface
+results as workflow annotations + a pinned PR comment, and generate a
+Grok-Native Certified SVG badge. The full pre-install safety scan runs on X
+when a user replies `@grok install this` — this action is the local schema gate
+that catches violations before that step.
 
 This action lives in-tree at `action/` of the
 [grok-install](https://github.com/AgentMindCloud/grok-install) repository.
