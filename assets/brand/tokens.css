@@ -1,12 +1,56 @@
+/* Cinnabar Glass — Design Tokens v1.0
+   Single source of truth for grok-install + xlOS.
+   See DESIGN_SYSTEM.md for usage rules. */
+
 :root {
-  --color-void: #0D0D0D;
-  --color-glass-base: #1C1C1E;
-  --color-cinnabar: #C73E1D;
-  --color-amber-glow: #FF7A3D;
-  --color-mist: #F5F5F5;
+  /* Color */
+  --color-void:           #0D0D0D;
+  --color-onyx:           #111113;
+  --color-glass-base:     #1C1C1E;
+  --color-cinnabar:       #C73E1D;
+  --color-cinnabar-glow:  #E03C31;
+  --color-amber-glow:     #FF7A3D;
+  --color-mist:           #F5F5F5;
 
-  --gradient-hero: linear-gradient(180deg, #FF7A3D 0%, #C73E1D 100%);
+  /* Text alpha steps on mist */
+  --color-mist-90: rgba(245, 245, 245, 0.90);
+  --color-mist-70: rgba(245, 245, 245, 0.70);
+  --color-mist-50: rgba(245, 245, 245, 0.50);
+  --color-mist-30: rgba(245, 245, 245, 0.30);
 
+  /* Borders */
+  --border-soft:     rgba(255, 255, 255, 0.08);
+  --border-strong:   rgba(255, 255, 255, 0.16);
+  --border-cinnabar: rgba(199, 62, 29, 0.55);
+
+  /* Gradients */
+  --gradient-hero:        linear-gradient(180deg, #FF7A3D 0%, #C73E1D 100%);
+  --gradient-hero-strong: linear-gradient(180deg, #FFD4A8 0%, #FF7A3D 35%, #C73E1D 100%);
+
+  /* Atmosphere — drop this on any hero background */
+  --atmosphere:
+    radial-gradient(ellipse 50% 50% at 80% 20%, rgba(255, 122, 61, 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 20% 80%, rgba(199, 62, 29, 0.05), transparent 70%),
+    #0D0D0D;
+
+  /* Typography */
   --font-display: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace;
+  --font-mono:    'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Radii */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-glass:        0 8px 32px rgba(0, 0, 0, 0.32);
+  --shadow-glow-soft:    0 0 40px rgba(199, 62, 29, 0.18);
+  --shadow-glow-strong:  0 0 80px rgba(255, 122, 61, 0.30);
+  --shadow-cinnabar-ring: 0 0 0 1px rgba(199, 62, 29, 0.55), 0 0 24px rgba(255, 122, 61, 0.22);
+
+  /* Backdrop blur */
+  --blur-glass: blur(20px) saturate(120%);
 }

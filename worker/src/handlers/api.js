@@ -80,9 +80,9 @@ const MASCOT_GRADIENTS = {
   anime_portrait: ['#fbcfe8', '#c084fc'],
   hand_sketched: ['#d6d3d1', '#57534e'],
   liquid_gold: ['#fbbf24', '#d97706'],
-  dark_glass: ['#1e293b', '#475569'],
+  dark_glass: ['#1C1C1E', '#0D0D0D'],
   comic_ink: ['#f87171', '#1f2937'],
-  specimen_plate: ['#d4a341', '#f5ead4'],
+  specimen_plate: ['#FF7A3D', '#C73E1D'],
 };
 
 function escapeXml(s) {
@@ -143,18 +143,18 @@ export async function handleSpecimenSvg(genesisId, env) {
   } catch { /* fall back to gradient */ }
 
   // Auto-sized chip row, centered, with proper rounded corners (not pills).
-  // chipWidth approximates the rendered text width of JetBrains Mono at 18px
+  // chipWidth approximates the rendered text width of IBM Plex Mono at 18px
   // and pads horizontally so short words don't drift in a 200-wide chasm and
   // long words don't overflow.
   const chipWidth = (s) => Math.max(120, Math.min(440, Math.round(String(s).length * 12 + 32)));
   const palettes = {
-    purple: { bg: 'rgba(167,139,250,0.10)', stroke: 'rgba(167,139,250,0.32)', text: '#c4b5fd' },
-    cyan:   { bg: 'rgba(34,211,238,0.10)',  stroke: 'rgba(34,211,238,0.32)',  text: '#7dd3fc' },
-    green:  { bg: 'rgba(74,222,128,0.10)',  stroke: 'rgba(74,222,128,0.32)',  text: '#86efac' },
+    cinnabar: { bg: 'rgba(199,62,29,0.12)',  stroke: 'rgba(199,62,29,0.45)',  text: '#FF7A3D' },
+    amber:    { bg: 'rgba(255,122,61,0.10)', stroke: 'rgba(255,122,61,0.36)', text: '#FFD4A8' },
+    mist:     { bg: 'rgba(245,245,245,0.06)', stroke: 'rgba(245,245,245,0.20)', text: '#F5F5F5' },
   };
   const chipsRow = (items, y, color) => {
     if (!items.length) return '';
-    const c = palettes[color] || palettes.purple;
+    const c = palettes[color] || palettes.cinnabar;
     const widths = items.map(chipWidth);
     const total = widths.reduce((a, b) => a + b, 0) + 14 * (items.length - 1);
     let x = Math.round((1080 - total) / 2);
@@ -162,7 +162,7 @@ export async function handleSpecimenSvg(genesisId, env) {
       const w = widths[i];
       const out = `<g transform="translate(${x},${y})">
         <rect rx="14" ry="14" width="${w}" height="48" fill="${c.bg}" stroke="${c.stroke}" stroke-width="1"/>
-        <text x="${w / 2}" y="31" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="18" fill="${c.text}">${escapeXml(t)}</text>
+        <text x="${w / 2}" y="31" text-anchor="middle" font-family="IBM Plex Mono, SF Mono, Menlo, Consolas, monospace" font-size="18" fill="${c.text}">${escapeXml(t)}</text>
       </g>`;
       x += w + 14;
       return out;
@@ -173,16 +173,16 @@ export async function handleSpecimenSvg(genesisId, env) {
   // a chip row. Sections stack with consistent spacing; layout adapts to how
   // many of voice/domains/vibe the mint has.
   const sectionDefs = [];
-  if (voiceTraits.length) sectionDefs.push({ label: 'VOICE TRAITS', items: voiceTraits, color: 'purple' });
-  if (domains.length)     sectionDefs.push({ label: 'DOMAINS',      items: domains,     color: 'cyan' });
-  if (vibe.length)        sectionDefs.push({ label: 'VIBE',         items: vibe,        color: 'green' });
+  if (voiceTraits.length) sectionDefs.push({ label: 'VOICE TRAITS', items: voiceTraits, color: 'cinnabar' });
+  if (domains.length)     sectionDefs.push({ label: 'DOMAINS',      items: domains,     color: 'amber' });
+  if (vibe.length)        sectionDefs.push({ label: 'VIBE',         items: vibe,        color: 'mist' });
 
   let sectionY = 1180;
   const sectionsMarkup = sectionDefs.map(s => {
     const labelY = sectionY;
     const chipsY = sectionY + 28;
     sectionY += 132;
-    return `<text x="540" y="${labelY}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="16" letter-spacing="4" fill="#6b7280">${s.label}</text>
+    return `<text x="540" y="${labelY}" text-anchor="middle" font-family="IBM Plex Mono, SF Mono, Menlo, Consolas, monospace" font-size="16" letter-spacing="4" fill="rgba(245,245,245,0.50)">${s.label}</text>
 ${chipsRow(s.items, chipsY, s.color)}`;
   }).join('\n');
 
@@ -197,23 +197,27 @@ ${chipsRow(s.items, chipsY, s.color)}`;
       </g>`
     : `<g transform="translate(290,260)">
         <rect width="500" height="500" rx="40" ry="40" fill="url(#mascot)"/>
-        <text x="250" y="350" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="280" font-weight="700" fill="#07090d">${escapeXml(initial)}</text>
+        <text x="250" y="350" text-anchor="middle" font-family="Geist, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="280" font-weight="800" fill="#0D0D0D">${escapeXml(initial)}</text>
       </g>`;
 
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#07090d"/>
-      <stop offset="1" stop-color="#0f141c"/>
+      <stop offset="0" stop-color="#0D0D0D"/>
+      <stop offset="1" stop-color="#111113"/>
     </linearGradient>
     <linearGradient id="mascot" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="${grad[0]}"/>
       <stop offset="1" stop-color="${grad[1]}"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.5" cy="0.25" r="0.55">
-      <stop offset="0" stop-color="#4ade80" stop-opacity="0.18"/>
-      <stop offset="1" stop-color="#4ade80" stop-opacity="0"/>
+    <radialGradient id="amberGlow" cx="0.5" cy="0.18" r="0.6">
+      <stop offset="0" stop-color="#FF7A3D" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#FF7A3D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cinnabarGlow" cx="0.5" cy="0.85" r="0.55">
+      <stop offset="0" stop-color="#C73E1D" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#C73E1D" stop-opacity="0"/>
     </radialGradient>
     <clipPath id="mascotClip">
       <rect width="500" height="500" rx="40" ry="40"/>
@@ -221,30 +225,31 @@ ${chipsRow(s.items, chipsY, s.color)}`;
   </defs>
 
   <rect width="1080" height="1920" fill="url(#bg)"/>
-  <rect width="1080" height="1920" fill="url(#glow)"/>
+  <rect width="1080" height="1920" fill="url(#amberGlow)"/>
+  <rect width="1080" height="1920" fill="url(#cinnabarGlow)"/>
 
-  <g opacity="0.05" stroke="#4ade80" stroke-width="1">
+  <g opacity="0.04" stroke="#FF7A3D" stroke-width="1">
     ${Array.from({ length: 11 }, (_, i) => `<line x1="${i * 108}" y1="0" x2="${i * 108}" y2="1920"/>`).join('')}
     ${Array.from({ length: 18 }, (_, i) => `<line x1="0" y1="${i * 108}" x2="1080" y2="${i * 108}"/>`).join('')}
   </g>
 
-  <text x="540" y="140" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="18" letter-spacing="5" fill="#6b7280">GROK-INSTALL · SPECIMEN PLATE</text>
+  <text x="540" y="140" text-anchor="middle" font-family="IBM Plex Mono, SF Mono, Menlo, Consolas, monospace" font-size="18" letter-spacing="5" fill="rgba(245,245,245,0.50)">GROK-INSTALL · SPECIMEN PLATE</text>
 
   ${mascotBlock}
 
-  <text x="540" y="870" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="76" font-weight="700" fill="#e8ecf2" letter-spacing="-1">${escapeXml(name)}</text>
-  <text x="540" y="918" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="24" fill="#9ca3af">@${escapeXml(handle)}</text>
+  <text x="540" y="870" text-anchor="middle" font-family="Geist, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="76" font-weight="800" fill="#F5F5F5" letter-spacing="-2">${escapeXml(name)}</text>
+  <text x="540" y="918" text-anchor="middle" font-family="IBM Plex Mono, SF Mono, Menlo, Consolas, monospace" font-size="24" fill="rgba(245,245,245,0.70)">@${escapeXml(handle)}</text>
 
   <g transform="translate(380,975)">
-    <rect width="320" height="64" rx="14" ry="14" fill="rgba(167,139,250,0.10)" stroke="rgba(167,139,250,0.32)" stroke-width="1"/>
-    <text x="160" y="42" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="26" fill="#c4b5fd">${escapeXml(genesisId)}</text>
+    <rect width="320" height="64" rx="14" ry="14" fill="rgba(199,62,29,0.12)" stroke="rgba(199,62,29,0.45)" stroke-width="1"/>
+    <text x="160" y="42" text-anchor="middle" font-family="IBM Plex Mono, SF Mono, Menlo, Consolas, monospace" font-size="26" fill="#FF7A3D">${escapeXml(genesisId)}</text>
   </g>
 
 ${sectionsMarkup}
 
   <line x1="340" y1="1750" x2="740" y2="1750" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-  <text x="540" y="1798" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="500" fill="#9ca3af" letter-spacing="0.5">grok-install</text>
-  <text x="540" y="1830" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#4b5563" letter-spacing="2">${escapeXml(mintedAt)} · agentmindcloud.github.io/grok-install</text>
+  <text x="540" y="1798" text-anchor="middle" font-family="Geist, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" font-weight="600" fill="rgba(245,245,245,0.70)" letter-spacing="0.5">grok-install</text>
+  <text x="540" y="1830" text-anchor="middle" font-family="IBM Plex Mono, SF Mono, Menlo, Consolas, monospace" font-size="14" fill="rgba(245,245,245,0.40)" letter-spacing="2">${escapeXml(mintedAt)} · agentmindcloud.github.io/grok-install</text>
 </svg>`;
 
   return new Response(svg, {

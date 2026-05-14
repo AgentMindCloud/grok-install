@@ -5,61 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>grok-install — open standard for Grok agents on X</title>
 <meta name="description" content="A YAML manifest spec, Python validator, and GitHub Action that turn any AI agent into a one-click install on X. Eighteen ready-to-fork templates.">
-<link rel="stylesheet" href="style.css">
-<link rel="preload" href="fonts/InstrumentSerif-Italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/IBMPlexMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#0D0D0D">
+
+<link rel="canonical" href="https://agentmindcloud.github.io/grok-install/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="grok-install — open standard for Grok agents on X">
+<meta property="og:description" content="One YAML manifest. Python validator. GitHub Action. Eighteen ready-to-fork templates. Mint your AI agent in sixty seconds.">
+<meta property="og:url" content="https://agentmindcloud.github.io/grok-install/">
+<meta property="og:image" content="https://agentmindcloud.github.io/grok-install/assets/banner.svg">
+<meta property="og:image:alt" content="grok-install — Cinnabar Glass banner">
+<meta property="og:site_name" content="grok-install">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="grok-install — open standard for Grok agents on X">
+<meta name="twitter:description" content="One YAML manifest. Python validator. GitHub Action. Mint your AI agent in sixty seconds.">
+<meta name="twitter:image" content="https://agentmindcloud.github.io/grok-install/assets/banner.svg">
+
 <link rel="icon" href="assets/banner.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap">
+<link rel="preload" href="fonts/IBMPlexMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
 
-<svg class="bg-canvas" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 1440 900">
-  <defs>
-    <pattern id="grid" width="120" height="120" patternUnits="userSpaceOnUse">
-      <path d="M 120 0 L 0 0 0 120" fill="none" stroke="#f5e8d8" stroke-width="1" opacity="0.06"/>
-    </pattern>
-  </defs>
-  <rect width="100%" height="100%" fill="url(#grid)"/>
-  <g opacity="0.10" stroke="#ead5bd" stroke-width="2" fill="none">
-    <path class="curve curve-1" d="M 0,300 Q 360,200 720,300 T 1440,300"/>
-    <path class="curve curve-2" d="M 0,500 Q 360,420 720,500 T 1440,500"/>
-    <path class="curve curve-3" d="M 0,700 Q 360,620 720,700 T 1440,700"/>
-  </g>
-</svg>
-
 <div class="page-frame">
-  <span class="registration-cross top-left" aria-hidden="true"></span>
-  <span class="registration-cross top-right" aria-hidden="true"></span>
-  <span class="registration-cross bottom-left" aria-hidden="true"></span>
-  <span class="registration-cross bottom-right" aria-hidden="true"></span>
-
   <nav class="site-nav" aria-label="Primary">
-    <a href="index.html">grok-install</a>
+    <a href="index.html" aria-current="page">grok-install</a>
     <a href="standard.html">the standard</a>
     <a href="templates.html">templates</a>
-    <a href="https://github.com/AgentMindCloud/grok-install" rel="external">github</a>
+    <span class="spacer" aria-hidden="true"></span>
+    <a href="https://github.com/AgentMindCloud/grok-install" rel="external noopener" target="_blank" class="nav-external">github &rarr;</a>
   </nav>
 
   <header class="header-strip">
-    <span>OBSERVATIONAL STUDY &mdash; GROK AGENT STANDARD</span>
-    <span>GROK-INSTALL &middot; PLATE N&deg; 01</span>
+    <span><span class="dot" aria-hidden="true"></span>open standard &middot; spec v2.14</span>
+    <span>apache 2.0 &middot; eighteen templates</span>
   </header>
-  <hr class="header-divider">
 
-  <div class="title-block">
-    <h1><span class="plate-no">N&deg; 01</span> grok-install</h1>
-    <hr class="title-divider">
-    <p class="subtitle">OPEN STANDARD FOR GROK AGENTS ON X</p>
-  </div>
+  <section class="hero">
+    <p class="subtitle">grok-install</p>
+    <h1>One YAML. <span class="grad">Mint</span> an agent on X.</h1>
+    <p class="tagline">A YAML manifest spec, a Python validator, and a GitHub Action that turn any AI agent into a one-click install on X. Eighteen ready-to-fork templates, one locked v2.14 schema, zero glue code.</p>
+    <div class="hero-actions">
+      <button type="button" data-mint-cta class="cta-mint" aria-label="Copy install command to clipboard">Mint your agent</button>
+      <a class="btn btn-secondary" href="standard.html">Read the spec &rarr;</a>
+    </div>
+  </section>
 
   <main id="main" class="plate-body">
     <img src="assets/banner.svg" alt="grok-install — open standard for Grok agents on X" class="hero-banner">
 
-    <p>grok-install is a YAML manifest spec, a Python validator, and a GitHub Action that turn any AI agent into a one-click install on X. One declarative <code>grok-install.yaml</code> file describes the agent's runtime, prompts, tools, safety profile, and X integration. The v2.14 schema is locked; eighteen ready-to-fork templates cover everything from a daily brief bot to a multi-agent research swarm.</p>
-
-    <h2>Quickstart (60 seconds)</h2>
-    <pre><code># 1. Install the validator
-pip install grok-install
+    <h2>Quickstart</h2>
+    <pre><code># 1. Install the validator (from source for v1.0; PyPI in v1.1)
+pip install git+https://github.com/AgentMindCloud/grok-install.git
 
 # 2. Validate a manifest
 grok-install validate path/to/grok-install.yaml
@@ -67,25 +67,24 @@ grok-install validate path/to/grok-install.yaml
 # 3. Install with the cross-platform runtime
 #    See xlOS: https://github.com/AgentMindCloud/xlOS</code></pre>
 
-    <div class="cta-wrap">
-      <button type="button" data-mint-cta class="cta-mint" aria-label="Copy install command to clipboard">MINT YOUR AGENT</button>
-    </div>
-
-    <h2>Three Ways In</h2>
+    <h2>Three ways in</h2>
     <div class="card-grid">
       <a href="standard.html" class="card">
         <h3 class="card-title">The Standard</h3>
         <p>The v2.14 manifest schema and the fourteen sibling standards that describe reusable agent components.</p>
+        <div class="card-meta"><span class="chip">schema</span><span class="chip">v2.14</span></div>
         <span class="view-link">read the spec &rarr;</span>
       </a>
       <a href="templates.html" class="card">
         <h3 class="card-title">The Templates</h3>
         <p>Eight production-ready core templates and ten curated community examples. Fork, edit, ship.</p>
+        <div class="card-meta"><span class="chip">18 templates</span><span class="chip">apache 2.0</span></div>
         <span class="view-link">browse templates &rarr;</span>
       </a>
-      <a href="https://github.com/AgentMindCloud/xlOS" class="card" rel="external">
+      <a href="https://github.com/AgentMindCloud/xlOS" class="card" rel="external noopener" target="_blank">
         <h3 class="card-title">The Runtime</h3>
         <p>xlOS &mdash; the cross-platform installer that turns a validated manifest into a running agent on macOS, Linux, or Windows.</p>
+        <div class="card-meta"><span class="chip">xlOS</span><span class="chip">cross-platform</span></div>
         <span class="view-link">open xlos &rarr;</span>
       </a>
     </div>
@@ -98,8 +97,8 @@ grok-install validate path/to/grok-install.yaml
       The agent is the post.
     </div>
     <div class="tech-stack">
-      PYTHON &middot; APACHE 2.0<br>
-      GROK-INSTALL &middot; V2.14
+      python &middot; apache 2.0<br>
+      grok-install &middot; v2.14
     </div>
   </footer>
 </div>
@@ -108,8 +107,8 @@ grok-install validate path/to/grok-install.yaml
 (function(){
   var btn = document.querySelector('[data-mint-cta]');
   if (!btn) return;
-  var CMD = '$ pip install xlos && xlos install templates/core/AlphaSignalBot.yaml';
-  var LABEL = 'MINT YOUR AGENT';
+  var CMD = '$ pip install git+https://github.com/AgentMindCloud/grok-install.git';
+  var LABEL = 'Mint your agent';
   var mode = 'default';
 
   function showTerminal() {
@@ -136,7 +135,7 @@ grok-install validate path/to/grok-install.yaml
     mode = 'copied';
     btn.classList.add('copied');
     btn.classList.remove('terminal');
-    btn.textContent = 'COPIED';
+    btn.textContent = 'Copied';
     setTimeout(function(){
       btn.classList.remove('copied');
       mode = 'default';

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Cinnabar Glass — VSCode extension icon for grok-install.
+       Implementation of DESIGN_SYSTEM.md v1.0. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#111113"/>
+      <stop offset="100%" stop-color="#0D0D0D"/>
+    </linearGradient>
+    <radialGradient id="atmAmber" cx="78%" cy="22%" r="55%">
+      <stop offset="0%"   stop-color="#FF7A3D" stop-opacity="0.35"/>
+      <stop offset="60%"  stop-color="#FF7A3D" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#FF7A3D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="atmCin" cx="22%" cy="80%" r="60%">
+      <stop offset="0%"   stop-color="#C73E1D" stop-opacity="0.25"/>
+      <stop offset="60%"  stop-color="#C73E1D" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#C73E1D" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metallic" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#FFD4A8"/>
+      <stop offset="40%"  stop-color="#FF7A3D"/>
+      <stop offset="100%" stop-color="#C73E1D"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="b1"/>
+      <feFlood flood-color="#FF7A3D" flood-opacity="0.55" result="f"/>
+      <feComposite in="f" in2="b1" operator="in" result="g"/>
+      <feMerge>
+        <feMergeNode in="g"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="rounded">
+      <rect x="6" y="6" width="116" height="116" rx="24" ry="24"/>
+    </clipPath>
+  </defs>
+
+  <!-- Rounded plate -->
+  <g clip-path="url(#rounded)">
+    <rect width="128" height="128" fill="url(#bg)"/>
+    <rect width="128" height="128" fill="url(#atmAmber)"/>
+    <rect width="128" height="128" fill="url(#atmCin)"/>
+
+    <!-- subtle grid -->
+    <g opacity="0.05" stroke="#FF7A3D" stroke-width="0.5">
+      <line x1="32" y1="0" x2="32" y2="128"/>
+      <line x1="64" y1="0" x2="64" y2="128"/>
+      <line x1="96" y1="0" x2="96" y2="128"/>
+      <line x1="0" y1="32" x2="128" y2="32"/>
+      <line x1="0" y1="64" x2="128" y2="64"/>
+      <line x1="0" y1="96" x2="128" y2="96"/>
+    </g>
+
+    <!-- Cinnabar "g" wordmark, centered -->
+    <text x="64" y="86" text-anchor="middle"
+          font-family="Geist, system-ui, -apple-system, 'Segoe UI', sans-serif"
+          font-size="88" font-weight="800" letter-spacing="-3"
+          fill="url(#metallic)" filter="url(#glow)"
+          stroke="#7A1F0C" stroke-width="0.5" paint-order="stroke fill">g</text>
+
+    <!-- mono tag -->
+    <text x="64" y="108" text-anchor="middle"
+          font-family="IBM Plex Mono, SF Mono, Menlo, Consolas, monospace"
+          font-size="8" font-weight="700" letter-spacing="2"
+          fill="#F5F5F5" fill-opacity="0.55">GROK-INSTALL</text>
+  </g>
+
+  <!-- Glass rim -->
+  <rect x="6.5" y="6.5" width="115" height="115" rx="23.5" ry="23.5"
+        fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+</svg>

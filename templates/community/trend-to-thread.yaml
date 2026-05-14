@@ -18,27 +18,27 @@ env:
 schedule:
   interval: 30m
 visuals:
-  accent_color: "#22d3ee"
-  theme: futuristic
+  accent_color: "#FF7A3D"
+  theme: cinnabar-glass
   palette:
-    bg: "#0b0f17"
-    panel: "#121826"
-    accent: "#22d3ee"
-    accent_soft: "#0e3a49"
-    text: "#e6e8ef"
-    muted: "#8b93a7"
+    bg: "#0D0D0D"
+    panel: "#1C1C1E"
+    accent: "#FF7A3D"
+    accent_soft: "rgba(199,62,29,0.20)"
+    text: "#F5F5F5"
+    muted: "rgba(245,245,245,0.50)"
   preview_card:
-    style: futuristic
+    style: cinnabar-glass
     title: trend-to-thread
     subtitle: Trends in. Threads out. Behind an approval gate.
     poster: docs/posters/trend-to-thread.svg
     gradient:
-      from: "#0b0f17"
-      to: "#0e3a49"
-      angle: 135
+      from: "#FF7A3D"
+      to: "#C73E1D"
+      angle: 180
     glow:
       enabled: true
-      color: "#22d3ee"
+      color: "#FF7A3D"
       intensity: 0.45
     animation:
       type: pulse

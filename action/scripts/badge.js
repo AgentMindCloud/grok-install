@@ -7,13 +7,16 @@ const fs = require('fs');
 const path = require('path');
 const core = require('@actions/core');
 
+// Cinnabar Glass tokens (DESIGN_SYSTEM.md v1.0). Inlined here because the
+// badge SVG is fully self-contained and must render identically on GitHub,
+// npm, shields.io caches, and static sites.
 const BRAND = {
-  bg:       '#0A0A0A',
-  text:     '#FFFFFF',
-  cyan:     '#00F0FF',
-  green:    '#00FF9D',
-  red:      '#FF2D55',
-  border:   'rgba(0,240,255,0.40)'
+  bg:       '#0D0D0D',
+  text:     '#F5F5F5',
+  mist70:   'rgba(245,245,245,0.70)',
+  cinnabar: '#C73E1D',
+  amber:    '#FF7A3D',
+  border:   'rgba(199,62,29,0.45)'
 };
 
 function approxWidth(str, px = 11) {
@@ -34,8 +37,8 @@ function buildSvg({ label, value, accent }) {
   <title>${labelText}: ${valueText}</title>
   <defs>
     <linearGradient id="border" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%"  stop-color="${BRAND.cyan}" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="${accent}"   stop-opacity="0.45"/>
+      <stop offset="0%"   stop-color="${BRAND.cinnabar}" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="${accent}"         stop-opacity="0.55"/>
     </linearGradient>
     <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="0.6" result="b"/>
@@ -43,8 +46,8 @@ function buildSvg({ label, value, accent }) {
     </filter>
   </defs>
   <rect x="0.5" y="0.5" width="${totalW - 1}" height="${h - 1}" rx="${r}" ry="${r}" fill="${BRAND.bg}" stroke="url(#border)" stroke-width="1"/>
-  <rect x="${labelW}" y="1" width="1" height="${h - 2}" fill="rgba(0,240,255,0.15)"/>
-  <g font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace" font-size="12" font-weight="700">
+  <rect x="${labelW}" y="1" width="1" height="${h - 2}" fill="rgba(255,255,255,0.08)"/>
+  <g font-family="'IBM Plex Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace" font-size="12" font-weight="700">
     <text x="${labelW / 2}" y="22" text-anchor="middle" fill="${BRAND.text}" letter-spacing="1.2">${escapeXml(labelText)}</text>
     <text x="${labelW + valueW / 2}" y="22" text-anchor="middle" fill="${accent}" letter-spacing="1.2" filter="url(#glow)">${escapeXml(valueText)}</text>
   </g>
@@ -74,9 +77,9 @@ function main() {
   const score  = Number(report.safetyScore ?? 0);
 
   let value, accent;
-  if (passed && score >= 90)      { value = 'CERTIFIED';     accent = BRAND.green; }
-  else if (passed)                { value = `PASS · ${score}`; accent = BRAND.cyan; }
-  else                            { value = `FAIL · ${score}`; accent = BRAND.red; }
+  if (passed && score >= 90)      { value = 'CERTIFIED';     accent = BRAND.amber; }
+  else if (passed)                { value = `PASS · ${score}`; accent = BRAND.mist70; }
+  else                            { value = `FAIL · ${score}`; accent = BRAND.cinnabar; }
 
   const svg = buildSvg({ label: 'Grok-Native', value, accent });
 

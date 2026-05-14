@@ -1,12 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-label="grok-install">
   <defs>
-    <linearGradient id="gi-g" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#00d4ff"/>
-      <stop offset="1" stop-color="#8be9ff"/>
+    <linearGradient id="cg-rim" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF7A3D"/>
+      <stop offset="1" stop-color="#C73E1D"/>
     </linearGradient>
+    <radialGradient id="cg-glow" cx="50%" cy="40%" r="55%">
+      <stop offset="0" stop-color="#FF7A3D" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FF7A3D" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect x="4" y="4" width="40" height="40" rx="9" fill="#0a0a0a" stroke="url(#gi-g)" stroke-width="1.5"/>
-  <path d="M14 18 L18 22 L14 26" stroke="url(#gi-g)" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M22 28 L34 28" stroke="url(#gi-g)" stroke-width="2.25" stroke-linecap="round"/>
-  <circle cx="36" cy="14" r="2" fill="url(#gi-g)"/>
+  <rect x="4" y="4" width="40" height="40" rx="9" fill="#0D0D0D" stroke="url(#cg-rim)" stroke-width="1.5"/>
+  <rect x="4" y="4" width="40" height="40" rx="9" fill="url(#cg-glow)"/>
+  <path d="M14 18 L18 22 L14 26" stroke="url(#cg-rim)" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 28 L34 28" stroke="url(#cg-rim)" stroke-width="2.25" stroke-linecap="round"/>
+  <circle cx="36" cy="14" r="2" fill="#FF7A3D"/>
 </svg>

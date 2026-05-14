@@ -24,9 +24,9 @@
       "  visuals:",
       "    theme: ${8|dark,light|}",
       "    brand:",
-      "      background: \"#0A0A0A\"",
-      "      primary: \"#00F0FF\"",
-      "      success: \"#00FF9D\"",
+      "      background: \"#0D0D0D\"",
+      "      primary: \"#C73E1D\"",
+      "      success: \"#FF7A3D\"",
       "$0"
     ]
   },
