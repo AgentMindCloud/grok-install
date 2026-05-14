@@ -4,7 +4,8 @@ import { kvGet, kvPut } from '../lib/kv.js';
 import { loadSession, saveSession, requireSession, sessionIdFromRequest } from '../lib/session.js';
 import { generateGenesisId, bumpDailyCounter, getStats } from '../lib/genesis.js';
 import { chatJson, chatText, chatMessages, generateImage } from '../lib/xai.js';
-import { profileAnalyzerPrompt, sampleReplyPrompt, safeProfileDefaults, safeSampleReply } from '../lib/prompts.js';
+import { profileAnalyzerPrompt, buildAnalyzerUserPrompt, sampleReplyPrompt, safeProfileDefaults, safeSampleReply } from '../lib/prompts.js';
+import { fetchUserTimeline } from '../lib/x-api.js';
 import { buildMascotPrompt, isValidStyle, buildXIntentForMascot } from '../lib/mascots.js';
 import { buildMintRepoFiles } from '../lib/repo-template.js';
 import { createUserRepo, commitFilesToRepo, starRepo } from '../lib/github.js';
@@ -12,6 +13,9 @@ import { validateYamlAgainstV214 } from '../lib/yaml-validator.js';
 
 const MAX_MASCOT_REROLLS = 5;
 const MAX_SAMPLE_REROLLS = 3;
+const ANALYZE_COOLDOWN_MS = 10 * 1000;
+const TIMELINE_CACHE_TTL_S = 600; // 10 min — also caps X-API spend during rerolls.
+const TIMELINE_FETCH_MAX = 50;
 
 function slugify(s) {
   return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'agent';
@@ -262,6 +266,10 @@ ${sectionsMarkup}
   });
 }
 
+// Analyze the signed-in user's X profile by fetching their recent posts and
+// passing them to Grok. Degrades gracefully when X is unavailable: never hard
+// 500s the UI, always returns a usable profile, and surfaces a structured
+// `degraded`/`degraded_reason` signal so the frontend can show context.
 export async function handleAnalyzeProfile(request, env) {
   let body;
   try { body = await request.json(); } catch { return error('Invalid JSON', 400); }
@@ -269,23 +277,116 @@ export async function handleAnalyzeProfile(request, env) {
   let session;
   try { session = await requireSession(env, sessionId); } catch (e) { return error(e.message, e.status || 401); }
 
-  const handle = session.xUsername;
-  const systemPrompt = profileAnalyzerPrompt(handle);
-
-  let profile;
-  try {
-    profile = await chatJson(env, {
-      systemPrompt,
-      userPrompt: `Analyze @${handle}.`,
-      model: 'grok-4',
-      temperature: 0.3,
-      fallback: safeProfileDefaults(),
-    });
-  } catch {
-    profile = safeProfileDefaults();
+  // Reroll cap — each call now spends one X-API quota slot plus two Grok calls.
+  if ((session.sampleRerolls ?? 0) >= MAX_SAMPLE_REROLLS) {
+    return error('Sample rerolls exhausted', 429, { rerolls_remaining: 0 });
   }
-  if (!profile.voice_traits) profile = safeProfileDefaults();
+  // Per-session debounce — prevents rapid-fire clicks from racing past the cap.
+  const lastAt = session.lastAnalyzeAt ? Date.parse(session.lastAnalyzeAt) : 0;
+  if (lastAt && (Date.now() - lastAt) < ANALYZE_COOLDOWN_MS) {
+    const waitS = Math.ceil((ANALYZE_COOLDOWN_MS - (Date.now() - lastAt)) / 1000);
+    return error(
+      `Please wait ${waitS}s before re-analyzing.`,
+      429,
+      { retry_after_s: waitS, rerolls_remaining: Math.max(0, MAX_SAMPLE_REROLLS - (session.sampleRerolls ?? 0)) },
+      { 'Retry-After': String(waitS) },
+    );
+  }
+  // Fail fast if we already proved the X token is dead — saves a round trip.
+  if (session.xTokenStatus === 'expired') {
+    return error('X token expired — please reconnect.', 401, {
+      reconnect_x_url: '/auth/x/start',
+      degraded: true,
+      degraded_reason: 'x_token_expired',
+    });
+  }
 
+  const handle = session.xUsername;
+  const xUserId = session.xUserId;
+
+  // ── 1. Timeline (with 10-min KV cache, so rerolls don't burn X quota) ──
+  let posts = null;
+  let postsSource = 'x_api';
+  let degraded = false;
+  let degradedReason = null;
+  let retryAfterS = null;
+
+  if (!xUserId) {
+    posts = [];
+    postsSource = 'handle_only';
+    degraded = true;
+    degradedReason = 'no_x_identity';
+  } else {
+    const cacheKey = `timeline-cache:${xUserId}`;
+    let cached = null;
+    try { cached = await kvGet(env, cacheKey); } catch { /* cache miss */ }
+
+    if (Array.isArray(cached)) {
+      posts = cached;
+    } else {
+      const r = await fetchUserTimeline(session.xToken, xUserId, { max: TIMELINE_FETCH_MAX });
+      if (r.ok) {
+        posts = r.posts;
+        try { await kvPut(env, cacheKey, posts, { ttl: TIMELINE_CACHE_TTL_S }); } catch { /* fail open */ }
+      } else if (r.status === 401) {
+        session.xTokenStatus = 'expired';
+        try { await saveSession(env, sessionId, session); } catch { /* fail open */ }
+        return error('X token expired — please reconnect.', 401, {
+          reconnect_x_url: '/auth/x/start',
+          degraded: true,
+          degraded_reason: 'x_token_expired',
+        });
+      } else if (r.status === 403 || r.status === 404) {
+        return error('X account not accessible (protected or deleted).', 422, {
+          degraded: true,
+          degraded_reason: 'x_account_unavailable',
+        });
+      } else if (r.status === 429) {
+        posts = [];
+        postsSource = 'handle_only';
+        degraded = true;
+        degradedReason = 'x_rate_limited';
+        retryAfterS = r.retryAfter || 60;
+      } else {
+        posts = [];
+        postsSource = 'handle_only';
+        degraded = true;
+        degradedReason = 'x_unavailable';
+      }
+    }
+  }
+
+  // ── 2. Profile — skip the grok-4 call when we have no posts to analyze ──
+  let profile;
+  if (!posts || posts.length === 0) {
+    profile = safeProfileDefaults();
+    if (!degraded) {
+      degraded = true;
+      degradedReason = 'no_posts_visible';
+    }
+    postsSource = 'handle_only';
+  } else {
+    try {
+      profile = await chatJson(env, {
+        systemPrompt: profileAnalyzerPrompt(handle),
+        userPrompt: buildAnalyzerUserPrompt(handle, posts),
+        model: 'grok-4',
+        temperature: 0.3,
+        fallback: safeProfileDefaults(),
+      });
+      if (!profile || !Array.isArray(profile.voice_traits)) {
+        profile = safeProfileDefaults();
+        degraded = true;
+        degradedReason = degradedReason || 'grok_returned_invalid';
+      }
+    } catch {
+      profile = safeProfileDefaults();
+      degraded = true;
+      degradedReason = degradedReason || 'grok_unavailable';
+    }
+  }
+
+  // ── 3. Sample reply — always attempt; safe fallback on Grok failure ────
   let sampleReply;
   try {
     sampleReply = await chatText(env, {
@@ -296,17 +397,29 @@ export async function handleAnalyzeProfile(request, env) {
     });
   } catch {
     sampleReply = safeSampleReply(handle);
+    degraded = true;
+    degradedReason = degradedReason || 'grok_unavailable';
   }
 
+  // ── 4. Counters + session state ────────────────────────────────────────
   session.sampleRerolls = (session.sampleRerolls ?? 0) + 1;
-  await saveSession(env, sessionId, session);
+  session.lastAnalyzeAt = new Date().toISOString();
+  try { await saveSession(env, sessionId, session); } catch { /* fail open */ }
 
-  return json({
+  const responseBody = {
     handle,
     profile,
     sample_reply: sampleReply,
     rerolls_remaining: Math.max(0, MAX_SAMPLE_REROLLS - session.sampleRerolls),
-  });
+    posts_analyzed: Array.isArray(posts) ? posts.length : 0,
+    posts_source: postsSource,
+    degraded,
+    degraded_reason: degraded ? degradedReason : null,
+  };
+  if (retryAfterS) responseBody.retry_after_s = retryAfterS;
+
+  const headers = retryAfterS ? { 'Retry-After': String(retryAfterS) } : undefined;
+  return json(responseBody, headers ? { headers } : undefined);
 }
 
 export async function handleGenerateMascot(request, env) {
