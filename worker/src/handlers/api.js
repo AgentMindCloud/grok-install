@@ -4,6 +4,7 @@ import { kvGet, kvPut } from '../lib/kv.js';
 import { loadSession, saveSession, requireSession, sessionIdFromRequest } from '../lib/session.js';
 import { generateGenesisId, bumpDailyCounter, getStats } from '../lib/genesis.js';
 import { chatJson, chatText, chatMessages, generateImage } from '../lib/xai.js';
+import { xGetUserPosts } from '../lib/x-api.js';
 import { profileAnalyzerPrompt, sampleReplyPrompt, safeProfileDefaults, safeSampleReply } from '../lib/prompts.js';
 import { buildMascotPrompt, isValidStyle, buildXIntentForMascot } from '../lib/mascots.js';
 import { buildMintRepoFiles } from '../lib/repo-template.js';
@@ -265,21 +266,40 @@ export async function handleAnalyzeProfile(request, env) {
   try { session = await requireSession(env, sessionId); } catch (e) { return error(e.message, e.status || 401); }
 
   const handle = session.xUsername;
-  const systemPrompt = profileAnalyzerPrompt(handle);
+
+  // Fetch real X posts so the analysis is grounded in evidence rather than
+  // hallucinated from the handle alone. xGetUserPosts returns [] on any
+  // non-2xx response, so rate limits, expired/revoked tokens, and private
+  // or empty accounts all land in the degradation path below.
+  let posts = [];
+  try {
+    if (session.xToken && session.xUserId) {
+      posts = await xGetUserPosts(session.xToken, session.xUserId, 30);
+    }
+  } catch (e) {
+    console.warn('analyze-profile: xGetUserPosts failed (non-fatal):', e?.message);
+    posts = [];
+  }
 
   let profile;
-  try {
-    profile = await chatJson(env, {
-      systemPrompt,
-      userPrompt: `Analyze @${handle}.`,
-      model: 'grok-4',
-      temperature: 0.3,
-      fallback: safeProfileDefaults(),
-    });
-  } catch {
+  if (!posts.length) {
     profile = safeProfileDefaults();
+  } else {
+    const systemPrompt = profileAnalyzerPrompt(handle, posts);
+    const userPrompt = posts.map((p, i) => `[${i + 1}] ${p.text}`).join('\n\n');
+    try {
+      profile = await chatJson(env, {
+        systemPrompt,
+        userPrompt,
+        model: 'grok-4',
+        temperature: 0.3,
+        fallback: safeProfileDefaults(),
+      });
+    } catch {
+      profile = safeProfileDefaults();
+    }
+    if (!profile.voice_traits) profile = safeProfileDefaults();
   }
-  if (!profile.voice_traits) profile = safeProfileDefaults();
 
   let sampleReply;
   try {
