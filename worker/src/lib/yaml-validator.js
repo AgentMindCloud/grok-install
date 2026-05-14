@@ -1,7 +1,7 @@
 import yaml from 'js-yaml';
 import Ajv from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
-import schema from '../../../schemas/v2.14/schema.json';
+import schema from '../../../spec/v2.14/schema.json';
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
