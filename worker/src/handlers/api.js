@@ -1,4 +1,5 @@
 import { Buffer } from 'node:buffer';
+import pkg from '../../package.json';
 import { json, error } from '../lib/response.js';
 import { kvGet, kvPut } from '../lib/kv.js';
 import { loadSession, saveSession, requireSession, sessionIdFromRequest } from '../lib/session.js';
@@ -26,7 +27,7 @@ export async function handleHealth(env) {
   return json({
     ok: true,
     name: env.PRODUCT_NAME || 'grok-install',
-    version: '1.0.0',
+    version: pkg.version,
     time: new Date().toISOString(),
   });
 }
