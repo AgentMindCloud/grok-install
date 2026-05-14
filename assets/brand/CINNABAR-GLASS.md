@@ -1,106 +1,104 @@
-# Cinnabar Glass — Visual Identity v1.0
+# Cinnabar Glass — Visual Identity v1.1
 
-The design language for grok-install + xlOS. Dark, premium, glassmorphic.
-Cinnabar→amber hero gradient, void backgrounds, mist body type.
-Built for thumbnail-grade readability — no element is allowed to disappear at small scale.
+**Design language for** `grok-install` + `xlOS`
+**Core feeling**: Dark, premium, glassmorphic, warm, and confident.
+**Non-negotiable rule**: Every element must remain readable and impactful at thumbnail size.
 
-## Palette (5 tokens — no others)
+## Color Tokens (exactly these 5 — no others)
 
-| Token       | Hex       | Role                                                     |
-|-------------|-----------|----------------------------------------------------------|
-| void        | `#0D0D0D` | Primary background, deepest layer                        |
-| glass-base  | `#1C1C1E` | Surface fill — cards, panels, glass containers           |
-| cinnabar    | `#C73E1D` | Primary accent — CTAs, focal strokes, gradient base      |
-| amber-glow  | `#FF7A3D` | Highlight — gradient top stop, focal glow, hover         |
-| mist        | `#F5F5F5` | Body text + high-contrast UI                             |
+| Token          | Hex       | Role                                      | Usage Rules |
+|----------------|-----------|-------------------------------------------|-------------|
+| `void`         | `#0D0D0D` | Primary background                        | Never use flat black. Always layer atmosphere on top. |
+| `glass-base`   | `#1C1C1E` | Cards, panels, glass surfaces             | Use at 55–65% opacity over void |
+| `cinnabar`     | `#C73E1D` | Primary accent, CTAs, focal strokes       | Main brand color |
+| `amber-glow`   | `#FF7A3D` | Gradient top, highlights, hover states    | Never use as large flat fill |
+| `mist`         | `#F5F5F5` | Body text, high-contrast UI               | Minimum 60% opacity on any text |
 
-## Hero gradient (canonical)
+## Hero Gradient (canonical)
 
 `linear-gradient(180deg, #FF7A3D 0%, #C73E1D 100%)`
 
-Applied to: hero wordmarks, primary CTAs, focal accent strokes.
-Never used as flat fill on large surfaces — only on type and accent strokes.
+Use only on typography, thin accent strokes, and CTA fills on hover. Never use as a large background fill.
 
-## Atmospheric background
+## Atmospheric Background (mandatory on all hero sections)
 
-Layered over `void`:
-- Radial gradient #1: `amber-glow` @ 8% opacity, center at top-right 30%, radius 50% of viewport
-- Radial gradient #2: `cinnabar` @ 5% opacity, center at bottom-left 30%, radius 60% of viewport
+Layer these two radial gradients over `void`:
 
-Result: cosmic, ambient, premium. Never a flat black surface.
+- `amber-glow` at 8% opacity — center: top-right 30%, radius 50%
+- `cinnabar` at 5% opacity — center: bottom-left 30%, radius 60%
+
+Result must feel cosmic and premium, never flat black.
+
+Note: README banners (assets/banner.svg) intentionally use stronger atmospheric bloom (~30% center for amber orb, ~20% for cinnabar orb) than web hero sections, because the banner is a display-only surface with no overlaid content. The 8%/5% rule applies to web hero sections where text content overlays the atmosphere.
 
 ## Typography
 
-- **Display:** Geist (weights: 400, 500, 700, 800) — Google Fonts `family=Geist`
-- **Mono:** IBM Plex Mono (weights: 400, 500, 700) — Google Fonts `family=IBM+Plex+Mono`
-- **Italic display option:** Geist Italic for poetic captions (replaces the v1 Instrument Serif role)
+- **Display:** Geist (400, 500, 700, 800)
+- **Mono:** IBM Plex Mono (400, 500, 700)
+- **Italic option:** Geist Italic (for captions only)
 
-### Web scale (CSS px, scale down 75% on mobile)
+### Web Scale (px)
 
-| Use            | Size | Font            | Weight | Color           |
-|----------------|------|-----------------|--------|-----------------|
-| H1             | 64px | Geist           | 800    | mist            |
-| H2             | 40px | Geist           | 700    | mist            |
-| H3             | 28px | Geist           | 600    | mist            |
-| Body           | 18px | Geist           | 400    | mist            |
-| Small body     | 16px | Geist           | 400    | mist 90%        |
-| Mono label     | 14px | IBM Plex Mono   | 500    | mist 80%        |
-| Code blocks    | 15px | IBM Plex Mono   | 400    | mist            |
+| Element     | Size | Weight | Color | Notes |
+|-------------|------|--------|-------|-------|
+| H1          | 64px | 800    | mist  | —     |
+| H2          | 40px | 700    | mist  | —     |
+| H3          | 28px | 600    | mist  | —     |
+| Body        | 18px | 400    | mist  | —     |
+| Small body  | 16px | 400    | mist  | —     |
+| Mono labels | 14px | 500    | mist 80% | — |
+| Code        | 15px | 400    | mist  | —     |
 
-### Banner scale (SVG, 2400×1000 viewBox)
+### Banner / SVG Scale (2400×1000 viewBox)
 
-| Use                | Size  | Font          | Weight | Notes                              |
-|--------------------|-------|---------------|--------|------------------------------------|
-| Hero wordmark      | 200px | Geist         | 800    | Hero-gradient fill + outer glow    |
-| Subtitle           | 36px  | IBM Plex Mono | 700    | mist, tracking +0.05em, UPPERCASE  |
-| Stats row          | 22px  | IBM Plex Mono | 500    | mist 90%, tracking +0.08em, separator: `·` |
-| Header strip       | 16px  | IBM Plex Mono | 700    | mist 60%, tracking +0.1em, UPPERCASE |
-| Footer caption     | 24px  | Geist Italic  | 400    | mist 70%                           |
+- Hero wordmark: 200px, Geist 800, filled with hero gradient + multi-pass bloom
+- Subtitle: 36px, IBM Plex Mono 700, mist, uppercase, tracking +0.05em
+- Stats: 22px, IBM Plex Mono 500, mist 90%
+- Header strip: 16px–20px, IBM Plex Mono 700, mist 60%, uppercase
+- Footer caption: 24px, Geist Italic, mist 70%
 
-## Readability minimums (NEVER below)
+## Readability minimums (never break these)
 
-- Body text: **16px** on web, **22px** equivalent on banner
-- Mono labels: **14px** on web, **16px** on banner
-- Stroke weights: **2px minimum**, **4px for hero/focal strokes**
-- Body type opacity: **100% mist** for primary read; never below 60% for any text
-- Contrast: every text→bg pair must clear WCAG AA at the rendered scale
+- Body text never below 16px (web) / 22px equivalent (banner)
+- All text must pass WCAG AA at final rendered size
+- Stroke weight minimum 2px (4px on hero/focal elements)
+- Never shrink text to fit — remove or redesign instead
 
-If an element can't meet the minimum, **drop it**, don't shrink it.
+## Glass Surface Treatment
 
-## Surface treatments
 
-### Glass panel (cards, stats containers, hover surfaces)
-- Fill: `glass-base` at 60% opacity over background
-- Border: 1px `mist` at 8% opacity
-- Border-radius: 16px (web) / 20px on SVG banner panels
-- Optional: `backdrop-filter: blur(20px) saturate(120%)` in CSS contexts
-- In SVG: simulate with `<rect>` at low opacity + 1px stroke
 
-### CTA button
-- Default: 1px `cinnabar` border, transparent fill, 16px mist label
-- Hover: hero-gradient fill, amber-glow box-shadow at 30% opacity, 80px blur radius
-- Border-radius: 12px
-
-### Hero glow (SVG filter)
-
-```xml
-<filter id="hero-glow" x="-50%" y="-50%" width="200%" height="200%">
-  <feGaussianBlur stdDeviation="8" result="glow"/>
-  <feMerge>
-    <feMergeNode in="glow"/>
-    <feMergeNode in="SourceGraphic"/>
-  </feMerge>
-</filter>
+```css
+background: rgba(28, 28, 30, 0.60);           /* glass-base */
+border: 1px solid rgba(245, 245, 245, 0.08);
+border-radius: 16px;
+backdrop-filter: blur(20px) saturate(120%);
 ```
 
 
-## What this is NOT
 
-- Not laboratory-plate (no grid lines, no axes, no registration crosses, no plate-number conventions from RF v1/v2)
-- Not Bootstrap (no Material shadows, no generic rounded buttons)
-- Not generic glassmorphism (the cinnabar→amber gradient is the signature, blur alone isn't the identity)
-- Not maximalist (every element earns its place; large breathing room is the rule)
+
+
+In SVG: simulate with low-opacity rect + 1px stroke.
+
+## CTA Button
+
+- Default: 1px cinnabar border + transparent fill
+- Hover: Hero gradient fill + amber-glow box-shadow (30% opacity, 80px blur)
+- Border-radius: 12px
+- Label: 16px mist
+
+## What This Is NOT
+
+- Not laboratory / technical plate aesthetic
+- Not generic glassmorphism (the cinnabar→amber gradient is the signature)
+- Not Bootstrap/Material
+- Not maximalist — large breathing room is mandatory
 
 ## Versioning
 
-This is v1.0 of Cinnabar Glass. Identical file lives in both `grok-install/assets/brand/CINNABAR-GLASS.md` and `xlOS/assets/brand/CINNABAR-GLASS.md`. If either copy is edited, the other must be updated to match in the same commit.
+This file lives in both repos:
+- `grok-install/assets/brand/CINNABAR-GLASS.md`
+- `xlOS/assets/brand/CINNABAR-GLASS.md`
+
+They must stay identical.
