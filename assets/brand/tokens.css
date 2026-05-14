@@ -1,0 +1,12 @@
+:root {
+  --color-void: #0D0D0D;
+  --color-glass-base: #1C1C1E;
+  --color-cinnabar: #C73E1D;
+  --color-amber-glow: #FF7A3D;
+  --color-mist: #F5F5F5;
+
+  --gradient-hero: linear-gradient(180deg, #FF7A3D 0%, #C73E1D 100%);
+
+  --font-display: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace;
+}
