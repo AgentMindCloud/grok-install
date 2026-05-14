@@ -42,9 +42,11 @@ PUBLIC_BASE_URL = "https://agentmindcloud.github.io/grok-install"
 #
 # The KV namespace id is NOT a secret — it is just a routing handle that
 # tells the Worker which KV namespace to attach to. It is safe to commit.
-# [[kv_namespaces]]
-# binding = "GROK_INSTALL_KV"
-# id = "PASTE_KV_NAMESPACE_ID_HERE"
+#
+# Enabled for v1.0.0 — points to the production GROK_INSTALL_KV namespace.
+[[kv_namespaces]]
+binding = "GROK_INSTALL_KV"
+id = "11d7541c50c84a83ae02891e9e908726"
 
 # Secrets — set with `npx wrangler secret put <NAME>` from this worker/
 # directory. Wrangler will prompt interactively for the value. Values are
