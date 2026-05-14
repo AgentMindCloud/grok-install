@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="grok-install — The Grok-native agent ecosystem.">
-  <rect width="1200" height="630" fill="#0a0706"/>
-  <text x="600" y="300" text-anchor="middle" font-family="'Instrument Serif','Playfair Display','EB Garamond',Georgia,serif" font-style="italic" font-size="110" fill="#ead5bd">grok-install</text>
-  <line x1="540" y1="335" x2="660" y2="335" stroke="#d44936" stroke-width="3"/>
-  <text x="600" y="380" text-anchor="middle" font-family="'Instrument Serif','Playfair Display','EB Garamond',Georgia,serif" font-style="italic" font-size="34" fill="#baa590">The Grok-native agent ecosystem.</text>
-</svg>
