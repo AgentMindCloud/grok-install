@@ -10,11 +10,25 @@ Tag pushes matching `v*.*.*` trigger `.github/workflows/release.yml`, which:
 4. Deploys the Cloudflare Worker via `wrangler` (skip-if-absent on `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`).
 5. Creates the GitHub Release with generated notes and attaches the wheel + sdist + `.vsix` files.
 
-**No PyPI publish in v1.0.** The validator is consumed as a Git dependency or
-via the wheel attached to each GitHub Release. (A separate `publish-pypi.yml`
-workflow exists in this repo and would fire on the `release: published` event
-when this workflow creates a GitHub Release; disable it before the first tag
-if PyPI publish is not yet intended for this repo.)
+**No PyPI publish in v1.0.0.** The validator is consumed as a Git dependency
+(`pip install git+https://github.com/AgentMindCloud/grok-install`) or via the
+wheel attached to each GitHub Release. PyPI publishing is intentionally
+deferred until v1.0.0 has been validated end-to-end (CI green, wheel installs
+cleanly from the GitHub Release artifacts) and the `grok-install` name has
+been reserved on PyPI.
+
+This repo currently ships **no** `publish-pypi.yml` workflow and has **no**
+PyPI credentials (token or OIDC trusted publisher) configured. To enable PyPI
+publishing for a future release (e.g. v1.0.1 or v1.1.0):
+
+1. Configure a [PyPI Trusted Publisher](https://docs.pypi.org/trusted-publishers/)
+   for this repo (recommended — no long-lived secret required), or claim the
+   `grok-install` name on PyPI and add a `PYPI_API_TOKEN` repo secret.
+2. Add `.github/workflows/publish-pypi.yml` that triggers on
+   `release: published` and runs
+   [`pypa/gh-action-pypi-publish`](https://github.com/pypa/gh-action-pypi-publish)
+   against the wheel + sdist artifacts attached to the GitHub Release.
+3. Bump the version, tag, and push as described under "Cutting a release".
 
 ## Required repository secrets
 
