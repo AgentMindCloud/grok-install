@@ -4,7 +4,8 @@ import { kvGet, kvPut } from '../lib/kv.js';
 import { loadSession, saveSession, requireSession, sessionIdFromRequest } from '../lib/session.js';
 import { generateGenesisId, bumpDailyCounter, getStats } from '../lib/genesis.js';
 import { chatJson, chatText, chatMessages, generateImage } from '../lib/xai.js';
-import { profileAnalyzerPrompt, sampleReplyPrompt, safeProfileDefaults, safeSampleReply } from '../lib/prompts.js';
+import { profileAnalyzerPrompt, buildProfileUserPrompt, sampleReplyPrompt, safeProfileDefaults, safeSampleReply } from '../lib/prompts.js';
+import { xGetUserPosts } from '../lib/x-api.js';
 import { buildMascotPrompt, isValidStyle, buildXIntentForMascot } from '../lib/mascots.js';
 import { buildMintRepoFiles } from '../lib/repo-template.js';
 import { createUserRepo, commitFilesToRepo, starRepo } from '../lib/github.js';
@@ -265,13 +266,24 @@ export async function handleAnalyzeProfile(request, env) {
   try { session = await requireSession(env, sessionId); } catch (e) { return error(e.message, e.status || 401); }
 
   const handle = session.xUsername;
+
+  let posts = [];
+  if (session.xToken && session.xUserId) {
+    try {
+      posts = await xGetUserPosts(session.xToken, session.xUserId, 50);
+    } catch {
+      posts = [];
+    }
+  }
+
   const systemPrompt = profileAnalyzerPrompt(handle);
+  const userPrompt = buildProfileUserPrompt(handle, posts);
 
   let profile;
   try {
     profile = await chatJson(env, {
       systemPrompt,
-      userPrompt: `Analyze @${handle}.`,
+      userPrompt,
       model: 'grok-4',
       temperature: 0.3,
       fallback: safeProfileDefaults(),

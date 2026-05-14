@@ -1,5 +1,5 @@
 export function profileAnalyzerPrompt(handle) {
-  return `You are a profile analysis tool. Given an X (formerly Twitter) handle, analyze the user's public profile, bio, pinned post, and last 30–50 visible posts. Return a structured personality profile.
+  return `You are a profile analysis tool. You will be given an X (formerly Twitter) handle and a sample of that user's recent original posts (retweets and replies excluded). Analyze only the supplied posts. Return a structured personality profile.
 
 OUTPUT FORMAT — return ONLY valid JSON, no preamble, no commentary, this exact shape:
 
@@ -11,16 +11,30 @@ OUTPUT FORMAT — return ONLY valid JSON, no preamble, no commentary, this exact
 }
 
 RULES:
-- Every trait must be evidence-based.
+- Every trait must be evidence-based, drawn from the supplied posts only.
 - voice_traits = HOW they write. domains = WHAT they write about. vibe = overall TONE.
-- signature_phrases must be actual excerpts the person posted. Never invent.
-- If sparse (<20 visible posts), return safe neutral defaults at minimum array lengths.
+- signature_phrases must be verbatim excerpts from the supplied posts. Never invent.
+- If fewer than 5 posts are supplied, return safe neutral defaults at minimum array lengths.
 - Never reference protected characteristics (race, religion, sexuality, nationality).
 - Be respectful and accurate. No projection. No stereotyping.
 
-Handle to analyze: @${handle}
+Handle: @${handle}
 
 Return JSON only.`;
+}
+
+export function buildProfileUserPrompt(handle, posts) {
+  if (!Array.isArray(posts) || posts.length === 0) {
+    return `Handle: @${handle}\n\nNo recent posts are available. Return safe neutral defaults at minimum array lengths.`;
+  }
+  const lines = posts
+    .map((p) => (typeof p?.text === 'string' ? p.text.replace(/\s+/g, ' ').trim() : ''))
+    .filter((t) => t.length > 0)
+    .map((t, i) => `${i + 1}. ${t}`);
+  if (lines.length === 0) {
+    return `Handle: @${handle}\n\nNo recent posts are available. Return safe neutral defaults at minimum array lengths.`;
+  }
+  return `Handle: @${handle}\n\nRecent original posts (${lines.length}):\n${lines.join('\n')}\n\nAnalyze these posts and return the JSON profile.`;
 }
 
 export function sampleReplyPrompt(handle, profile) {
