@@ -1,5 +1,7 @@
 # Cloudflare Worker config for the grok-install hosted mint flow.
 # See worker/README.md for deployment + binding setup.
+# See worker/DEPLOY.md for the full step-by-step deployment runbook.
+# The comments in this file are a quick reference only — DEPLOY.md is canonical.
 
 name = "grok-install"
 main = "src/index.js"
@@ -7,8 +9,13 @@ compatibility_date = "2026-04-28"
 compatibility_flags = ["nodejs_compat"]
 workers_dev = true
 
-# account_id can be set here OR via the CLOUDFLARE_ACCOUNT_ID env var.
-# CI uses the env var (.github/workflows/release.yml); uncomment below for local deploys.
+# Cloudflare account id.
+#   - CI: provided via the CLOUDFLARE_ACCOUNT_ID env var, sourced from the
+#     repo secret of the same name (see .github/workflows/release.yml).
+#   - Local / manual deploys: either export CLOUDFLARE_ACCOUNT_ID in your
+#     shell OR uncomment the line below and paste your account id.
+#   - The account id is NOT a secret — it is a public routing identifier
+#     and is safe to commit to this file if you prefer that over the env var.
 # account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
 
 [vars]
@@ -16,16 +23,59 @@ PRODUCT_NAME = "grok-install"
 GITHUB_OWNER_ORG = "AgentMindCloud"
 PUBLIC_BASE_URL = "https://agentmindcloud.github.io/grok-install"
 
-# KV namespace binding — required before first real deploy.
-#   1. Run: npx wrangler kv namespace create GROK_INSTALL_KV
-#   2. Uncomment the block below and paste the returned id.
+# KV namespace binding — REQUIRED.
+# Without this binding, the Worker will fail at runtime as soon as it tries
+# to read or write KV (which it does on nearly every request).
+#
+# One-time setup procedure:
+#   a. From this worker/ directory, run:
+#        npx wrangler kv namespace create GROK_INSTALL_KV
+#   b. Wrangler prints a success message containing the new namespace id
+#      (a 32-char hex string). The surrounding snippet is JSON in Wrangler
+#      v4 and TOML in older versions; you only need the id value.
+#      Shortcut: add --update-config to step (a) to let wrangler edit
+#      this file for you (it appends a [[kv_namespaces]] block).
+#   c. Uncomment the three [[kv_namespaces]] lines below and replace
+#      PASTE_KV_NAMESPACE_ID_HERE with the real id from step (b).
+#   d. Commit and push (CI will deploy on the next v*.*.* tag), or run
+#      `npx wrangler deploy` locally for an immediate deploy.
+#
+# The KV namespace id is NOT a secret — it is just a routing handle that
+# tells the Worker which KV namespace to attach to. It is safe to commit.
 # [[kv_namespaces]]
 # binding = "GROK_INSTALL_KV"
 # id = "PASTE_KV_NAMESPACE_ID_HERE"
 
-# Secrets required (set via `npx wrangler secret put NAME`):
-#   XAI_API_KEY      — Bearer token for xAI API (Grok)
-#   X_CLIENT_ID      — X/Twitter OAuth 2.0 client id
-#   X_CLIENT_SECRET  — X/Twitter OAuth 2.0 client secret
-# GitHub App credentials are NOT wrangler secrets — they are provisioned at runtime
-# via the /setup-app endpoint and stored in KV under `gh-app:credentials`.
+# Secrets — set with `npx wrangler secret put <NAME>` from this worker/
+# directory. Wrangler will prompt interactively for the value. Values are
+# stored encrypted in your Cloudflare account, NOT in this file or the repo.
+#
+#   `XAI_API_KEY`
+#       Bearer token used to call the xAI API (Grok).
+#       Obtain from: the xAI dashboard at https://console.x.ai
+#
+#   `X_CLIENT_ID`
+#       OAuth 2.0 client id for the X (Twitter) sign-in flow.
+#       Obtain from: the X developer portal at https://developer.x.com
+#
+#   `X_CLIENT_SECRET`
+#       OAuth 2.0 client secret paired with X_CLIENT_ID above.
+#       Obtain from: the same X developer portal app as X_CLIENT_ID.
+#
+# GitHub App credentials are a DIFFERENT kind of credential — they are NOT
+# wrangler secrets. They are provisioned at runtime via the /setup-app
+# endpoint and stored in KV under the `gh-app:credentials` key.
+
+# ---------------------------------------------------------------------------
+# Deployment
+# ---------------------------------------------------------------------------
+# Recommended: tag-driven CI. Pushing a `v*.*.*` tag triggers the
+# deploy-worker job in .github/workflows/release.yml, which runs
+# `npx wrangler deploy` for you.
+#   Required repo secrets for CI:
+#     - CLOUDFLARE_API_TOKEN   (API token with Workers deploy permission)
+#     - CLOUDFLARE_ACCOUNT_ID  (the account id this Worker lives in)
+# Manual: after one-time KV + secrets setup, run `npx wrangler deploy`
+# from this worker/ directory.
+# Full procedure (including KV creation, secret rotation, and rollback):
+# see worker/DEPLOY.md.
