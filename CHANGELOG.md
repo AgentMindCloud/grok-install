@@ -18,6 +18,20 @@ Notable changes between releases. v1.0.0 is the first tagged release.
 
 ### Changed
 
+- **Worker profile analysis is now real.** `/api/analyze-profile` previously
+  fed Grok only the bare X handle and returned a hallucinated personality.
+  It now fetches up to 50 of the authenticated user's recent original posts
+  via X API v2 (`/2/users/:id/tweets?exclude=retweets,replies`), caches them
+  in KV for 10 min so rerolls don't burn quota, and passes them to grok-4
+  as structured JSON. Failure modes are explicit:
+  - X 401 (token expired) → 401 + `reconnect_x_url` to re-auth.
+  - X 403/404 (protected / deleted) → 422 `x_account_unavailable`.
+  - X 429 (rate limited) → 200 degraded with `retry_after_s` + `Retry-After`.
+  - X 5xx / network → 200 degraded handle-only with `posts_source: handle_only`.
+  - Grok failures → `safeProfileDefaults` / `safeSampleReply`.
+  Response shape adds `posts_analyzed`, `posts_source`, `degraded`,
+  `degraded_reason` (additive, non-breaking). `MAX_SAMPLE_REROLLS` is now
+  enforced and a 10 s per-session debounce is added.
 - **Design system migrated from Residual Frequencies (Instrument Serif +
   warm bone tones) to Cinnabar Glass (Geist + IBM Plex Mono, deep-void
   glass surfaces, cinnabar → amber-glow gradient).** Replaces every public
