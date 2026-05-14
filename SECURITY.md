@@ -11,7 +11,7 @@
 
 Please **do not** open public GitHub issues for security reports.
 
-Use [GitHub Security Advisories](https://github.com/AgentMindCloud/grok-install-v2/security/advisories/new) for private disclosure.
+Use [GitHub Security Advisories](https://github.com/AgentMindCloud/grok-install/security/advisories/new) for private disclosure.
 
 Include:
 

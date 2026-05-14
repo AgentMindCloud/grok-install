@@ -5,8 +5,8 @@ Thanks for your interest in grok-install. This guide covers the basics.
 ## Setup
 
 ```bash
-git clone https://github.com/AgentMindCloud/grok-install-v2.git
-cd grok-install-v2
+git clone https://github.com/AgentMindCloud/grok-install.git
+cd grok-install
 uv sync
 ```
 

@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install-v2/main/spec/v2.14/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AgentMindCloud/grok-install/main/spec/v2.14/schema.json
 #
 # grok-install.yaml — canonical example manifest for spec v2.14.
 #

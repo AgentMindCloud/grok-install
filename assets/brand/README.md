@@ -1,10 +1,10 @@
 # assets/brand/
 
-The grok-install-v2 visual identity. Lineage is Apache-2.0. The system
+The grok-install visual identity. Lineage is Apache-2.0. The system
 is intentionally minimal — no third-party animated banner services, no
 typing-effect headers, no status-emoji rows.
 
-grok-install-v2 is the public-facing standards repo and landing site of
+grok-install is the public-facing standards repo and landing site of
 the AgentMindCloud product line. The brand reflects that — a warmer,
 more consumer-facing aesthetic intended to read like a magazine plate
 rather than a developer terminal. The developer-tool sibling
@@ -15,7 +15,7 @@ curves, monospace-forward type), different temperature.
 
 ## Palette — cinnabar
 
-grok-install-v2 uses the **cinnabar** palette from the Residual
+grok-install uses the **cinnabar** palette from the Residual
 Frequencies design system: warm bone-on-near-black with a single
 cinnabar-red accent. Cinnabar is the consumer-facing sibling of the
 cool halide palette used by `xlOS`.
@@ -29,9 +29,9 @@ cool halide palette used by `xlOS`.
 | `--grid`       | `#f5e8d8` | Plate grid wash (used at low alpha).         |
 | `--accent`     | `#d44936` | Cinnabar red — sole accent. Use sparingly.   |
 
-### Why cinnabar for grok-install-v2
+### Why cinnabar for grok-install
 
-- grok-install-v2 is the public-facing brand surface — the landing site,
+- grok-install is the public-facing brand surface — the landing site,
   the README hero, the marketplace catalog. Warm cinnabar reads as
   "magazine plate", "specimen sheet", and stays inviting where a cooler
   palette would feel clinical.
@@ -50,7 +50,7 @@ line:
 - **Instrument Serif**, italic 400 — display / plate titles only.
 - **IBM Plex Mono**, regular 400 + bold 700 — body, code, UI labels.
 
-The pre-RF stack (Inter sans + JetBrains Mono dev-mono) is **superseded — do not re-introduce.** Those typefaces are no longer part of the grok-install-v2 type system. The full typography rules (weights, letter-spacing, tabular figures) live alongside the live tokens in [`website/style.css`](../../website/style.css).
+The pre-RF stack (Inter sans + JetBrains Mono dev-mono) is **superseded — do not re-introduce.** Those typefaces are no longer part of the grok-install type system. The full typography rules (weights, letter-spacing, tabular figures) live alongside the live tokens in [`website/style.css`](../../website/style.css).
 
 ## Files
 
@@ -66,8 +66,8 @@ The pre-RF stack (Inter sans + JetBrains Mono dev-mono) is **superseded — do n
 The full Residual Frequencies design system (all four palettes — amber,
 cinnabar, halide, parchment — plus plate templates and banner
 generators) lives upstream in the AgentMindCloud brand repository. The
-files in this directory are the grok-install-v2-specific subset
+files in this directory are the grok-install-specific subset
 (cinnabar palette pointers, brand SVGs).
 
-The grok-install-v2 README hero banner is at
+The grok-install README hero banner is at
 [`../banner.svg`](../banner.svg) (sibling to this directory).

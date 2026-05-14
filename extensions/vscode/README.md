@@ -5,7 +5,7 @@ and the rest of the grok-install standards (`grok-agent`, `grok-config`,
 `grok-workflow`, `grok-swarm`, `grok-voice`, …).
 
 This extension lives in-tree at `extensions/vscode/` of the
-[grok-install-v2](https://github.com/AgentMindCloud/grok-install-v2) repository.
+[grok-install](https://github.com/AgentMindCloud/grok-install) repository.
 
 ## What it provides
 

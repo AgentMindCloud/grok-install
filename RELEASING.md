@@ -38,7 +38,7 @@ always run.
 2. Commit: `git commit -am "chore: bump version to vX.Y.Z"`
 3. Tag: `git tag vX.Y.Z -m "vX.Y.Z"`
 4. Push: `git push origin main && git push origin vX.Y.Z`
-5. Watch the workflow at https://github.com/AgentMindCloud/grok-install-v2/actions
+5. Watch the workflow at https://github.com/AgentMindCloud/grok-install/actions
    or via `gh run watch`. Expected jobs:
    - `build-wheels` (2 matrix cells: py3.11, py3.12)
    - `build-vsix`

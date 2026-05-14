@@ -5,7 +5,7 @@ as workflow annotations + a pinned PR comment, and generate a Grok-Native
 Certified SVG badge.
 
 This action lives in-tree at `action/` of the
-[grok-install-v2](https://github.com/AgentMindCloud/grok-install-v2) repository.
+[grok-install](https://github.com/AgentMindCloud/grok-install) repository.
 
 ## Usage
 
@@ -24,7 +24,7 @@ jobs:
       pull-requests: write  # for posting the PR comment
     steps:
       - uses: actions/checkout@v4
-      - uses: AgentMindCloud/grok-install-v2/action@v1
+      - uses: AgentMindCloud/grok-install/action@v1
         with:
           working-directory: .
           mode: strict
