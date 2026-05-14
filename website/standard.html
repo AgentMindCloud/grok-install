@@ -37,7 +37,7 @@
     <a href="index.html">grok-install</a>
     <a href="standard.html">the standard</a>
     <a href="templates.html">templates</a>
-    <a href="https://github.com/AgentMindCloud/grok-install-v2" rel="external">github</a>
+    <a href="https://github.com/AgentMindCloud/grok-install" rel="external">github</a>
   </nav>
 
   <header class="header-strip">
@@ -57,17 +57,17 @@
 
     <h2>Core Spec</h2>
     <div class="card-grid">
-      <a href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/spec/v2.14/README.md" class="card" rel="external">
+      <a href="https://github.com/AgentMindCloud/grok-install/blob/main/spec/v2.14/README.md" class="card" rel="external">
         <h3 class="card-title">spec / v2.14 / README.md</h3>
         <p>Overview &mdash; what v2.14 declares, how to validate, and where the field schemas live.</p>
         <span class="view-link">view doc &rarr;</span>
       </a>
-      <a href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/spec/v2.14/schema.json" class="card" rel="external">
+      <a href="https://github.com/AgentMindCloud/grok-install/blob/main/spec/v2.14/schema.json" class="card" rel="external">
         <h3 class="card-title">spec / v2.14 / schema.json</h3>
         <p>The canonical manifest schema. JSON Schema 2020-12. Locked at v2.14.</p>
         <span class="view-link">view schema &rarr;</span>
       </a>
-      <a href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/spec/v2.14/extensions/README.md" class="card" rel="external">
+      <a href="https://github.com/AgentMindCloud/grok-install/blob/main/spec/v2.14/extensions/README.md" class="card" rel="external">
         <h3 class="card-title">spec / v2.14 / extensions</h3>
         <p>The five documented <code>extensions:</code> blocks &mdash; constitution, multi-agent roles, provenance, demo metadata, X Money.</p>
         <span class="view-link">view extensions &rarr;</span>
@@ -77,29 +77,29 @@
     <h2>Fourteen Magic Standards</h2>
     <p>Fourteen sibling YAMLs under <code>standards/</code> declare reusable agent components &mdash; one role per file, composable inside any manifest.</p>
     <ul class="std-list">
-      <li><span class="std-row"><span class="std-name">grok-agent.yaml</span><span class="std-desc">&mdash; single-agent definition</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-agent.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-workflow.yaml</span><span class="std-desc">&mdash; multi-step pipeline</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-workflow.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-swarm.yaml</span><span class="std-desc">&mdash; multi-agent orchestration</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-swarm.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-tools.yaml</span><span class="std-desc">&mdash; tool schemas</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-tools.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-prompts.yaml</span><span class="std-desc">&mdash; prompt templates</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-prompts.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-voice.yaml</span><span class="std-desc">&mdash; voice profile</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-voice.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-security.yaml</span><span class="std-desc">&mdash; safety profile</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-security.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-deploy.yaml</span><span class="std-desc">&mdash; deployment targets</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-deploy.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-config.yaml</span><span class="std-desc">&mdash; agent configuration</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-config.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-test.yaml</span><span class="std-desc">&mdash; test suite definition</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-test.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-update.yaml</span><span class="std-desc">&mdash; update channel + cadence</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-update.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-docs.yaml</span><span class="std-desc">&mdash; documentation pointers</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-docs.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-analytics.yaml</span><span class="std-desc">&mdash; analytics + reporting</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-analytics.yaml" rel="external">view yaml</a></li>
-      <li><span class="std-row"><span class="std-name">grok-ui.yaml</span><span class="std-desc">&mdash; UI surface description</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/standards/grok-ui.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-agent.yaml</span><span class="std-desc">&mdash; single-agent definition</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-agent.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-workflow.yaml</span><span class="std-desc">&mdash; multi-step pipeline</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-workflow.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-swarm.yaml</span><span class="std-desc">&mdash; multi-agent orchestration</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-swarm.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-tools.yaml</span><span class="std-desc">&mdash; tool schemas</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-tools.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-prompts.yaml</span><span class="std-desc">&mdash; prompt templates</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-prompts.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-voice.yaml</span><span class="std-desc">&mdash; voice profile</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-voice.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-security.yaml</span><span class="std-desc">&mdash; safety profile</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-security.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-deploy.yaml</span><span class="std-desc">&mdash; deployment targets</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-deploy.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-config.yaml</span><span class="std-desc">&mdash; agent configuration</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-config.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-test.yaml</span><span class="std-desc">&mdash; test suite definition</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-test.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-update.yaml</span><span class="std-desc">&mdash; update channel + cadence</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-update.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-docs.yaml</span><span class="std-desc">&mdash; documentation pointers</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-docs.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-analytics.yaml</span><span class="std-desc">&mdash; analytics + reporting</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-analytics.yaml" rel="external">view yaml</a></li>
+      <li><span class="std-row"><span class="std-name">grok-ui.yaml</span><span class="std-desc">&mdash; UI surface description</span></span><a class="std-view" href="https://github.com/AgentMindCloud/grok-install/blob/main/standards/grok-ui.yaml" rel="external">view yaml</a></li>
     </ul>
 
     <h2>Validate a Manifest</h2>
     <pre><code>pip install grok-install
 grok-install validate path/to/your.yaml</code></pre>
-    <p>Or gate manifests in CI with the in-tree <a href="https://github.com/AgentMindCloud/grok-install-v2/tree/main/action" rel="external">GitHub Action</a>.</p>
+    <p>Or gate manifests in CI with the in-tree <a href="https://github.com/AgentMindCloud/grok-install/tree/main/action" rel="external">GitHub Action</a>.</p>
 
     <h2>The Extensions Block</h2>
-    <p>v2.14 manifests carry an optional <code>extensions:</code> block for forward-compatible additions. Five blocks are documented in <a href="https://github.com/AgentMindCloud/grok-install-v2/blob/main/spec/v2.14/extensions/README.md" rel="external">spec/v2.14/extensions/README.md</a>: <code>constitution</code> (article references for the constitution-scanner integration), <code>multi_agent_roles</code> (role declarations for super-agents that coordinate sub-agents), <code>provenance</code> (citation and confidence configuration for the provenance-trust agent), <code>demo_metadata</code> (video and storyboard URLs), and <code>x_money_specific</code> (cost caps and tax disclaimer config for finance-app templates). Parsers without extension support ignore unknown top-level keys, so manifests stay backward-compatible with vanilla v2.14 parsers. The cross-platform runtime <a href="https://github.com/AgentMindCloud/xlOS" rel="external">xlOS</a> consumes these blocks for advanced usage.</p>
+    <p>v2.14 manifests carry an optional <code>extensions:</code> block for forward-compatible additions. Five blocks are documented in <a href="https://github.com/AgentMindCloud/grok-install/blob/main/spec/v2.14/extensions/README.md" rel="external">spec/v2.14/extensions/README.md</a>: <code>constitution</code> (article references for the constitution-scanner integration), <code>multi_agent_roles</code> (role declarations for super-agents that coordinate sub-agents), <code>provenance</code> (citation and confidence configuration for the provenance-trust agent), <code>demo_metadata</code> (video and storyboard URLs), and <code>x_money_specific</code> (cost caps and tax disclaimer config for finance-app templates). Parsers without extension support ignore unknown top-level keys, so manifests stay backward-compatible with vanilla v2.14 parsers. The cross-platform runtime <a href="https://github.com/AgentMindCloud/xlOS" rel="external">xlOS</a> consumes these blocks for advanced usage.</p>
   </main>
 
   <hr class="footer-divider">
