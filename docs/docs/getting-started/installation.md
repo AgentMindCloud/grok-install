@@ -32,8 +32,8 @@ description: Install grok-install, verify the toolchain, and set your env vars.
 
 === "from source"
     ```bash
-    git clone https://github.com/AgentMindCloud/grok-install-cli
-    cd grok-install-cli
+    git clone https://github.com/AgentMindCloud/grok-install
+    cd grok-install
     pip install -e .
     ```
 

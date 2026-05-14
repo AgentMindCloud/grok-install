@@ -32,9 +32,17 @@ always run.
 
 ## Cutting a release
 
-1. Bump `version` in `pyproject.toml` and `extensions/vscode/package.json`.
-   Bump `worker/wrangler.toml` only if you also want to mark the worker
-   version explicitly (the deploy uses the current source either way).
+1. Bump `version` in these files — the Python wheel, CLI `__version__`, and
+   Worker `/health` stay in lockstep; the VSCode extension follows its own
+   semver track:
+   - `pyproject.toml`
+   - `src/grok_install/__init__.py`
+   - `worker/package.json` (the Worker `/health` endpoint reads from here)
+   - `extensions/vscode/package.json` (independent versioning — bump per
+     the VSCode-extension changelog, not lockstep with the wheel)
+
+   > **Note:** PyPI publishing is deferred until v1.1+. v1.0.x releases ship
+   > wheels as GitHub Release artifacts only.
 2. Commit: `git commit -am "chore: bump version to vX.Y.Z"`
 3. Tag: `git tag vX.Y.Z -m "vX.Y.Z"`
 4. Push: `git push origin main && git push origin vX.Y.Z`
