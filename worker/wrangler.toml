@@ -1,7 +1,5 @@
-# Cloudflare Worker for grok-install (folded in from legacy AgentMindCloud/grok-install
-# per Phase 2a Step 7). Service name "grok-install" matches the canonical production
-# Cloudflare service. GitHub URL refs target grok-install during the temp-in-v2 state;
-# Phase 6 will swap back to grok-install after the legacy/v2 repo rename.
+# Cloudflare Worker config for the grok-install hosted mint flow.
+# See worker/README.md for deployment + binding setup.
 
 name = "grok-install"
 main = "src/index.js"
