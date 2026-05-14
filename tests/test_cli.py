@@ -12,7 +12,7 @@ def test_version() -> None:
     result = runner.invoke(cli, ["--version"])
     assert result.exit_code == 0
     assert "grok-install" in result.output
-    assert "1.0.0a2" in result.output
+    assert "1.0.0" in result.output
 
 
 def test_validate_valid_file(fixtures_dir: pathlib.Path) -> None:
