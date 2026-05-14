@@ -17,23 +17,24 @@
       <stop offset="100%" stop-color="#FF7A3D" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="metallic" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFB07A"/>
-      <stop offset="14%" stop-color="#C73E1D"/>
+      <stop offset="0%" stop-color="#FFD4A8"/>
+      <stop offset="14%" stop-color="#A82B12"/>
       <stop offset="28%" stop-color="#FF7A3D"/>
-      <stop offset="42%" stop-color="#C73E1D"/>
-      <stop offset="56%" stop-color="#FFB07A"/>
-      <stop offset="70%" stop-color="#C73E1D"/>
+      <stop offset="42%" stop-color="#A82B12"/>
+      <stop offset="56%" stop-color="#FFD4A8"/>
+      <stop offset="70%" stop-color="#A82B12"/>
       <stop offset="84%" stop-color="#FF7A3D"/>
-      <stop offset="100%" stop-color="#A82B12"/>
+      <stop offset="100%" stop-color="#7A1F0C"/>
     </linearGradient>
-    <filter id="bloom" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur1"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur2"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="40" result="blur3"/>
+    <filter id="halo" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="haloTight"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12" result="haloWide"/>
+      <feFlood flood-color="#FF7A3D" flood-opacity="0.55" result="haloColor"/>
+      <feComposite in="haloColor" in2="haloTight" operator="in" result="haloInner"/>
+      <feComposite in="haloColor" in2="haloWide" operator="in" result="haloOuter"/>
       <feMerge>
-        <feMergeNode in="blur3"/>
-        <feMergeNode in="blur2"/>
-        <feMergeNode in="blur1"/>
+        <feMergeNode in="haloOuter"/>
+        <feMergeNode in="haloInner"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
@@ -73,7 +74,7 @@
     <line x1="1200" y1="480" x2="1509" y2="397" stroke="#FF7A3D" stroke-width="1" stroke-opacity="0.5"/>
   </g>
 
-  <text x="1200" y="540" font-family="Geist, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="200" font-weight="800" fill="url(#metallic)" filter="url(#bloom)" text-anchor="middle" letter-spacing="-3">grok-install</text>
+  <text x="1200" y="540" font-family="Geist, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="200" font-weight="800" fill="url(#metallic)" filter="url(#halo)" text-anchor="middle" letter-spacing="-3" stroke="#7A1F0C" stroke-width="1" paint-order="stroke fill">grok-install</text>
 
   <text x="1200" y="640" font-family="IBM Plex Mono, SF Mono, Menlo, Consolas, monospace" font-size="36" font-weight="700" fill="#F5F5F5" text-anchor="middle" letter-spacing="2.5">THE OPEN STANDARD FOR GROK AGENTS ON X</text>
 
