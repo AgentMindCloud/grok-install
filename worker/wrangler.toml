@@ -5,17 +5,23 @@ name = "grok-install"
 main = "src/index.js"
 compatibility_date = "2026-04-28"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# account_id can be set here OR via the CLOUDFLARE_ACCOUNT_ID env var.
+# CI uses the env var (.github/workflows/release.yml); uncomment below for local deploys.
+# account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
 
 [vars]
 PRODUCT_NAME = "grok-install"
 GITHUB_OWNER_ORG = "AgentMindCloud"
 PUBLIC_BASE_URL = "https://agentmindcloud.github.io/grok-install"
 
-[[kv_namespaces]]
-binding = "GROK_INSTALL_KV"
-# Set via `wrangler secret put NAME` or repo Settings → Secrets
-# (Run `npx wrangler kv namespace create GROK_INSTALL_KV` to provision and paste the returned id.)
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+# KV namespace binding — required before first real deploy.
+#   1. Run: npx wrangler kv namespace create GROK_INSTALL_KV
+#   2. Uncomment the block below and paste the returned id.
+# [[kv_namespaces]]
+# binding = "GROK_INSTALL_KV"
+# id = "PASTE_KV_NAMESPACE_ID_HERE"
 
 # Secrets required (set via `npx wrangler secret put NAME`):
 #   XAI_API_KEY      — Bearer token for xAI API (Grok)
