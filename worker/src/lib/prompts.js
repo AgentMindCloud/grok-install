@@ -1,5 +1,6 @@
-export function profileAnalyzerPrompt(handle) {
-  return `You are a profile analysis tool. Given an X (formerly Twitter) handle, analyze the user's public profile, bio, pinned post, and last 30–50 visible posts. Return a structured personality profile.
+export function profileAnalyzerPrompt(handle, posts) {
+  const postCount = Array.isArray(posts) ? posts.length : 0;
+  return `You are a profile analysis tool. You are given a sample of recent X (formerly Twitter) posts authored by @${handle}, supplied as numbered entries in the user message. Analyze those posts — and only those posts — and return a structured personality profile.
 
 OUTPUT FORMAT — return ONLY valid JSON, no preamble, no commentary, this exact shape:
 
@@ -11,14 +12,15 @@ OUTPUT FORMAT — return ONLY valid JSON, no preamble, no commentary, this exact
 }
 
 RULES:
-- Every trait must be evidence-based.
+- Every trait must be evidence-based, drawn from the posts supplied below. Do not infer from the handle, prior knowledge, or training data.
 - voice_traits = HOW they write. domains = WHAT they write about. vibe = overall TONE.
-- signature_phrases must be actual excerpts the person posted. Never invent.
-- If sparse (<20 visible posts), return safe neutral defaults at minimum array lengths.
+- signature_phrases must be verbatim excerpts (or near-verbatim, trimmed) from the supplied posts. Never invent.
+- If the sample is sparse (< 20 posts), return safe neutral defaults at minimum array lengths.
 - Never reference protected characteristics (race, religion, sexuality, nationality).
 - Be respectful and accurate. No projection. No stereotyping.
 
-Handle to analyze: @${handle}
+Handle: @${handle}
+Sample size: ${postCount} posts.
 
 Return JSON only.`;
 }
