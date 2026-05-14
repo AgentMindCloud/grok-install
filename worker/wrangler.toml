@@ -23,27 +23,10 @@ PRODUCT_NAME = "grok-install"
 GITHUB_OWNER_ORG = "AgentMindCloud"
 PUBLIC_BASE_URL = "https://agentmindcloud.github.io/grok-install"
 
-# KV namespace binding — REQUIRED.
-# Without this binding, the Worker will fail at runtime as soon as it tries
-# to read or write KV (which it does on nearly every request).
-#
-# One-time setup procedure:
-#   a. From this worker/ directory, run:
-#        npx wrangler kv namespace create GROK_INSTALL_KV
-#   b. Wrangler prints a success message containing the new namespace id
-#      (a 32-char hex string). The surrounding snippet is JSON in Wrangler
-#      v4 and TOML in older versions; you only need the id value.
-#      Shortcut: add --update-config to step (a) to let wrangler edit
-#      this file for you (it appends a [[kv_namespaces]] block).
-#   c. Uncomment the three [[kv_namespaces]] lines below and replace
-#      PASTE_KV_NAMESPACE_ID_HERE with the real id from step (b).
-#   d. Commit and push (CI will deploy on the next v*.*.* tag), or run
-#      `npx wrangler deploy` locally for an immediate deploy.
-#
-# The KV namespace id is NOT a secret — it is just a routing handle that
-# tells the Worker which KV namespace to attach to. It is safe to commit.
-#
-# Enabled for v1.0.0 — points to the production GROK_INSTALL_KV namespace.
+# KV namespace binding — configured for the AgentMindCloud production
+# deployment. The id is NOT a secret — it is a public routing handle and is
+# safe to commit. For forks or fresh Cloudflare accounts, see worker/DEPLOY.md
+# §3 for the one-time `wrangler kv namespace create` procedure.
 [[kv_namespaces]]
 binding = "GROK_INSTALL_KV"
 id = "11d7541c50c84a83ae02891e9e908726"
