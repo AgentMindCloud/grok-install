@@ -15,11 +15,13 @@ swarm.
 
 ## Quickstart
 
-1. **Install the validator:**
+1. **Install the validator** (v1.0.0 ships from GitHub; PyPI publish is deferred to v1.1+):
 
    ```bash
-   pip install grok-install
+   pip install "git+https://github.com/AgentMindCloud/grok-install@v1.0.0"
    ```
+
+   Or download the wheel from the [latest GitHub Release](https://github.com/AgentMindCloud/grok-install/releases/latest) and `pip install ./grok_install-1.0.0-*.whl`.
 
 2. **Validate a manifest:**
 
